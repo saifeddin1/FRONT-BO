@@ -1,0 +1,164 @@
+<div class="dashboard">
+  <div class="alert alert-warning" role="alert" *ngIf="sameUser && !isProfileComplete">
+    <div class="alert-items">
+      <div class="alert-item static">
+        <div class="alert-icon-wrapper">
+          <clr-icon class="alert-icon" shape="exclamation-triangle"></clr-icon>
+        </div>
+        <span class="alert-text">
+          Il manque des informations sur votre profil. presse <strong>ÉDITER</strong> pour le compléter.
+        </span>
+      </div>
+    </div>
+  </div>
+  <div class="profile-card">
+    <div class="edit-button" *ngIf="sameUser">
+      <button class="btn btn-primary" (click)="shouldEditShow = true">
+        ÉDITER
+      </button>
+    </div>
+    <div class="name-container">
+      <div class="profile-picture">
+        <div class="profile-picture no-image">
+          <clr-icon shape="user"></clr-icon>
+        </div>
+      </div>
+      <div class="names">
+        <h3 *ngIf="user?.profile?.fullName">{{ user?.profile?.fullName }} </h3>
+        <h5>{{ user?.username }}</h5>
+      </div>
+    </div>
+    <div class="info-container">
+      <!-- <h6>Informations personnelles</h6> -->
+      <div class="clr-row">
+        <div class="sub-card">
+          <div class="heading">Email</div>
+          <div class="sub-heading">{{ user.email }}</div>
+        </div>
+        <div class="sub-card" *ngIf="user?.profile?.phone">
+          <div class="heading">Numéro</div>
+          <div class="sub-heading">{{ user?.profile?.phone }}</div>
+        </div>
+        <!-- <div class="sub-card">
+          <div class="heading">Comptes liés</div>
+          <div class="accounts">
+            <div id="facebook" (click)="goTo(user?.profile?.facebook, 0)">
+              <img class="icon" [ngClass]="{ disabled: !user?.profile?.facebook }"
+                src="../../../../assets/profile/facebook.svg" alt="facebook" />
+            </div>
+            <div id="linkedin" (click)="goTo(user?.profile?.linkedIn, 1)">
+              <img class="icon" [ngClass]="{ disabled: !user?.profile?.linkedIn }"
+                src="../../../../assets/profile/linkedin.svg" alt="linkedin" />
+            </div>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+
+  <!-- <div *ngIf="sameUser" class="profile-card">
+    <h6>Billing and Payment</h6>
+    <div class="profile-card-body">
+      <div class="displayCredit">
+        <h3>Amount in your Account:</h3>
+        ${{ user.credit.toFixed(2) }}
+      </div>
+      <div class="edit-button">
+        <button class="btn btn-primary" (click)="addMoneyShow = true">
+          Add Credit
+        </button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+  <!-- EDIT PROFILE MODAL -->
+
+  <clr-modal *ngIf="sameUser" [(clrModalOpen)]="shouldEditShow" [clrModalSize]="'xl'">
+    <h3 class="modal-title">Edit Profile</h3>
+    <div class="modal-body">
+      <div class="image-upload">
+        <form clrForm>
+          <div class="add-overlay">
+            <div class="position-top">
+              <strong>Nom complet</strong>
+              <input type="text" placeholder="{{ user?.profile?.fullName }}" [(ngModel)]="fullName" name="fullName"
+                class="text-area" />
+            </div>
+            <div class="position-top">
+              <strong>N.téléphone</strong>
+              <input type="text" placeholder="{{ user?.profile?.phone }}" [(ngModel)]="phone" name="phone"
+                class="text-area" />
+            </div>
+            <div class="position-top">
+              <strong>LinkedIn URL</strong>
+              <input type="text" placeholder="{{ user?.profile?.linkedIn }}" [(ngModel)]="linkedIn" name="linkedIn"
+                class="text-area" />
+            </div>
+            <div class="position-top">
+              <strong>Facebook URL</strong>
+              <input type="text" placeholder="{{ user?.profile?.facebook }}" [(ngModel)]="facebook" name="facebook"
+                class="text-area" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="shouldEditShow = false">
+        Fermer
+      </button>
+      <button type="button" class="btn btn-ok btn-outline" (click)="onChangeUser()">
+        Ok
+      </button>
+    </div>
+  </clr-modal>
+
+  <!-- PAYMENT MODAL -->
+
+  <clr-modal [(clrModalOpen)]="addMoneyShow" [clrModalSize]="'lg'">
+    <h3 class="modal-title">Update Payment</h3>
+    <div class="modal-body">
+      <div class="image-upload">
+        <form clrForm>
+          <div class="add-overlay">
+            <div class="position-top">
+              <strong>Nom</strong>
+              <input type="text" [(ngModel)]="model.name" name="model.name" placeholder="Name on Card"
+                class="text-area small" />
+            </div>
+            <div class="position-top">
+              <strong>Credit Card No.</strong>
+              <input type="text" [(ngModel)]="model.creditCardNumber" name="model.creditCardNumber"
+                placeholder="9999 9999 9999 9999" class="text-area small" />
+            </div>
+            <div class="position-top">
+              <strong>Expiration Date</strong>
+              <input type="text" [(ngModel)]="model.exp" name="model.exp" placeholder="MM/YYYY"
+                class="text-area small" />
+            </div>
+            <div class="position-top">
+              <strong>CVC</strong>
+              <input type="text" [(ngModel)]="model.CVV" name="model.CVV" placeholder="XXX" class="text-area small" />
+            </div>
+            <div class="position-top">
+              <strong>Payment Amount</strong>
+              <input type="text" [(ngModel)]="model.credit" name="model.credit" placeholder="10.00"
+                class="text-area small" />
+            </div>
+          </div>
+          <div class="error">
+            Card Information will be confidential after submission.
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="addMoneyShow = false">
+        Cancel
+      </button>
+      <button type="button" class="btn btn-ok btn-outline" (click)="addCredit()">
+        Ok
+      </button>
+    </div>
+  </clr-modal>

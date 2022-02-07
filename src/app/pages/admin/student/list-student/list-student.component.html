@@ -1,0 +1,165 @@
+<div class="dashboard ">
+  <div class="events-container">
+    <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+      <h6>Tableau des Apprenants</h6>
+      <div class="profile-card">
+        <div class="edit-button">
+          <button id="add-button" class="btn button" (click)="openModal()">
+            Ajouter Un Apprenant
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-------------------------------TAble----------------------------------------------------------------------------------->
+
+  <div class="row d-flex ">
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Nom Complet </th>
+        <td mat-cell *matCellDef="let element"> {{element?.profile?.fullName}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef> N.téléphone </th>
+        <td mat-cell *matCellDef="let element"> {{element?.profile?.phone}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef> Email </th>
+        <td mat-cell *matCellDef="let element"> {{element?.email}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="niveau">
+        <th mat-header-cell *matHeaderCellDef> Niveau </th>
+        <td mat-cell *matCellDef="let element">
+          {{
+          element?.studentNiveauId?.name ?
+          element.studentNiveauId.name + ', ' + element?.studentNiveauId?.tag
+          : 'Pas de Niveau'
+          }} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="offre">
+        <th mat-header-cell *matHeaderCellDef> Offre </th>
+        <td mat-cell *matCellDef="let element"> {{element?.studentOffreId?.name || "Pas d'Offre" }} </td>
+      </ng-container>
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+
+          <button mat-icon-button class="btn btn-info" (click)="editById(element)">
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteById(element._id,i)">
+            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+
+  <mat-paginator [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
+  </mat-paginator>
+</div>
+
+
+
+<!-- ADD Student -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+    <h3 class="modal-title">Ajouter Un(e) Apprenant(e)</h3>
+  </ng-container>
+  <ng-template #editModalBloc>
+    <h3 class="modal-title">Modifier Un(e) Apprenant(e)</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form">
+        <div class="add-overlay">
+
+          <!-- column FullName -->
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Nom Complet *</strong>
+            <input matInput class="text-area modalcol" placeholder="fullName" formControlName="fullName" required>
+          </div>
+
+          <!-- column N.téléphone -->
+          <div class="position-top modalRow">
+            <strong class="modalcol3">N.téléphone *</strong>
+            <input matInput class="text-area modalcol" placeholder="N.téléphone (+216)" formControlName="phone"
+              required>
+          </div>
+
+          <!-- column Email -->
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Email *</strong>
+            <input matInput type="email" class="text-area modalcol" placeholder="Email" formControlName="email"
+              required>
+          </div>
+
+          <!-- column Username -->
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Username *</strong>
+            <input matInput class="text-area modalcol" placeholder="Username" formControlName="username"
+              [readOnly]="modalType === 'edit'" required>
+          </div>
+
+          <!-- column Password -->
+          <div *ngIf="modalType === 'add'" class="position-top modalRow">
+            <strong class="modalcol3">Mot de passe *</strong>
+            <input matInput type="password" class="text-area modalcol" placeholder="Password" formControlName="password"
+              required>
+          </div>
+
+          <!-- column Niveau -->
+          <div class="modalRow">
+            <strong class="modalcol3">Niveau *</strong>
+            <mat-select class="text-area modalcol" placeholder="Niveau" formControlName="studentNiveauId" required>
+              <mat-option *ngFor="let niv of niveauxList" [value]="niv._id">
+                {{niv?.name}}, {{niv?.tag}}
+              </mat-option>
+            </mat-select>
+          </div>
+
+          <!-- column Offre -->
+          <div class="modalRow">
+            <strong class="modalcol3">Offre</strong>
+            <mat-select class="text-area modalcol" placeholder="Offre" formControlName="studentOffreId">
+              <mat-option *ngFor="let offre of offresList" [value]="offre._id">
+                {{offre?.name}}
+              </mat-option>
+            </mat-select>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Cancel
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" [disabled]="form.invalid" (click)="onSubmit()">
+      Ok
+    </button>
+  </div>
+</clr-modal>

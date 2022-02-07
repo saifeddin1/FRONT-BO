@@ -1,0 +1,42 @@
+<h2> Matière </h2>
+<div style="display: flex;align-items: center;">
+    <div class="matiere-image plus">
+        <img *ngIf="nivMat?.matiere?.img && nivMat?.matiere?.img?.length else icon" [src]="nivMat?.matiere?.img">
+        <ng-template #icon>
+            <clr-icon shape="image"></clr-icon>
+        </ng-template>
+    </div>
+    <h6> {{nivMat?.matiere?.name}} </h6>
+</div>
+<div>
+    <p> <strong>Information :</strong> </p>
+    <p>Nombre des chapitres : {{nivMat?.chapitres?.length}} chapitres</p>
+    <!-- <p>Nombre des videos : {{coursesCount}} videos</p> -->
+</div>
+<div>
+    <p> <strong>Autres matières :</strong> </p>
+    <ng-container class="modalRow" *ngFor="let nivMat of otherMatieresList">
+        <div class="other-matieres-modalcol" (click)="goToMatiere(nivMat?._id)">
+            <div class="other-matiere-image plus">
+                <img *ngIf="nivMat?.matiere?.img && nivMat?.matiere?.img?.length else icon"
+                    [src]="nivMat?.matiere?.img">
+                <ng-template #icon>
+                    <clr-icon shape="image"></clr-icon>
+                </ng-template>
+            </div>
+            <p style="margin-left: 10px;">
+                <strong>
+                    {{nivMat?.matiere?.name}}
+                </strong>
+            </p>
+            <!-- <h6> -->
+            <!-- </h6> -->
+        </div>
+    </ng-container>
+    <ng-container class="modalRow">
+        <hr>
+        <button class="voir-plus-modalcol voir-plus-text" (click)="goToMatieresList()">
+            Voir Plus
+        </button>
+    </ng-container>
+</div>

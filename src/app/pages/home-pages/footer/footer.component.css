@@ -1,0 +1,13 @@
+.widget-title {
+    place-content: center!important;
+    text-align: center;
+}
+
+p {
+    place-content: center!important;
+}
+
+h6 {
+    place-content: center!important;
+    text-align: -webkit-center;
+}

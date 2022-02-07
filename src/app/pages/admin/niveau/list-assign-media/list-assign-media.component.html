@@ -1,0 +1,141 @@
+<div class="dashboard ">
+    <div>
+        <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+            <div>
+                <p *ngIf="nivMat">
+                    <a routerLink="/niveau/list">Niveau</a> /
+                    <a [routerLink]="'/niveau/matieres/list/'+nivMat?.niveau?._id">{{nivMat?.niveau?.name}}</a> /
+                    <a
+                        [routerLink]="'/niveau/matiere/chapitres/list/'+nivMat?.niveau?._id+'/'+nivMat?._id">{{nivMat?.matiere?.name}}</a>
+                    / {{chapitre?.name}} ( {{mediaType?.name}} )
+                </p>
+                <h6>Tableau des {{mediaType?.name ? mediaType?.name : 'Medias'}} :</h6>
+            </div>
+            <div class="profile-card">
+                <div class="edit-button">
+                    <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
+                        Ajouter {{mediaType?.name ? mediaType?.name : 'Medias'}}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!----------------------------------------------Table ------------------------------------------------ -->
+    <div class="row d-flex dates">
+        <table mat-table [dataSource]="assignMedias" cdkDropList [cdkDropListData]="assignMedias"
+            (cdkDropListDropped)="dropAssignMedia($event)">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
+                <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+            </ng-container>
+
+            <!-- videoUrl Column -->
+            <ng-container matColumnDef="videoUrl">
+                <th id="name" mat-header-cell *matHeaderCellDef> Video Url </th>
+                <td mat-cell *matCellDef="let element"> <a [href]="element?.videoUrl">
+                        {{
+                        element?.videoUrl.length <= 16 ? element?.videoUrl : (element?.videoUrl | slice: 0:14) + "..."
+                            }} </a>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="videoEnabled">
+                <th id="videoEnabled" mat-header-cell *matHeaderCellDef> Visibilité Video </th>
+                <td mat-cell *matCellDef="let element"> {{element.videoEnabled ? 'Oui' : 'Non'}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="locked">
+                <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Internautes </th>
+                <td mat-cell *matCellDef="let element"> {{element.locked ? 'Oui' : 'Non'}} </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="enabled">
+                <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Apprenants(avec offre) </th>
+                <td mat-cell *matCellDef="let element"> {{element.enabled ? 'Oui' : 'Non'}} </td>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+                <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+                <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+
+                    <button id="files-button" mat-icon-button class="btn btn-info" (click)="goToFiles(element?._id)">
+                        Fichiers
+                    </button>
+                    <button mat-icon-button class="btn btn-info" (click)="getAssignMediaRating(element._id)">
+                        <clr-icon shape="star"></clr-icon>
+                    </button>
+
+                    <button mat-icon-button class="btn btn-info" (click)="editById(element)" *ngIf="canManage">
+                        <clr-icon shape="pencil"></clr-icon>
+                    </button>
+                    <button mat-icon-button class="btn btn-info" (click)="deleteMediaAssign(element._id,i)"
+                        *ngIf="canManage">
+                        <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedAssignMediaColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedAssignMediaColumns;" cdkDrag [cdkDragData]=row></tr>
+        </table>
+        <mat-paginator class="fullWidth" [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
+        </mat-paginator>
+    </div>
+    <!----------------------------------------------Table ------------------------------------------------ -->
+
+    <!-- Assign Media-->
+    <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+        <h3 class="modal-title" *ngIf="modalType == 'add'">Ajouter {{mediaType?.name ? mediaType?.name : 'Medias'}}</h3>
+        <h3 class="modal-title" *ngIf="modalType == 'edit'">Modifier {{mediaType?.name ? mediaType?.name : 'Medias'}}
+        </h3>
+        <div class="modal-body">
+            <form [formGroup]="form" #myForm="ngForm">
+                <div class="add-overlay">
+                    <div class="position-top">
+                        <strong class="modalcol3">Title</strong>
+                        <input matInput formControlName="name" placeholder="Titre" class="text-area modalcol">
+                    </div>
+                    <div class="position-top">
+                        <strong class="modalcol3">Video URl</strong>
+                        <input matInput formControlName="videoUrl" placeholder="URL Video" class="text-area modalcol">
+                    </div>
+                    <div class="position-top">
+                        <strong class="modalcol3">Visibilité Video</strong>
+                        <select class="text-area modalcol" formControlName="videoEnabled">
+                            <option [value]="true">Oui</option>
+                            <option [value]="false">Non</option>
+                        </select>
+                    </div>
+                    <div class="position-top">
+                        <strong class="modalcol3">Visible Pour Les Internautes</strong>
+                        <select class="text-area modalcol" formControlName="locked">
+                            <option [value]="true">Oui</option>
+                            <option [value]="false">Non</option>
+                        </select>
+                    </div>
+                    <div class="position-top">
+                        <strong class="modalcol3">Visible Pour Les Apprenants(avec offre)</strong>
+                        <select class="text-area modalcol" formControlName="enabled">
+                            <option [value]="true">Oui</option>
+                            <option [value]="false">Non</option>
+                        </select>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+                Fermer
+            </button>
+            <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" [disabled]="form.invalid">
+                Valider
+            </button>
+        </div>
+    </clr-modal>

@@ -1,0 +1,29 @@
+<div class="main-container">
+  <div class="content-container">
+    <clr-vertical-nav [clrVerticalNavCollapsible]="true" class="nav-trigger--bottom" *ngIf="shouldNavShow()">
+      <div>
+        <img src="../assets/eunoia-logo.png" id="logo" routerLink="./about" routerLinkActive="active" />
+        <p class="title">Eunoia Academy</p>
+      </div>
+      <ng-container *ngFor="let route of routes">
+        <a class="navitem" clrVerticalNavLink [routerLink]="route.link" routerLinkActive="active">
+          <clr-icon [attr.shape]="route.icon"></clr-icon> <span>{{route.label}}</span>
+        </a>
+      </ng-container>
+
+      <a class="navitem" clrVerticalNavLink (click)="userService.goToProfile()" routerLinkActive="active">
+        <clr-icon shape="user"></clr-icon> <span>Mon Profil</span>
+      </a>
+
+      <a class="navitem" clrVerticalNavLink (click)="logout()">
+        <clr-icon shape="power"></clr-icon> <span>Se déconnecter</span>
+      </a>
+    </clr-vertical-nav>
+    <div class="content-area">
+      <!-- <app-header *ngIf="shouldHeaderShow()"></app-header> -->
+      <app-global-search *ngIf="shouldNavShow()"></app-global-search>
+      <router-outlet></router-outlet>
+      <!-- <app-footer [ngClass]="{ 'home-page-footer': isHomePages() }" *ngIf="shouldFooterShow()"></app-footer> -->
+    </div>
+  </div>
+</div>

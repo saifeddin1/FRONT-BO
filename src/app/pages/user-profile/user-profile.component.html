@@ -1,0 +1,18 @@
+<div class="loading" *ngIf="loading">
+  <span class="spinner"></span>
+</div>
+<div *ngIf="!loading">
+  <div class="err" *ngIf="!!err; else profile">
+    <!-- 404 -->
+    <div class="inner">
+      <h1>404</h1>
+      <p>User Not Found.</p>
+    </div>
+  </div>
+  <ng-template #profile>
+    <app-ic-il-profile
+      [user]="user"
+      [sameUser]="sameUser"
+    ></app-ic-il-profile>
+  </ng-template>
+</div>

@@ -1,0 +1,28 @@
+<div class="dashboard">
+  <div class="offres-container">
+    <div class="offres">
+      <div *ngFor="let offre of offres" class="offre-card">
+        <!-- titre -->
+        <div style="margin: 20px;">
+          <h2 [ngStyle]="{'color': offre.color}">{{ offre?.name?.length <= 16 ? offre.name : (offre.name | slice: 0:14)
+              + "..." }} </h2>
+        </div>
+        <div class="offre-image plus">
+          <img *ngIf="offre.img && offre.img.length else icon" [src]="offre.img">
+          <ng-template #icon>
+            <clr-icon shape="image"></clr-icon>
+          </ng-template>
+        </div>
+        <div style="width: 12rem;text-align: start;font-size: 15px;">
+          <p style="font-size: 12px;">{{ offre?.description?.length <= 70 ? offre?.description : (offre.description |
+              slice: 0:70) + "..." }} </p>
+              <ul style="padding-top: 10px;">
+                <li *ngFor="let option of offre?.options" style="padding-bottom:10px;">{{option}}</li>
+              </ul>
+        </div>
+        <button class="btn btn-primary" [ngStyle]="{'background-color': offre.color}" style="border: inherit;"
+          *ngIf="userService.user.studentOffreId == offre._id">Achetée</button>
+      </div>
+    </div>
+  </div>
+</div>

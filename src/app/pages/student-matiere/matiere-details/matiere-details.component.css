@@ -1,0 +1,218 @@
+.dashboard {
+    padding-left: 2rem;
+    padding-bottom: 8.5rem;
+    height: 100%;
+}
+
+h2 {
+    line-height: initial;
+    font-size: 2rem;
+    color: var(--green-base);
+    margin-bottom: revert;
+}
+
+.shift {
+    padding: 0 2rem;
+}
+
+.voir-plus-text {
+    text-align: center;
+    color: white;
+    cursor: pointer;
+}
+
+.voir-plus-modalcol {
+    width: auto;
+    background-color: var(--green-base);
+    box-shadow: 0px 8px 24px #eff3f9;
+    border-radius: 20px;
+    display: flex;
+    align-items: baseline;
+    cursor: pointer;
+    padding-bottom: 10px;
+    justify-content: center;
+}
+
+.modalRow {
+    display: flex;
+    /* justify-content: flex-start; */
+    flex-direction: row;
+    height: inherit;
+    margin-right: 2rem;
+}
+
+@media only screen and (max-width: 480px) {
+    .modalRow {
+        display: flex;
+        /* justify-content: flex-start; */
+        flex-direction: row;
+        height: inherit;
+        flex-wrap: wrap;
+    }
+
+    .modalcol3 {
+        width: 100%!important;
+        background-color: white;
+        box-shadow: 0px 8px 24px #eff3f9;
+        border-radius: 20px;
+        /* padding-left: 2rem; */
+        padding-right: 2rem;
+        margin-bottom: 2rem;
+        padding-bottom: 2rem;
+        /* margin-right: 2rem; */
+        /* margin-left: 2rem; */
+    }
+
+    .modalcol {
+        width: 100%;
+        background-color: white;
+        box-shadow: 0px 8px 24px #eff3f9;
+        border-radius: 20px;
+        padding-left: 2rem;
+        padding-right: 2rem;
+        /* margin-right: 2rem; */
+        /* margin-left: 2rem; */
+    }
+    
+}
+
+hr {
+    border: grey;
+    border-radius: 5px;
+}
+
+.modalcol {
+    /* width: 66%; */
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 8px 24px #eff3f9;
+    border-radius: 20px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    /* margin-right: 2rem; */
+    /* margin-left: 2rem; */
+}
+
+h6 {
+    /* width: 1.2rem; */
+    margin-left: 10px;
+    color: var(--green-base);
+}
+
+.modalcol3 {
+    width: 33%;
+    background-color: white;
+    box-shadow: 0px 8px 24px #eff3f9;
+    border-radius: 20px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin-right: 2rem;
+    /* margin-left: 2rem; */
+}
+
+.other-matieres-modalcol {
+    width: auto;
+    background-color: white;
+    box-shadow: 0px 8px 24px #eff3f9;
+    border-radius: 20px;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    margin: 1rem 0 1rem 0;
+    ;
+    display: flex;
+    align-items: baseline;
+    cursor: pointer;
+    padding-bottom: 10px;
+    /* margin-right: 2rem; */
+    /* margin-left: 2rem; */
+}
+
+.matieres {
+    display: flex;
+    flex-wrap: wrap;
+    height: 24rem;
+    align-items: flex-start;
+    justify-content: space-between;
+}
+
+#new-matiere {
+    color: var(--gray60);
+    background: #ffffff;
+    opacity: 0.9;
+    border: 0.125rem dashed var(--gray40);
+    filter: drop-shadow(0px 2px 4px rgba(120, 98, 188, 0.24));
+}
+
+.matiere-card:hover, #new-matiere:hover {
+    background: var(--gray20);
+    cursor: pointer;
+    overflow: hidden;
+    /* margin-bottom: 20px; */
+}
+
+.plus {
+    border: 1px solid var(--gray40);
+}
+
+.plus clr-icon {
+    width: 4rem;
+    height: 4rem;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.matiere-image {
+    /* border-radius: 10px; */
+    border: 0px;
+    height: 4rem;
+    width: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.other-matiere-image {
+    /* border-radius: 10px; */
+    border: 0px;
+    height: 2rem;
+    width: 2rem;
+}
+
+p>strong {
+    font-size: 1.2rem;
+}
+
+p {
+    font-size: 1rem;
+}
+
+.number {
+    font-weight: 600;
+    color: var(--green-base);
+    font-size: 28px;
+}
+
+.matiere-card {
+    height: 10rem;
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-direction: column;
+    background: #ffffff;
+    filter: drop-shadow(0px 8px 16px rgba(120, 98, 188, 0.2));
+    border-radius: 20px;
+    margin-right: 2rem;
+    color: rgba(0, 0, 0, 0.87);
+    font-size: 1.125rem;
+    margin-bottom: 10px;
+}
+
+button {
+    border-radius: 5px;
+}

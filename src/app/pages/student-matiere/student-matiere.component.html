@@ -1,0 +1,29 @@
+<div class="dashboard">
+    <div class="matieres">
+        <ng-container *ngIf="nivMats?.length; else emptyBloc;">
+            <div *ngFor="let nivMat of nivMats" class="matiere-card" (click)="previewMatiere(nivMat)">
+                <div class="matiere-image plus">
+                    <img *ngIf="nivMat.matiere.img && nivMat.matiere.img.length else icon" [src]="nivMat.matiere.img">
+                    <ng-template #icon>
+                        <clr-icon shape="image"></clr-icon>
+                    </ng-template>
+                </div>
+                {{
+                nivMat.matiere?.name?.length < 40 ? nivMat.matiere.name : (nivMat.matiere.name | slice: 0:40) + "..." }}
+                    </div>
+        </ng-container>
+        <ng-template #emptyBloc>
+            <div class="matiere-card" style="width: 100%;">
+                <div>
+                    Pas encore de matieres ...
+                </div>
+                <div class="edit-button">
+                    <button id="add-button" class="btn button">
+                        <a href="{{'tel:'+ phoneNumber}}" style="color: white;">Appelez-nous</a>
+                    </button>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+</div>

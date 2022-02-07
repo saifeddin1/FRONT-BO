@@ -1,0 +1,37 @@
+<section class="features-area">
+    <div class="container">
+        <div class="section-internal pt-120 pb-75" style="text-align: -webkit-center;">
+            <div class="section-title mb-126 text-center section-title-mirage">
+                <div class="section-heading-tag">
+                    <h1 class="wow fadeInUp">Découvrez Eunoia Academy</h1>
+                </div>
+                <p style="font-size: 17px;line-height: 30px;text-align: justify;">Eunoia Academy est une Plateforme
+                    éducative pour l’enseignement en ligne visant tous les niveaux :
+                    le primaire, le collège et le secondaire</p>
+            </div>
+            <div class="icon-boxes-wrapper">
+                <div class="row">
+                    <!-- Data -->
+                    <div class="col-lg-3 col-md-6" *ngFor="let item of workprocess">
+                        <div class="single-iconic-box iconic-box-v3 wow fadeInUp" [ngClass]="item.boxstyle"
+                            data-wow-delay="0.4s">
+                            <div class="iconic-box-icon">
+                                <img [src]="item.icon" [alt]="item.title">
+                            </div>
+                            <div class="iconic-box-body">
+                                <p class="iconic-box-title box-tit">{{item.title}}</p>
+                                <p class="iconic-box-content">
+                                    {{item.text}}
+                                </p>
+                                <div class="iconic-box-btn">
+                                    <a routerLink="/signup"><i class="fas fa-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Data -->
+                </div> <!-- /.row -->
+            </div> <!-- /.icon-boxes-wrapper -->
+        </div> <!-- /.section-internal -->
+    </div> <!-- /.container -->
+</section>

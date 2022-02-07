@@ -1,0 +1,133 @@
+<div class="dashboard ">
+  <div class="events-container">
+    <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+      <h6>Tableau des Matières</h6>
+      <div class="profile-card">
+        <div class="edit-button">
+          <button id="add-button" class="btn button" (click)="openModal()">
+            Ajouter Une Matière
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!----------------------------------------------Table ------------------------------------------------ -->
+  <div class="row d-flex ">
+    <table mat-table [dataSource]="dataSource">
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="image">
+              <th mat-header-cell *matHeaderCellDef> Image </th>
+              <td mat-cell *matCellDef="let element">
+                <div class="offre-image plus">
+                  <img *ngIf="element?.img?.length else icon" [src]="element?.img">
+                  <ng-template #icon>
+                    <clr-icon shape="image"></clr-icon>
+                  </ng-template>
+                </div>
+              </td>
+            </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Titre </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> description </th>
+        <td mat-cell *matCellDef="let element"> {{(element?.description?.length>30)? (element?.description |
+          slice:0:30)+'...':(element?.description) }} </td>
+      </ng-container>
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+          <button mat-icon-button class="btn btn-info" (click)="editById(element)">
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteById(element._id,i)">
+            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+  </div>
+  <mat-paginator [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
+  </mat-paginator>
+  <!----------------------------------------------Table ------------------------------------------------ -->
+
+  <!-- ADD NIVEAU -->
+
+  <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+    <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+      <h3 class="modal-title">Ajouter Un Matière</h3>
+    </ng-container>
+    <ng-template #editModalBloc>
+      <h3 class="modal-title">Modifier Un Matière</h3>
+    </ng-template>
+
+    <div class="modal-body">
+      <div>
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+          <div class="add-overlay">
+
+            <div class="position-top modalRow">
+              <strong class="modalcol3">Titre</strong>
+              <input matInput class="text-area modalcol" placeholder="Titre" formControlName="name">
+            </div>
+
+            <div class="position-top modalRow">
+              <strong class="modalcol3">description</strong>
+              <textarea matInput class="text-area modalcol" placeholder="Description" formControlName="description"
+                rows="2"></textarea>
+            </div>
+
+            <div class="position-top">
+              <strong class="modalcol3">Image</strong>
+              <div class="add-overlay" style="width: 80%;">
+                <ngx-file-drop dropZoneLabel="Drop files here" contentClassName="fileUploadContent"
+                  dropZoneClassName="dropZone" (onFileDrop)="droppedImage($event)" (onFileOver)="fileOver($event)"
+                  (onFileLeave)="fileLeave($event)" accept=".jpg, .png, .jpeg">
+                  <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                    <div class="fileUpload" (click)="openFileSelector()">
+                      <clr-icon shape="picture"></clr-icon>
+                      <h6>Télécharger Une Image</h6>
+                      <p>.jpg, .png, .jpeg</p>
+                      <p>Drag and drop, or click to browse</p>
+                      <div class="uploadedImage">
+                        <span *ngIf="img[0] && !imageError">
+                          Uploaded "{{ img[0].fileEntry.name }}"
+                        </span>
+                        <span id="imageError">
+                          {{ imageError }}
+                        </span>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngx-file-drop>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+        Fermer
+      </button>
+      <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" [disabled]="form.invalid">
+        Valider
+      </button>
+    </div>
+  </clr-modal>

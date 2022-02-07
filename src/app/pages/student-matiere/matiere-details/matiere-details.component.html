@@ -1,0 +1,11 @@
+<div class="dashboard" *ngIf="nivMat">
+    
+    <div class="modalRow">
+        <div class="modalcol3">
+            <app-summary [nivMat]="nivMat"></app-summary>
+        </div>
+        <div class="modalcol" style="overflow-y: scroll;">
+            <app-chapters [nivMat]="nivMat"></app-chapters>
+        </div>
+    </div>
+</div>

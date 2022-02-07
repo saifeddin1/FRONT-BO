@@ -1,0 +1,134 @@
+.dashboard {
+  padding-left: 2rem;
+  height: 100%;
+}
+
+h2 {
+  line-height: initial;
+  font-size: 2rem;
+}
+
+.shift {
+  padding: 0 2rem;
+}
+
+@media only screen and (max-width: 480px) {
+  .matieres {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.7rem;
+    height: 24rem;
+    align-items: center;
+    justify-content: center!important;
+  }
+}
+
+.matieres {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  height: 24rem;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.edit-button {
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.edit-button button {
+  height: 2rem;
+  box-shadow: 0px 4px 12px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: var(--green-base);
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+
+#new-matiere {
+  color: var(--gray60);
+  background: #ffffff;
+  opacity: 0.9;
+  border: 0.125rem dashed var(--gray40);
+  filter: drop-shadow(0px 2px 4px rgba(120, 98, 188, 0.24));
+}
+
+.matiere-card:hover,
+#new-matiere:hover {
+  background: var(--gray20);
+  cursor: pointer;
+  overflow: hidden;
+  /* margin-bottom: 20px; */
+}
+
+.plus {
+  border: 1px solid var(--gray40);
+}
+
+.plus clr-icon {
+  width: 4rem;
+  height: 4rem;
+}
+
+img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.matiere-image {
+  border-radius: 10px;
+  height: 12rem;
+  width: 12rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.matiere-card {
+  height: 20rem;
+  width: 14rem;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  flex-direction: column;
+  background: #ffffff;
+  filter: drop-shadow(0px 8px 16px rgba(120, 98, 188, 0.2));
+  border-radius: 20px;
+  margin-right: 2rem;
+  color: rgba(0, 0, 0, 0.87);
+  text-align: -webkit-center;
+  font-size: 1.125rem;
+}
+
+#dropcourse {
+  height: 1.5rem;
+  width: 1.5rem;
+  margin-left: 10rem;
+}
+
+#dropcourse:hover {
+  color: red;
+}
+
+button {
+  border-radius: 5px;
+}
+
+
+.delete-modal-container {
+  margin-top: 1rem;
+}
+
+.delete-modal-container>ul {
+  margin-left: 1rem;
+}

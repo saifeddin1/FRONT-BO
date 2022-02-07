@@ -1,0 +1,169 @@
+<div class="calendar">
+  <!-- <div class="card" id="delete-account"> -->
+  <div class="row d-flex" style="justify-content: space-between;align-items: center;">
+    <!-- Next/Previous Week Control Buttons -->
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button id="control-calendar-button" class="btn button" mwlCalendarPreviousView [view]="view"
+          [(viewDate)]="viewDate" (click)="getAll()">
+          Préc
+        </button>
+        <button id="white-calendar-button" class="btn button" mwlCalendarToday [(viewDate)]="viewDate">
+          Auj
+        </button>
+        <button id="control-calendar-button" class="btn button" mwlCalendarNextView [view]="view"
+          [(viewDate)]="viewDate">
+          Suiv
+        </button>
+      </div>
+    </div>
+    <!-- Today date -->
+    <div class="col-md-4">
+      <h2>{{ viewDate | date : 'mediumDate' }}</h2>
+    </div>
+    <!-- Month/Week/Day Control Buttons  -->
+    <div class="col-md-4 d-none">
+      <div class="btn-group" *ngIf="!mobileMode">
+        <button id="white-calendar-button" class="btn button" (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month" [ngClass]="{'selected-btn': view === CalendarView.Month}">
+          Mois
+        </button>
+        <button id="white-calendar-button" class="btn button" (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week" [ngClass]="{'selected-btn': view === CalendarView.Week}">
+          Semaine
+        </button>
+        <button id="white-calendar-button" class="btn button" (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day" [ngClass]="{'selected-btn': view === CalendarView.Day}">
+          Jour
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+      [refresh]="refresh" (dayClicked)="dayClicked($event.day)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+      [refresh]="refresh" (eventClicked)="handleEvent($event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [refresh]="refresh"
+      (eventClicked)="handleEvent($event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+    </mwl-calendar-day-view>
+  </div>
+  <!-- </div> -->
+</div>
+
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <h3 class="modal-title">{{modalData?.title}}</h3>
+
+  <div class="modal-body">
+    <p>
+      <strong>Niveaux :</strong> {{getSeanceNiv(modalData?.meta.seanceniv)}}
+    </p>
+    <p>
+      <strong>Description :</strong> {{modalData?.meta.description}}
+    </p>
+    <p>
+      <strong>Date de Début :</strong> {{modalData?.meta.startDate | date : 'medium'}}
+    </p>
+    <p>
+      <strong>
+        Date de Fin :
+      </strong>
+      {{modalData?.meta.endDate | date : 'medium'}}
+    </p>
+    <p>
+      <strong>
+        URL :
+      </strong>
+      <a [href]="modalData?.meta?.url">{{modalData?.meta?.url}}</a>
+    </p>
+    <p *ngIf="!isStudent">
+      <strong>
+        URL Instructeur :
+      </strong>
+      <a [href]="modalData?.meta?.urlInstructor">{{modalData?.meta?.urlInstructor}}</a>
+    </p>
+    <p>
+      <strong>
+        Authentification :
+      </strong>
+      {{modalData?.meta.urlAuthInstructor }}
+    </p>
+    <p>
+      <strong>
+        Travail à Faire :
+      </strong>
+    </p>
+
+    <ng-container *ngIf="!selectedAssignMedia">
+      <table mat-table [dataSource]="assignMedias">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
+          <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+        </ng-container>
+
+        <!-- videoUrl Column -->
+        <ng-container matColumnDef="videoUrl">
+          <th id="name" mat-header-cell *matHeaderCellDef> Video Url </th>
+          <td mat-cell *matCellDef="let element"> <a [href]="element?.videoUrl">
+              {{
+              element?.videoUrl.length <= 16 ? element?.videoUrl : (element?.videoUrl | slice: 0:14) + "..." }} </a>
+          </td>
+        </ng-container>
+
+        <!-- action Column -->
+        <ng-container matColumnDef="action">
+          <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+          <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+            <button *ngIf="element?.files?.length" id="files-button" mat-icon-button class="btn btn-info"
+              (click)="selectAssignMedia(element)">
+              Fichiers
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedAssignMediaColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedAssignMediaColumns;"></tr>
+      </table>
+    </ng-container>
+
+    <ng-container *ngIf="selectedAssignMedia">
+      <p> <a (click)="initializeFiles()">Liste des exercices</a> / {{selectedAssignMedia?.name}}</p>
+      <table mat-table [dataSource]="assignMediaFiles">
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
+          <td mat-cell *matCellDef="let element"> {{element?.media?.name}} </td>
+        </ng-container>
+
+        <!-- action Column -->
+        <ng-container matColumnDef="action">
+          <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+          <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+            <button id="files-button" mat-icon-button class="btn btn-download"
+              (click)="imageService.openFile(element?.media)">
+              <clr-icon shape="link"></clr-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedAssignMediaFilesColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedAssignMediaFilesColumns;" cdkDrag [cdkDragData]=row></tr>
+      </table>
+      <!-- <p></p> -->
+    </ng-container>
+
+
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Fermer
+    </button>
+  </div>
+</clr-modal>

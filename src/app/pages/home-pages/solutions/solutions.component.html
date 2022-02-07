@@ -1,0 +1,64 @@
+<div class="solutions-container">
+  <div class="intro-container">
+    <div class="left">
+      <h4>Solutions</h4>
+      <p>Ayez un impact en apprenant, en donnant et en vous développant avec Eunoia Academy.</p>
+      <div class="button-container">
+        <button id="student-button" [ngClass]="{ 'selected-button': isStudent }" (click)="isStudent = true">
+          Apprenant</button>
+      </div>
+    </div>
+    <div class="right">
+      <img src="../../../../assets/home-pages/350.svg" alt="" />
+    </div>
+  </div>
+  <div class="skills-container" *ngIf="isStudent">
+    <div class="skills-header">
+      <h5>Développer de nouvelles compétences et connaissances</h5>
+      <p>Améliorez vos compétences et vos connaissances pour faire avancer votre carrière</p>
+    </div>
+    <div class="skills">
+      <div class="skill">
+        <img src="../../../../assets/home-pages/Workspace.svg" alt="" />
+        <h6>Apprendre</h6>
+      </div>
+      <div class="skill">
+        <img src="../../../../assets/home-pages/Licence.svg" alt="" />
+        <h6>Réussir</h6>
+      </div>
+      <div class="skill">
+        <img src="../../../../assets/home-pages/Donate.svg" alt="" />
+        <h6>Économiser</h6>
+      </div>
+    </div>
+  </div>
+  <div class="special-container" *ngIf="isStudent">
+    <h5>Qu'est-ce qui rend Eunoia Academy si spéciale ?</h5>
+    <div class="special-card">
+      <div class="special-card-body">
+        <h4>Apprentissage collaboratif</h4>
+        <p style="text-align: center;">
+          Apprenez en groupe en participant à la salle de discussion, au tableau blanc et au fil de discussion.
+        </p>
+      </div>
+      <img src="../../../../assets/home-pages/348.svg" alt="" />
+    </div>
+    <div class="special-card">
+      <img src="../../../../assets/home-pages/Beyondtheclassroom.svg" alt="" />
+      <div class="special-card-body">
+        <h4>Au-delà de la classe</h4>
+        <p style="text-align: center;">Il existe une variété d'événements de rencontre en ligne et hors ligne disponibles.</p>
+      </div>
+    </div>
+    <div class="special-card">
+      <div class="special-card-body">
+        <h4>Communication & Communauté</h4>
+        <p style="text-align: center;">Espace ouvert pour se connecter avec les camarades de classe et les anciens étudiants</p>
+      </div>
+      <img src="../../../../assets/home-pages/Supports.svg" alt="" />
+    </div>
+  </div>
+  <div class="bottom-button-container">
+    <button class="btn btn-primary" (click)="onPress()" style="border: inherit;">Commencer</button>
+  </div>
+</div>

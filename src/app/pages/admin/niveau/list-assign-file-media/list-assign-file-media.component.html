@@ -1,0 +1,213 @@
+<div class="dashboard ">
+    <div>
+        <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+            <div>
+                <p *ngIf="nivMat">
+                    <a routerLink="/niveau/list">Niveau</a> /
+                    <a [routerLink]="'/niveau/matieres/list/'+nivMat?.niveau?._id">{{nivMat?.niveau?.name}}</a> /
+                    <a
+                        [routerLink]="'/niveau/matiere/chapitres/list/'+nivMat?.niveau?._id+'/'+nivMat?._id">{{nivMat?.matiere?.name}}</a>
+                    /
+                    <a
+                        [routerLink]="'/niveau/matiere/chapitre/mediaAssign/list/'+ nivMat?.niveau?._id+'/'+nivMat?._id +'/'+mediaType?._id+'/'+chapId">{{chapitre?.name}}
+                        ( {{mediaType?.name}} )</a> /
+                    Fichiers
+                </p>
+                <h6>Tableau des Fichiers :</h6>
+            </div>
+            <div class="profile-card">
+                <div class="edit-button">
+                    <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
+                        Chercher Un Fichier
+                    </button>
+                    <button id="add-button" class="btn button" (click)="openCreateMediaModal()" *ngIf="canManage">
+                        Ajouter Un Fichier
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!----------------------------------------------Table ------------------------------------------------ -->
+        <div class="row d-flex dates">
+            <table mat-table [dataSource]="assignMediaFiles" cdkDropList [cdkDropListData]="assignMediaFiles"
+                (cdkDropListDropped)="dropAssignMedia($event)">
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="name">
+                    <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
+                    <td mat-cell *matCellDef="let element"> {{element?.mediaId?.name}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="locked">
+                    <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Internautes </th>
+                    <td mat-cell *matCellDef="let element"> {{element.locked ? 'Oui' : 'Non'}} </td>
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="enabled">
+                    <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Apprenants(avec offre) </th>
+                    <td mat-cell *matCellDef="let element"> {{element.enabled ? 'Oui' : 'Non'}} </td>
+                </ng-container>
+
+                <!-- action Column -->
+                <ng-container matColumnDef="action">
+                    <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+                        <button mat-icon-button class="btn btn-info" (click)="editById(element,i)" *ngIf="canManage">
+                            <clr-icon shape="pencil"></clr-icon>
+                        </button>
+                        <button mat-icon-button class="btn btn-info" (click)="deleteById(element._id,i)"
+                            *ngIf="canManage">
+                            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+                        </button>
+                    </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]=row></tr>
+            </table>
+        </div>
+        <!----------------------------------------------Table ------------------------------------------------ -->
+
+        <!-- Assign Media File-->
+        <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+            <h3 class="modal-title">Chercher Un Fichier</h3>
+            <div class="modal-body">
+                <div class="add-overlay">
+                    <div id="search-bloc">
+                        <input id="search-input" placeholder="Entrez le nom du média ..." matInput class="text-area"
+                            (keyup)="applyFilter($event.target.value)">
+                    </div>
+                    <div>
+                        <table mat-table [dataSource]="mediasDataSource">
+                            <!-- Name Column -->
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef> Titre </th>
+                                <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+                            </ng-container>
+
+                            <!-- type Column -->
+                            <ng-container matColumnDef="type">
+                                <th mat-header-cell *matHeaderCellDef> Type </th>
+                                <td mat-cell *matCellDef="let element"> {{element?.type?.name ||
+                                    getMediaTypeById(element?.type)}} </td>
+                            </ng-container>
+
+                            <!-- action Column -->
+                            <ng-container matColumnDef="action">
+                                <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+                                <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+                                    <button mat-icon-button class="btn btn-download" (click)="openFile(element)">
+                                        <clr-icon shape="link"></clr-icon>
+                                    </button>
+                                    <button mat-icon-button class="btn btn-info" (click)="assignMediaFile(element)">
+                                        <clr-icon shape="add"></clr-icon>
+                                    </button>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedSearchMediaColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedSearchMediaColumns;"></tr>
+                        </table>
+                        <mat-paginator [length]="paginatorOptions.length" (page)="getNext($event)"
+                            [pageSize]="paginatorOptions.pageSize">
+                        </mat-paginator>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+                    Fermer
+                </button>
+            </div>
+        </clr-modal>
+
+        <!-- Edit Assign Media File -->
+        <!-- Assign Media-->
+        <clr-modal *ngIf="form" [(clrModalOpen)]="clrEditModalOpen" [clrModalSize]="'xl'">
+            <h3 class="modal-title">Modifier Un Fichier
+            </h3>
+            <div class="modal-body">
+                <form [formGroup]="form" #myForm="ngForm">
+                    <div class="add-overlay">
+                        <div class="position-top">
+                            <strong class="modalcol3">Title</strong>
+                            <input matInput formControlName="name" placeholder="Titre" class="text-area modalcol"
+                                readonly>
+                        </div>
+                        <div class="position-top">
+                            <strong class="modalcol3">Visible Pour Les Internautes</strong>
+                            <select class="text-area modalcol" formControlName="locked">
+                                <option [value]="true">Oui</option>
+                                <option [value]="false">Non</option>
+                            </select>
+                        </div>
+                        <div class="position-top">
+                            <strong class="modalcol3">Visible Pour Les Apprenants(avec offre)</strong>
+                            <select class="text-area modalcol" formControlName="enabled">
+                                <option [value]="true">Oui</option>
+                                <option [value]="false">Non</option>
+                            </select>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeEditModal()">
+                    Fermer
+                </button>
+                <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" [disabled]="form.invalid">
+                    Valider
+                </button>
+            </div>
+        </clr-modal>
+
+        <!-- ADD Media -->
+        <clr-modal [(clrModalOpen)]="clrCreateMediaModalOpen" [clrModalSize]="'xl'">
+            <h3 class="modal-title">Ajouter Un Fichier</h3>
+            <div class="modal-body">
+                <div class="add-overlay" style="width: 100%;">
+                    <!-- colum titre -->
+                    <div class="position-top modalRow">
+                        <strong class="modalcol3">Titre</strong>
+                        <input matInput class="text-area" style="    width: -webkit-fill-available;" placeholder="titre"
+                            [(ngModel)]="mediaName">
+                    </div>
+                    <div class=" position-top">
+                        <strong class="modalcol3">Image</strong>
+                        <div class="add-overlay" style="    width: -webkit-fill-available;">
+                            <ngx-file-drop dropZoneLabel="Drop files here" contentClassName="fileUploadContent"
+                                dropZoneClassName="dropZone" (onFileDrop)="droppedImage($event)"
+                                accept=".jpg, .png, .jpeg">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <div class="fileUpload" (click)="openFileSelector()">
+                                        <clr-icon shape="picture"></clr-icon>
+                                        <h6>Télécharger Un Fichier</h6>
+                                        <p>.jpg, .png, .jpeg .pdf</p>
+                                        <p>Drag and drop, or click to browse</p>
+                                        <div class="uploadedImage">
+                                            <span *ngIf="img[0] && !imageError">
+                                                Uploaded "{{ img[0].fileEntry.name }}"
+                                            </span>
+                                            <span id="imageError">
+                                                {{ imageError }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-file-drop>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeCreateMediaModal()">
+                    Cancel
+                </button>
+                <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmitUpload()">
+                    Ajouter
+                </button>
+            </div>
+        </clr-modal>
+        <!-- ADD Media -->

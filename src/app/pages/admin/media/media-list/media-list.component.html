@@ -1,0 +1,136 @@
+<div class="dashboard">
+    <div class="events-container">
+        <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+            <h6>Tableau des medias</h6>
+            <div class="profile-card">
+                <div class="edit-button">
+                    <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
+                        Ajouter Une Media
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <!-------------------------------TAble----------------------------------------------------------------------------------->
+
+    <div class="row d-flex ">
+        <table mat-table [dataSource]="dataSource">
+            <!-- Name Column -->
+            <ng-container matColumnDef="image">
+                <th mat-header-cell *matHeaderCellDef> Image </th>
+                <td mat-cell *matCellDef="let element">
+                    <div class="media-image plus">
+                        <img *ngIf="element?.img?.length else icon" [src]="element.img">
+                        <ng-template #icon>
+                            <clr-icon shape="image"></clr-icon>
+                        </ng-template>
+                    </div>
+                </td>
+            </ng-container>
+
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef> Titre </th>
+                <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+            </ng-container>
+
+            <!-- type Column -->
+            <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef> Type </th>
+                <td mat-cell *matCellDef="let element"> {{element?.type?.name || getMediaTypeById(element?.type)}} </td>
+            </ng-container>
+
+            <!-- action Column -->
+            <ng-container matColumnDef="action">
+                <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+                <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+                    <button mat-icon-button class="btn btn-download" (click)="openFile(element)">
+                        <clr-icon shape="link"></clr-icon>
+                    </button>
+
+                    <button mat-icon-button class="btn btn-info" (click)="editById(element)" *ngIf="canManage">
+                        <clr-icon shape="pencil"></clr-icon>
+                    </button>
+
+                    <button mat-icon-button class="btn btn-outline-danger" (click)="deleteById(element._id,i)" *ngIf="canManage">
+                        <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+                    </button>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <mat-paginator [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
+    </mat-paginator>
+</div>
+
+<!-- ADD Media -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+    <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+        <h3 class="modal-title">Ajouter Une media</h3>
+    </ng-container>
+    <ng-template #editModalBloc>
+        <h3 class="modal-title">Modifier Une media</h3>
+    </ng-template>
+
+    <div class="modal-body">
+        <div>
+            <form [formGroup]="form">
+                <div class="add-overlay" style="width: 100%;">
+                    <!-- colum titre -->
+                    <div class="position-top modalRow">
+                        <strong class="modalcol3">Titre</strong>
+                        <input matInput class="text-area modalcol" placeholder="titre" formControlName="name">
+                    </div>
+                    <!-- colum type -->
+                    <div class="position-top">
+                        <strong class="modalcol3">Type</strong>
+                        <select class="text-area modalcol" formControlName="type">
+                            <option *ngFor="let type of mediaTypes" [value]="type._id">{{type.name}}</option>
+                        </select>
+                    </div>
+
+                    <div class="position-top">
+                        <strong class="modalcol3">Image</strong>
+                        <div class="add-overlay">
+                            <ngx-file-drop dropZoneLabel="Drop files here" contentClassName="fileUploadContent"
+                                dropZoneClassName="dropZone" (onFileDrop)="droppedImage($event)"
+                                accept=".jpg, .png, .jpeg">
+                                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                                    <div class="fileUpload" (click)="openFileSelector()">
+                                        <clr-icon shape="picture"></clr-icon>
+                                        <h6>Télécharger Un Fichier</h6>
+                                        <p>.jpg, .png, .jpeg .pdf</p>
+                                        <p>Drag and drop, or click to browse</p>
+                                        <div class="uploadedImage">
+                                            <span *ngIf="img[0] && !imageError">
+                                                Uploaded "{{ img[0].fileEntry.name }}"
+                                            </span>
+                                            <span id="imageError">
+                                                {{ imageError }}
+                                            </span>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-file-drop>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+            Cancel
+        </button>
+        <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">
+            Ok
+        </button>
+    </div>
+</clr-modal>

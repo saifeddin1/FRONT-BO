@@ -1,0 +1,290 @@
+<div class="dashboard ">
+  <div class="events-container">
+    <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+      <h6>Tableau des offres</h6>
+      <div class="profile-card">
+        <div class="edit-button">
+          <button id="add-button" class="btn button" (click)="openModal()">
+            Ajouter Un Offre
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+  <!-------------------------------TAble----------------------------------------------------------------------------------->
+
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="dataSource">
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="image">
+        <th mat-header-cell *matHeaderCellDef> Image </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="offre-image plus">
+            <img *ngIf="element?.img?.length else icon" [src]="element.img">
+            <ng-template #icon>
+              <clr-icon shape="image"></clr-icon>
+            </ng-template>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Titre </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- type Column -->
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef> Type </th>
+        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+      </ng-container>
+      <!-- description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> description </th>
+        <td mat-cell *matCellDef="let element"> {{(element?.description?.length>15)? (element?.description |
+          slice:0:15)+'...':(element?.description) }} </td>
+      </ng-container>>
+
+      <!-- prix Column -->
+      <ng-container matColumnDef="prix">
+        <th mat-header-cell *matHeaderCellDef> Prix </th>
+        <td mat-cell *matCellDef="let element"> {{element.prix}} </td>
+      </ng-container>
+
+      <!-- pourcentageRemise Column -->
+      <ng-container matColumnDef="pourcentageRemise">
+        <th mat-header-cell *matHeaderCellDef> Remise </th>
+        <td mat-cell *matCellDef="let element"> {{element.pourcentageRemise}}% </td>
+      </ng-container>
+
+      <!-- withPDFCourses Column -->
+      <ng-container matColumnDef="withPDFCourses">
+        <th mat-header-cell *matHeaderCellDef> Cours PDF </th>
+        <td mat-cell *matCellDef="let element"> {{element.withPDFCourses ? 'Oui' : 'Non'}} </td>
+      </ng-container>
+
+      <!-- withVideo Column -->
+      <ng-container matColumnDef="withVideo">
+        <th mat-header-cell *matHeaderCellDef> Videos </th>
+        <td mat-cell *matCellDef="let element"> {{element.withVideo ? 'Oui' : 'Non'}} </td>
+
+      </ng-container>
+
+      <!-- withLive Column -->
+      <ng-container matColumnDef="withLive">
+        <th mat-header-cell *matHeaderCellDef> Séances en direct </th>
+        <td mat-cell *matCellDef="let element"> {{element.withLive ? 'Oui' : 'Non'}} </td>
+      </ng-container>
+
+      <!-- withRecord Column -->
+      <ng-container matColumnDef="withRecord">
+        <th mat-header-cell *matHeaderCellDef> Enregistrement </th>
+        <td mat-cell *matCellDef="let element"> {{element.withRecord ? 'Oui' : 'Non'}} </td>
+      </ng-container>
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+          <button mat-icon-button class="btn btn-info" (click)="editById(element)">
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteById(element._id,i)">
+            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ADD Offre -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+    <h3 class="modal-title">Ajouter Un offre</h3>
+  </ng-container>
+  <ng-template #editModalBloc>
+    <h3 class="modal-title">Modifier Un offre</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form">
+        <div class="add-overlay">
+          <!-- colum titre -->
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Titre</strong>
+            <input matInput class="text-area modalcol" placeholder="titre" formControlName="name">
+          </div>
+          <!-- colum type -->
+          <div class="position-top">
+            <strong class="modalcol3">Type</strong>
+            <select class="text-area modalcol" formControlName="type" disabled>
+              <option [value]="offreTypes[0]">{{offreTypes[0]}}</option>
+            </select>
+          </div>
+
+          <div class="position-top">
+            <strong class="modalcol3">Couleur</strong>
+            <input matInput class="text-area modalcol" type="color" formControlName="color">
+          </div>
+
+          <!-- colum Prix -->
+          <div class="position-top">
+            <strong class="modalcol3">Prix</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="prix" formControlName="prix">
+          </div>
+          <!-- colum remise -->
+          <div class="position-top">
+            <strong class="modalcol3">Remise %</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="prix"
+              formControlName="pourcentageRemise">
+          </div>
+
+          <!-- colum pdf courses -->
+          <div class="position-top">
+            <strong class="modalcol3">Cours PDF</strong>
+            <select class="text-area modalcol" formControlName="withPDFCourses">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </div>
+
+          <!-- colum videos -->
+          <div class="position-top">
+            <strong class="modalcol3">Vidéos</strong>
+            <select class="text-area modalcol" formControlName="withVideo">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </div>
+
+          <!-- colum withLive -->
+          <div class="position-top">
+            <strong class="modalcol3">Séances en direct</strong>
+            <select class="text-area modalcol" formControlName="withLive">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </div>
+
+          <!-- colum withRecord -->
+          <div class="position-top">
+            <strong class="modalcol3">Enregistrement</strong>
+            <select class="text-area modalcol" formControlName="withRecord">
+              <option [value]="true">Oui</option>
+              <option [value]="false">Non</option>
+            </select>
+          </div>
+
+          <!-- colum type -->
+          <div class="position-top">
+            <strong class="modalcol3">description</strong>
+            <textarea matInput class="text-area modalcol" placeholder="description" formControlName="description"
+              rows="2"></textarea>
+          </div>
+
+
+          <div class="position-top">
+            <strong class="modalcol3">Image</strong>
+            <div class="add-overlay">
+              <ngx-file-drop dropZoneLabel="Drop files here" contentClassName="fileUploadContent"
+                dropZoneClassName="dropZone" (onFileDrop)="droppedImage($event)" accept=".jpg, .png, .jpeg">
+                <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
+                  <div class="fileUpload" (click)="openFileSelector()">
+                    <clr-icon shape="picture"></clr-icon>
+                    <h6>Télécharger Une Image</h6>
+                    <p>.jpg, .png, .jpeg</p>
+                    <p>Drag and drop, or click to browse</p>
+                    <div class="uploadedImage">
+                      <span *ngIf="img[0] && !imageError">
+                        Uploaded "{{ img[0].fileEntry.name }}"
+                      </span>
+                      <span id="imageError">
+                        {{ imageError }}
+                      </span>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-file-drop>
+            </div>
+          </div>
+          <br />
+          <hr>
+          <br />
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Ajouter Option</strong>
+            <div class="modalcol" style="text-align: center;width: 80%;">
+              <input matInput class="text-area" style="width: 100%; margin-bottom: 5px;" placeholder="Option"
+                [(ngModel)]="newOption" [ngModelOptions]="{ standalone: true }">
+              <ng-container *ngIf="optionMode == 'add';else editOptionBloc">
+                <button mat-icon-button class="yellowBase" [disabled]="!newOption" style="width: 100%;"
+                  (click)=addOption()>
+                  <clr-icon shape="plus" style="color: white;"></clr-icon>
+                </button>
+              </ng-container>
+              <ng-template #editOptionBloc>
+                <button mat-icon-button (click)=addOption() class="yellowBase" [disabled]="!newOption"
+                  style="width: 100%;">
+                  <clr-icon shape="pencil" style="color: white;"></clr-icon>
+                </button>
+              </ng-template>
+            </div>
+          </div>
+
+          <div class="modalRow">
+            <strong class="modalcol3">Options</strong>
+            <div class="modalcol" style="flex-wrap: wrap;display: flex;margin-left: 5px;">
+              <div style="width: 100%;">
+                <table mat-table [dataSource]="options">
+
+                  <!-- Name Column -->
+                  <ng-container matColumnDef="name">
+                    <th id="name" mat-header-cell *matHeaderCellDef> Text </th>
+                    <td mat-cell *matCellDef="let element"> {{element}} </td>
+                  </ng-container>
+
+                  <!-- action Column -->
+                  <ng-container matColumnDef="action">
+                    <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+                    <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+
+                      <button mat-icon-button class="btn btn-outline-danger" (click)="editOption(i)">
+                        <clr-icon shape="pencil"></clr-icon>
+                      </button>
+
+                      <button mat-icon-button class="btn btn-outline-danger" (click)="deleteOption(i)">
+                        <clr-icon shape="trash" style="color: red;"></clr-icon>
+                      </button>
+                    </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedOptionColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedOptionColumns;"></tr>
+                </table>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Cancel
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">
+      Ok
+    </button>
+  </div>
+</clr-modal>

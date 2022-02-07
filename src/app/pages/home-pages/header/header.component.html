@@ -1,0 +1,71 @@
+<header class="header-area header-v1" style="margin-bottom: -47px;">
+    <div class="header-navigation" [ngClass]="[visible ? '' : 'breakpoint-on' , windowScrolled ? 'sticky':'']"
+        (window:resize)="detectHeader()">
+        <div class="container-fluid">
+            <div class="burger-logo">
+                <!-- Brand Logo -->
+                <div>
+                    <div class="site-branding-and-language-selection">
+                        <div class="brand-logo">
+                            <a routerLink="/">
+                                <img src="../../../../assets/eunoia-logo.png" routerLink="./about"
+                                    routerLinkActive="active" alt="logo" width="60px" height="60px">
+                            </a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- Desktop and Mobile Menu -->
+                <div>
+                    <div class="primary-menu">
+                        <div class="nav-menu" [ngClass]="navMethod ? 'menu-on':''">
+                            <!-- Navbar Close Icon -->
+                            <div class="navbar-close" (click)="toggleNav()">
+                                <div class="cross-wrap"><span class="top"></span><span class="bottom"></span></div>
+                            </div>
+                            <nav class="main-menu">
+                                <ul>
+                                    <!-- Data -->
+                                    <li [ngClass]="item.child ? 'menu-item menu-item-has-children':'menu-item'"
+                                        *ngFor="let item of navigations">
+                                        <a href="javascript:void(0)" *ngIf="item.child"
+                                            (click)="trigger(item)">{{item.linkText}}</a>
+                                        <span class="dd-trigger" *ngIf="item.child" (click)="trigger(item)"><i
+                                                class="fas fa-angle-down"></i></span>
+                                        <a (click)="navigate(item.code)">
+                                            <h6>{{item.linkText}}</h6>
+                                        </a>
+
+                                    </li>
+                                    <!-- Data -->
+                                </ul>
+                            </nav>
+                        </div>
+                        <div class="header-right">
+                            <ul>
+                                <li>
+                                    <div class="menu-toggle" [ngClass]="navMethod ? 'active':''">
+                                        <div class="menu-overlay" (click)="toggleNav()"></div>
+                                        <!-- Navbar Toggler -->
+                                        <div class="nav-toggle">
+                                            <div class="navbar-toggler float-end" [ngClass]="navMethod ? 'active':''"
+                                                (click)="toggleNav()">
+                                                <span></span>
+                                                <span></span>
+                                                <span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- /.row -->
+        </div> <!-- /.container-fluid -->
+    </div> <!-- /.header-navigation -->
+</header>
+<ng-template #searchmodal let-modal>
+
+</ng-template>

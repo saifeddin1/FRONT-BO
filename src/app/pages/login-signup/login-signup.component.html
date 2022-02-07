@@ -1,0 +1,81 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+<div class="container row sign-up-mode">
+  <div class="col w-100">
+    <img src="../../../assets/login.png" class="image" alt="" />
+  </div>
+  <div class="forms-container col w-100">
+    <div class="submit-section">
+      <a routerLink="/about" style="cursor: pointer;">
+        <img src="../../../../assets/eunoia-logo.png" alt="eunoia academy logo" width="60px" height="60px">
+      </a>
+    </div>
+    <div class="signin-signup">
+      <form action="#" class="sign-up-form" *ngIf="form?.id == 'login'">
+        <h2 class=" title">Bienvenue </h2>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" type="email" (keyup.enter)="onSubmit()" [(ngModel)]="email" name="email" required
+            placeholder="email / username" />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input type="password" type="password" (keyup.enter)="onSubmit()" [(ngModel)]="password" name="password"
+            required placeholder="Password" />
+        </div>
+      </form>
+      <form action="#" class="sign-up-form" *ngIf="form?.id == 'register'">
+        <h2 class="title">Bienvenue</h2>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" type="email" [(ngModel)]="email" name="email" required placeholder="email" />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" type="text" type="username" [(ngModel)]="username" name="username" required
+            placeholder="UserName" />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-user"></i>
+          <input type="text" type="text" [(ngModel)]="phone" name="phone" required placeholder="Tél (+216)" />
+        </div>
+        <div class="input-field">
+          <i class="fas fa-lock"></i>
+          <input type="password" type="password" [(ngModel)]="password" name="password" required
+            placeholder="Password" />
+        </div>
+        <!-- <input type="text" class="input-field" list="citynames"> -->
+        <select class="input-field" type="niveau" [(ngModel)]="studentNiveauId" name="niveau" required>
+          <option disabled value="" selected> Choisir votre niveau </option>
+          <option *ngFor="let niv of niveauxList" [value]="niv._id">
+            {{ niv?.name }}
+          </option>
+        </select>
+      </form>
+      <div class="submit-section">
+        <input type="submit" (click)="onSubmit()" [value]="form.submit" class="filled-btn btn-bordered" />
+        <p class="social-text">
+          {{ form.slogan }}
+          <a (click)=navigateToLink() style="color :var(--green)!important;font-weight:bold">
+            {{ form.link }}
+          </a>
+        </p>
+        <div class="social-media">
+          <a href="https://www.facebook.com/EunoiaAcademyCJG" class="social-icon">
+            <i class="fab fa-facebook-f"></i>
+          </a>
+          <a href="https://www.linkedin.com/in/eunoia-academy-746065215/" class="social-icon">
+            <i class="fab fa-instagram"></i>
+          </a>
+          <a href="https://www.youtube.com/channel/UCFXUggHucDPGsyVFrQ3MALQ" class="social-icon">
+            <i class="fab fa-youtube"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+  integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
