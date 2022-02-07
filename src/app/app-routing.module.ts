@@ -15,9 +15,18 @@ import { StudentAssistanceComponent } from './pages/student-assistance/student-a
 import { StudentOffreComponent } from './pages/student-offre/student-offre.component';
 import { StudentMatiereComponent } from './pages/student-matiere/student-matiere.component';
 import { MatiereDetailsComponent } from './pages/student-matiere/matiere-details/matiere-details.component';
-
+import { ButtonFilledComponent } from './shared/components/button-filled/button-filled.component';
+import { ButtonOutlineComponent } from './shared/components/button-outline/button-outline.component';
+import { CustomTextInputComponent } from './shared/components/custom-text-input/custom-text-input.component';
+import { CustomDateInputComponent } from './shared/components/custom-date-input/custom-date-input.component';
+import { CustomSwitchComponent } from './shared/components/custom-switch/custom-switch.component';
+import { CustomDropdownComponent } from './shared/components/custom-dropdown/custom-dropdown.component';
+import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
 
 const routes: Routes = [
+  
+ 
+
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'signup', component: LoginSignupComponent },
   { path: 'signup/:type', component: LoginSignupComponent },
@@ -97,6 +106,16 @@ const routes: Routes = [
   },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
   { path: 'assistance', component: StudentAssistanceComponent, canActivate: [AuthGuard] },
+
+  // TO BE DELETED ❌ 
+  {path:'button-filled', component:ButtonFilledComponent},
+  {path:'button-outline', component:ButtonOutlineComponent},
+  {path:'custom-text', component:CustomTextInputComponent},
+  {path:'custom-date', component:CustomDateInputComponent},
+  {path:'custom-switch', component:CustomSwitchComponent},
+  {path:'custom-drop', component:CustomDropdownComponent},
+  {path:'custom-search', component:CustomSearchButtonComponent},
+
 ];
 
 @NgModule({

@@ -49,7 +49,7 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import {SharedModule} from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -100,7 +100,8 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
     MatButtonToggleModule,
     IvyCarouselModule,
     NgxStarRatingModule,
-    SweetAlert2Module.forRoot()
+    SweetAlert2Module.forRoot(),
+    SharedModule
 
   ],
   providers: [

@@ -1,0 +1,14 @@
+.custom-select {
+  padding: 1rem;
+}
+.custom-select > select {
+  background: #ffffff;
+  /* /Body Text */
+  padding: 0.5rem 1rem;
+  border: 0.68px solid #9295a3;
+  border-radius: 4px;
+}
+
+.custom-select > select:focus {
+  outline: unset;
+}

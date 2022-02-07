@@ -1,0 +1,19 @@
+.button-outline {
+  padding: 1rem;
+}
+
+.button-outline > button {
+  border: 1.5px solid #4dc591;
+  border-radius: 12px;
+  font-family: Montserrat;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 0.5rem 1rem;
+  color: #4dc591;
+}
