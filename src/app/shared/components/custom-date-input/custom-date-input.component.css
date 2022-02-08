@@ -1,0 +1,12 @@
+.custom-date-input-wrapper {
+  padding: 1rem;
+}
+
+.custom-date-input-wrapper > input[type="date"] {
+  background: rgba(255, 255, 255, 0.8);
+  border: 2px solid #ffffff;
+  box-sizing: border-box;
+  box-shadow: 0px 20px 50px rgba(234, 235, 249, 0.5);
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
+}
