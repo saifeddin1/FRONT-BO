@@ -49,7 +49,8 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {SharedModule} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
+import { HRModule } from './hr/hr.module';
 
 @NgModule({
   declarations: [
@@ -78,7 +79,7 @@ import {SharedModule} from './shared/shared.module';
     HeaderComponent,
     WorkProcessComponent,
     PricingComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +93,10 @@ import {SharedModule} from './shared/shared.module';
     PdfViewerModule,
     NgxFileDropModule,
     FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     PlyrModule,
     MatTableModule,
     MatTabsModule,
@@ -101,8 +105,8 @@ import {SharedModule} from './shared/shared.module';
     IvyCarouselModule,
     NgxStarRatingModule,
     SweetAlert2Module.forRoot(),
-    SharedModule
-
+    SharedModule,
+    HRModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
@@ -111,4 +115,4 @@ import {SharedModule} from './shared/shared.module';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

@@ -1,0 +1,101 @@
+<link
+  href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+  rel="stylesheet"
+  integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+  crossorigin="anonymous"
+/>
+<div class="p-5">
+  <div class="picture d-flex align-items-end">
+    <img
+      src="../../../../assets/img/{{ userFile?.profile['image'] }}"
+      class=""
+      width="150"
+      height="150"
+    />
+    <h2 class="mt-2 ml-3">{{ userFile?.userRef }}</h2>
+  </div>
+
+  <div class="container d-flex">
+    <div class="card mx-2 p-5">
+      <div class="profile">
+        <h3>👨‍🎓 Profile</h3>
+        <hr class="w-25" />
+        <!-- ID : {{ userFile?._id }} <br /> -->
+        <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
+        <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
+        timeOffBalance : <b>{{ userFile?.timeOffBalance }}</b> <br />
+        Position : <b>{{ userFile?.profile["position"] }}</b> <br />
+        Email : <b>{{ userFile?.profile["proEmail"] }}</b> <br />
+      </div>
+      <hr />
+      <div class="contract">
+        <h3>📜 Contract</h3>
+        <hr class="w-25" />
+        <!-- ID : {{ contract._id }} <br /> -->
+        Contract Type : <b>{{ contract?.contractType }}</b> <br />
+        <!-- userId : <b>{{ contract?.userId }}</b> <br /> -->
+        Hours per Week : <b>{{ contract?.hoursNumber }}</b> <br />
+        Start Date :
+        <b>{{ formatDate(contract?.startDate) }}</b> <br />
+      </div>
+    </div>
+
+    <div class="card mx-2 p-5">
+      <div class="Interviews">
+        <h3>Interviews</h3>
+        <hr class="w-25" />
+        <!-- ID : {{ userFile?._id }} <br /> -->
+        <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
+        <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
+        <div class="row lh-lg">
+          <div class="col-5">Interview Date :</div>
+          <div class="col-7">
+            <b>{{ formatDate(interview?.date) }}</b>
+          </div>
+        </div>
+        <div class="row lh-lg">
+          <div class="col-5">Title :</div>
+          <div class="col-7">
+            <b>{{ interview?.title }}</b>
+          </div>
+        </div>
+        <div class="row lh-lg">
+          <div class="col-5">Interview Files :</div>
+          <div class="col-7">
+            <b>{{ interview?.files }}</b>
+          </div>
+        </div>
+
+        <div *ngFor="let test of interview?.test">
+          <div class="row lh-lg">
+            <div class="col-5">Test Title :</div>
+            <div class="col-7">
+              <b>{{ test?.title }}</b>
+            </div>
+          </div>
+          <div class="row lh-lg">
+            <div class="col-5">Test Description :</div>
+            <div class="col-7">
+              <b>{{ test?.description }}</b>
+            </div>
+          </div>
+          <div class="row lh-lg">
+            <div class="col-5">Test URL :</div>
+            <div class="col-7">
+              <b>{{ test?.url }}</b>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="container card p-4">
+    <div *ngFor="let sheet of timesheets">
+ 
+      {{ formatDate(sheet?.date) }} <br />
+      {{ sheet?.workingHours }} <br />
+      {{ sheet?.note }} <br />
+ 
+    </div>
+  </div> -->
+</div>
