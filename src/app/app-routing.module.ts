@@ -22,7 +22,6 @@ import { CustomDateInputComponent } from './shared/components/custom-date-input/
 import { CustomSwitchComponent } from './shared/components/custom-switch/custom-switch.component';
 import { CustomDropdownComponent } from './shared/components/custom-dropdown/custom-dropdown.component';
 import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
-import { EmplyeeProfileComponent } from './hr/pages/emplyee-profile/emplyee-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -132,13 +131,6 @@ const routes: Routes = [
   { path: 'custom-switch', component: CustomSwitchComponent },
   { path: 'custom-drop', component: CustomDropdownComponent },
   { path: 'custom-search', component: CustomSearchButtonComponent },
-
-  // HR
-
-  {
-    path: 'hr/employee/summary',
-    component: EmplyeeProfileComponent,
-  },
 ];
 
 @NgModule({

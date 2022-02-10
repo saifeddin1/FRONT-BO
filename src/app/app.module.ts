@@ -51,6 +51,13 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from './shared/shared.module';
 import { HRModule } from './hr/hr.module';
+import { ButtonFilledComponent } from './shared/components/button-filled/button-filled.component';
+import { ButtonOutlineComponent } from './shared/components/button-outline/button-outline.component';
+import { CustomDateInputComponent } from './shared/components/custom-date-input/custom-date-input.component';
+import { CustomSwitchComponent } from './shared/components/custom-switch/custom-switch.component';
+import { CustomTextInputComponent } from './shared/components/custom-text-input/custom-text-input.component';
+import { CustomDropdownComponent } from './shared/components/custom-dropdown/custom-dropdown.component';
+import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
 
 @NgModule({
   declarations: [

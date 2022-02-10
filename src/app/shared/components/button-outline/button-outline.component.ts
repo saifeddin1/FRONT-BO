@@ -1,15 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-button-outline',
   templateUrl: './button-outline.component.html',
-  styleUrls: ['./button-outline.component.css']
+  styleUrls: ['./button-outline.component.css'],
 })
 export class ButtonOutlineComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
+  constructor() {}
+  @Input() title: string = '';
+  ngOnInit(): void {}
 }

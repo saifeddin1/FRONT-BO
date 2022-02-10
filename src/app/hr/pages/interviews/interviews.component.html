@@ -1,0 +1,26 @@
+<table class="table table-hover table-striped table-bordered">
+  <thead>
+    <tr>
+      <th scope="col">Date</th>
+      <th scope="col">Title</th>
+      <th scope="col">Files</th>
+      <th scope="col">Test</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let interview of interviews">
+      <td>{{ formatDate(interview?.date) }}</td>
+      <td>{{ interview?.title }}</td>
+      <td>{{ interview?.files }}</td>
+      <td>{{ interview?.test[0]?.title }}</td>
+      <td>
+        <app-button-filled [title]="'View'"></app-button-filled>
+      </td>
+      <td
+        [ngStyle]="{ display: currentUser.role === 'ADMIN' ? 'block' : 'none' }"
+      >
+        <app-button-outline [title]="'Edit'"></app-button-outline>
+      </td>
+    </tr>
+  </tbody>
+</table>

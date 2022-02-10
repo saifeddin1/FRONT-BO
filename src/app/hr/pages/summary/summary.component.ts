@@ -8,10 +8,10 @@ import { Timesheet } from '../../models/timesheet.model';
 
 @Component({
   selector: 'app-emplyee-profile',
-  templateUrl: './emplyee-profile.component.html',
-  styleUrls: ['./emplyee-profile.component.css'],
+  templateUrl: './summary.component.html',
+  styleUrls: ['./summary.component.css'],
 })
-export class EmplyeeProfileComponent implements OnInit {
+export class SummaryComponent implements OnInit {
   constructor(private summaryService: EmployeeSummaryService) {}
   public currUser = this?.summaryService?.getUser();
 
@@ -25,6 +25,7 @@ export class EmplyeeProfileComponent implements OnInit {
     // this.getFiles();
     this.getEmployeeFileDetails();
     this.getEmployeeContract();
+
     this.getEmployeeInterview();
     this.getTimeSheets();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
@@ -32,10 +33,8 @@ export class EmplyeeProfileComponent implements OnInit {
 
   getTimeSheets() {
     this.summaryService.getTimeSheets().subscribe((result) => {
-      this.timesheets = Object.values(result)[0][0]?.totalData?.filter(
-        (el: File) => el.userId === this.currUser.id
-      );
-      console.log('⚡ this.timesheets', this.timesheets);
+      this.timesheets = result['response'];
+      console.log('⚡ this.timesheets', result);
     });
   }
 
@@ -46,18 +45,14 @@ export class EmplyeeProfileComponent implements OnInit {
 
   getFiles() {
     this.summaryService.getFiles().subscribe((result) => {
-      this.files = Object.values(result)[0][0]?.totalData?.filter(
-        (el: File) => el.userId === this.currUser.id
-      );
+      this.files = result['response'][0]?.totalData;
       console.log('✅ this.summaryService.getFiles ~ ', this.files);
     });
   }
 
   getEmployeeFileDetails() {
-    this.summaryService.getFiles().subscribe((result) => {
-      this.userFile = Object.values(result)[0][0]?.totalData?.filter(
-        (el: File) => el.userId === this.currUser.id
-      )[0];
+    this.summaryService.getFileDetails().subscribe((result) => {
+      this.userFile = result['response'][0];
       console.log(
         '✅ this.summaryService.getEmployeeFileDetails ~ ',
         this.userFile
@@ -67,18 +62,14 @@ export class EmplyeeProfileComponent implements OnInit {
 
   getEmployeeContract() {
     this.summaryService.getContracts().subscribe((result) => {
-      this.contract = result['response'][0]?.totalData?.filter(
-        (el: Contract) => el.userId === this.currUser.id
-      )[0];
+      this.contract = result['response'][0];
       console.log('⚡getEmployeeContract :', this.contract);
     });
   }
 
   getEmployeeInterview() {
     this.summaryService.getInterviews().subscribe((result) => {
-      this.interview = result['response'][0]?.totalData?.filter(
-        (el: Contract) => el.userId === this.currUser.id
-      )[0];
+      this.interview = result['response'][0];
       console.log('⚡ this.interview', this.interview);
     });
   }
