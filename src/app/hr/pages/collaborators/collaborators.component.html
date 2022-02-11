@@ -1,21 +1,16 @@
 <div class="px-4" style="margin-inline: 85px">
-  <h1>Your COLLABORATORS</h1>
-  <div class="container p-4 d-flex flex-row">
+  <h1>Collaborators</h1>
+  <div class="container collaborators-wrapper p-4 d-flex flex-row">
     <div *ngFor="let file of collaborators">
-      <div class="card" style="width: 18rem">
+      <div class="card rounded-lg mx-2">
         <img
           src="../../../../assets/img/{{ file?.profile['image'] }}"
-          class=""
-          width="50"
           class="card-img-top"
-          src="..."
           alt="Card image cap"
-          height="50"
         />
         <div class="card-body">
-          <h5 class="card-title">{{ file?.userRef }}</h5>
+          <h5 class="card-title">{{ file?.userRef | titlecase }}</h5>
           <p class="card-text">
-            timeOffBalance : <b>{{ file?.timeOffBalance }}</b> <br />
             Position : <b>{{ file?.profile["position"] }}</b> <br />
             Email : <b>{{ file?.profile["proEmail"] }}</b> <br />
           </p>

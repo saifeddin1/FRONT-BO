@@ -38,7 +38,8 @@
   /* margin-left: 30px; */
 }
 
-.hr-dashboard-wrapper .sidebar .sidebar-item:hover {
+.hr-dashboard-wrapper .sidebar .sidebar-item:hover,
+.hr-dashboard-wrapper .sidebar .sidebar-item.active {
   background-color: #f1f1f1;
 }
 

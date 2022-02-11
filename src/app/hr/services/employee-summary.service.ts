@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { Contract } from '../models/contract.model';
+import { File } from '../models/file.models';
 import { Interview } from '../models/interview.model';
 import { Timesheet } from '../models/timesheet.model';
 
@@ -23,18 +24,16 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/contracts/employeeContracts`
     );
   }
+  getContractsWithSalary(): Observable<Contract[]> {
+    return this.http.get<Contract[]>(
+      `${this.BASE_URL}/contracts/employeeContractsWithSalary`
+    );
+  }
 
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
 
-  getContractDetails(id: string): Observable<Contract> {
-    return this.http.get<Contract>(`${this.BASE_URL}/contracts/${id}`);
-  }
-
-  updateContract(id: string, body: Object): Observable<Contract> {
-    return this.http.put<Contract>(`${this.BASE_URL}/contracts/${id}`, body);
-  }
   getInterviews(): Observable<Interview[]> {
     return this.http.get<Interview[]>(
       `${this.BASE_URL}/interviews/employeeInterviews`
@@ -55,6 +54,14 @@ export class EmployeeSummaryService {
   getTimeSheets(): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
       `${this.BASE_URL}/timesheets/getEmployeeTimeSheets`
+    );
+  }
+
+  updateProfile(body: any): Observable<File> {
+    return this.http.put<File>(
+      `${this.BASE_URL}/files/employeeFileDetails`,
+      JSON.stringify(body),
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 }
