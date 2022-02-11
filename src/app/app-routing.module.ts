@@ -24,9 +24,6 @@ import { CustomDropdownComponent } from './shared/components/custom-dropdown/cus
 import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
 
 const routes: Routes = [
-  
- 
-
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'signup', component: LoginSignupComponent },
   { path: 'signup/:type', component: LoginSignupComponent },
@@ -39,38 +36,54 @@ const routes: Routes = [
   // { path: 'solutions', component: SolutionsComponent },
   {
     path: 'niveau',
-    loadChildren: () => import('./pages/admin/niveau/niveau.module').then((m) => m.NiveauModule),
+    loadChildren: () =>
+      import('./pages/admin/niveau/niveau.module').then((m) => m.NiveauModule),
   },
   {
     path: 'offre',
-    loadChildren: () => import('./pages/admin/offre/offre.module').then((m) => m.OffreModule),
+    loadChildren: () =>
+      import('./pages/admin/offre/offre.module').then((m) => m.OffreModule),
   },
-  { // for admin
+  {
+    // for admin
     path: 'matiere',
-    loadChildren: () => import('./pages/admin/matiere/matiere.module').then((m) => m.MatiereModule),
+    loadChildren: () =>
+      import('./pages/admin/matiere/matiere.module').then(
+        (m) => m.MatiereModule
+      ),
   },
   {
     path: 'seances',
-    loadChildren: () => import('./pages/admin/seance/seance.module').then((m) => m.SeanceModule),
+    loadChildren: () =>
+      import('./pages/admin/seance/seance.module').then((m) => m.SeanceModule),
   },
   {
     path: 'media',
-    loadChildren: () => import('./pages/admin/media/media.module').then((m) => m.MediaModule),
+    loadChildren: () =>
+      import('./pages/admin/media/media.module').then((m) => m.MediaModule),
   },
   {
     path: 'students',
-    loadChildren: () => import('./pages/admin/student/student.module').then((m) => m.StudentModule),
+    loadChildren: () =>
+      import('./pages/admin/student/student.module').then(
+        (m) => m.StudentModule
+      ),
   },
   {
     path: 'instructors',
-    loadChildren: () => import('./pages/admin/instructor/instructor.module').then((m) => m.InstructorModule),
+    loadChildren: () =>
+      import('./pages/admin/instructor/instructor.module').then(
+        (m) => m.InstructorModule
+      ),
   },
-  { // For student
+  {
+    // For student
     path: 'matieres',
     component: StudentMatiereComponent,
     canActivate: [AuthGuard],
   },
-  { // For student
+  {
+    // For student
     path: 'matiere/details/:nivMatId',
     component: MatiereDetailsComponent,
     canActivate: [AuthGuard],
@@ -83,7 +96,6 @@ const routes: Routes = [
   {
     path: 'banner',
     component: BannerComponent,
-
   },
   { path: 'user/:username', component: UserProfileComponent },
   { path: 'user', redirectTo: 'about', canActivate: [AuthGuard] },
@@ -105,21 +117,24 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'settings', component: SettingsComponent, canActivate: [AuthGuard] },
-  { path: 'assistance', component: StudentAssistanceComponent, canActivate: [AuthGuard] },
+  {
+    path: 'assistance',
+    component: StudentAssistanceComponent,
+    canActivate: [AuthGuard],
+  },
 
-  // TO BE DELETED ❌ 
-  {path:'button-filled', component:ButtonFilledComponent},
-  {path:'button-outline', component:ButtonOutlineComponent},
-  {path:'custom-text', component:CustomTextInputComponent},
-  {path:'custom-date', component:CustomDateInputComponent},
-  {path:'custom-switch', component:CustomSwitchComponent},
-  {path:'custom-drop', component:CustomDropdownComponent},
-  {path:'custom-search', component:CustomSearchButtonComponent},
-
+  // TO BE DELETED ❌
+  { path: 'button-filled', component: ButtonFilledComponent },
+  { path: 'button-outline', component: ButtonOutlineComponent },
+  { path: 'custom-text', component: CustomTextInputComponent },
+  { path: 'custom-date', component: CustomDateInputComponent },
+  { path: 'custom-switch', component: CustomSwitchComponent },
+  { path: 'custom-drop', component: CustomDropdownComponent },
+  { path: 'custom-search', component: CustomSearchButtonComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

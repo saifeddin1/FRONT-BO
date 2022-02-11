@@ -49,7 +49,15 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import {SharedModule} from './shared/shared.module';
+import { SharedModule } from './shared/shared.module';
+import { HRModule } from './hr/hr.module';
+import { ButtonFilledComponent } from './shared/components/button-filled/button-filled.component';
+import { ButtonOutlineComponent } from './shared/components/button-outline/button-outline.component';
+import { CustomDateInputComponent } from './shared/components/custom-date-input/custom-date-input.component';
+import { CustomSwitchComponent } from './shared/components/custom-switch/custom-switch.component';
+import { CustomTextInputComponent } from './shared/components/custom-text-input/custom-text-input.component';
+import { CustomDropdownComponent } from './shared/components/custom-dropdown/custom-dropdown.component';
+import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
 
 @NgModule({
   declarations: [
@@ -78,7 +86,7 @@ import {SharedModule} from './shared/shared.module';
     HeaderComponent,
     WorkProcessComponent,
     PricingComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
   ],
   imports: [
     BrowserModule,
@@ -92,7 +100,10 @@ import {SharedModule} from './shared/shared.module';
     PdfViewerModule,
     NgxFileDropModule,
     FlatpickrModule.forRoot(),
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     PlyrModule,
     MatTableModule,
     MatTabsModule,
@@ -101,8 +112,8 @@ import {SharedModule} from './shared/shared.module';
     IvyCarouselModule,
     NgxStarRatingModule,
     SweetAlert2Module.forRoot(),
-    SharedModule
-
+    SharedModule,
+    HRModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
@@ -111,4 +122,4 @@ import {SharedModule} from './shared/shared.module';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}
