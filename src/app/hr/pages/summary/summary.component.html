@@ -17,7 +17,7 @@
     </div>
     <hr />
     <div class="contract">
-      <h3>📜 Contract</h3>
+      <h3>📜 Active Contract</h3>
       <hr class="w-25" />
       <!-- ID : {{ contract._id }} <br /> -->
       Contract Type : <b>{{ contract?.contractType }}</b> <br />
@@ -26,54 +26,36 @@
       Start Date :
       <b>{{ formatDate(contract?.startDate) }}</b> <br />
     </div>
+    <a routerLink="contracts" class="d-flex justify-content-end">See all</a>
   </div>
 
   <div class="card mx-2 p-5">
     <div class="Interviews">
-      <h3>Interviews</h3>
+      <h3>🖥️ Upcoming Interviews</h3>
       <hr class="w-25" />
       <!-- ID : {{ userFile?._id }} <br /> -->
       <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
       <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
-      <div class="row lh-lg">
-        <div class="col-5">Interview Date :</div>
-        <div class="col-7">
-          <b>{{ formatDate(interview?.date) }}</b>
-        </div>
-      </div>
-      <div class="row lh-lg">
-        <div class="col-5">Title :</div>
-        <div class="col-7">
-          <b>{{ interview?.title }}</b>
-        </div>
-      </div>
-      <div class="row lh-lg">
-        <div class="col-5">Interview Files :</div>
-        <div class="col-7">
-          <b>{{ interview?.files }}</b>
-        </div>
-      </div>
-
-      <div *ngFor="let test of interview?.test">
+      <div *ngFor="let interview of interviews">
         <div class="row lh-lg">
-          <div class="col-5">Test Title :</div>
+          <div class="col-5">Interview Date :</div>
           <div class="col-7">
-            <b>{{ test?.title }}</b>
+            <b>{{ formatDate(interview?.date) }}</b>
           </div>
         </div>
         <div class="row lh-lg">
-          <div class="col-5">Test Description :</div>
+          <div class="col-5">Title :</div>
           <div class="col-7">
-            <b>{{ test?.description }}</b>
+            <b>{{ interview?.title }}</b>
           </div>
         </div>
-        <div class="row lh-lg">
-          <div class="col-5">Test URL :</div>
-          <div class="col-7">
-            <b>{{ test?.url }}</b>
-          </div>
-        </div>
+        <hr />
       </div>
     </div>
+    <a
+      routerLink="interviews"
+      class="d-flex justify-content-end align-items-end"
+      >See all</a
+    >
   </div>
 </div>

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>{{ data['interview']?.title }}</h2>
+<mat-dialog-content>
+  <h2>Files</h2>
+  <h3>{{ data['interview']?.files }}</h3>
+  <h2>Test</h2>
+  <div *ngFor="let test of data['interview']?.test">
+    <h3>{{ test.title }}</h3>
+    <h3>{{ test.description }}</h3>
+    <h3>{{ test.url }}</h3>
+  </div>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <div mat-div [mat-dialog-close]="true">
+    <app-button-filled [title]="'close'"></app-button-filled>
+  </div>
+</mat-dialog-actions>

@@ -18,7 +18,7 @@ export class SummaryComponent implements OnInit {
   public files: File[];
   public userFile: File;
   public contract: Contract;
-  public interview: Interview;
+  public interviews: Interview[];
   public timesheets: Timesheet[];
 
   ngOnInit(): void {
@@ -26,7 +26,7 @@ export class SummaryComponent implements OnInit {
     this.getEmployeeFileDetails();
     this.getEmployeeContract();
 
-    this.getEmployeeInterview();
+    this.getEmployeeInterviews();
     this.getTimeSheets();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
@@ -67,10 +67,19 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  getEmployeeInterview() {
+  getEmployeeInterviews() {
+    let today = new Date();
     this.summaryService.getInterviews().subscribe((result) => {
-      this.interview = result['response'][0];
-      console.log('⚡ this.interview', this.interview);
+      this.interviews = result['response'].filter(
+        (intr) => new Date(intr.date) >= new Date(today)
+      );
+
+      console.log(
+        '⚡ this.interview',
+        result['response'].filter(
+          (intr) => new Date(intr.date) >= new Date(today)
+        )
+      );
     });
   }
 }

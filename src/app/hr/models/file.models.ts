@@ -1,13 +1,13 @@
 interface Profile {
   _id?: string;
-  image: string;
-  position: string;
-  proEmail: string;
+  image?: string;
+  position?: string;
+  proEmail?: string;
   phone?: number;
   address?: string;
-  jobType: string;
-  workFrom: string;
-  seniorityLevel: string;
+  jobType?: string;
+  workFrom?: string;
+  seniorityLevel?: string;
 }
 
 export interface File {

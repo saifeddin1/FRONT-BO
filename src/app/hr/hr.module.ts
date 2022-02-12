@@ -11,6 +11,10 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { FormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
+import { InterviewDialog } from './components/interviewDialog/interview-dialog-componenet';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -19,17 +23,28 @@ import { ProfileComponent } from './pages/profile/profile.component';
     HrdashboardComponent,
     CollaboratorsComponent,
     ProfileComponent,
+    InterviewDialog,
   ],
-  imports: [CommonModule, HRRoutingModule, RouterModule, SharedModule],
+  imports: [
+    HRRoutingModule,
+    RouterModule,
+    SharedModule,
+    FormsModule,
+    MatDialogModule,
+    CommonModule,
+    ToastrModule,
+  ],
   exports: [
     SummaryComponent,
     InterviewsComponent,
     HrdashboardComponent,
     CollaboratorsComponent,
     ProfileComponent,
+    InterviewDialog,
   ],
   providers: [
     EmployeeSummaryService,
+
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })
