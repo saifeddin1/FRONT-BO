@@ -1,8 +1,10 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import moment from 'moment';
 import { InterviewDialog } from '../../components/interviewDialog/interview-dialog-componenet';
 import { Interview } from '../../models/interview.model';
+import { JsonFormData } from '../../models/jsonFormData';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
 @Component({
@@ -13,10 +15,12 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 export class InterviewsComponent implements OnInit {
   public interviews: Interview[];
   public currentUser;
+  public formData: JsonFormData;
 
   constructor(
     private summaryService: EmployeeSummaryService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private http: HttpClient
   ) {
     this.currentUser = this.summaryService.getUser();
   }
@@ -24,7 +28,7 @@ export class InterviewsComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployeeInterview();
     console.log(this.currentUser);
-    // this.openDialog();
+    this.initializeForm();
   }
 
   formatDate(date) {
@@ -54,5 +58,13 @@ export class InterviewsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
     });
+  }
+
+  initializeForm() {
+    this.http
+      .get('/assets/form-data.json')
+      .subscribe((formData: JsonFormData) => {
+        this.formData = formData;
+      });
   }
 }

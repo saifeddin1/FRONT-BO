@@ -11,10 +11,12 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InterviewDialog } from './components/interviewDialog/interview-dialog-componenet';
 import { ToastrModule } from 'ngx-toastr';
+import { JsonFormComponent } from './components/json-form/json-form.component';
+import { CalendarModule } from 'angular-calendar';
 
 @NgModule({
   declarations: [
@@ -24,15 +26,18 @@ import { ToastrModule } from 'ngx-toastr';
     CollaboratorsComponent,
     ProfileComponent,
     InterviewDialog,
+    JsonFormComponent,
   ],
   imports: [
     HRRoutingModule,
     RouterModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     CommonModule,
     ToastrModule,
+    CalendarModule,
   ],
   exports: [
     SummaryComponent,
