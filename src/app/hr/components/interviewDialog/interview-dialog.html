@@ -1,12 +1,12 @@
 <h2 mat-dialog-title>{{ data['interview']?.title }}</h2>
 <mat-dialog-content>
-  <h2>Files</h2>
-  <h3>{{ data['interview']?.files }}</h3>
-  <h2>Test</h2>
+  <h4>Files</h4>
+  <strong>{{ data['interview']?.files }}</strong>
+  <h4>Tests</h4>
   <div *ngFor="let test of data['interview']?.test">
-    <h3>{{ test.title }}</h3>
-    <h3>{{ test.description }}</h3>
-    <h3>{{ test.url }}</h3>
+    Title : <strong>{{ test.title }}</strong> <br />
+    Description :<strong>{{ test.description }}</strong><br />
+    URL: <strong>{{ test.url }}</strong><br />
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">

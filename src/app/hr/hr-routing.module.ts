@@ -5,6 +5,10 @@ import { HrdashboardComponent } from './pages/hrdashboard/hrdashboard.component'
 import { InterviewsComponent } from './pages/interviews/interviews.component';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { ContractsComponent } from './pages/contracts/contracts.component';
+import { TimetableComponent } from './pages/timetable/timetable.component';
+import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
+import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 
 const routes: Routes = [
   {
@@ -27,6 +31,22 @@ const routes: Routes = [
       {
         path: 'profile',
         component: ProfileComponent,
+      },
+      {
+        path: 'contracts',
+        component: ContractsComponent,
+      },
+      {
+        path: 'timetable',
+        component: TimetableComponent,
+      },
+      {
+        path: 'timesheets',
+        component: TimesheetsComponent,
+      },
+      {
+        path: 'timeoffs',
+        component: TimeoffsComponent,
       },
     ],
   },

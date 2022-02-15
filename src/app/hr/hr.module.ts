@@ -11,10 +11,17 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
 import { InterviewDialog } from './components/interviewDialog/interview-dialog-componenet';
 import { ToastrModule } from 'ngx-toastr';
+import { JsonFormComponent } from './components/json-form/json-form.component';
+import { CalendarModule } from 'angular-calendar';
+import { ContractsComponent } from './pages/contracts/contracts.component';
+import { TimetableComponent } from './pages/timetable/timetable.component';
+import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
+import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
+import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,15 +31,23 @@ import { ToastrModule } from 'ngx-toastr';
     CollaboratorsComponent,
     ProfileComponent,
     InterviewDialog,
+    JsonFormComponent,
+    ContractsComponent,
+    TimetableComponent,
+    TimesheetsComponent,
+    TimeoffsComponent,
+    CollaboratorDialogComponent,
   ],
   imports: [
     HRRoutingModule,
     RouterModule,
     SharedModule,
     FormsModule,
+    ReactiveFormsModule,
     MatDialogModule,
     CommonModule,
     ToastrModule,
+    CalendarModule,
   ],
   exports: [
     SummaryComponent,
@@ -41,6 +56,7 @@ import { ToastrModule } from 'ngx-toastr';
     CollaboratorsComponent,
     ProfileComponent,
     InterviewDialog,
+    CollaboratorDialogComponent,
   ],
   providers: [
     EmployeeSummaryService,

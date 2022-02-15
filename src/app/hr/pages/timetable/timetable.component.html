@@ -1,0 +1,110 @@
+<div class="calendar">
+  <!-- <div class="card" id="delete-account"> -->
+  <div
+    class="row d-flex"
+    style="justify-content: space-between; align-items: center"
+  >
+    <!-- Next/Previous Week Control Buttons -->
+    <div class="col-md-4">
+      <div class="btn-group">
+        <button
+          id="control-calendar-button"
+          class="btn button"
+          mwlCalendarPreviousView
+          [view]="view"
+          [(viewDate)]="viewDate"
+        >
+          Préc
+        </button>
+        <button
+          id="white-calendar-button"
+          class="btn button"
+          mwlCalendarToday
+          [(viewDate)]="viewDate"
+        >
+          Auj
+        </button>
+        <button
+          id="control-calendar-button"
+          class="btn button"
+          mwlCalendarNextView
+          [view]="view"
+          [(viewDate)]="viewDate"
+        >
+          Suiv
+        </button>
+      </div>
+    </div>
+    <!-- Today date -->
+    <div class="col-md-4">
+      <h2>{{ viewDate | date: "mediumDate" }}</h2>
+    </div>
+    <!-- Month/Week/Day Control Buttons  -->
+    <div class="col-md-4">
+      <div class="btn-group" *ngIf="!mobileMode">
+        <button
+          id="white-calendar-button"
+          class="btn button"
+          (click)="setView(CalendarView.Month)"
+          [class.active]="view === CalendarView.Month"
+          [ngClass]="{ 'selected-btn': view === CalendarView.Month }"
+        >
+          Mois
+        </button>
+        <button
+          id="white-calendar-button"
+          class="btn button"
+          (click)="setView(CalendarView.Week)"
+          [class.active]="view === CalendarView.Week"
+          [ngClass]="{ 'selected-btn': view === CalendarView.Week }"
+        >
+          Semaine
+        </button>
+        <button
+          id="white-calendar-button"
+          class="btn button"
+          (click)="setView(CalendarView.Day)"
+          [class.active]="view === CalendarView.Day"
+          [ngClass]="{ 'selected-btn': view === CalendarView.Day }"
+        >
+          Jour
+        </button>
+      </div>
+    </div>
+  </div>
+  <br />
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="CalendarView.Month"
+      [viewDate]="viewDate"
+      [events]="events"
+      [refresh]="refresh"
+      (dayClicked)="dayClicked($event.day)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="CalendarView.Week"
+      [viewDate]="viewDate"
+      [events]="events"
+      [dayStartHour]="8"
+      [dayEndHour]="17"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent($event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="CalendarView.Day"
+      [viewDate]="viewDate"
+      [dayStartHour]="9"
+      [dayEndHour]="17"
+      [events]="events"
+      [refresh]="refresh"
+      (eventClicked)="handleEvent($event.event)"
+      (eventTimesChanged)="eventTimesChanged($event)"
+    >
+    </mwl-calendar-day-view>
+  </div>
+  <!-- </div> -->
+</div>
