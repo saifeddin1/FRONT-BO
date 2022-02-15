@@ -2,7 +2,7 @@
   <img
     class="rounded-circle mt-2"
     width="150px"
-    src="../../../../assets/img/{{ userFile?.profile.image }}"
+    src="../../../../assets/img/{{ userFile?.profile?.image }}"
   />
   <span class="font-weight-bold">{{ userFile?.userRef }}</span
   ><span class="text-black-50">{{ userFile?.profile.proEmail }}</span
@@ -119,9 +119,9 @@
   <div
     class="d-flex justify-content-between align-items-center mt-5 employee-profile-section-title"
   >
-    <h4 class="text-right text-white">Contracts</h4>
+    <h4 class="text-right text-white">Active Contract</h4>
   </div>
-  <div class="row" *ngFor="let contract of employeeContracts">
+  <div class="row">
     <div class="col-md-5 border-right">
       <div class="pt-4">
         <div class="col-md-12">
@@ -131,7 +131,7 @@
             class="form-control"
             [disabled]="isDisabled"
             placeholder="first name"
-            value="{{ contract?.contractType }}"
+            value="{{ employeeContract?.contractType }}"
           />
         </div>
         <div class="row mt-3">
@@ -141,7 +141,7 @@
               type="text"
               class="form-control"
               [disabled]="isDisabled"
-              value="{{ contract?.hoursNumber }}"
+              value="{{ employeeContract?.hoursNumber }}"
               placeholder="surname"
             />
           </div>
@@ -153,7 +153,7 @@
             class="form-control"
             [disabled]="isDisabled"
             placeholder="enter phone number"
-            value="{{ formatDate(contract?.startDate) }}"
+            value="{{ formatedDate(employeeContract?.startDate) }}"
           />
         </div>
         <div class="col-md-12">
@@ -163,12 +163,15 @@
             class="form-control"
             [disabled]="isDisabled"
             placeholder="enter phone number"
-            value="{{ formatDate(contract?.endDate) }}"
+            value="{{ formatedDate(employeeContract?.endDate) }}"
           />
         </div>
       </div>
     </div>
-    <div class="col-md-5 mt-4" *ngFor="let salary of contract?.salaries">
+    <div
+      class="col-md-5 mt-4"
+      *ngFor="let salary of employeeContract?.salaries"
+    >
       <div class="">
         <div class="col-md-12">
           <label class="labels my-2">Date Joined</label

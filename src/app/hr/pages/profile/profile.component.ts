@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { catchError } from 'rxjs/operators';
 import { Contract } from '../../models/contract.model';
 import moment from 'moment';
-
+import { formatDate } from '../../helpers/formatDate';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -15,8 +15,8 @@ import moment from 'moment';
 export class ProfileComponent implements OnInit {
   public userFile: File;
   public currentUser = this.summaryService.getUser();
-  public isDisabled = this.currentUser?.role !== 'ADMIN';
-  public employeeContracts: Contract[];
+  public isDisabled = this.currentUser['type'] !== 'ADMIN';
+  public employeeContract: Contract;
 
   eventsSubject: Subject<void> = new Subject<void>();
 
@@ -41,7 +41,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeFileDetails();
-    this.getEmployeeContract();
+    this.getEmployeeActiveContract();
   }
   getEmployeeFileDetails() {
     this.summaryService.getFileDetails().subscribe((result) => {
@@ -76,14 +76,16 @@ export class ProfileComponent implements OnInit {
         this.showSuccessToaster();
       });
   }
-  formatDate(date) {
-    let newDate = moment.utc(date)?.format('MMMM Do YYYY');
-    return newDate;
+  formatedDate(date) {
+    return formatDate(date);
   }
-  getEmployeeContract() {
+  getEmployeeActiveContract() {
+    let today = new Date();
     return this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.employeeContracts = result['response'];
-      console.log('⚡this.employeeContracts ', this.employeeContracts);
+      this.employeeContract = result['response'].filter(
+        (c) => new Date(c.endDate) >= new Date(today)
+      )[0];
+      console.log(this.employeeContract);
     });
   }
 }
