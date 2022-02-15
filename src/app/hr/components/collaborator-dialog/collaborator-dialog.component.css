@@ -1,0 +1,14 @@
+.collab-popup .card {
+  width: 13rem;
+  border-top-left-radius: 50%;
+  border-top-right-radius: 50%;
+}
+.collab-popup .card-img-top {
+  border-radius: 50%;
+  border: 5px solid #6b98fa;
+  width: 40%;
+}
+
+.collab-popup .card-body p {
+  font-size: 20px;
+}

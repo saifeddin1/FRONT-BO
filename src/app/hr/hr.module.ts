@@ -21,6 +21,7 @@ import { ContractsComponent } from './pages/contracts/contracts.component';
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
+import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
     TimetableComponent,
     TimesheetsComponent,
     TimeoffsComponent,
+    CollaboratorDialogComponent,
   ],
   imports: [
     HRRoutingModule,
@@ -54,6 +56,7 @@ import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
     CollaboratorsComponent,
     ProfileComponent,
     InterviewDialog,
+    CollaboratorDialogComponent,
   ],
   providers: [
     EmployeeSummaryService,
