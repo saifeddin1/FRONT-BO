@@ -1,0 +1,107 @@
+<div
+  class="row border my-2 p-2 pt-4"
+  *ngFor="let employeeContract of contracts; let i = index"
+>
+  <h2>Contract #{{ i + 1 }}</h2>
+  <div class="col-md-5 border-right mt-5">
+    <div class="pt-4">
+      <div class="col-md-12">
+        <label class="labels my-2">Contract Type</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="first name"
+          value="{{ employeeContract?.contractType }}"
+        />
+      </div>
+      <div class="row mt-3">
+        <div class="col-md-12">
+          <label class="labels my-2">Hours / Week</label
+          ><input
+            type="text"
+            class="form-control"
+            [disabled]="isDisabled"
+            value="{{ employeeContract?.hoursNumber }}"
+            placeholder="surname"
+          />
+        </div>
+      </div>
+      <div class="col-md-12">
+        <label class="labels my-2">Start Date</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="enter phone number"
+          value="{{ formatedDate(employeeContract?.startDate) }}"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels my-2">End Date</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="enter phone number"
+          value="{{ formatedDate(employeeContract?.endDate) }}"
+        />
+      </div>
+    </div>
+  </div>
+  <div
+    class="col-md-5 mt-4"
+    *ngFor="let salary of employeeContract['salaries']"
+  >
+    <h3>Salary information</h3>
+    <div class="">
+      <div class="col-md-12">
+        <label class="labels my-2">Date Joined</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          value="{{ salary?.seniorityDate }}"
+        />
+      </div>
+      <br />
+      <div class="col-md-12">
+        <label class="labels my-2">Annual Componsation</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="additional details"
+          value="{{ salary?.annualCompensation?.annual }}"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels my-2">Gross Salary</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="additional details"
+          value="{{ salary?.annualCompensation?.gross }}"
+        />
+      </div>
+      <div class="col-md-12">
+        <label class="labels my-2">Bonus</label
+        ><input
+          type="text"
+          class="form-control"
+          [disabled]="isDisabled"
+          placeholder="additional details"
+          value="{{ salary?.annualCompensation?.bonus }}"
+        />
+      </div>
+      <div class="w-100 d-flex justify-content-end align-items-end">
+        <!-- <button (click)="updateEmployee()">save</button> -->
+        <app-button-outline
+          (onClick)="updateEmployee()"
+          [title]="'Save'"
+        ></app-button-outline>
+      </div>
+    </div>
+  </div>
+</div>
