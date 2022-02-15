@@ -5,6 +5,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 import moment from 'moment';
 import { Interview } from '../../models/interview.model';
 import { Timesheet } from '../../models/timesheet.model';
+import { ProfileComponent } from '../profile/profile.component';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -24,7 +25,7 @@ export class SummaryComponent implements OnInit {
   ngOnInit(): void {
     // this.getFiles();
     this.getEmployeeFileDetails();
-    this.getEmployeeContract();
+    this.getEmployeeActiveContract();
 
     this.getEmployeeInterviews();
     this.getTimeSheets();
@@ -60,10 +61,13 @@ export class SummaryComponent implements OnInit {
     });
   }
 
-  getEmployeeContract() {
-    this.summaryService.getContracts().subscribe((result) => {
-      this.contract = result['response'][0];
-      console.log('⚡getEmployeeContract :', this.contract);
+  getEmployeeActiveContract() {
+    let today = new Date();
+    return this.summaryService.getContractsWithSalary().subscribe((result) => {
+      this.contract = result['response'].filter(
+        (c) => new Date(c.endDate) >= new Date(today)
+      )[0];
+      console.log(this.contract);
     });
   }
 

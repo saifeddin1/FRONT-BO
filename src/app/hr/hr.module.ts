@@ -17,6 +17,10 @@ import { InterviewDialog } from './components/interviewDialog/interview-dialog-c
 import { ToastrModule } from 'ngx-toastr';
 import { JsonFormComponent } from './components/json-form/json-form.component';
 import { CalendarModule } from 'angular-calendar';
+import { ContractsComponent } from './pages/contracts/contracts.component';
+import { TimetableComponent } from './pages/timetable/timetable.component';
+import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
+import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +31,10 @@ import { CalendarModule } from 'angular-calendar';
     ProfileComponent,
     InterviewDialog,
     JsonFormComponent,
+    ContractsComponent,
+    TimetableComponent,
+    TimesheetsComponent,
+    TimeoffsComponent,
   ],
   imports: [
     HRRoutingModule,
