@@ -110,13 +110,7 @@ export class TimetableComponent implements OnInit, OnChanges {
     this.getAll();
   }
   refreshView(): void {
-    // this.events.push({
-    //   start: new Date('2022-02-13T09:00:00.000Z'),
-    //   end: new Date('2022-02-13T15:21:58.455Z'),
-    //   title: 'A 3 day event',
-    // });
     console.log(this.events);
-
     this.refresh.next();
   }
   getSeanceNiv(seanceNivs) {
