@@ -41,7 +41,7 @@ export class EmployeeSummaryService {
 
   getInterviews(): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/employeeInterviews`
+      `${this.BASE_URL}/interviews/employeeInterviews?limit=99`
     );
   }
 

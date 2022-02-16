@@ -111,16 +111,11 @@ export class SummaryComponent implements OnInit {
   getEmployeeInterviews() {
     let today = new Date();
     this.summaryService.getInterviews().subscribe((result) => {
-      this.interviews = result['response'].filter(
+      this.interviews = result['response'][0]['totalData'].filter(
         (intr) => new Date(intr.date) >= new Date(today)
       );
 
-      console.log(
-        '⚡ this.interview',
-        result['response'].filter(
-          (intr) => new Date(intr.date) >= new Date(today)
-        )
-      );
+      console.log('⚡ this.interview', this.interviews);
     });
   }
 }
