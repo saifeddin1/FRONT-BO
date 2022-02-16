@@ -57,10 +57,26 @@ export class EmployeeSummaryService {
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
-  getTimeSheets(): Observable<Timesheet[]> {
+  getEmployeeTimeSheets(): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
-      `${this.BASE_URL}/timesheets/getEmployeeTimeSheets`
+      `${this.BASE_URL}/timesheets/getEmployeeTimeSheets?sortBy=date&orderBy=asc&limit=99`
     );
+  }
+
+  getEmployeeCurrentTimeSheet(date): Observable<Timesheet> {
+    return this.http.get<Timesheet>(
+      `${this.BASE_URL}/timesheets/getCurrentTimeSheet/${date}`
+    );
+  }
+
+  updateEmployeeTimeSheets(sheet_id: string, body): Observable<Object> {
+    return this.http.put<Object>(
+      `${this.BASE_URL}/timesheets/updateTimeSheetForEmployee/${sheet_id}`,
+      body
+    );
+  }
+  createEmployeeTimeSheets(body): Observable<Object> {
+    return this.http.post<Object>(`${this.BASE_URL}/timesheets`, body);
   }
 
   updateProfile(body: any): Observable<File> {
