@@ -3,7 +3,7 @@
   <h2 class="mt-2 ml-3">{{ userFile?.userRef }}</h2>
 </div>
 
-<div class="container d-flex">
+<div class="container d-flex border pb-4 mb-4">
   <div class="card mx-2 p-5">
     <div class="profile">
       <h3>👨‍🎓 Profile</h3>
@@ -58,4 +58,44 @@
       >See all</a
     >
   </div>
+</div>
+<div class="p-3 border">
+  <h2>Current TimeSheet</h2>
+  <table class="table table-striped">
+    <thead>
+      <th>date</th>
+      <th>Note</th>
+      <th>working hours</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{ formatDate(timesheet?.date) }}
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            value="{{ timesheet?.note }}"
+            [(ngModel)]="timesheet.note"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="number"
+            value="{{ timesheet?.workingHours }}"
+            [(ngModel)]="timesheet.workingHours"
+          />
+        </td>
+        <td>
+          <app-button-outline
+            (onClick)="updateRecord(timesheet)"
+            [title]="'add'"
+          >
+          </app-button-outline>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

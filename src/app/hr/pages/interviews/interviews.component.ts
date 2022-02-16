@@ -38,7 +38,7 @@ export class InterviewsComponent implements OnInit {
 
   getEmployeeInterview() {
     this.summaryService.getInterviews().subscribe((result) => {
-      this.interviews = result['response'];
+      this.interviews = result['response'][0]['totalData'];
       console.log('⚡ this.interviews', this.interviews);
     });
   }

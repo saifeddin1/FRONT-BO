@@ -6,6 +6,8 @@ import moment from 'moment';
 import { Interview } from '../../models/interview.model';
 import { Timesheet } from '../../models/timesheet.model';
 import { ProfileComponent } from '../profile/profile.component';
+import { catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -20,25 +22,60 @@ export class SummaryComponent implements OnInit {
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
-  public timesheets: Timesheet[];
-
+  timesheet: Timesheet = {
+    userId: this.currUser['_id'],
+    note: '',
+    date: null,
+    workingHours: 0,
+  };
   ngOnInit(): void {
     // this.getFiles();
     this.getEmployeeFileDetails();
     this.getEmployeeActiveContract();
-
+    this.getCurrentTimesheet();
     this.getEmployeeInterviews();
-    this.getTimeSheets();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
 
-  getTimeSheets() {
-    this.summaryService.getTimeSheets().subscribe((result) => {
-      this.timesheets = result['response'];
-      console.log('⚡ this.timesheets', result);
-    });
+  getCurrentTimesheet() {
+    let today = new Date().toISOString().split('T')[0];
+    console.log(
+      '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
+      today
+    );
+    return this.summaryService
+      .getEmployeeCurrentTimeSheet(today)
+      .subscribe((result) => {
+        this.timesheet = result['response'];
+        console.log(
+          '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
+          result['response']
+        );
+      });
   }
+  updateRecord(timesheet) {
+    console.log(timesheet);
 
+    return this.summaryService
+      .updateEmployeeTimeSheets(timesheet._id, {
+        note: timesheet.note,
+        workingHours: timesheet.workingHours,
+        date: timesheet.date,
+      })
+      .pipe(
+        catchError((err) => {
+          return throwError(err['error']);
+        })
+      )
+      .subscribe(
+        (result) => {
+          console.log(result);
+        },
+        (err) => {
+          console.log(err);
+        }
+      );
+  }
   formatDate(date) {
     let newDate = moment.utc(date)?.format('MMMM Do YYYY');
     return newDate;
@@ -74,16 +111,11 @@ export class SummaryComponent implements OnInit {
   getEmployeeInterviews() {
     let today = new Date();
     this.summaryService.getInterviews().subscribe((result) => {
-      this.interviews = result['response'].filter(
+      this.interviews = result['response'][0]['totalData'].filter(
         (intr) => new Date(intr.date) >= new Date(today)
       );
 
-      console.log(
-        '⚡ this.interview',
-        result['response'].filter(
-          (intr) => new Date(intr.date) >= new Date(today)
-        )
-      );
+      console.log('⚡ this.interview', this.interviews);
     });
   }
 }
