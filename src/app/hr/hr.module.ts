@@ -13,6 +13,7 @@ import { CollaboratorsComponent } from './pages/collaborators/collaborators.comp
 import { ProfileComponent } from './pages/profile/profile.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 import { InterviewDialog } from './components/interviewDialog/interview-dialog-componenet';
 import { ToastrModule } from 'ngx-toastr';
 import { JsonFormComponent } from './components/json-form/json-form.component';
@@ -48,6 +49,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     CommonModule,
     ToastrModule,
     CalendarModule,
+    MatIconModule,
   ],
   exports: [
     SummaryComponent,

@@ -6,6 +6,7 @@ import { time } from 'console';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { TimesheetDeclaration } from '../../models/timesheetDeclaration.model';
 @Component({
   selector: 'app-timesheets',
   templateUrl: './timesheets.component.html',
@@ -19,34 +20,28 @@ export class TimesheetsComponent implements OnInit {
     note: '',
     workingHours: 0,
   };
-  // config: any;
-  // page = 1;
   timesheet: Timesheet;
+  isDeclared: boolean;
   formatedDate(date) {
     return formatDate(date);
   }
+  declaration: TimesheetDeclaration;
   constructor(
     private employeeService: EmployeeSummaryService,
     private toastr: ToastrService
-  ) {
-    // this.config = {
-    //   itemsPerPage: 5,
-    //   currentPage: this.page,
-    //   totalItems: 10,
-    // };
-  }
+  ) {}
 
+  currUser = this.employeeService.getUser();
   ngOnInit(): void {
     this.getEmployeeTimeSheets();
-    // this.getCurrentTimesheet();
+    this.getCurrentDeclaration();
+
+    console.log(this.isDeclared);
   }
   getEmployeeTimeSheets() {
     this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
       console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
       this.timesheets = result['response'][0]['totalData'];
-
-      // this.config.totalItems = result['response'][0]['totalCount'][0]['count'];
-      // console.log('📚 ~  ', this.config);
     });
   }
   getCurrentTimesheet() {
@@ -79,7 +74,7 @@ export class TimesheetsComponent implements OnInit {
       .updateEmployeeTimeSheets(timesheet._id, {
         note: timesheet.note,
         workingHours: timesheet.workingHours,
-        date: timesheet.date,
+        date: new Date(timesheet.date),
       })
       .pipe(
         catchError((err) => {
@@ -106,6 +101,39 @@ export class TimesheetsComponent implements OnInit {
           '⚡ ~ file: timesheets.component.ts ~ line 85 ~ TimesheetsComponent ~ insertRecord ~ result',
           result
         );
+        this.getEmployeeTimeSheets();
+      });
+  }
+
+  createDeclaration() {
+    this.isDeclared = true;
+    return this.employeeService
+      .createTimesheetDeclaration({
+        userId: this.currUser['_id'],
+        month: new Date().getMonth() + 1,
+      })
+      .subscribe((result) => {
+        console.log('✅ CREATED', result);
+      });
+  }
+  cancelDeclaration() {
+    this.isDeclared = false;
+    this.employeeService
+      .deleteDeclaration(this.declaration._id)
+      .subscribe((result) => {
+        console.log('❌deleteDeclaration ~ result', result);
+      });
+  }
+  getCurrentDeclaration() {
+    return this.employeeService
+      .getCurrentDeclaration(new Date().getMonth() + 1)
+      .subscribe((result) => {
+        this.declaration = result['response'];
+        this.isDeclared =
+          this.declaration && this.declaration?.status === 'declared'
+            ? true
+            : false;
+        console.log('✅ this.declaration', this.declaration);
       });
   }
 }

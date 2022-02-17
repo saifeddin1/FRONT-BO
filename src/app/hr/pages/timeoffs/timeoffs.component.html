@@ -1,1 +1,64 @@
-<p>timeoffs works!</p>
+<div>
+  <div class="row">
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newTimeoffRequest.startDate"
+        value="{{ newTimeoffRequest.startDate }}"
+        type="date"
+      />
+    </div>
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newTimeoffRequest.offDays"
+        value="{{ newTimeoffRequest.offDays }}"
+        type="number"
+        min="1"
+        max="22"
+      />
+    </div>
+    <div class="col">
+      <app-button-outline
+        (onClick)="requestTimeoff()"
+        [title]="'Add'"
+      ></app-button-outline>
+    </div>
+  </div>
+  <table class="table table-stripped">
+    <thead>
+      <tr>
+        <th>Start Date</th>
+        <!-- <th>OFF Days</th> -->
+        <th>End Date</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let toff of timeoffHistory">
+        <td>{{ formatedDate(toff.startDate) }}</td>
+        <!-- <td>{{ toff.offDays }}</td> -->
+        <td>{{ formatedDate(getEndDate(toff.startDate, toff.offDays)) }}</td>
+        <td>
+          <div
+            [style.display]="showForAdmin ? 'flex' : 'none'"
+            class="align-items-center justify-content-center"
+          >
+            <select [(ngModel)]="toff.status">
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            <app-button-filled
+              [title]="'EDIT'"
+              (onClick)="updateStatus(toff)"
+            ></app-button-filled>
+          </div>
+          <span [style.display]="showForAdmin ? 'none' : 'block'">
+            {{ toff.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
