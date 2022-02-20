@@ -11,6 +11,7 @@ import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
 import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
+import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
       VcLiveSessionsComponent,
       VcChatComponent,
       VcSettingsComponent,
-      VcCalendarComponent
+      VcCalendarComponent,
+      VcDevoirsComponent
   ],
   imports: [
 
