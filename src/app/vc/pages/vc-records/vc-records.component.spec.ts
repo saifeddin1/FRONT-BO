@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VcSettingsComponent } from './vc-settings.component';
+import { VcRecordsComponent } from './vc-records.component';
 
-describe('VcSettingsComponent', () => {
-  let component: VcSettingsComponent;
-  let fixture: ComponentFixture<VcSettingsComponent>;
+describe('VcRecordsComponent', () => {
+  let component: VcRecordsComponent;
+  let fixture: ComponentFixture<VcRecordsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ VcSettingsComponent ]
+      declarations: [ VcRecordsComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(VcSettingsComponent);
+    fixture = TestBed.createComponent(VcRecordsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

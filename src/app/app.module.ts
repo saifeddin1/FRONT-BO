@@ -50,6 +50,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { VcModule } from './vc/vc.module';
+
 import { VcRoutingModule } from './vc/vc-routing.module';
 
 
@@ -113,6 +114,6 @@ import { VcRoutingModule } from './vc/vc-routing.module';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent,VcModule],
 })
 export class AppModule { }
