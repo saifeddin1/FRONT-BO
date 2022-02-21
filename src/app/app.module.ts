@@ -8,7 +8,7 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 import { IcIlProfileComponent } from './components/profile-components/ic-il-profile/ic-il-profile.component';
@@ -49,9 +49,9 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { VcRoutingModule } from './vc/vc-routing.module';
 import { VcModule } from './vc/vc.module';
-import { VcDevoirsComponent } from './vc-devoirs/vc-devoirs.component';
+import { VcRoutingModule } from './vc/vc-routing.module';
+
 
 
 @NgModule({
@@ -81,8 +81,7 @@ import { VcDevoirsComponent } from './vc-devoirs/vc-devoirs.component';
     HeaderComponent,
     WorkProcessComponent,
     PricingComponent,
-    TestimonialsComponent,
-    VcDevoirsComponent
+    TestimonialsComponent
   ],
   imports: [
     BrowserModule,
@@ -106,8 +105,7 @@ import { VcDevoirsComponent } from './vc-devoirs/vc-devoirs.component';
     NgxStarRatingModule,
     SweetAlert2Module.forRoot(),
     VcRoutingModule,
-    VcModule,
-    NgbModule
+    VcModule
 
   ],
   providers: [

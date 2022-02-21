@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { VcDevoirsComponent } from '../vc-devoirs/vc-devoirs.component';
 import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
+import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
 import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 
