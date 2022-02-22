@@ -150,7 +150,6 @@ export class VcCalendarComponent implements OnInit {
   }
   // *****add new meet*****
   addNewMeet(){
-    this.mt=this.meet;
     // this.toastr.warning('verify your infos', '')
     this.calendarService.addVC(this.meet).subscribe(res=>{
 
