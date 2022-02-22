@@ -22,21 +22,21 @@ export class MediaReviewService {
   * Find By MediaReviewId And User Id
   */
   findByMediaReviewId(assignMediaId: string): Observable<MediaReview> {
-    return this.http.get<MediaReview>(`${environment.apiUrl}${this.prefix}/${assignMediaId}`);
+    return this.http.get<MediaReview>(`${environment.LmsApiUrl}${this.prefix}/${assignMediaId}`);
   }
 
   /**
   * Find By MediaReviewId And User Id
   */
   getAssignMediaRating(assignMediaId: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}${this.prefix}/getAssignMediaRating/${assignMediaId}`);
+    return this.http.get<any>(`${environment.LmsApiUrl}${this.prefix}/getAssignMediaRating/${assignMediaId}`);
   }
 
   /**
   * Create
   */
   create(body: MediaReview): Observable<MediaReview> {
-    return this.http.post<MediaReview>(`${environment.apiUrl}${this.prefix}`, body);
+    return this.http.post<MediaReview>(`${environment.LmsApiUrl}${this.prefix}`, body);
   }
 
   /**
@@ -44,6 +44,6 @@ export class MediaReviewService {
  * @param {string} id id
  */
   deleteById(id: string): Observable<MediaReview> {
-    return this.http.delete<MediaReview>(`${environment.apiUrl}${this.prefix}/${id}`);
+    return this.http.delete<MediaReview>(`${environment.LmsApiUrl}${this.prefix}/${id}`);
   }
 }

@@ -64,7 +64,7 @@ export class ListOffreComponent implements OnInit {
             if (offre.img) {
               debugger
               offre.img =
-                offre.img === '' || offre.img === null ? '' : `${environment.apiUrl}/api/offre/documents/${offre.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+                offre.img === '' || offre.img === null ? '' : `${environment.LmsApiUrl}/api/offre/documents/${offre.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
             }
           });
         }
@@ -247,7 +247,7 @@ export class ListOffreComponent implements OnInit {
                 this.toasterService.success(DEFAULT_MESSAGES.success.image.upload);
                 console.log("Image Added Successfully");
                 if (res.img) {
-                  this.dataSource.data[foundIndex].img = `${environment.apiUrl}/api/offre/documents/${res.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+                  this.dataSource.data[foundIndex].img = `${environment.LmsApiUrl}/api/offre/documents/${res.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
                 }
                 this.dataSource = new MatTableDataSource(this.dataSource.data);
                 this.img = [];

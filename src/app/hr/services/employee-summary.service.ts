@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
 // import { getToken } from '../helpers/getToken';
 import { Contract } from '../models/contract.model';
@@ -22,7 +23,7 @@ export class EmployeeSummaryService {
 
   public decodedToken = jwtDecode(getToken());
 
-  private BASE_URL: string = 'http://localhost:8001';
+  private BASE_URL: string = environment.HRApi;
 
   constructor(private http: HttpClient) {}
 

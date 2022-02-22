@@ -69,6 +69,6 @@ export class MatiereDetailsComponent implements OnInit {
   }
   getImage(nivMat) {
     if (nivMat.matiere.img)
-      nivMat.matiere.img = `${environment.apiUrl}/api/matiere/documents/${nivMat.matiere.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+      nivMat.matiere.img = `${environment.LmsApiUrl}/api/matiere/documents/${nivMat.matiere.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
   }
 }

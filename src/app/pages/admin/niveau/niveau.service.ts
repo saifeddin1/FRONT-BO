@@ -45,7 +45,7 @@ export interface NiveauWithMatiere {
 export class NiveauService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/niveau`
+  url = `${environment.LmsApiUrl}/api/niveau`
   subject = new Subject<any>();
 
   /**

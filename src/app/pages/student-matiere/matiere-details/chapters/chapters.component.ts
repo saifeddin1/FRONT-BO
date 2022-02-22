@@ -264,7 +264,7 @@ export class ChaptersComponent implements OnInit {
 
   openFile(imgUrl: string) {
     if (imgUrl) {
-      const url = `${environment.apiUrl}/api/media/documents/${imgUrl}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+      const url = `${environment.LmsApiUrl}/api/media/documents/${imgUrl}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
       console.log("url :", url);
       window.open(url);
     }

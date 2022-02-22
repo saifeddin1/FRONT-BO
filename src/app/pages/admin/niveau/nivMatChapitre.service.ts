@@ -45,7 +45,7 @@ export interface GetAllResult {
 export class NivMatChapitreService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/nivMatChap`
+  url = `${environment.LmsApiUrl}/api/nivMatChap`
 
   /**
  * GET all

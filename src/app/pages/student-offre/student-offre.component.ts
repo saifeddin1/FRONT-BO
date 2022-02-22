@@ -29,7 +29,7 @@ export class StudentOffreComponent implements OnInit {
         if (res && res.length) {
           this.offres.forEach((offre) => {
             if (offre.img) {
-              offre.img = `${environment.apiUrl}/api/offre/documents/${offre.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+              offre.img = `${environment.LmsApiUrl}/api/offre/documents/${offre.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
             }
           });
         }

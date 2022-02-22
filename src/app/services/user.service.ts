@@ -53,7 +53,7 @@ export class UserService {
    */
   postNewUser(newUser: Partial<User>): Observable<{ token: string }> {
     const { username, password, email, type, studentNiveauId, studentOffreId, profile, phone, permissions } = newUser;
-    return this.http.post<{ token: string }>(`${environment.api}/api/auth/register`, {
+    return this.http.post<{ token: string }>(`${environment.IdentityApi}/api/auth/register`, {
       username,
       password,
       email,
@@ -72,7 +72,7 @@ export class UserService {
  * @param {string} id    id
 */
   editUser(id: string, data: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${environment.apiUrl}/api/user/editUser`, data);
+    return this.http.put<User>(`${environment.LmsApiUrl}/api/user/editUser`, data);
   }
 
   /**
@@ -81,7 +81,7 @@ export class UserService {
  * @param {string} id    id
 */
   editById(id: string, data: Partial<User>): Observable<User> {
-    return this.http.put<User>(`${environment.apiUrl}/api/user/editById/${id}`, data);
+    return this.http.put<User>(`${environment.LmsApiUrl}/api/user/editById/${id}`, data);
   }
 
   /**
@@ -89,7 +89,7 @@ export class UserService {
    * @param {String} id username of the user
    */
   getUserById(id: string): Observable<User> {
-    return this.http.get<User>(environment.apiUrl + '/api/user/getUserById/' + id);
+    return this.http.get<User>(environment.LmsApiUrl + '/api/user/getUserById/' + id);
   }
 
   /**
@@ -97,7 +97,7 @@ export class UserService {
    * @param {String} query the search query
    */
   search(query: string): Observable<User[]> {
-    return this.http.get<User[]>(`${environment.apiUrl}/api/user/search/${query}`);
+    return this.http.get<User[]>(`${environment.LmsApiUrl}/api/user/search/${query}`);
   }
 
   /**
@@ -106,7 +106,7 @@ export class UserService {
    * @param {string} password password of user
    */
   loginUser(email: string, password: string): Observable<boolean | { token: string }> {
-    return this.http.post<boolean | { token: string }>(`${environment.api}/api/auth/login/${email}`, {
+    return this.http.post<boolean | { token: string }>(`${environment.IdentityApi}/api/auth/login/${email}`, {
          password,
     });
   }
@@ -128,7 +128,7 @@ export class UserService {
    * @param {string} password  new password
    */
   updatePassword(_id: string, password: string): Observable<any> {
-    return this.http.post(`${environment.apiUrl}/api/user/updatePassword`, {
+    return this.http.post(`${environment.LmsApiUrl}/api/user/updatePassword`, {
       _id,
       password,
     });
@@ -140,7 +140,7 @@ export class UserService {
    * @param {double} credit     amount to update credit with
    */
   updateCredit(_id: string, credit: number): Observable<any> {
-    return this.http.put(environment.apiUrl + '/api/user/updateCredit', {
+    return this.http.put(environment.LmsApiUrl + '/api/user/updateCredit', {
       _id,
       credit,
     });
@@ -152,7 +152,7 @@ export class UserService {
    * @param {string} courseId  id of course
    */
   dropACourse(userId: string, courseId: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/api/user/dropCourse/${courseId}/${userId}`);
+    return this.http.delete(`${environment.LmsApiUrl}/api/user/dropCourse/${courseId}/${userId}`);
   }
 
   /**
@@ -161,7 +161,7 @@ export class UserService {
    */
   deleteUser(userId: string): Observable<any> {
     console.log(userId);
-    return this.http.delete(`${environment.apiUrl}/api/user/deleteUser/${userId}`);
+    return this.http.delete(`${environment.LmsApiUrl}/api/user/deleteUser/${userId}`);
   }
 
   /**
@@ -171,7 +171,7 @@ export class UserService {
    * @return user
    */
   editProfile(profile: any): Observable<User> {
-    return this.http.put<User>(`${environment.apiUrl}/api/user/editProfile`, { profile });
+    return this.http.put<User>(`${environment.LmsApiUrl}/api/user/editProfile`, { profile });
   }
 
   /**
@@ -181,25 +181,25 @@ export class UserService {
    * @return user
    */
   updateOffre(_id: string, studentOffreId: any): Observable<User> {
-    return this.http.put<User>(`${environment.apiUrl}/api/user/updateOffre`, {
+    return this.http.put<User>(`${environment.LmsApiUrl}/api/user/updateOffre`, {
       _id,
       studentOffreId,
     });
   }
 
   getAllStudents(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/user/getAllStudents`);
+    return this.http.get(`${environment.LmsApiUrl}/api/user/getAllStudents`);
   }
 
   getAllInstructors(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/user/getAllInstructors`);
+    return this.http.get(`${environment.LmsApiUrl}/api/user/getAllInstructors`);
   }
   getAllInstructorsNames(): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/user/getAllInstructorsNames`);
+    return this.http.get(`${environment.LmsApiUrl}/api/user/getAllInstructorsNames`);
   }
 
   addChat(userId: string, chatId: string): Observable<User> {
-    return this.http.put<User>(`${environment.apiUrl}/api/user/addChat`, {
+    return this.http.put<User>(`${environment.LmsApiUrl}/api/user/addChat`, {
       userId,
       chatId,
     });
@@ -210,7 +210,7 @@ export class UserService {
    * @param {string} userId id of course
    */
   getUserImage(userId: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/user/${userId}/getUserImage`);
+    return this.http.get(`${environment.LmsApiUrl}/api/user/${userId}/getUserImage`);
   }
 
   /**
@@ -219,7 +219,7 @@ export class UserService {
    * @param {string} courseId id of course
    */
   uploadImage(file: FormData, userId: string): Observable<User> {
-    return this.http.post<User>(`${environment.apiUrl}/api/user/${userId}/uploadImage`, file);
+    return this.http.post<User>(`${environment.LmsApiUrl}/api/user/${userId}/uploadImage`, file);
   }
 
   validateEmail(email) {

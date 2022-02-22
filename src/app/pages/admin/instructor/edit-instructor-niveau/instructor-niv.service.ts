@@ -16,7 +16,7 @@ export interface InstructorNiv {
 export class InstructorNivService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/instructorNiv`
+  url = `${environment.LmsApiUrl}/api/instructorNiv`
 
   /**
  * GET all

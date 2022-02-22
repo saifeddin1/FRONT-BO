@@ -27,21 +27,21 @@ export class CourseService {
   * GET all
   */
   getAllForStudents(nivId: string, nivMatId: string, chapId: string): Observable<Course[]> {
-    return this.http.get<Course[]>(`${environment.apiUrl}/api/course/getAllForStudents/${nivId}/${nivMatId}/${chapId}`);
+    return this.http.get<Course[]>(`${environment.LmsApiUrl}/api/course/getAllForStudents/${nivId}/${nivMatId}/${chapId}`);
   }
   
   /**
   * GET all courses count
   */
    getCoursesCountForStudents(nivId: string, nivMatId: string): Observable<number> {
-    return this.http.get<number>(`${environment.apiUrl}/api/course/getCoursesCountForStudents/${nivId}/${nivMatId}`);
+    return this.http.get<number>(`${environment.LmsApiUrl}/api/course/getCoursesCountForStudents/${nivId}/${nivMatId}`);
   }
 
   /**
   * GET all
   */
   getAllByChapId(nivId: string, nivMatId: string, chapId: string): Observable<CourseGetAllResult> {
-    return this.http.get<CourseGetAllResult>(`${environment.apiUrl}/api/course/getAll/${nivId}/${nivMatId}/${chapId}`);
+    return this.http.get<CourseGetAllResult>(`${environment.LmsApiUrl}/api/course/getAll/${nivId}/${nivMatId}/${chapId}`);
   }
 
   /**
@@ -50,7 +50,7 @@ export class CourseService {
   * @param {string} id    id
   */
   editOrders(data: { data: { _id: string, order: number }[] }): Observable<void> {
-    return this.http.put<void>(`${environment.apiUrl}/api/course/editOrders`, data);
+    return this.http.put<void>(`${environment.LmsApiUrl}/api/course/editOrders`, data);
   }
 
 
@@ -61,7 +61,7 @@ export class CourseService {
    */
   postNewCourse(course: any, _id: string): Observable<Course> {
     const { name, description, level, tags, chapitreId, videoUrl, niveauId, nivMatId } = course;
-    return this.http.post<Course>(environment.apiUrl + '/api/course/', {
+    return this.http.post<Course>(environment.LmsApiUrl + '/api/course/', {
       name,
       videoUrl,
       students: [],
@@ -83,7 +83,7 @@ export class CourseService {
    * @param {string}  courseId  id of the course
    */
   updateCourse(course: any): Observable<Course> {
-    return this.http.put<Course>(`${environment.apiUrl}/api/course/update`, {
+    return this.http.put<Course>(`${environment.LmsApiUrl}/api/course/update`, {
       course,
     });
   }
@@ -94,7 +94,7 @@ export class CourseService {
    * @param {string}   courseId id of course
    */
   postNewFile(file: FormData, courseId: string) {
-    return this.http.post(`${environment.apiUrl}/api/course/${courseId}/upload`, file);
+    return this.http.post(`${environment.LmsApiUrl}/api/course/${courseId}/upload`, file);
   }
 
   /**
@@ -104,7 +104,7 @@ export class CourseService {
    */
   postNewAssessmentFile(file: FormData, assessmentId: string) {
     return this.http.post(
-      `${environment.apiUrl}/api/course/assessment/uploadAssessment/${assessmentId}`,
+      `${environment.LmsApiUrl}/api/course/assessment/uploadAssessment/${assessmentId}`,
       file
     );
   }
@@ -114,7 +114,7 @@ export class CourseService {
    * @param {any} course the course that's requesting survey
    */
   requestSurvey(id: string): Observable<Course> {
-    return this.http.put<Course>(`${environment.apiUrl}/api/course/surveyRequest/${id}`, {});
+    return this.http.put<Course>(`${environment.LmsApiUrl}/api/course/surveyRequest/${id}`, {});
   }
 
   /**
@@ -122,7 +122,7 @@ export class CourseService {
    * @param {string} courseId id of course
    */
   getCourseFiles(courseId: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/document/${courseId}`);
+    return this.http.get(`${environment.LmsApiUrl}/api/document/${courseId}`);
   }
 
   /**
@@ -130,7 +130,7 @@ export class CourseService {
    * @param {String} query the search query
    */
   search(query: string): Observable<Course[]> {
-    return this.http.get<Course[]>(`${environment.apiUrl}/api/course/search/${query}`);
+    return this.http.get<Course[]>(`${environment.LmsApiUrl}/api/course/search/${query}`);
   }
 
   /**
@@ -138,7 +138,7 @@ export class CourseService {
    * @param {string} courseId id of course
    */
   getCourseImageId(courseId: string): Observable<any> {
-    return this.http.get(`${environment.apiUrl}/api/course/${courseId}/getCourseImage`);
+    return this.http.get(`${environment.LmsApiUrl}/api/course/${courseId}/getCourseImage`);
   }
 
   /**
@@ -148,7 +148,7 @@ export class CourseService {
    */
   postCourseImage(file: FormData, courseId: string): Observable<Course> {
     return this.http.post<Course>(
-      `${environment.apiUrl}/api/course/${courseId}/uploadCourseImage`,
+      `${environment.LmsApiUrl}/api/course/${courseId}/uploadCourseImage`,
       file
     );
   }
@@ -157,7 +157,7 @@ export class CourseService {
    * GET all courses
    */
   getAllCourses(): Observable<Course[]> {
-    return this.http.get<Course[]>(`${environment.apiUrl}/api/course`);
+    return this.http.get<Course[]>(`${environment.LmsApiUrl}/api/course`);
   }
 
   /**
@@ -165,7 +165,7 @@ export class CourseService {
    * @param {string} _id id of course
    */
   getCourse(_id: string): Observable<Course> {
-    return this.http.get<Course>(`${environment.apiUrl}/api/course/${_id}`);
+    return this.http.get<Course>(`${environment.LmsApiUrl}/api/course/${_id}`);
   }
 
 
@@ -175,7 +175,7 @@ export class CourseService {
    * @param {string} courseId id of course
    */
   dropACourse(userId: string, courseId: string): Observable<any> {
-    return this.http.delete(`${environment.apiUrl}/api/course/dropCourse/${courseId}/${userId}`);
+    return this.http.delete(`${environment.LmsApiUrl}/api/course/dropCourse/${courseId}/${userId}`);
   }
 
   /**
@@ -193,7 +193,7 @@ export class CourseService {
     score: Number,
     anon: Boolean
   ): Observable<Course> {
-    return this.http.put<Course>(`${environment.apiUrl}/api/course/addReview`, {
+    return this.http.put<Course>(`${environment.LmsApiUrl}/api/course/addReview`, {
       _id,
       courseId,
       courseReview,
@@ -209,7 +209,7 @@ export class CourseService {
    */
   postNewAssessment(assessment: any): Observable<Assessment> {
     const { name, visibility, studentSubmission } = assessment;
-    return this.http.post<Assessment>(`${environment.apiUrl}/api/course/assessment`, {
+    return this.http.post<Assessment>(`${environment.LmsApiUrl}/api/course/assessment`, {
       name,
       files: [],
       visibility,
@@ -226,7 +226,7 @@ export class CourseService {
     courseId: string,
     assessmentId: string
   ): Observable<Course> {
-    return this.http.put<Course>(environment.apiUrl + '/api/course/assessment/addAssessment', {
+    return this.http.put<Course>(environment.LmsApiUrl + '/api/course/assessment/addAssessment', {
       courseId,
       assessmentId,
     });
@@ -239,7 +239,7 @@ export class CourseService {
    */
   deleteAssessment(courseId: string, assessmentId: string): Observable<any> {
     return this.http.delete(
-      `${environment.apiUrl}/api/course/assessment/deleteAssessment/${courseId}/${assessmentId}`
+      `${environment.LmsApiUrl}/api/course/assessment/deleteAssessment/${courseId}/${assessmentId}`
     );
   }
 
@@ -250,7 +250,7 @@ export class CourseService {
   // ): Observable<Assessment> {
   //   const { name, visibility, studentSubmission } = assessment;
   //   return this.http.put<Assessment>(
-  //     `${environment.apiUrl}/api/course/assessment/updateAssessment`,
+  //     `${environment.LmsApiUrl}/api/course/assessment/updateAssessment`,
   //     {
   //       files,
   //       name,
@@ -262,7 +262,7 @@ export class CourseService {
   // }
 
   // deleteFiles(assessmentId: string): Observable<Assessment> {
-  //   return this.http.put<Assessment>(`${environment.apiUrl}/api/course/assessment/deleteFiles`, {
+  //   return this.http.put<Assessment>(`${environment.LmsApiUrl}/api/course/assessment/deleteFiles`, {
   //     assessmentId,
   //   });
   // }
@@ -273,7 +273,7 @@ export class CourseService {
    */
   deleteCourseFile(fileId: string): Observable<any> {
     return this.http.delete(
-      `${environment.apiUrl}/api/course/documents/del/${fileId}`
+      `${environment.LmsApiUrl}/api/course/documents/del/${fileId}`
     );
   }
 
@@ -282,7 +282,7 @@ export class CourseService {
     courseId: string,
     surveyAnswers: string[]
   ): Observable<Course> {
-    return this.http.put<Course>(`${environment.apiUrl}/api/course/addSurvey`, {
+    return this.http.put<Course>(`${environment.LmsApiUrl}/api/course/addSurvey`, {
       _id,
       courseId,
       surveyAnswers,
@@ -295,7 +295,7 @@ export class CourseService {
    * @param {string}   courseId id of course
    */
   postUploadLecture(video: FormData, courseId: string) {
-    return this.http.post(`${environment.apiUrl}/api/course/${courseId}/uploadLecture`, video);
+    return this.http.post(`${environment.LmsApiUrl}/api/course/${courseId}/uploadLecture`, video);
   }
 
 }

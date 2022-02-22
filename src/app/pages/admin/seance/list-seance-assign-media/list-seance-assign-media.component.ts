@@ -55,7 +55,7 @@ export class ListSeanceAssignMediaComponent implements OnInit {
 
   openFile(element) {
     if (element.img) {
-      const url = `${environment.apiUrl}/api/media/documents/${element.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+      const url = `${environment.LmsApiUrl}/api/media/documents/${element.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
       console.log("url :", url);
       window.open(url);
     }

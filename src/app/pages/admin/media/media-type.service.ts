@@ -20,7 +20,7 @@ type DocType = MediaType
 export class MediaTypeService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/mediaType`
+  url = `${environment.LmsApiUrl}/api/mediaType`
 
   /**
  * GET all
