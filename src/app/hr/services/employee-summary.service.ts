@@ -2,7 +2,9 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
+// import { getToken } from '../helpers/getToken';
 import { Contract } from '../models/contract.model';
 import { File } from '../models/file.models';
 import { Interview } from '../models/interview.model';
@@ -21,12 +23,13 @@ export class EmployeeSummaryService {
 
   public decodedToken = jwtDecode(getToken());
 
-  private BASE_URL: string = 'http://localhost:8001';
+  private BASE_URL: string = environment.HRApi;
 
   constructor(private http: HttpClient) {}
 
   getUser() {
-    return this.decodedToken['user'];
+    console.log(this.decodedToken,"****************************")
+    return this.decodedToken;
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
   getContracts(): Observable<Contract[]> {
@@ -57,6 +60,7 @@ export class EmployeeSummaryService {
   }
 
   getFileDetails(): Observable<File> {
+    console.log('😁😁😁😁😁', getToken())
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 

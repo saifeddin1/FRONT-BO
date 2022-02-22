@@ -16,7 +16,7 @@ export interface Media {
 export class MediaService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/media`
+  url = `${environment.LmsApiUrl}/api/media`
 
   /**
  * GET all

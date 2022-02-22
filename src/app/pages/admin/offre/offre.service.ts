@@ -26,7 +26,7 @@ export interface Offre {
 export class OffreService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/offre`
+  url = `${environment.LmsApiUrl}/api/offre`
 
   /**
  * GET all

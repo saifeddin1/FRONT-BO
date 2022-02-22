@@ -16,7 +16,7 @@ export interface Chapitre {
 export class ChapitreService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/chapitre`
+  url = `${environment.LmsApiUrl}/api/chapitre`
 
   /**
  * GET all

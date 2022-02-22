@@ -3,10 +3,11 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  // apiUrl: 'http://147.182.132.247'
-    // apiUrl: 'https://eunoia.academy',
-    apiUrl: 'http://localhost:5000',
+  production: false, 
+    LmsApiUrl: 'http://localhost:5000',
+    IdentityApi: 'http://localhost:2022',
+    HRApi: 'http://localhost:8001',
+    
 };
 
 /*

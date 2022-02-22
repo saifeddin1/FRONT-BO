@@ -7,6 +7,7 @@ import { UserService } from 'src/app/services/user.service';
 import { User } from 'src/app/models/user.model';
 import { Router } from '@angular/router';
 import { DEFAULT_MESSAGES, ToasterService } from 'src/app/services/toaster.service';
+import { INSTRUCTOR } from 'src/app/constants/roles.constant';
 
 @Component({
   selector: 'app-list-instructor',
@@ -87,7 +88,7 @@ export class ListInstructorComponent implements OnInit {
           seance: this.form.value.seance,
           homework: this.form.value.homework
         },
-        type: "EINSTRUCTOR",
+        type: INSTRUCTOR,
       };
       if (this.modalType === 'add') {
         this.userService.postNewUser(body)
@@ -153,7 +154,7 @@ export class ListInstructorComponent implements OnInit {
   fillFormModel(body) {
     console.log("** fillFormModel **");
     console.log("body :", body);
-    if (body.type === "EINSTRUCTOR" && !body.permissions) {
+    if (body.type ===INSTRUCTOR&& !body.permissions) {
       body.permissions = {
         chapitre: false,
         media: false,

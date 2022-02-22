@@ -13,7 +13,7 @@ export class ChatService {
   socket: any;
 
   constructor(private http: HttpClient) {
-    this.socket = io(environment.apiUrl + '/', {
+    this.socket = io(environment.LmsApiUrl + '/', {
       autoConnect: false,
     });
   }
@@ -51,7 +51,7 @@ export class ChatService {
   }
 
   postNewChat(from: string, to: string): Observable<Chat> {
-    return this.http.post<Chat>(`${environment.apiUrl}/api/chat`, { from, to });
+    return this.http.post<Chat>(`${environment.LmsApiUrl}/api/chat`, { from, to });
   }
 
   /**
@@ -60,7 +60,7 @@ export class ChatService {
    * @return Observable chat instance
    */
   getChat(chatId: string): Observable<Chat> {
-    return this.http.get<Chat>(`${environment.apiUrl}/api/chat/${chatId}`);
+    return this.http.get<Chat>(`${environment.LmsApiUrl}/api/chat/${chatId}`);
   }
 
   /**
@@ -70,6 +70,6 @@ export class ChatService {
    * @return Observable chat instance
    */
   findChat(from: string, to: string): Observable<Chat> {
-    return this.http.get<Chat>(`${environment.apiUrl}/api/chat/find/${from}/${to}`);
+    return this.http.get<Chat>(`${environment.LmsApiUrl}/api/chat/find/${from}/${to}`);
   }
 }

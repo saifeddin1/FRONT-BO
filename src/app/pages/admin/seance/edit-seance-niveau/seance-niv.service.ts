@@ -16,7 +16,7 @@ export interface SeanceNiv {
 export class SeanceNivService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/seanceNiv`
+  url = `${environment.LmsApiUrl}/api/seanceNiv`
 
   /**
  * GET all

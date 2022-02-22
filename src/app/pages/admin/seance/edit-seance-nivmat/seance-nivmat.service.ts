@@ -16,7 +16,7 @@ export interface SeanceNivMat {
 })
 export class SeanceNivMatService {
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/seanceNivMat`
+  url = `${environment.LmsApiUrl}/api/seanceNivMat`
 
   /**
  * GET all

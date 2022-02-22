@@ -16,13 +16,13 @@ export class ImageService {
  * @param {string} courseId id of course
  */
   uploadImage(file: FormData, docId: string, ref: string): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/api/${ref}/${docId}/uploadImage`, file);
+    return this.http.post<any>(`${environment.LmsApiUrl}/api/${ref}/${docId}/uploadImage`, file);
   }
 
   openFile(element, ref = "media") {
     debugger
     if (element.img) {
-      const url = `${environment.apiUrl}/api/${ref}/documents/${element.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+      const url = `${environment.LmsApiUrl}/api/${ref}/documents/${element.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
       console.log("url :", url);
       window.open(url);
     }

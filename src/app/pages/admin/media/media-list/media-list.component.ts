@@ -287,7 +287,7 @@ export class MediaListComponent implements OnInit {
 
   openFile(media) {
     if (media.img) {
-      const url = `${environment.apiUrl}/api/media/documents/${media.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+      const url = `${environment.LmsApiUrl}/api/media/documents/${media.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
       console.log("url :", url);
       window.open(url);
     }

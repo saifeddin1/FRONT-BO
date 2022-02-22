@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { HR } from 'src/app/constants/roles.constant';
 import { ToasterService } from 'src/app/services/toaster.service';
 import { formatDate } from '../../helpers/formatDate';
 import { Timeoff } from '../../models/timeoff.model';
@@ -25,7 +26,7 @@ export class TimeoffsComponent implements OnInit {
     this.getEmlpoyeeTimeoffs();
   }
   currUser = this.employeeService.getUser();
-  showForAdmin: boolean = this.currUser.type === 'EHR';
+  showForAdmin: boolean = this.currUser['type'] === HR;
   formatedDate(date) {
     return formatDate(date);
   }

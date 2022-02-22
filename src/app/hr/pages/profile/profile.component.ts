@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { Contract } from '../../models/contract.model';
 import moment from 'moment';
 import { formatDate } from '../../helpers/formatDate';
+import { ADMIN } from 'src/app/constants/roles.constant';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -15,7 +16,7 @@ import { formatDate } from '../../helpers/formatDate';
 export class ProfileComponent implements OnInit {
   public userFile: File;
   public currentUser = this.summaryService.getUser();
-  public isDisabled = this.currentUser['type'] !== 'ADMIN';
+  public isDisabled = this.currentUser['type'] !== ADMIN;
   public employeeContract: Contract;
 
   eventsSubject: Subject<void> = new Subject<void>();

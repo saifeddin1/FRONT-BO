@@ -71,7 +71,7 @@ export class ListMatiereComponent implements OnInit {
         if (res && res.length) {
           res.forEach((matiere) => {
             if (matiere.img) {
-              matiere.img = `${environment.apiUrl}/api/matiere/documents/${matiere.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+              matiere.img = `${environment.LmsApiUrl}/api/matiere/documents/${matiere.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
             }
           });
         }
@@ -154,7 +154,7 @@ export class ListMatiereComponent implements OnInit {
                 this.toasterService.success(DEFAULT_MESSAGES.success.image.upload);
                 console.log("Image Added Successfully");
                 if (res.img) {
-                  this.dataSource.data[foundIndex].img = `${environment.apiUrl}/api/matiere/documents/${res.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
+                  this.dataSource.data[foundIndex].img = `${environment.LmsApiUrl}/api/matiere/documents/${res.img}`; // TODO REMOVE LOCALHOST FROM PRODUCTION BUILD
                 }
                 this.dataSource = new MatTableDataSource(this.dataSource.data);
                 this.img = [];

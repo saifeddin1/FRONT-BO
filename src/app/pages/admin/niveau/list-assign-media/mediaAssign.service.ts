@@ -32,7 +32,7 @@ export interface MediaAssignFile {
 export class MediaAssignService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/mediaAssign`
+  url = `${environment.LmsApiUrl}/api/mediaAssign`
 
   /**
  * GET all

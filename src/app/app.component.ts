@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { ADMIN, INSTRUCTOR, STUDENT } from './constants/roles.constant';
 import { User } from './models/user.model';
 import { UserService } from './services/user.service';
 
@@ -10,19 +11,19 @@ interface Route {
   label: string;
 }
 const ROUTES: Array<Route> = [
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./dashboard", icon: "home", label: "Accueil" },
-  { roles: ['EADMIN'], link: "./offre", icon: "layers", label: "Gestion des Offres" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./niveau", icon: "layers", label: "Gestion des Niveaux" },
-  { roles: ['EADMIN'], link: "./matiere", icon: "layers", label: "Gestion des Matières" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./seances", icon: "layers", label: "Gestion des Séances" },
-  { roles: ['EADMIN'], link: "./media/types/list", icon: "grid-view", label: "Types Media" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./media/list", icon: "image-gallery", label: "Medias" },
-  { roles: ['EADMIN'], link: "./instructors", icon: "users", label: "Instructeurs" },
-  { roles: ['EADMIN'], link: "./students", icon: "users", label: "Apprenants" },
-  { roles: ['ESTUDENT'], link: "./calendar", icon: "video-camera", label: "En direct" },
-  { roles: ['ESTUDENT'], link: "./offres", icon: "layers", label: "Offres" },
-  { roles: ['ESTUDENT'], link: "./matieres", icon: "book", label: "Matières" },
-  // { roles: ['ESTUDENT'], link: "./assistance", icon: "headphones", label: "Assistance" }
+  { roles: [INSTRUCTOR, ADMIN], link: "./dashboard", icon: "home", label: "Accueil" },
+  { roles: [ADMIN], link: "./offre", icon: "layers", label: "Gestion des Offres" },
+  { roles: [INSTRUCTOR, ADMIN], link: "./niveau", icon: "layers", label: "Gestion des Niveaux" },
+  { roles: [ADMIN], link: "./matiere", icon: "layers", label: "Gestion des Matières" },
+  { roles: [INSTRUCTOR, ADMIN], link: "./seances", icon: "layers", label: "Gestion des Séances" },
+  { roles: [ADMIN], link: "./media/types/list", icon: "grid-view", label: "Types Media" },
+  { roles: [INSTRUCTOR, ADMIN], link: "./media/list", icon: "image-gallery", label: "Medias" },
+  { roles: [ADMIN], link: "./instructors", icon: "users", label: "Instructeurs" },
+  { roles: [ADMIN], link: "./students", icon: "users", label: "Apprenants" },
+  { roles: [STUDENT], link: "./calendar", icon: "video-camera", label: "En direct" },
+  { roles: [STUDENT], link: "./offres", icon: "layers", label: "Offres" },
+  { roles: [STUDENT], link: "./matieres", icon: "book", label: "Matières" },
+  // { roles: [STUDENT], link: "./assistance", icon: "headphones", label: "Assistance" }
 ]
 
 @Component({

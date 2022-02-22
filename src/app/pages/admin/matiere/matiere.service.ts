@@ -17,7 +17,7 @@ export interface Matiere {
 export class MatiereService {
 
   constructor(private http: HttpClient) { }
-  url = `${environment.apiUrl}/api/matiere`
+  url = `${environment.LmsApiUrl}/api/matiere`
 
   getAll(): Observable<Matiere[]> {
     return this.http.get<Matiere[]>(this.url);
