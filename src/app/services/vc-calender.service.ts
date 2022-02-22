@@ -14,7 +14,7 @@ export class ConfigService {
 export class VcCalenderService {
 
 
-  private VCAPI = 'http://localhost:3000/LMS/VC/';
+  private VCURL = 'http://localhost:3000/LMS/VC/';
 
    constructor(private http: HttpClient) { }
   // private _refreshNeeded$=new Subject<void>();
@@ -25,17 +25,17 @@ export class VcCalenderService {
 
   getAll() {
 
-    return this.http.get(this.VCAPI + 'getMeets');
+    return this.http.get(this.VCURL + 'getMeets');
 
   }
 
-  ADDVC(data:any){
-      return this.http.post(this.VCAPI + 'addMeet' ,data);
+  addVC(data:any){
+      return this.http.post(this.VCURL + 'addMeet' ,data);
   }
 
   deleteOne(id:any) {
 
-    return this.http.delete(this.VCAPI + 'deleteMeet/'+id);
+    return this.http.delete(this.VCURL + 'deleteMeet/'+id);
 
   }
 }

@@ -8,7 +8,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgxFileDropModule } from 'ngx-file-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-// import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 import { GlobalSearchComponent } from './components/global-search/global-search.component';
 import { IcIlProfileComponent } from './components/profile-components/ic-il-profile/ic-il-profile.component';
@@ -49,14 +48,13 @@ import { NgxStarRatingModule } from 'ngx-star-rating';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { VcModule } from './vc/vc.module';
-
 import { VcRoutingModule } from './vc/vc-routing.module';
-
+import { VcModule } from './vc/vc.module';
 
 
 @NgModule({
   declarations: [
+
     AppComponent,
     FrontPageHeaderComponent,
     LoginSignupComponent,
@@ -82,7 +80,8 @@ import { VcRoutingModule } from './vc/vc-routing.module';
     HeaderComponent,
     WorkProcessComponent,
     PricingComponent,
-    TestimonialsComponent
+    TestimonialsComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -108,12 +107,13 @@ import { VcRoutingModule } from './vc/vc-routing.module';
     VcRoutingModule,
     VcModule
 
+
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent,VcModule],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

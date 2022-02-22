@@ -7,42 +7,43 @@ import {
 import { Subject } from 'rxjs';
 import {
   CalendarEvent,
-  CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { MatTableDataSource } from '@angular/material/table';
-import { Media } from 'src/app/pages/admin/media/media.service';
-import { MediaAssign } from 'src/app/pages/admin/niveau/list-assign-media/mediaAssign.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { VcCalenderService } from 'src/app/services/vc-calender.service';
+import { MatDialog } from '@angular/material/dialog';
+
 const colors: any = {
   red: {
-    primary: '#ad2121',
-    secondary: '#FAE3E3',
-  },
-  blue: {
-    primary: '#1e90ff',
-    secondary: '#D1E8FF',
-  },
-  yellow: {
-    primary: '#e3bc08',
-    secondary: '#FDF1BA',
+    primary: '#e1e1e1',
+    secondary: '#e8fde7',
   },
 };
-
-
 @Component({
   selector: 'app-vc-calendar',
   templateUrl: './vc-calendar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styleUrls: ['./vc-calendar.component.css']
 })
+
 export class VcCalendarComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   clrModalOpen: boolean = false;
+  today = new Date();
+  meet={
+    name:"",
+    description:"",
+    url:"",
+    startDate:new Date(),
+    endDate:new Date(),
+    classId:""
+  }
+  mt:any;
+  date = this.today.getFullYear()+'-'+( this.today.getMonth()+1)+'-'+ this.today.getDate()
   openModal() {
     this.clrModalOpen = true;
   }
@@ -52,7 +53,7 @@ export class VcCalendarComponent implements OnInit {
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
   mobileMode: boolean = false;
-  constructor() {
+  constructor(private calendarService:VcCalenderService, public dialog:MatDialog) {
     if (window.innerWidth < 768) {
       console.log('mobileMode');
       this.mobileMode = true;
@@ -64,6 +65,7 @@ export class VcCalendarComponent implements OnInit {
   isStudent: boolean = false;
   ngOnInit(): void {
     this.getAll();
+    console.log(this.events)
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -125,7 +127,34 @@ export class VcCalendarComponent implements OnInit {
     }
   }
   getAll() {
+    this.calendarService.getAll().subscribe(
+      res=>{
 
+        this.events = res['response'].map((body: any) => ({
+          start: new Date(body?.startDate),
+          end:new Date(body?.endDate) ,
+          title: body?.description,
+          color: colors.primary,
+        }
+        ),
+        console.log(this.events),
+        console.log(res['response'])
+        );
+      }
+    )
+  }
+  openDialog(templateRef) {
+    let dialogRef = this.dialog.open(templateRef, {
+
+    });
+  }
+  // *****add new meet*****
+  addNewMeet(){
+    this.mt=this.meet;
+    // this.toastr.warning('verify your infos', '')
+    this.calendarService.addVC(this.meet).subscribe(res=>{
+
+    });
   }
 
 }

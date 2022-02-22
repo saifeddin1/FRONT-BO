@@ -10,35 +10,35 @@ import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessio
 import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
-import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
-import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
-import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
-
+import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
+      VcCalendarComponent,
       VcDashboardComponent,
       VcLiveSessionsComponent,
       VcChatComponent,
       VcSettingsComponent,
-      VcCalendarComponent,
-      VcDevoirsComponent,
-      VcProfileComponent,
-      VcRecordsComponent
+      VcDevoirsComponent
   ],
   imports: [
-
+    MatDialogModule,
     CommonModule,
     VcRoutingModule,
     FormsModule,
     NgbModalModule,
+
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
-      useFactory: adapterFactory,})
+      useFactory: adapterFactory,
+    }),
 
   ],
+
+
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
 
 

@@ -1,3 +1,13 @@
+<button (click)="openDialog(template)">Open my dialog</button>
+<ng-template #template>
+    <input type="datetime-local" name="" id="" [(ngModel)]="meet.startDate"><br>
+    <input type="datetime-local" name="" id="" [(ngModel)]="meet.endDate"><br>
+    <input type="text" [(ngModel)]="meet.classId"><br>
+    <input type="text" [(ngModel)]="meet.url"><br>
+    <input type="text" [(ngModel)]="meet.description"><br>
+    <input type="text" [(ngModel)]="meet.name"><br>
+    <button (click)="addNewMeet()">Save</button>
+</ng-template>
 <div class="calendar">
   <!-- <div class="card" id="delete-account"> -->
   <div
