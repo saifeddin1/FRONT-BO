@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { User } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
+import { STUDENT } from 'src/app/constants/roles.constant';
 
 @Component({
   selector: 'app-settings',
@@ -12,6 +13,7 @@ export class SettingsComponent implements OnInit {
 
   opened: boolean = false;
   user: User;
+  roles = {student: STUDENT}
 
   constructor(private userService: UserService, private router: Router) { }
 

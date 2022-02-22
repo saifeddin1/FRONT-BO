@@ -11,7 +11,7 @@
     <div class="modal-body">
         Woah there! Hold your horses! You are <strong>about to delete everything</strong>, <strong><em>ever.</em></strong> <br>
         <span *ngIf="user.type !== 'SI'">Let's see what's going to be deleted:</span> 
-        <div *ngIf="user.type === 'ESTUDENT'" class="delete-modal-container">
+        <div *ngIf="user.type === roles.student" class="delete-modal-container">
             You will be dropped from the following courses:
 
             <ng-template #none><br> <strong>No courses found</strong></ng-template>

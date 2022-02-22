@@ -22,6 +22,7 @@ import {
 } from 'ngx-file-drop';
 import { DEFAULT_MESSAGES, ToasterService } from 'src/app/services/toaster.service';
 import { ImageService } from 'src/app/services/image.service';
+import { ADMIN, INSTRUCTOR } from 'src/app/constants/roles.constant';
 
 @Component({
   selector: 'app-list-assign-file-media',
@@ -72,8 +73,8 @@ export class ListAssignFileMediaComponent implements OnInit {
   canManage: boolean = false;
   ngOnInit(): void {
     var user: User = this.userService.getCurrentUser();
-    if (user && (user.type === "EINSTRUCTOR" && user.permissions.chapitre)
-      || user.type === "EADMIN"
+    if (user && (user.type === INSTRUCTOR && user.permissions.chapitre)
+      || user.type === ADMIN
     ) this.canManage = true
   }
 

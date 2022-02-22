@@ -8,6 +8,7 @@ import { Offre, OffreService } from '../../offre/offre.service';
 import { DEFAULT_MESSAGES, ToasterService } from 'src/app/services/toaster.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { STUDENT } from 'src/app/constants/roles.constant';
 
 @Component({
   selector: 'app-list-student',
@@ -109,7 +110,7 @@ export class ListStudentComponent implements OnInit {
           fullName: this.form.value.fullName,
           phone: this.form.value.phone
         },
-        type: "ESTUDENT",
+        type: STUDENT,
         studentNiveauId: this.form.value.studentNiveauId,
         studentOffreId: this.form.value.studentOffreId
       };

@@ -4,6 +4,7 @@ import { Niveau, NiveauService } from '../admin/niveau/niveau.service';
 import { UserService } from './../../services/user.service';
 import { FormDisplay } from './FormDisplay';
 import { DEFAULT_MESSAGES, ToasterService } from 'src/app/services/toaster.service';
+import { HR, STUDENT } from 'src/app/constants/roles.constant';
 
 @Component({
   selector: 'app-login-signup',
@@ -83,7 +84,7 @@ export class LoginSignupComponent implements OnInit {
   password: string = '';
   phone: string = '';
   studentNiveauId: string = '';
-  type: string = 'ESTUDENT'; // EINSTRUCTOR // ESTUDENT
+  type: string = STUDENT; 
   error: string = '';
 
   loginHandler(user: any) {
@@ -94,14 +95,14 @@ export class LoginSignupComponent implements OnInit {
           console.log('incorrect password');
           this.error = "Error: Invalid Password"
         } else {
-        console.log('\n sdlfjsfsdfkjsdmfkljdfkjfkjsdmfjùmdfjkk', res.accessToken)
+        console.log('***** aCESS TOKEN ****', res.accessToken)
           this.userService.setUser(this.userService.decodeToken(res.accessToken));
           this.userService.setToken(res.accessToken);
           
-          if (this.userService.user.type === 'ESTUDENT') {
+          if (this.userService.user.type === STUDENT) {
             this.router.navigate(['calendar']);
           } 
-          else if(this.userService.user.type === 'EHR'){
+          else if(this.userService.user.type === HR){
             this.router.navigate(['hr/administration']);
           }
           else {
@@ -140,7 +141,7 @@ export class LoginSignupComponent implements OnInit {
         this.userService.setUser(this.userService.decodeToken(res.token));
         this.userService.setToken(res.token);
         this.toasterService.success(DEFAULT_MESSAGES.success.register);
-        if (this.userService.user.type === 'ESTUDENT') {
+        if (this.userService.user.type === STUDENT) {
           this.router.navigate(['calendar']);
         } else {
           this.router.navigate(['dashboard']);
