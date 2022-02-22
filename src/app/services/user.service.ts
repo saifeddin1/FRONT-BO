@@ -53,7 +53,7 @@ export class UserService {
    */
   postNewUser(newUser: Partial<User>): Observable<{ token: string }> {
     const { username, password, email, type, studentNiveauId, studentOffreId, profile, phone, permissions } = newUser;
-    return this.http.post<{ token: string }>(`${environment.apiUrl}/api/auth/register`, {
+    return this.http.post<{ token: string }>(`${environment.api}/api/auth/register`, {
       username,
       password,
       email,
@@ -106,8 +106,8 @@ export class UserService {
    * @param {string} password password of user
    */
   loginUser(email: string, password: string): Observable<boolean | { token: string }> {
-    return this.http.post<boolean | { token: string }>(`${environment.apiUrl}/api/auth/login/${email}`, {
-      password,
+    return this.http.post<boolean | { token: string }>(`${environment.api}/api/auth/login/${email}`, {
+         password,
     });
   }
 

@@ -94,11 +94,17 @@ export class LoginSignupComponent implements OnInit {
           console.log('incorrect password');
           this.error = "Error: Invalid Password"
         } else {
-          this.userService.setUser(this.userService.decodeToken(res.token));
-          this.userService.setToken(res.token);
+        console.log('\n sdlfjsfsdfkjsdmfkljdfkjfkjsdmfjùmdfjkk', res.accessToken)
+          this.userService.setUser(this.userService.decodeToken(res.accessToken));
+          this.userService.setToken(res.accessToken);
+          
           if (this.userService.user.type === 'ESTUDENT') {
             this.router.navigate(['calendar']);
-          } else {
+          } 
+          else if(this.userService.user.type === 'EHR'){
+            this.router.navigate(['hr/administration']);
+          }
+          else {
             this.router.navigate(['dashboard']);
           }
         }

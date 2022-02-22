@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
 import { getToken } from '../helpers/getToken';
+// import { getToken } from '../helpers/getToken';
 import { Contract } from '../models/contract.model';
 import { File } from '../models/file.models';
 import { Interview } from '../models/interview.model';
@@ -26,7 +27,8 @@ export class EmployeeSummaryService {
   constructor(private http: HttpClient) {}
 
   getUser() {
-    return this.decodedToken['user'];
+    console.log(this.decodedToken,"****************************")
+    return this.decodedToken;
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
   getContracts(): Observable<Contract[]> {
@@ -57,6 +59,7 @@ export class EmployeeSummaryService {
   }
 
   getFileDetails(): Observable<File> {
+    console.log('😁😁😁😁😁', getToken())
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 

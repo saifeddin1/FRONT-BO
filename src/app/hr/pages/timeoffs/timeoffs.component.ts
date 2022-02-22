@@ -25,7 +25,7 @@ export class TimeoffsComponent implements OnInit {
     this.getEmlpoyeeTimeoffs();
   }
   currUser = this.employeeService.getUser();
-  showForAdmin: boolean = this.currUser.type === 'EHR';
+  showForAdmin: boolean = this.currUser['type'] === 'EHR';
   formatedDate(date) {
     return formatDate(date);
   }

@@ -7,6 +7,8 @@ export const environment = {
   // apiUrl: 'http://147.182.132.247'
     // apiUrl: 'https://eunoia.academy',
     apiUrl: 'http://localhost:5000',
+    api: 'http://localhost:2022',
+    
 };
 
 /*
