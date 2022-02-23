@@ -10,7 +10,7 @@ import {
   DEFAULT_MESSAGES,
   ToasterService,
 } from '../../lms/services/toaster.service';
-import { HR, STUDENT } from '../../lms/constants/roles.constant';
+import { ADMIN, HR, STUDENT } from '../../lms/constants/roles.constant';
 
 @Component({
   selector: 'app-login-signup',
@@ -109,7 +109,11 @@ export class LoginSignupComponent implements OnInit {
           );
           this.userService.setToken(res.accessToken);
 
-          if (this.userService.user.type === STUDENT) {
+          if (
+            this.userService.user.type === STUDENT ||
+            this.userService.user.type === HR ||
+            this.userService.user.type === ADMIN
+          ) {
             this.router.navigate(['lms']);
           } else if (this.userService.user.type === HR) {
             this.router.navigate(['hr/administration']);
