@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HR } from 'src/app/constants/roles.constant';
-import { ToasterService } from 'src/app/services/toaster.service';
+import { HR } from '../../../lms/constants/roles.constant';
+import { ToasterService } from '../../../lms/services/toaster.service';
 import { formatDate } from '../../helpers/formatDate';
 import { Timeoff } from '../../models/timeoff.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';

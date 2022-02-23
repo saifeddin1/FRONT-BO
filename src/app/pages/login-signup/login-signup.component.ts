@@ -1,10 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Niveau, NiveauService } from '../admin/niveau/niveau.service';
-import { UserService } from './../../services/user.service';
+import {
+  Niveau,
+  NiveauService,
+} from '../../lms/pages/admin/niveau/niveau.service';
+import { UserService } from './../../lms/services/user.service';
 import { FormDisplay } from './FormDisplay';
-import { DEFAULT_MESSAGES, ToasterService } from 'src/app/services/toaster.service';
-import { HR, STUDENT } from 'src/app/constants/roles.constant';
+import {
+  DEFAULT_MESSAGES,
+  ToasterService,
+} from '../../lms/services/toaster.service';
+import { ADMIN, HR, STUDENT } from '../../lms/constants/roles.constant';
 
 @Component({
   selector: 'app-login-signup',
@@ -13,7 +19,7 @@ import { HR, STUDENT } from 'src/app/constants/roles.constant';
 })
 export class LoginSignupComponent implements OnInit {
   logged: boolean = false;
-  pagetype: string = "";
+  pagetype: string = '';
   isRightPanelActive: boolean;
   constructor(
     private userService: UserService,
@@ -24,51 +30,51 @@ export class LoginSignupComponent implements OnInit {
   ) {
     this.getNiveaux();
     this.pagetype = this.activatedRouter.snapshot.params['type'];
-    if (this.pagetype == "login") {
+    if (this.pagetype == 'login') {
       this.form = this.login;
+    } else {
+      this.form = this.signup;
     }
-    else {
-      this.form = this.signup
-    };
-    this.activeClass = true
+    this.activeClass = true;
   }
 
   activeClass = false;
-  niveauxList
+  niveauxList;
   getNiveaux() {
-    this.niveauService.getAllForUsers()
-      .subscribe((res: [Niveau]) => {
-        console.log("Niveaux : ", res);
+    this.niveauService.getAllForUsers().subscribe(
+      (res: [Niveau]) => {
+        console.log('Niveaux : ', res);
         this.niveauxList = res;
-      }, error => {
-        console.error("error :", error);
-      })
+      },
+      (error) => {
+        console.error('error :', error);
+      }
+    );
   }
-
 
   navigateToLink = () => {
     console.log(this.form);
-    if (this.form.id == "login") {
+    if (this.form.id == 'login') {
       this.form = this.signup;
-    } else if (this.form.id == "register") {
+    } else if (this.form.id == 'register') {
       this.form = this.login;
     }
     this.pagetype = this.form.id;
-    this.activeClass = !this.activeClass
-  }
+    this.activeClass = !this.activeClass;
+  };
 
   signup: FormDisplay = {
-    id: "register",
+    id: 'register',
     greeting: 'Créer un compte',
     linkPrompt: 'Vous avez déjà un compte?',
     link: 'SE CONNECTER',
     submit: "S'INSCRIRE",
-    img: "../../../assets/eunoia-logo.png",
+    img: '../../../assets/eunoia-logo.png',
     slogan: 'Vous avez déjà un compte?',
   };
 
   login: FormDisplay = {
-    id: "login",
+    id: 'login',
     greeting: 'Content de vous revoir',
     linkPrompt: "Vous n'avez pas de compte ?",
     link: "S'INSCRIRE",
@@ -77,64 +83,83 @@ export class LoginSignupComponent implements OnInit {
     slogan: "Vous n'avez pas de compte ?",
   };
 
-  form: FormDisplay
+  form: FormDisplay;
 
   email: string = '';
   username: string = '';
   password: string = '';
   phone: string = '';
   studentNiveauId: string = '';
-  type: string = STUDENT; 
+  type: string = STUDENT;
   error: string = '';
 
   loginHandler(user: any) {
     this.userService.loginUser(user.email, user.password).subscribe(
       (res: boolean | { token: string } | any) => {
         if (res === false) {
-          this.toasterService.error(DEFAULT_MESSAGES.confirmation.password.invalid);
+          this.toasterService.error(
+            DEFAULT_MESSAGES.confirmation.password.invalid
+          );
           console.log('incorrect password');
-          this.error = "Error: Invalid Password"
+          this.error = 'Error: Invalid Password';
         } else {
-        console.log('***** aCESS TOKEN ****', res.accessToken)
-          this.userService.setUser(this.userService.decodeToken(res.accessToken));
+          console.log('***** aCESS TOKEN ****', res.accessToken);
+          this.userService.setUser(
+            this.userService.decodeToken(res.accessToken)
+          );
           this.userService.setToken(res.accessToken);
-          
-          if (this.userService.user.type === STUDENT) {
-            this.router.navigate(['calendar']);
-          } 
-          else if(this.userService.user.type === HR){
+
+          if (
+            this.userService.user.type === STUDENT ||
+            this.userService.user.type === HR ||
+            this.userService.user.type === ADMIN
+          ) {
+            this.router.navigate(['lms']);
+          } else if (this.userService.user.type === HR) {
             this.router.navigate(['hr/administration']);
-          }
-          else {
+          } else {
             this.router.navigate(['dashboard']);
           }
         }
       },
       (err) => {
-        console.log(err.error)
+        console.log(err.error);
         this.error = err.error;
       }
     );
   }
 
-  registerHandler(user: { username: string, email: string, phone: string, password: string, type: string, studentNiveauId: string }) {
-    debugger
-    if (!user.username || !user.email || !user.password || !user.phone || !user.type) {
+  registerHandler(user: {
+    username: string;
+    email: string;
+    phone: string;
+    password: string;
+    type: string;
+    studentNiveauId: string;
+  }) {
+    debugger;
+    if (
+      !user.username ||
+      !user.email ||
+      !user.password ||
+      !user.phone ||
+      !user.type
+    ) {
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.pleaseFill);
-      return
+      return;
     }
 
     if (!this.userService.validateEmail(user.email)) {
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.email.invalid);
-      return
+      return;
     }
 
     if (user.password.length < 8) {
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.password.short);
-      return
+      return;
     }
     // logs student in
-    console.log("user :", user);
+    console.log('user :', user);
 
     this.userService.postNewUser(user).subscribe(
       (res: { token: string }) => {
@@ -151,7 +176,7 @@ export class LoginSignupComponent implements OnInit {
         console.log(err.error.message);
         this.error = err.error.message;
         if (err.error.message === undefined) {
-          this.error = "Erreur : L'adresse email est déjà enregistrée"
+          this.error = "Erreur : L'adresse email est déjà enregistrée";
           this.toasterService.error(DEFAULT_MESSAGES.confirmation.email.used);
         }
         return;
@@ -168,9 +193,10 @@ export class LoginSignupComponent implements OnInit {
       type: this.type,
       studentNiveauId: this.studentNiveauId,
     };
-    if (this.form.id == "register") {
+    console.log('$$$$$$$$$$$$', user);
+    if (this.form.id == 'register') {
       this.registerHandler(user);
-    } else if (this.form.id == "login") {
+    } else if (this.form.id == 'login') {
       this.loginHandler(user);
     }
   }
@@ -180,5 +206,4 @@ export class LoginSignupComponent implements OnInit {
       this.router.navigate(['dashboard']);
     }
   }
-
 }

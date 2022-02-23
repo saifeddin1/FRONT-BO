@@ -9,11 +9,13 @@ import { ContractsComponent } from './pages/contracts/contracts.component';
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
+import { AuthGuard } from '../lms/core/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'hr/administration',
     component: HrdashboardComponent,
+    canActivate: [AuthGuard],
     children: [
       {
         path: '',
