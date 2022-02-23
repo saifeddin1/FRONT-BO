@@ -7,7 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { Contract } from '../../models/contract.model';
 import moment from 'moment';
 import { formatDate } from '../../helpers/formatDate';
-import { ADMIN } from 'src/app/constants/roles.constant';
+import { ADMIN } from '../../../lms/constants/roles.constant';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',

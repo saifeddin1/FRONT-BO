@@ -44,6 +44,10 @@
       <img src="../../../../assets/icons/135.png" alt="" />
       <a [routerLink]="['timeoffs']">TimeOffs</a>
     </div>
+    <div class="sidebar-item" routerLinkActive="active">
+      <img src="../../../../assets/icons/73.png" alt="" />
+      <a (click)="userService.logOut()">Logout</a>
+    </div>
   </div>
 
   <div class="col-10 dashboard-content">
