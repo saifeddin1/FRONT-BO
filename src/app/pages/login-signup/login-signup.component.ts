@@ -10,7 +10,12 @@ import {
   DEFAULT_MESSAGES,
   ToasterService,
 } from '../../lms/services/toaster.service';
-import { ADMIN, HR, STUDENT } from '../../lms/constants/roles.constant';
+import {
+  ADMIN,
+  HR,
+  INSTRUCTOR,
+  STUDENT,
+} from '../../lms/constants/roles.constant';
 
 @Component({
   selector: 'app-login-signup',
@@ -103,22 +108,25 @@ export class LoginSignupComponent implements OnInit {
           console.log('incorrect password');
           this.error = 'Error: Invalid Password';
         } else {
-          console.log('***** aCESS TOKEN ****', res.accessToken);
+          // console.log('***** aCESS TOKEN ****', res.accessToken);
           this.userService.setUser(
             this.userService.decodeToken(res.accessToken)
           );
           this.userService.setToken(res.accessToken);
+          // console.log(this.userService.user);
 
           if (
             this.userService.user.type === STUDENT ||
-            this.userService.user.type === HR ||
-            this.userService.user.type === ADMIN
+            this.userService.user.type === INSTRUCTOR
           ) {
             this.router.navigate(['lms']);
-          } else if (this.userService.user.type === HR) {
+          } else if (
+            this.userService.user.type === HR ||
+            this.userService.user.type === INSTRUCTOR
+          ) {
             this.router.navigate(['hr/administration']);
           } else {
-            this.router.navigate(['dashboard']);
+            this.router.navigate(['lms']);
           }
         }
       },
@@ -167,7 +175,7 @@ export class LoginSignupComponent implements OnInit {
         this.userService.setToken(res.token);
         this.toasterService.success(DEFAULT_MESSAGES.success.register);
         if (this.userService.user.type === STUDENT) {
-          this.router.navigate(['calendar']);
+          this.router.navigate(['lms']);
         } else {
           this.router.navigate(['dashboard']);
         }
@@ -193,7 +201,6 @@ export class LoginSignupComponent implements OnInit {
       type: this.type,
       studentNiveauId: this.studentNiveauId,
     };
-    console.log('$$$$$$$$$$$$', user);
     if (this.form.id == 'register') {
       this.registerHandler(user);
     } else if (this.form.id == 'login') {
