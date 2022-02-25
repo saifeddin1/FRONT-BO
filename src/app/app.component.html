@@ -1,5 +1,16 @@
 <div class="global-nav" [style.display]="shoudNavShow() ? 'flex' : 'none'">
-  <button (click)="navigateTo('hr/administration')">HR Management</button>
-  <button routerLink="lms" (click)="navigateTo('lms')">LMS SYSTEM</button>
+  <button
+    (click)="navigateTo('hr/administration')"
+    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
+  >
+    HR Management
+  </button>
+  <button
+    routerLink="lms"
+    [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
+    (click)="navigateTo('lms')"
+  >
+    LMS SYSTEM
+  </button>
 </div>
 <router-outlet></router-outlet>
