@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TimesheetDeclaration } from '../../models/timesheetDeclaration.model';
+import { Timeslot } from '../../models/timeslot.model';
 @Component({
   selector: 'app-timesheets',
   templateUrl: './timesheets.component.html',
@@ -38,12 +39,28 @@ export class TimesheetsComponent implements OnInit {
 
     console.log(this.isDeclared);
   }
+
+  // getEmployeeTimeSheets() {
+  //   this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
+  //     console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
+  //     this.timesheets = result['response'][0]['totalData'];
+  //   });
+  // }
   getEmployeeTimeSheets() {
-    this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
+    this.employeeService.getTimeSlots().subscribe((result) => {
       console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
-      this.timesheets = result['response'][0]['totalData'];
+      this.timesheets = result['response'][0]['totalData'].map(
+        (el: Timeslot) => ({
+          date: el.start,
+          note: el.description,
+          workingHours: Number(
+            new Date(el.end).getHours() - new Date(el.start).getHours()
+          ),
+        })
+      );
     });
   }
+
   getCurrentTimesheet() {
     let today = new Date().toISOString().split('T')[0];
     console.log(
@@ -60,6 +77,7 @@ export class TimesheetsComponent implements OnInit {
         );
       });
   }
+
   showSuccessToaster(msg) {
     this.toastr.success(msg);
   }
@@ -67,6 +85,7 @@ export class TimesheetsComponent implements OnInit {
   showErrorToaster(msg) {
     this.toastr.error(msg);
   }
+
   updateRecord(timesheet) {
     console.log(timesheet);
 
@@ -116,6 +135,7 @@ export class TimesheetsComponent implements OnInit {
         console.log('✅ CREATED', result);
       });
   }
+
   cancelDeclaration() {
     this.isDeclared = false;
     this.employeeService
@@ -124,6 +144,7 @@ export class TimesheetsComponent implements OnInit {
         console.log('❌deleteDeclaration ~ result', result);
       });
   }
+
   getCurrentDeclaration() {
     return this.employeeService
       .getCurrentDeclaration(new Date().getMonth() + 1)

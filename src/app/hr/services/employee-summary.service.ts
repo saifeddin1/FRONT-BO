@@ -28,7 +28,7 @@ export class EmployeeSummaryService {
   constructor(private http: HttpClient) {}
 
   getUser() {
-    console.log(this.decodedToken,"****************************")
+    console.log(this.decodedToken, '****************************');
     return this.decodedToken;
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
@@ -60,7 +60,7 @@ export class EmployeeSummaryService {
   }
 
   getFileDetails(): Observable<File> {
-    console.log('😁😁😁😁😁', getToken())
+    console.log('😁😁😁😁😁', getToken());
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
@@ -114,7 +114,9 @@ export class EmployeeSummaryService {
   }
   // --------------------------------- TIMETABLE ----------------------------
   getTimeSlots(): Observable<Timeslot[]> {
-    return this.http.get<Timeslot[]>(`${this.BASE_URL}/timeslots`);
+    return this.http.get<Timeslot[]>(
+      `${this.BASE_URL}/timeslots/getEmployeeTimeslots`
+    );
   }
   // ------------------------------- TIMEOFFS 😴 -----------------------------
   getEmployeeTimeoffHistory(): Observable<Timeoff> {

@@ -126,7 +126,7 @@ export class LoginSignupComponent implements OnInit {
           ) {
             this.router.navigate(['hr/administration']);
           } else {
-            this.router.navigate(['lms']);
+            this.router.navigate(['lms/dashboard']);
           }
         }
       },
@@ -177,7 +177,7 @@ export class LoginSignupComponent implements OnInit {
         if (this.userService.user.type === STUDENT) {
           this.router.navigate(['lms']);
         } else {
-          this.router.navigate(['dashboard']);
+          this.router.navigate(['lms/dashboard']);
         }
       },
       (err) => {
