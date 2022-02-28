@@ -14,8 +14,7 @@
   </button>
   <button
     routerLink="identity"
-    [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
-    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
+    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
     (click)="navigateTo('identity/dashboard')"
   >
     IDENTITY
