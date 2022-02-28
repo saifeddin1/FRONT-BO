@@ -12,5 +12,13 @@
   >
     LMS SYSTEM
   </button>
+  <button
+    routerLink="identity"
+    [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
+    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
+    (click)="navigateTo('identity/dashboard')"
+  >
+    IDENTITY
+  </button>
 </div>
 <router-outlet></router-outlet>
