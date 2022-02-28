@@ -22,11 +22,20 @@ import { CustomDateInputComponent } from './shared/components/custom-date-input/
 import { CustomSwitchComponent } from './shared/components/custom-switch/custom-switch.component';
 import { CustomDropdownComponent } from './shared/components/custom-dropdown/custom-dropdown.component';
 import { CustomSearchButtonComponent } from './shared/components/custom-search-button/custom-search-button.component';
+import { AnonymousGuard } from './core/guards/anonymous.guard';
 
 const routes: Routes = [
   // { path: '', redirectTo: 'about', pathMatch: 'full' },
-  { path: 'signup', component: LoginSignupComponent },
-  { path: 'signup/:type', component: LoginSignupComponent },
+  {
+    path: 'signup',
+    component: LoginSignupComponent,
+    canActivate: [AnonymousGuard],
+  },
+  {
+    path: 'signup/:type',
+    component: LoginSignupComponent,
+    canActivate: [AnonymousGuard],
+  },
   // { path: 'about', component: AboutComponent },
   // {
   //   path: 'dashboard',
