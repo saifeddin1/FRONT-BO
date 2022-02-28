@@ -47,11 +47,11 @@ export class ErrorInterceptor implements HttpInterceptor {
               const user = this.userService.getCurrentUser();
               if (user) {
                 if (user.type == ADMIN) {
-                  this.router.navigate(['dashboard']);
+                  this.router.navigate(['lms/dashboard']);
                 } else if (user.type == INSTRUCTOR) {
-                  this.router.navigate(['dashboard']);
+                  this.router.navigate(['lms/dashboard']);
                 } else if (user.type == STUDENT) {
-                  this.router.navigate(['offres']);
+                  this.router.navigate(['lms/offres']);
                 }
               } else {
                 this.userService.logOut();
