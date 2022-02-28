@@ -210,7 +210,7 @@ export class LoginSignupComponent implements OnInit {
 
   ngOnInit(): void {
     if (!!this.userService.getCurrentUser()) {
-      this.router.navigate(['dashboard']);
+      this.router.navigate(['lms/dashboard']);
     }
   }
 }

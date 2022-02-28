@@ -98,6 +98,12 @@ export class EmployeeSummaryService {
       body
     );
   }
+  updateTimeSheet(sheet_id: string, body): Observable<Object> {
+    return this.http.put<Object>(
+      `${this.BASE_URL}/timesheets/${sheet_id}`,
+      body
+    );
+  }
 
   createEmployeeTimeSheet(body): Observable<Timesheet> {
     return this.http.post<Timesheet>(`${this.BASE_URL}/timesheets`, body);

@@ -61,7 +61,7 @@ export class ManageTimesheetsComponent implements OnInit {
     console.log(timesheet);
 
     return this.employeeService
-      .updateEmployeeTimeSheet(timesheet._id, {
+      .updateTimeSheet(timesheet._id, {
         userId: timesheet.userId,
         note: timesheet.note,
         workingHours: timesheet.workingHours,
