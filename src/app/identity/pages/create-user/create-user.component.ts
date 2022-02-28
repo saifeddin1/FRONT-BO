@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Niveau } from 'src/app/lms/pages/admin/niveau/niveau.service';
 import { User } from '../../models/user.model';
 import { UserService } from '../../services/user.service';
 
@@ -10,6 +11,7 @@ import { UserService } from '../../services/user.service';
 })
 export class CreateUserComponent implements OnInit {
 
+  public studentniv: Niveau[]=[];
   public user = {
     username:'',
     email:'',
@@ -18,7 +20,7 @@ export class CreateUserComponent implements OnInit {
     password:'',
     type:'',
     birthday:'',
-    // studentNiveauId:'',
+    studentNiveauId:'',
   }
   username = new FormControl('');
   email = new FormControl('');
@@ -31,6 +33,12 @@ export class CreateUserComponent implements OnInit {
   constructor(private userService:UserService) { }
 
   ngOnInit(): void {
+    
+      this.userService.getStudetNiv().subscribe((data)=>{
+        this.studentniv = data;
+        console.log("*************",this.studentniv)
+      });
+
   }
 
   createUser(){

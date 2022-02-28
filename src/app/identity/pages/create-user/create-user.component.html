@@ -43,6 +43,12 @@
           <option value="EINSTRUCTOR">Instrcutor</option>
         </select>
       </div> 
+      <div class="form-group flex-item">
+        <label class="item">StudentNiv:</label>
+        <select class="form-control item"  [formControl]="studentNiveauId" [(ngModel)] = "this.user.studentNiveauId">
+          <option *ngFor="let niveau of studentniv" value="{{niveau._id}}">{{niveau.name}}</option>
+        </select>
+      </div>
       
     </div>
   </div>

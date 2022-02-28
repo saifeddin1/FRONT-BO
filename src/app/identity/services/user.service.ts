@@ -56,4 +56,9 @@ export class UserService {
     console.log("iteeeeeem",item)
     return this.http.post<any>(`${this.BASE_URL}/api/v1/users/ `, item,{'headers':headers});
   }
+
+  getStudetNiv():Observable<any>{
+
+    return this.http.get<any>('http://localhost:5000/api/niveau/getAllForUsers');
+  }
 }
