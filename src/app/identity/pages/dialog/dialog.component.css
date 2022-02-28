@@ -1,0 +1,38 @@
+td,
+th {
+  font-size: 17px;
+  padding: 1rem !important;
+}
+
+button {
+    font-size: 10px;
+   
+}
+label{
+  width: 8rem;
+}
+
+.item {
+  padding:5px; 
+  margin: 0 10px;
+}
+
+.center {
+  margin: auto;
+  width: 60%;
+  border: 2px solid #ccc;
+  padding: 10px;
+}
+.centerbtn {
+  margin: auto;
+  width: 60%;
+ 
+  padding: 15px;
+}
+
+.flex-container {
+  display: flex;
+  align-items: stretch;
+  margin-top: 45px;
+ 
+}

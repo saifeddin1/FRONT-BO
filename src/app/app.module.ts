@@ -50,6 +50,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
+import {IdentityModule} from './identity/identity.module'
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
 @NgModule({
   declarations: [
@@ -108,6 +109,7 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     SharedModule, // leave it here
     HRModule, // leave it here,
     LMSModule,
+    IdentityModule
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

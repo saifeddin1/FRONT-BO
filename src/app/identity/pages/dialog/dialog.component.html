@@ -1,0 +1,57 @@
+<h1 mat-dialog-title>Edit User</h1>
+
+<div mat-dialog-content>
+  <div
+    class="w-75 p-6 d-flex justify-content-center center"
+    style="background-color: rgb(255, 255, 255)"
+  >
+    <form>
+      <div class="form-group flex-container">
+        <label  class="item">username:</label>
+        <input
+          type="text"
+          id="username"
+          class="form-control item"
+          [formControl]="username"
+          [(ngModel)]="this.user.username"
+        />
+      </div>
+
+      <div class="form-group flex-container">
+        <label  class="item">email :</label>
+        <input
+          type="text"
+          id="email"
+          class="form-control item"
+          [formControl]="email"
+          [(ngModel)]="this.user.email"
+        />
+      </div>
+
+      <div class="form-group flex-container">
+        <label  class="item">phone :</label>
+        <input
+          type="text"
+          id="phone"
+          class="form-control item"
+          [formControl]="phone"
+          [(ngModel)]="this.user.phone"
+        />
+      </div>
+      <div class="form-group flex-container">
+        <label class="item">type :</label>
+        <input
+          type="text"
+          id="type"
+          class="form-control item"
+          [formControl]="type"
+          [(ngModel)]="this.user.type"
+        />
+      </div>
+
+      <div class="form-group centerbtn">
+        <button (click)="updateUser()" class="btn btn-primary">Update :</button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -8,6 +8,7 @@ export const environment = {
     IdentityApi: 'http://localhost:2022',
     HRApi: 'http://localhost:8001',
     
+    
 };
 
 /*
