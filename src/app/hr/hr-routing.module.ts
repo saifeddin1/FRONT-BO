@@ -10,6 +10,7 @@ import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
+import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'timesheets',
         component: TimesheetsComponent,
+      },
+      {
+        path: 'timesheetManagement',
+        component: ManageTimesheetsComponent,
       },
       {
         path: 'timeoffs',

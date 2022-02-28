@@ -57,7 +57,7 @@ export class SummaryComponent implements OnInit {
     console.log(timesheet);
 
     return this.summaryService
-      .updateEmployeeTimeSheets(timesheet._id, {
+      .updateEmployeeTimeSheet(timesheet._id, {
         note: timesheet.note,
         workingHours: timesheet.workingHours,
         date: timesheet.date,

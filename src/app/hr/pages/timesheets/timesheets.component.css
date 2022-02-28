@@ -4,3 +4,19 @@ td {
   /* display: flex;
   align-items: center; */
 }
+.working-hours {
+  width: 50px;
+}
+
+.horizontal {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+p {
+  display: inline-block;
+  flex-grow: 1;
+  height: 100px;
+  width: calc(100% * (1 / 4) - 10px - 1px);
+}

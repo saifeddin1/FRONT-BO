@@ -23,6 +23,7 @@ import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
+import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { CollaboratorDialogComponent } from './components/collaborator-dialog/co
     TimesheetsComponent,
     TimeoffsComponent,
     CollaboratorDialogComponent,
+    ManageTimesheetsComponent,
   ],
   imports: [
     HRRoutingModule,

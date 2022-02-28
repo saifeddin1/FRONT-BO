@@ -1,4 +1,4 @@
-<!-- <div class="container-fluid">
+<div class="container-fluid">
   <div [style.display]="isDeclared ? 'none' : 'block'">
     <app-button-filled
       [title]="'Declare'"
@@ -85,11 +85,11 @@
       </tr>
     </tbody>
   </table>
-</div> -->
+</div>
 
 <!-- <pagination-controls (pageChange)="page = $event"></pagination-controls> -->
 
-<table class="table">
+<!-- <table class="table">
   <tr>
     <td></td>
     <td>Lun 17</td>
@@ -102,52 +102,94 @@
   <tr>
     <td>Some note here</td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
     <td>
-      <span onmouseover="this.nextElementSibling.style.display='block'"
-        >8h:00</span
-      >
-      <app-button-filled class="btn-edit" style="display: none"
-        ><</app-button-filled
-      >
+      <span>
+        <input
+          type="number"
+          value="8"
+          class="working-hours"
+          max="12"
+          (change)="checkHours()"
+          [(ngModel)]="workignHoursInput"
+        />
+        hrs
+      </span>
+      <app-button-filled [title]="'edit'"></app-button-filled>
+      <span>{{ extraHours }}</span>
     </td>
   </tr>
   <tr>
@@ -171,4 +213,4 @@
       <input type="checkbox" name="" id="" />
     </td>
   </tr>
-</table>
+</table> -->
