@@ -31,6 +31,10 @@ export class EmployeeSummaryService {
     console.log(this.decodedToken, '****************************');
     return this.decodedToken;
   }
+
+  getAllUsers(): Observable<any> {
+    return this.http.get<any>(`${environment.IdentityApi}/api/v1/users`);
+  }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
   getContracts(): Observable<Contract[]> {
     return this.http.get<Contract[]>(
@@ -78,6 +82,9 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/timesheets/getEmployeeTimeSheets`
     );
   }
+  getAllSheets(): Observable<Timesheet[]> {
+    return this.http.get<Timesheet[]>(`${this.BASE_URL}/timesheets`);
+  }
 
   getEmployeeCurrentTimeSheet(date): Observable<Timesheet> {
     return this.http.get<Timesheet>(
@@ -85,14 +92,21 @@ export class EmployeeSummaryService {
     );
   }
 
-  updateEmployeeTimeSheets(sheet_id: string, body): Observable<Object> {
+  updateEmployeeTimeSheet(sheet_id: string, body): Observable<Object> {
     return this.http.put<Object>(
       `${this.BASE_URL}/timesheets/updateTimeSheetForEmployee/${sheet_id}`,
       body
     );
   }
-  createEmployeeTimeSheets(body): Observable<Object> {
-    return this.http.post<Object>(`${this.BASE_URL}/timesheets`, body);
+  updateTimeSheet(sheet_id: string, body): Observable<Object> {
+    return this.http.put<Object>(
+      `${this.BASE_URL}/timesheets/${sheet_id}`,
+      body
+    );
+  }
+
+  createEmployeeTimeSheet(body): Observable<Timesheet> {
+    return this.http.post<Timesheet>(`${this.BASE_URL}/timesheets`, body);
   }
 
   createTimesheetDeclaration(body): Observable<TimesheetDeclaration> {
@@ -112,12 +126,14 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/timesheetDeclarations/getCurrentDeclaration/${month}`
     );
   }
+
   // --------------------------------- TIMETABLE ----------------------------
   getTimeSlots(): Observable<Timeslot[]> {
     return this.http.get<Timeslot[]>(
       `${this.BASE_URL}/timeslots/getEmployeeTimeslots`
     );
   }
+
   // ------------------------------- TIMEOFFS 😴 -----------------------------
   getEmployeeTimeoffHistory(): Observable<Timeoff> {
     return this.http.get<Timeoff>(

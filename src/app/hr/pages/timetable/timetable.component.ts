@@ -119,15 +119,19 @@ export class TimetableComponent implements OnInit, OnChanges {
     }
   }
   getAll() {
-    this.summaryService.getTimeSlots().subscribe(
+    this.summaryService.getEmployeeTimeSheets().subscribe(
       (result) => {
         if (result['response'] && result['response'].length) {
           console.log('⚡ TimetableComponent ~ getAll ~ result', result);
 
           this.events = result['response'][0]['totalData'].map((body: any) => ({
-            start: new Date(body.start),
-            end: new Date(body.end),
-            title: body.description,
+            start: new Date(body.date),
+            end: new Date(
+              new Date(body.date).setHours(
+                new Date(body.date).getHours() + body.workingHours
+              )
+            ),
+            title: body.note,
             color: colors.primary,
           }));
           this.refreshView();

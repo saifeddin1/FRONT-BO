@@ -23,9 +23,11 @@ export class TimesheetsComponent implements OnInit {
   };
   timesheet: Timesheet;
   isDeclared: boolean;
+  extraHours: number;
   formatedDate(date) {
     return formatDate(date);
   }
+  workignHoursInput: number = 8;
   declaration: TimesheetDeclaration;
   constructor(
     private employeeService: EmployeeSummaryService,
@@ -39,27 +41,33 @@ export class TimesheetsComponent implements OnInit {
 
     console.log(this.isDeclared);
   }
-
-  // getEmployeeTimeSheets() {
-  //   this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
-  //     console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
-  //     this.timesheets = result['response'][0]['totalData'];
-  //   });
-  // }
+  checkHours() {
+    if (this.workignHoursInput === 8) {
+      this.extraHours = null;
+    } else {
+      this.extraHours = this.workignHoursInput - 8;
+    }
+  }
   getEmployeeTimeSheets() {
-    this.employeeService.getTimeSlots().subscribe((result) => {
+    this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
       console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
-      this.timesheets = result['response'][0]['totalData'].map(
-        (el: Timeslot) => ({
-          date: el.start,
-          note: el.description,
-          workingHours: Number(
-            new Date(el.end).getHours() - new Date(el.start).getHours()
-          ),
-        })
-      );
+      this.timesheets = result['response'][0]['totalData'];
     });
   }
+  // getEmployeeTimeSheets() {
+  //   this.employeeService.getTimeSlots().subscribe((result) => {
+  //     console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
+  //     this.timesheets = result['response'][0]['totalData'].map(
+  //       (el: Timeslot) => ({
+  //         date: el.start,
+  //         note: el.description,
+  //         workingHours: Number(
+  //           new Date(el.end).getHours() - new Date(el.start).getHours()
+  //         ),
+  //       })
+  //     );
+  //   });
+  // }
 
   getCurrentTimesheet() {
     let today = new Date().toISOString().split('T')[0];
@@ -90,7 +98,7 @@ export class TimesheetsComponent implements OnInit {
     console.log(timesheet);
 
     return this.employeeService
-      .updateEmployeeTimeSheets(timesheet._id, {
+      .updateEmployeeTimeSheet(timesheet._id, {
         note: timesheet.note,
         workingHours: timesheet.workingHours,
         date: new Date(timesheet.date),
@@ -114,7 +122,7 @@ export class TimesheetsComponent implements OnInit {
 
   insertRecord() {
     this.employeeService
-      .createEmployeeTimeSheets(this.currentTimesheet)
+      .createEmployeeTimeSheet(this.currentTimesheet)
       .subscribe((result) => {
         console.log(
           '⚡ ~ file: timesheets.component.ts ~ line 85 ~ TimesheetsComponent ~ insertRecord ~ result',

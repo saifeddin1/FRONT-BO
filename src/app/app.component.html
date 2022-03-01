@@ -12,5 +12,12 @@
   >
     LMS SYSTEM
   </button>
+  <button
+    routerLink="identity"
+    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
+    (click)="navigateTo('identity/dashboard')"
+  >
+    IDENTITY
+  </button>
 </div>
 <router-outlet></router-outlet>
