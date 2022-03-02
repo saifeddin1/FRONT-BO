@@ -60,7 +60,7 @@ export class ManageTimesheetsComponent implements OnInit {
   updateRecord(timesheet) {
     console.log(timesheet);
 
-    return this.employeeService
+    this.employeeService
       .updateTimeSheet(timesheet._id, {
         userId: timesheet.userId,
         note: timesheet.note,
@@ -82,5 +82,11 @@ export class ManageTimesheetsComponent implements OnInit {
           console.log(err);
         }
       );
+  }
+  deleteRecord(tsheet) {
+    this.employeeService.deleteTimesheet(tsheet._id).subscribe((result) => {
+      console.log('Deleted sheet: ', result);
+      this.getAllTimesheets();
+    });
   }
 }

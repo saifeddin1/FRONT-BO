@@ -32,7 +32,7 @@ export class SummaryComponent implements OnInit {
     // this.getFiles();
     this.getEmployeeFileDetails();
     this.getEmployeeActiveContract();
-    this.getCurrentTimesheet();
+    // this.getCurrentTimesheet();
     this.getEmployeeInterviews();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }

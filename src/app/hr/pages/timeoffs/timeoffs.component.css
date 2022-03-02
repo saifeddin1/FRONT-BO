@@ -1,11 +1,17 @@
 td,
 th {
   font-size: 17px;
-  padding: 1rem !important;
+  /* padding: 1rem !important; */
   /* display: flex;
   align-items: center; */
 }
 
+td span {
+  line-height: 5rem;
+}
+td input {
+  margin-top: 1rem;
+}
 select {
   padding: 0.8rem;
 }
