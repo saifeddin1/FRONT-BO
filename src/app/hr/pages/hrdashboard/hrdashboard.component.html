@@ -22,15 +22,21 @@
     </div>
     <div class="sidebar-item" routerLinkActive="active">
       <img src="../../../../assets/icons/people.png" alt="" />
-      <a [routerLink]="['collaborators']">Collaborators</a>
+      <a [routerLink]="['collaborators']">{{
+        isAdmin ? "Employees" : "Collaborators"
+      }}</a>
     </div>
     <div class="sidebar-item" routerLinkActive="active">
       <img src="../../../../assets/icons/123.png" alt="" />
-      <a [routerLink]="['contracts']">Contracts</a>
+      <a [routerLink]="['contracts']">{{
+        isAdmin ? "Manage Contracts" : "Contracts"
+      }}</a>
     </div>
     <div class="sidebar-item" routerLinkActive="active">
       <img src="../../../../assets/icons/87.png" alt="" />
-      <a [routerLink]="['interviews']">Interviews</a>
+      <a [routerLink]="['interviews']">{{
+        isAdmin ? "Manage Interviews" : "Interviews"
+      }}</a>
     </div>
     <!--*ngIf="!isAdmin"-->
     <div class="sidebar-item" routerLinkActive="active" *ngIf="!isAdmin">
@@ -48,7 +54,9 @@
     </div>
     <div class="sidebar-item" routerLinkActive="active">
       <img src="../../../../assets/icons/135.png" alt="" />
-      <a [routerLink]="['timeoffs']">TimeOffs</a>
+      <a [routerLink]="['timeoffs']">{{
+        isAdmin ? "Manage TimeOffs" : "TimeOffs"
+      }}</a>
     </div>
     <div class="sidebar-item" routerLinkActive="active">
       <img src="../../../../assets/icons/73.png" alt="" />

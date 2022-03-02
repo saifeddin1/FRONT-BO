@@ -8,6 +8,7 @@ import { getToken } from '../helpers/getToken';
 import { Contract } from '../models/contract.model';
 import { File } from '../models/file.models';
 import { Interview } from '../models/interview.model';
+import { Notification } from '../models/notification.model';
 import { Timeoff } from '../models/timeoff.model';
 import { Timesheet } from '../models/timesheet.model';
 import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
@@ -76,6 +77,10 @@ export class EmployeeSummaryService {
     );
   }
 
+  getAllFiles(): Observable<File> {
+    return this.http.get<File>(`${this.BASE_URL}/files`);
+  }
+
   // ------------------------------------- TIMESHEET ---------------------------------------
   getEmployeeTimeSheets(): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
@@ -121,6 +126,10 @@ export class EmployeeSummaryService {
     );
   }
 
+  deleteTimesheet(id: string): Observable<Timesheet> {
+    return this.http.delete<Timesheet>(`${this.BASE_URL}/timesheets/${id}`);
+  }
+
   getCurrentDeclaration(month: number): Observable<TimesheetDeclaration> {
     return this.http.get<TimesheetDeclaration>(
       `${this.BASE_URL}/timesheetDeclarations/getCurrentDeclaration/${month}`
@@ -152,5 +161,36 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/timeoffs/updateStatus/${id}`,
       body
     );
+  }
+
+  updateTimeoff(id: string, body: Timeoff): Observable<Timeoff> {
+    return this.http.put<Timeoff>(`${this.BASE_URL}/timeOffs/${id}`, body);
+  }
+  getAllTimeoffs(): Observable<Timeoff> {
+    return this.http.get<Timeoff>(`${this.BASE_URL}/timeoffs`);
+  }
+
+  deleteTimeoff(id: string): Observable<Timeoff> {
+    return this.http.delete<Timeoff>(`${this.BASE_URL}/timeoffs/${id}`);
+  }
+
+  // ---------------------- Notifications 🔕 -------------------
+
+  getUserNotifications(): Observable<Notification> {
+    return this.http.get<Notification>(
+      `${this.BASE_URL}/notifications/getUserNotifications`
+    );
+  }
+
+  getAllNotifications(): Observable<Notification> {
+    return this.http.get<Notification>(`${this.BASE_URL}/notifications`);
+  }
+
+  createNotification(body: Notification): Observable<Notification> {
+    console.log(
+      '*******************************************************************'
+    );
+
+    return this.http.post<Notification>(`${this.BASE_URL}/notifications`, body);
   }
 }

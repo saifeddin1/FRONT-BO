@@ -11,12 +11,13 @@ import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
+import { PreventStudentGuard } from './helpers/prevent-student.guard';
 
 const routes: Routes = [
   {
     path: 'hr/administration',
     component: HrdashboardComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, PreventStudentGuard],
     children: [
       {
         path: '',
