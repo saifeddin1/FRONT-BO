@@ -19,5 +19,34 @@
   >
     IDENTITY
   </button>
+  <div
+    class="notif-bell"
+    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
+  >
+    <span class="notif-count">{{ notificationItems?.length }}</span>
+    <button (click)="toggleDropdown()">
+      <mat-icon>notifications</mat-icon>
+    </button>
+
+    <div
+      class="notif-content"
+      [style.display]="dropDownActive ? 'block' : 'none'"
+    >
+      <ul>
+        <li
+          *ngFor="let item of notificationItems"
+          [ngClass]="!item.isRead ? 'not-read' : ''"
+          (click)="toggleIsRead(item)"
+        >
+          <span [style.display]="item.isRead ? 'none' : 'inline-block'"
+            >⚫</span
+          >
+          {{ item.content }}
+          <br />
+          <hr />
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 <router-outlet></router-outlet>
