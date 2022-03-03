@@ -3,3 +3,9 @@ th {
   font-size: 17px;
   padding: 1rem !important;
 }
+td input,
+select {
+  padding: 5px;
+  border-radius: 5px;
+  border-color: #ccc;
+}

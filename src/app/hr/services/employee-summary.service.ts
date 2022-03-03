@@ -33,8 +33,10 @@ export class EmployeeSummaryService {
     return this.decodedToken;
   }
 
-  getAllUsers(): Observable<any> {
-    return this.http.get<any>(`${environment.IdentityApi}/api/v1/users`);
+  getAllUsers(extractedRrole): Observable<any> {
+    return this.http.get<any>(
+      `${environment.IdentityApi}/api/v1/users?extract=${extractedRrole}`
+    );
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
   getContracts(): Observable<Contract[]> {
@@ -53,6 +55,21 @@ export class EmployeeSummaryService {
     return this.http.get<Interview[]>(
       `${this.BASE_URL}/interviews/employeeInterviews?limit=99`
     );
+  }
+
+  getAllInterviews(): Observable<Interview[]> {
+    return this.http.get<Interview[]>(`${this.BASE_URL}/interviews`);
+  }
+
+  createInterview(body): Observable<Interview> {
+    return this.http.post<Interview>(`${this.BASE_URL}/interviews`, body);
+  }
+
+  updateInterview(id: string, body: Interview): Observable<Interview> {
+    return this.http.put<Interview>(`${this.BASE_URL}/interviews/${id}`, body);
+  }
+  deleteInterview(id: string): Observable<Interview> {
+    return this.http.delete<Interview>(`${this.BASE_URL}/interviews/${id}`);
   }
 
   // --------------------------------- PROFILE / FILE -----------------------------

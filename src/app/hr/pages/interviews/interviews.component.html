@@ -1,13 +1,64 @@
+<div class="row" [style.display]="isAdmin ? 'flex' : 'none'">
+  <div class="col">
+    <input
+      class="form-control"
+      [(ngModel)]="newInterview.title"
+      value="{{ newInterview?.title }}"
+      type="text"
+    />
+  </div>
+  <div class="col">
+    <input
+      class="form-control"
+      [(ngModel)]="newInterview.date"
+      value="{{ newInterview?.date }}"
+      type="datetime-local"
+      min="1"
+      max="22"
+    />
+  </div>
+  <div class="col">
+    <select [(ngModel)]="newInterview.userId">
+      <option *ngFor="let user of users" value="{{ user._id }}">
+        {{ user.username }}
+      </option>
+    </select>
+  </div>
+  <div class="col">
+    <input type="file" [(ngModel)]="newInterview.files" />
+  </div>
+  <div class="col">
+    <app-button-outline
+      (onClick)="createInterview(newInterview)"
+      [title]="'Add'"
+    ></app-button-outline>
+  </div>
+</div>
 <table class="table table-hover table-striped table-bordered">
   <thead>
     <tr>
+      <th>User</th>
       <th scope="col">Date</th>
       <th scope="col">Title</th>
     </tr>
   </thead>
   <tbody>
     <tr *ngFor="let interview of interviews">
-      <td>{{ formatDate(interview?.date) }}</td>
+      <td>
+        <select [(ngModel)]="interview.userId">
+          <option *ngFor="let user of users" value="{{ user._id }}">
+            {{ user.username }}
+          </option>
+        </select>
+      </td>
+      <td>
+        <label>{{ formatDate(interview?.date) }}</label> <br /><br />
+        <input
+          type="datetime-local"
+          value="{{ formatDate(interview?.date) }}"
+          [(ngModel)]="interview.date"
+        />
+      </td>
       <td>{{ interview?.title }}</td>
       <td id="{{ interview._id }}" class="id-saver">
         <app-button-outline
@@ -15,12 +66,17 @@
           (onClick)="openDialog($event)"
         ></app-button-outline>
       </td>
-      <td
-        [ngStyle]="{
-          display: currentUser.role === 'STUDENT' ? 'block' : 'none'
-        }"
-      >
-        <app-button-filled [title]="'Edit'"></app-button-filled>
+      <td>
+        <app-button-outline
+          [title]="'edit'"
+          (onClick)="updateRecord(interview)"
+        ></app-button-outline>
+      </td>
+      <td>
+        <app-button-filled
+          [title]="'delete'"
+          (onClick)="deleteRecord(interview)"
+        ></app-button-filled>
       </td>
     </tr>
   </tbody>
