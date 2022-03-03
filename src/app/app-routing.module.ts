@@ -1,3 +1,4 @@
+import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.component';
 // import { BannerComponent } from './pages/home-pages/banner/banner.component';
 // import { ChatComponent } from './pages/chat/chat.component';
 import { NgModule } from '@angular/core';
@@ -36,6 +37,7 @@ const routes: Routes = [
     component: LoginSignupComponent,
     canActivate: [AnonymousGuard],
   },
+  
   // { path: 'about', component: AboutComponent },
   // {
   //   path: 'dashboard',

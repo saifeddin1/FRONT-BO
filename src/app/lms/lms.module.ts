@@ -51,6 +51,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from '../shared/shared.module';
 
+
 @NgModule({
   declarations: [
     LmsComponent,
@@ -79,6 +80,7 @@ import { SharedModule } from '../shared/shared.module';
     WorkProcessComponent,
     PricingComponent,
     TestimonialsComponent,
+  
   ],
   imports: [
     BrowserModule,

@@ -16,6 +16,7 @@ import {
   INSTRUCTOR,
   STUDENT,
 } from '../../lms/constants/roles.constant';
+import { ResetpwdService } from 'src/app/identity/services/resetpwd.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -25,8 +26,11 @@ import {
 export class LoginSignupComponent implements OnInit {
   logged: boolean = false;
   pagetype: string = '';
+  emailtoverify:string='';
+  newpwd:string='';
   isRightPanelActive: boolean;
   constructor(
+    private resetpwdrService :ResetpwdService,
     private userService: UserService,
     private niveauService: NiveauService,
     private router: Router,
@@ -37,8 +41,11 @@ export class LoginSignupComponent implements OnInit {
     this.pagetype = this.activatedRouter.snapshot.params['type'];
     if (this.pagetype == 'login') {
       this.form = this.login;
-    } else {
+    } else if(this.pagetype =='register'){
       this.form = this.signup;
+    }
+    else if(this.pagetype =='forgetpass'){
+      this.form = this.forgetpass;
     }
     this.activeClass = true;
   }
@@ -57,13 +64,27 @@ export class LoginSignupComponent implements OnInit {
     );
   }
 
-  navigateToLink = () => {
+  navigateToLink = (email?:string,forgetpass?:string) => {
     console.log(this.form);
-    if (this.form.id == 'login') {
-      this.form = this.signup;
+    if (this.form.id == 'login' ) {
+      console.log("hani hneeee login")
+      if(this.form.forgetpass == forgetpass)
+      {
+        console.log("hani hneeee forgetpass")
+        this.form=this.forgetpass;
+      }else{this.form = this.signup;}
+     
     } else if (this.form.id == 'register') {
       this.form = this.login;
-    }
+    }else if (this.form.id == 'forgetpass') {
+      this.form = this.verifycode;
+      this.emailtoverify = email;
+    }else if (this.form.id == 'verifycode') {
+      this.form = this.resetpwd;
+      
+    }else if (this.form.id == 'resetpwd') {
+      this.form = this.login;
+     }
     this.pagetype = this.form.id;
     this.activeClass = !this.activeClass;
   };
@@ -74,8 +95,42 @@ export class LoginSignupComponent implements OnInit {
     linkPrompt: 'Vous avez déjà un compte?',
     link: 'SE CONNECTER',
     submit: "S'INSCRIRE",
+    forgetpass:'no',
     img: '../../../assets/eunoia-logo.png',
     slogan: 'Vous avez déjà un compte?',
+  };
+
+  forgetpass: FormDisplay = {
+    id: 'forgetpass',
+    greeting: 'Forget your password',
+    linkPrompt: "Vous n'avez pas de compte ?",
+    link: "S'INSCRIRE",
+    submit: "Send email",
+    forgetpass:'FORGET YOUR PASSWORD',
+    img: '../../../assets/eunoia-logo.png',
+    slogan: 'Vous avez déjà un compte?',
+  };
+
+  verifycode: FormDisplay = {
+    id: 'verifycode',
+    greeting: 'Verify your code',
+    linkPrompt: "",
+    link: "",
+    submit: "Check my code",
+    forgetpass:'',
+    img: '../../../assets/eunoia-logo.png',
+    slogan: '',
+  }
+
+  resetpwd: FormDisplay = {
+    id: 'resetpwd',
+    greeting: 'Reset your password',
+    linkPrompt: "",
+    link: "",
+    submit: 'RESET',
+    forgetpass:'',
+    img: '../../assets/login-signup/signup.svg',
+    slogan: "",
   };
 
   login: FormDisplay = {
@@ -84,6 +139,7 @@ export class LoginSignupComponent implements OnInit {
     linkPrompt: "Vous n'avez pas de compte ?",
     link: "S'INSCRIRE",
     submit: 'SE CONNECTER',
+    forgetpass:'FORGET YOUR PASSWORD ?',
     img: '../../assets/login-signup/signup.svg',
     slogan: "Vous n'avez pas de compte ?",
   };
@@ -94,6 +150,7 @@ export class LoginSignupComponent implements OnInit {
   username: string = '';
   password: string = '';
   phone: string = '';
+  code:string='';
   studentNiveauId: string = '';
   type: string = STUDENT;
   error: string = '';
@@ -144,6 +201,7 @@ export class LoginSignupComponent implements OnInit {
     password: string;
     type: string;
     studentNiveauId: string;
+   
   }) {
     debugger;
     if (
@@ -205,8 +263,60 @@ export class LoginSignupComponent implements OnInit {
       this.registerHandler(user);
     } else if (this.form.id == 'login') {
       this.loginHandler(user);
+    }else if(this.form.id =='forgetpass'){
+      this.resetpwdrService.sendEmail(user).subscribe(
+        (result)=>{
+          this.toasterService.success(result.message);
+          console.log(result)
+          this.navigateToLink(user.email);
+        },
+        (err)=>{
+          console.log(err)
+          this.toasterService.error(err.statusText);
+        }
+      )
+    }else if(this.form.id =='verifycode'){
+      const code ={
+        verificationCode: this.code
+      }
+      this.resetpwdrService.verifycode(code,this.emailtoverify).subscribe(
+        (result)=>{
+          if(result.succes ==true){
+            this.toasterService.success(result.message);
+          console.log(result)
+          this.navigateToLink();
+          }
+          else{
+            this.toasterService.error(result.error);
+          console.log(result)
+          }
+        },
+        (err)=>{
+          console.log(err)
+          this.toasterService.error("Something wrong");
+        }
+      )
+    }else if(this.form.id =='resetpwd'){
+
+      const newpass ={
+        newpassword: this.newpwd
+      }
+      console.log(this.emailtoverify)
+      this.resetpwdrService.resetPassword(newpass,this.emailtoverify).subscribe(
+        (result)=>{
+          this.toasterService.success(result.message);
+          console.log(result)
+          this.navigateToLink()
+          
+        },
+        (err)=>{
+          console.log(err)
+          this.toasterService.error(err);
+        }
+      )
     }
   }
+  
 
   ngOnInit(): void {
     if (!!this.userService.getCurrentUser()) {
