@@ -6,6 +6,7 @@ import { formatDate } from '../../helpers/formatDate';
 import { User } from 'src/app/lms/models/user.model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { STUDENT } from 'src/app/lms/constants/roles.constant';
 @Component({
   selector: 'app-manage-timesheets',
   templateUrl: './manage-timesheets.component.html',
@@ -50,10 +51,8 @@ export class ManageTimesheetsComponent implements OnInit {
     });
   }
   getUsers() {
-    this.employeeService.getAllUsers().subscribe((result) => {
-      this.users = result['response'].filter(
-        (user: User) => user.type !== 'ESTUDENT'
-      );
+    this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
+      this.users = result['response'];
       console.log('result', this.users);
     });
   }
