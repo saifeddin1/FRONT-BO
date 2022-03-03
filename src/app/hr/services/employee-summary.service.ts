@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
 import { Observable } from 'rxjs';
+import { UserService } from 'src/app/lms/services/user.service';
 import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
 // import { getToken } from '../helpers/getToken';
@@ -22,12 +23,11 @@ export class EmployeeSummaryService {
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkaXQiOjAsImNoYXRzIjpbXSwiX2lkIjoiNjIwMGYwNTU1ZTBlOWI5ZWFjM2YyMmFlIiwidXNlcm5hbWUiOiJzYWlmZWRkaW4wMSIsImVtYWlsIjoic2FpZjFAZ21haWwuY29tIiwicHJvZmlsZSI6eyJmdWxsTmFtZSI6IlNhaWZlZGRpbiBNYXRvdWkiLCJwaG9uZSI6IjEyMzQ1Njc4IiwibGlua2VkSW4iOiJzYWlmZWRkaW4wMSIsImZhY2Vib29rIjoiIn0sInR5cGUiOiJFU1RVREVOVCIsInN0dWRlbnROaXZlYXVJZCI6IjYxMDgyYTlkNmM1MzYwMmIxYzYwYzhhZiIsImNyZWF0ZWRBdCI6IjIwMjItMDItMDdUMTA6MTE6MzMuMjMxWiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMTVUMDg6NDg6NDIuNzAxWiIsIl9fdiI6MCwiaWF0IjoxNjQ0OTE2MjI4LCJleHAiOjE2NjI5MTYyMjh9.0tPzDABqmcNXw8frdKF5dgkdyz6It_PAOkoRZgKpUU0'
   // );
 
-  public decodedToken = jwtDecode(getToken());
-
   private BASE_URL: string = environment.HRApi;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private userservise: UserService) {}
 
+  public decodedToken = this.userservise.decodeToken(getToken());
   getUser() {
     console.log(this.decodedToken, '****************************');
     return this.decodedToken;
