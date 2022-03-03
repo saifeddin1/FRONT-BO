@@ -51,7 +51,7 @@ export class UserService {
   postUser(item: any): Observable<any> {
     
     const headers = { 'content-type': 'application/json'}  
-    const body=JSON.stringify(item);
+    
     
     console.log("iteeeeeem",item)
     return this.http.post<any>(`${this.BASE_URL}/api/v1/users/ `, item,{'headers':headers});
