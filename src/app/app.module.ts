@@ -7,6 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 // import { NgxFileDropModule } from 'ngx-file-drop';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MatIconModule } from '@angular/material/icon';
 
 // import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 // import { GlobalSearchComponent } from './components/global-search/global-search.component';
@@ -50,7 +51,7 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from './shared/shared.module';
 import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
-import {IdentityModule} from './identity/identity.module'
+import { IdentityModule } from './identity/identity.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
 import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.component';
 @NgModule({
@@ -88,6 +89,7 @@ import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.c
     BrowserModule,
     CommonModule,
     AppRoutingModule,
+    MatIconModule,
     // ClarityModule,
     // BrowserAnimationsModule,
     // ToastrModule.forRoot(),
@@ -111,7 +113,7 @@ import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.c
     SharedModule, // leave it here
     HRModule, // leave it here,
     LMSModule,
-    IdentityModule
+    IdentityModule,
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

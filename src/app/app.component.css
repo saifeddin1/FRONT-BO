@@ -18,3 +18,34 @@
   box-shadow: 0px 8px 24px #eff3f9;
   margin-inline: 10px;
 }
+.notif-bell {
+  margin-left: auto;
+  position: relative;
+}
+.notif-bell .notif-content li {
+  padding: 1rem;
+}
+
+.notif-bell .notif-content li.not-read {
+  background-color: #f1f1f1;
+}
+.notif-bell .notif-content {
+  background-color: #fff;
+  padding: 1rem;
+  position: absolute;
+  right: 0.5rem;
+  min-width: 200px;
+  top: 60px;
+  width: max-content;
+  max-width: 500px;
+}
+.notif-count {
+  border-radius: 50%;
+  color: white;
+  position: absolute;
+  background-color: red;
+  height: 25px;
+  width: 25px;
+  text-align: center;
+  font-weight: bold;
+}

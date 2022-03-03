@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ADMIN } from 'src/app/lms/constants/roles.constant';
 import { CollaboratorDialogComponent } from '../../components/collaborator-dialog/collaborator-dialog.component';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
@@ -9,22 +10,39 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
   styleUrls: ['./collaborators.component.css'],
 })
 export class CollaboratorsComponent implements OnInit {
-  public collaborators: File[];
-
+  // public collaborators: File[];
+  public allEmployees: File[];
+  isAdmin: boolean;
   constructor(
     private summaryService: EmployeeSummaryService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.isAdmin = this.summaryService.getUser()['type'] === ADMIN;
+  }
 
   ngOnInit(): void {
-    this.getCollaborators();
+    // this.getCollaborators();
+    this.getAllEmployeesFiles();
   }
-  getCollaborators() {
-    this.summaryService
-      .getCollaborators()
-      .subscribe(
-        (result) => (this.collaborators = result['response'][0]?.totalData)
-      );
+  // getCollaborators() {
+  //   this.summaryService
+  //     .getCollaborators()
+  //     .subscribe(
+  //       (result) => (this.collaborators = result['response'][0]?.totalData)
+  //     );
+  // }
+
+  getAllEmployeesFiles() {
+    return this.isAdmin
+      ? this.summaryService.getAllFiles().subscribe((result) => {
+          console.log('⚡ getAllEmployeesFiles ~', result);
+          this.allEmployees = result['response'][0]['totalData'];
+        })
+      : this.summaryService
+          .getCollaborators()
+          .subscribe(
+            (result) => (this.allEmployees = result['response'][0]?.totalData)
+          );
   }
 
   openDialog(event) {
@@ -35,7 +53,7 @@ export class CollaboratorsComponent implements OnInit {
       height: 'auto',
       width: '500px',
       data: {
-        collaborator: this.collaborators.filter(
+        collaborator: this.allEmployees.filter(
           (collaborator) => collaborator['_id'] === _cid
         )[0],
       },

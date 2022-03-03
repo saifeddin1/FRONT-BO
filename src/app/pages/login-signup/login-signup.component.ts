@@ -235,7 +235,7 @@ export class LoginSignupComponent implements OnInit {
         if (this.userService.user.type === STUDENT) {
           this.router.navigate(['lms']);
         } else {
-          this.router.navigate(['lms/dashboard']);
+          this.router.navigate(['hr/administration']);
         }
       },
       (err) => {
