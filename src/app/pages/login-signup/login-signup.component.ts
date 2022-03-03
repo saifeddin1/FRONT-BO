@@ -67,10 +67,10 @@ export class LoginSignupComponent implements OnInit {
   navigateToLink = (email?:string,forgetpass?:string) => {
     console.log(this.form);
     if (this.form.id == 'login' ) {
-      console.log("hani hneeee login")
+     
       if(this.form.forgetpass == forgetpass)
       {
-        console.log("hani hneeee forgetpass")
+        
         this.form=this.forgetpass;
       }else{this.form = this.signup;}
      

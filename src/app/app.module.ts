@@ -53,7 +53,7 @@ import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
 import { IdentityModule } from './identity/identity.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
-import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.component';
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -83,7 +83,7 @@ import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.c
     // PricingComponent,
     // TestimonialsComponent,
     LoginSignupComponent,
-    ForgetpasswordComponent,
+    
   ],
   imports: [
     BrowserModule,

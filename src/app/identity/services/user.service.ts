@@ -53,7 +53,7 @@ export class UserService {
     const headers = { 'content-type': 'application/json'}  
     
     
-    console.log("iteeeeeem",item)
+    console.log(item)
     return this.http.post<any>(`${this.BASE_URL}/api/v1/users/ `, item,{'headers':headers});
   }
 

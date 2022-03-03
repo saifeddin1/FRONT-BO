@@ -1,4 +1,4 @@
-import { ForgetpasswordComponent } from './pages/forgetpassword/forgetpassword.component';
+
 // import { BannerComponent } from './pages/home-pages/banner/banner.component';
 // import { ChatComponent } from './pages/chat/chat.component';
 import { NgModule } from '@angular/core';
