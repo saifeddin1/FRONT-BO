@@ -16,7 +16,7 @@ import {
   INSTRUCTOR,
   STUDENT,
 } from '../../lms/constants/roles.constant';
-import { ResetpwdService } from 'src/app/identity/services/resetpwd.service';
+import { ResetpwdService } from 'src/app/eidentity/services/resetpwd.service';
 
 @Component({
   selector: 'app-login-signup',

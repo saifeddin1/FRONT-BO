@@ -1,0 +1,131 @@
+<div class="dashboard ">
+    <div class="events-container">
+      <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+        <h6>Academic year Table</h6>
+        <div class="profile-card">
+          <div class="edit-button">
+            <button id="add-button" class="btn button" (click)="openModal('add')" >
+              Add Academic year
+            </button>
+          </div>
+  
+        </div>
+      </div>
+  
+    </div>
+
+    <!-------------------------------TAble----------------------------------------------------------------------------------->
+
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="dataSource">
+
+      <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.enabled == true" style="color: green">
+            check_circle</mat-icon>
+          <mat-icon
+            *ngIf="element.enabled == false"
+            style="color: rgb(201, 18, 18)"
+            >block</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- Start year Column -->
+      <ng-container matColumnDef="startyear">
+        <th mat-header-cell *matHeaderCellDef> Start year </th>
+        <td mat-cell *matCellDef="let element"> {{element.startyear | date : 'short'}} </td>
+      </ng-container>
+
+        <!-- End year Column -->
+        <ng-container matColumnDef="endyear">
+            <th mat-header-cell *matHeaderCellDef> End year </th>
+            <td mat-cell *matCellDef="let element"> {{element.endyear | date : 'short'}} </td>
+          </ng-container>
+     
+    
+
+      
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+          <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteFeeCategory(element._id)">
+            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+
+    
+</div>    
+
+
+<!-- ADD academic year -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+    <h3 class="modal-title">Add fee Category</h3>
+  </ng-container>
+  <ng-template #editModalBloc>
+    <h3 class="modal-title">Edit fee Category</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form" >
+        <div class="add-overlay">
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Name</strong>
+            <input matInput class="text-area modalcol" placeholder="name" formControlName="name" >
+          </div>
+         
+          <!-- column start date -->
+          <div class="position-top">
+            <strong class="modalcol3">Start Date </strong>
+            <input matInput type="datetime-local" class="text-area modalcol" placeholder="Start Date "
+              formControlName="startyear">
+          </div>
+
+          <!-- column end date -->
+          <div class="position-top">
+            <strong class="modalcol3">End Date </strong>
+            <input matInput type="datetime-local" class="text-area modalcol" placeholder="End Date"
+              formControlName="endyear">
+          </div>
+
+
+         
+
+         
+
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Fermer
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" >
+      Valider
+    </button>
+  </div>
+</clr-modal>

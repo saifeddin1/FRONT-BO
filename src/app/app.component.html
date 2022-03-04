@@ -13,11 +13,27 @@
     LMS SYSTEM
   </button>
   <button
+    routerLink="accouting"
+    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
+    (click)="navigateTo('accounting')"
+  >
+    ACCOUNTING SYSTEM
+  </button>
+
+  <button
+    routerLink="identity"
+    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
+    (click)="navigateTo('identity')"
+  >
+    IDENTITY
+  </button>
+
+  <button
     routerLink="identity"
     [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
     (click)="navigateTo('identity/dashboard')"
   >
-    IDENTITY
+    a remove
   </button>
   <div
     class="notif-bell"
