@@ -23,7 +23,7 @@
     class="notif-bell"
     [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
   >
-    <span class="notif-count">{{ notificationItems?.length }}</span>
+    <span class="notif-count">{{ unreadNotifications }}</span>
     <button (click)="toggleDropdown()">
       <mat-icon>notifications</mat-icon>
     </button>

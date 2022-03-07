@@ -18,6 +18,8 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 export class InterviewsComponent implements OnInit {
   public interviews: Interview[];
   public currentUser;
+  isOpen: boolean = false;
+  employeeImgPath: string;
   // public jsonFormData: JsonFormData;
   public newInterview: Interview;
   isAdmin: boolean;
@@ -36,8 +38,18 @@ export class InterviewsComponent implements OnInit {
       title: '',
       date: null,
       files: null,
-      test: [],
+      test: [
+        {
+          title: '',
+          description: '',
+          url: '',
+        },
+      ],
     };
+  }
+
+  toggleIsOpen() {
+    this.isOpen = !this.isOpen;
   }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
@@ -46,37 +58,46 @@ export class InterviewsComponent implements OnInit {
     });
   }
   ngOnInit(): void {
-    this.getEmployeeInterview();
+    this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
     // this.initializeForm();
     this.getUsers();
-    this.getAllnterviews();
+    !this.isAdmin && this.getEmployeFile();
   }
+
+  getEmployeFile() {
+    this.summaryService.getFileDetails().subscribe((result) => {
+      console.log(result);
+
+      this.employeeImgPath = result['response'][0]['profile']['image'];
+    });
+  }
+
   createInterview(data: Interview) {
     const interviewData = new FormData();
 
-    interviewData.append('userId', data['userId']);
-    interviewData.append('title', data['title']);
-    interviewData.append('files', data['files']);
-    interviewData.append('date', new Date(data['date']).toISOString());
+    // interviewData.append('userId', data['userId']);
+    // interviewData.append('title', data['title']);
+    // interviewData.append('files', data['files']);
+    // interviewData.append('date', new Date(data['date']).toISOString());
 
-    this.summaryService.createInterview(interviewData).subscribe(
+    this.summaryService.createInterview(data).subscribe(
       (result) => {
         console.log('⚡ ~  InterviewsComponent ~ createInterview  ', result);
         this.getAllnterviews();
         this.toaster.success('Created Successfully');
       },
-      (error) => this.toaster.error(error)
+      (error) => this.toaster.error(error.message)
     );
   }
-  updateRecord(interview: Interview) {
-    this.summaryService.updateInterview(interview._id, interview).subscribe(
-      (result) => {
-        console.log('✅ ~  updated interview: ', result);
-        this.toaster.success('Updated Successfuly');
-      },
-      (error) => this.toaster.error(error)
-    );
-  }
+  // updateRecord(interview: Interview) {
+  //   this.summaryService.updateInterview(interview._id, interview).subscribe(
+  //     (result) => {
+  //       console.log('✅ ~  updated interview: ', result);
+  //       this.toaster.success('Updated Successfuly');
+  //     },
+  //     (error) => this.toaster.error(error.message)
+  //   );
+  // }
 
   deleteRecord(interview: Interview) {
     this.summaryService.deleteInterview(interview._id).subscribe(
@@ -85,7 +106,7 @@ export class InterviewsComponent implements OnInit {
         this.toaster.success('Deleted Successfuly');
         this.getAllnterviews();
       },
-      (error) => this.toaster.error(error)
+      (error) => this.toaster.error(error.message)
     );
   }
 
@@ -116,6 +137,7 @@ export class InterviewsComponent implements OnInit {
         interview: this.interviews.filter(
           (interview) => interview._id === eventId
         )[0],
+        user: this.currentUser,
       },
     });
 

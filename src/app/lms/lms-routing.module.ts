@@ -15,6 +15,7 @@ import { StudentOffreComponent } from './pages/student-offre/student-offre.compo
 import { StudentMatiereComponent } from './pages/student-matiere/student-matiere.component';
 import { MatiereDetailsComponent } from './pages/student-matiere/matiere-details/matiere-details.component';
 import { LmsComponent } from './lms.component';
+import { PreventStudentGuard } from '../hr/helpers/prevent-student.guard';
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
