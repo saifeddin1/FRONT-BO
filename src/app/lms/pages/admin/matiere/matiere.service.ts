@@ -44,6 +44,8 @@ export class MatiereService {
    * @param {any}    data data to be created
   */
   create(data: Partial<Matiere>): Observable<Matiere> {
+
+
     return this.http.post<Matiere>(`${this.url}/`, data);
   }
 
