@@ -1,5 +1,59 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from 'src/app/lms/services/user.service';
+interface Route {
+  link: string;
+  icon: string;
+  label: string;
+}
+const ROUTES: Array<Route> = [
+  {
+    link: './',
+    icon: 'book',
+    label: 'Summary',
+  },
+  {
+    link: './profile',
+    icon: 'user',
+    label: 'Profile',
+  },
+  {
+    link: './collaborators',
+    icon: 'users',
+    label: 'Collaborators',
+  },
+  {
+    link: './contracts',
+    icon: 'copy',
+    label: 'Contracts',
+  },
+
+  {
+    link: './interviews',
+    icon: 'form',
+    label: 'Interviews',
+  },
+
+  {
+    link: './timetable',
+    icon: 'clock',
+    label: 'Timetable',
+  },
+  {
+    link: './timesheets',
+    icon: 'calendar',
+    label: 'Timesheets',
+  },
+  {
+    link: './timesheetManagement',
+    icon: 'calendar',
+    label: 'T-heet Management',
+  },
+  {
+    link: './timeoffs',
+    icon: 'on-holiday',
+    label: 'Timeoffs',
+  },
+];
 
 @Component({
   selector: 'app-hrdashboard',
@@ -9,6 +63,8 @@ import { UserService } from 'src/app/lms/services/user.service';
 export class HrdashboardComponent implements OnInit {
   isAdmin: boolean = false;
   isStudent: boolean = false;
+  routes: Array<Route> = ROUTES;
+
   isHr: boolean = false;
   isInstructor: boolean;
   constructor(public userService: UserService) {}

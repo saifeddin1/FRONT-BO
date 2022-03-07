@@ -3,6 +3,7 @@
 </h2>
 <input
   type="text"
+  class="form-control mb-4"
   [style.display]="user['type']==='EADMIN'?'block': 'none'"
   [(ngModel)]="data['interview'].title"
   placeholder="title"
@@ -24,20 +25,35 @@
     *ngFor="let test of data['interview']?.test"
     [style.display]="user['type']==='EADMIN'?'block': 'none'"
   >
-    Title : <input type="text" [(ngModel)]="test.title" placeholder="title" />
+    Title :
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="test.title"
+      placeholder="title"
+    />
     <br />
     Description :<input
+      class="form-control"
       type="text"
       [(ngModel)]="test.description"
       placeholder="description"
     /><br />
-    URL: <input type="text" [(ngModel)]="test.url" placeholder="url" />
+    URL:
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="test.url"
+      placeholder="url"
+    />
     <br />
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div mat-div [mat-dialog-close]="true">
     <app-button-filled [title]="'close'"></app-button-filled>
+  </div>
+  <div [mat-dialog-close]="'close'">
     <app-button-outline
       [style.display]="user['type']==='EADMIN'?'block': 'none'"
       [title]="'EDIT'"

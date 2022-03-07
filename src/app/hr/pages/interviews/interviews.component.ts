@@ -131,8 +131,8 @@ export class InterviewsComponent implements OnInit {
     let eventId = event?.target?.closest('.id-saver')?.id;
 
     const dialogRef = this.dialog.open(InterviewDialog, {
-      height: '500px',
-      width: '600px',
+      height: '600px',
+      width: '700px',
       data: {
         interview: this.interviews.filter(
           (interview) => interview._id === eventId
