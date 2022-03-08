@@ -1,85 +1,150 @@
-<div class="row" [style.display]="isAdmin ? 'flex' : 'none'">
-  <div class="col">
-    <input
-      class="form-control"
-      [(ngModel)]="newInterview.title"
-      value="{{ newInterview?.title }}"
-      type="text"
-    />
-  </div>
-  <div class="col">
-    <input
-      class="form-control"
-      [(ngModel)]="newInterview.date"
-      value="{{ newInterview?.date }}"
-      type="datetime-local"
-      min="1"
-      max="22"
-    />
-  </div>
-  <div class="col">
-    <select [(ngModel)]="newInterview.userId">
-      <option *ngFor="let user of users" value="{{ user._id }}">
-        {{ user.username }}
-      </option>
-    </select>
-  </div>
-  <div class="col">
-    <input type="file" [(ngModel)]="newInterview.files" />
-  </div>
-  <div class="col">
-    <app-button-outline
-      (onClick)="createInterview(newInterview)"
-      [title]="'Add'"
-    ></app-button-outline>
-  </div>
+<div class="interviews-header">
+  <span class="heading">Interviews</span>
+  <mat-icon
+    (click)="toggleIsOpen()"
+    [style.display]="isAdmin ? 'flex' : 'none'"
+    >{{ isOpen ? "remove_circle" : "add_circle" }}</mat-icon
+  >
 </div>
-<table class="table table-hover table-striped table-bordered">
-  <thead>
-    <tr>
-      <th>User</th>
-      <th scope="col">Date</th>
-      <th scope="col">Title</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let interview of interviews">
-      <td>
-        <select [(ngModel)]="interview.userId">
-          <option *ngFor="let user of users" value="{{ user._id }}">
-            {{ user.username }}
-          </option>
-        </select>
-      </td>
-      <td>
-        <label>{{ formatDate(interview?.date) }}</label> <br /><br />
-        <input
-          type="datetime-local"
-          value="{{ formatDate(interview?.date) }}"
-          [(ngModel)]="interview.date"
-        />
-      </td>
-      <td>{{ interview?.title }}</td>
-      <td id="{{ interview._id }}" class="id-saver">
-        <app-button-outline
-          [title]="'View'"
-          (onClick)="openDialog($event)"
-        ></app-button-outline>
-      </td>
-      <td>
-        <app-button-outline
-          [title]="'edit'"
-          (onClick)="updateRecord(interview)"
-        ></app-button-outline>
-      </td>
-      <td>
-        <app-button-filled
-          [title]="'delete'"
-          (onClick)="deleteRecord(interview)"
-        ></app-button-filled>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="interviews-wrapper">
+  <div class="candidate" [style.display]="!isAdmin ? 'flex' : 'none'">
+    <span>Interviews of candidate: </span> &nbsp; &nbsp;
+    <div class="headshot">
+      <img src="../../../../assets/img/{{ employeeImgPath }}" />&nbsp;
+      <span>{{ currentUser["username"] }}</span>
+    </div>
+  </div>
+  <div
+    class="flex flex-wrap justify-content-center interview-add"
+    [ngClass]="isOpen ? 'opened' : ''"
+    [style.display]="isOpen ? 'flex' : 'none'"
+  >
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newInterview.title"
+        value="{{ newInterview?.title }}"
+        type="text"
+        placeholder="Title"
+      />
+    </div>
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newInterview.date"
+        value="{{ newInterview?.date }}"
+        type="datetime-local"
+        min="1"
+        max="22"
+      />
+    </div>
+    <div class="col">
+      <select [(ngModel)]="newInterview.userId">
+        <option *ngFor="let user of users" value="{{ user._id }}">
+          {{ user.username }}
+        </option>
+      </select>
+    </div>
 
+    <div class="row" *ngFor="let test of newInterview.test">
+      <div class="col">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="test.title"
+          placeholder="Test title"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="test.description"
+          placeholder="Test description"
+        />
+      </div>
+      <div class="col">
+        <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="test.url"
+          placeholder="Test url"
+        />
+      </div>
+    </div>
+    <div class="col">
+      <input
+        type="file"
+        class="form-control"
+        [(ngModel)]="newInterview.files"
+      />
+    </div>
+    <div class=" ">
+      <app-button-outline
+        (onClick)="createInterview(newInterview)"
+        [title]="'Add'"
+      ></app-button-outline>
+    </div>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th [style.display]="isAdmin ? 'block' : 'none'">User</th>
+        <th scope="col">Date</th>
+        <th scope="col">Details</th>
+        <th></th>
+        <th [style.display]="isAdmin ? 'table-cell' : 'none'"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let interview of interviews">
+        <!-- <td [style.display]="isAdmin ? 'block' : 'none'">
+          <select [(ngModel)]="interview.userId" [disabled]="!isAdmin">
+            <option *ngFor="let user of users" value="{{ user._id }}">
+              {{ user.username }}
+            </option>
+          </select>
+        </td> -->
+        <td [style.display]="isAdmin ? 'table-cell' : 'none'">
+          <span>{{ interview.userId }}</span>
+        </td>
+        <td>
+          <label
+            ><img src="../../../../assets/icons/141.png" />&nbsp;
+            {{ formatDate(interview?.date) }}</label
+          >
+          <br /><br />
+          <!-- <input
+            [style.display]="isAdmin ? 'block' : 'none'"
+            type="datetime-local"
+            value="{{ formatDate(interview?.date) }}"
+            [(ngModel)]="interview.date"
+          /> -->
+        </td>
+        <td>
+          <span>
+            {{ interview?.title }}
+          </span>
+          <br /><br />
+          <div *ngFor="let test of interview.test">
+            Test : <span>{{ test.title }}</span> @ <span>{{ test.url }}</span>
+          </div>
+        </td>
+        <td id="{{ interview._id }}" class="id-saver">
+          <mat-icon (click)="openDialog($event)">remove_red_eye</mat-icon>
+        </td>
+        <td
+          [style.display]="isAdmin ? 'table-cell' : 'none'"
+          id="{{ interview._id }}"
+          class="id-saver"
+        >
+          <mat-icon (click)="openDialog($event)">edit</mat-icon>
+
+          <mat-icon (click)="deleteRecord(interview)">delete</mat-icon>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 <!-- <app-json-form [jsonFormData]="formData"></app-json-form> -->

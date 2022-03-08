@@ -19,10 +19,6 @@ import { Timeslot } from '../models/timeslot.model';
   providedIn: 'root',
 })
 export class EmployeeSummaryService {
-  // public decodedToken = jwtDecode(
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVkaXQiOjAsImNoYXRzIjpbXSwiX2lkIjoiNjIwMGYwNTU1ZTBlOWI5ZWFjM2YyMmFlIiwidXNlcm5hbWUiOiJzYWlmZWRkaW4wMSIsImVtYWlsIjoic2FpZjFAZ21haWwuY29tIiwicHJvZmlsZSI6eyJmdWxsTmFtZSI6IlNhaWZlZGRpbiBNYXRvdWkiLCJwaG9uZSI6IjEyMzQ1Njc4IiwibGlua2VkSW4iOiJzYWlmZWRkaW4wMSIsImZhY2Vib29rIjoiIn0sInR5cGUiOiJFU1RVREVOVCIsInN0dWRlbnROaXZlYXVJZCI6IjYxMDgyYTlkNmM1MzYwMmIxYzYwYzhhZiIsImNyZWF0ZWRBdCI6IjIwMjItMDItMDdUMTA6MTE6MzMuMjMxWiIsInVwZGF0ZWRBdCI6IjIwMjItMDItMTVUMDg6NDg6NDIuNzAxWiIsIl9fdiI6MCwiaWF0IjoxNjQ0OTE2MjI4LCJleHAiOjE2NjI5MTYyMjh9.0tPzDABqmcNXw8frdKF5dgkdyz6It_PAOkoRZgKpUU0'
-  // );
-
   private BASE_URL: string = environment.HRApi;
 
   constructor(private http: HttpClient, private userservise: UserService) {}
@@ -61,7 +57,7 @@ export class EmployeeSummaryService {
     return this.http.get<Interview[]>(`${this.BASE_URL}/interviews`);
   }
 
-  createInterview(body): Observable<Interview> {
+  createInterview(body: any): Observable<Interview> {
     return this.http.post<Interview>(`${this.BASE_URL}/interviews`, body);
   }
 
@@ -98,6 +94,11 @@ export class EmployeeSummaryService {
     return this.http.get<File>(`${this.BASE_URL}/files`);
   }
 
+  getSingleFile(userId: string): Observable<File> {
+    return this.http.get<File>(
+      `${this.BASE_URL}/files/getOneByUserId/${userId}`
+    );
+  }
   // ------------------------------------- TIMESHEET ---------------------------------------
   getEmployeeTimeSheets(): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
