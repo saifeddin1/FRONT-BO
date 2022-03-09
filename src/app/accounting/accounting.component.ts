@@ -29,10 +29,18 @@ const ROUTES : Array<Route>=[
     label:'Academic Year',
   },
   {
+    link:'./academicterm',
+    icon:'layers',
+    label:'Academic Term',
+  },
+
+  {
     link:'./feestructure',
     icon:'layers',
     label:'Fee Structure',
   },
+ 
+ 
  
 ]
 

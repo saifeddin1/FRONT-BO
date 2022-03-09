@@ -93,7 +93,6 @@ export class FeestructureComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    location.reload();
   }
 
   onSubmit(){
@@ -122,6 +121,8 @@ export class FeestructureComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
+            this.getallfeestructures();
+
           },
           (err)=>{
             console.log(err)
@@ -132,6 +133,8 @@ export class FeestructureComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
+            this.getallfeestructures();
+
           },(err)=>{
             console.log(err)
             this.toasterService.error('Something wrong')
@@ -150,7 +153,8 @@ export class FeestructureComponent implements OnInit {
     this.feeStructureService.deleteFeestructure(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
-        location.reload();
+        this.getallfeestructures();
+
       },
       (err)=>{
         this.toasterService.error('Something wrong ')

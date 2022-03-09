@@ -12,6 +12,7 @@ import { UserService } from './lms/services/user.service';
 })
 export class AppComponent implements OnInit {
   notificationItems: Notification[];
+  solutions:string= 'LMS SYSTEM 🔻' ;
   dropDownActive: boolean;
   constructor(
     private router: Router,
@@ -32,7 +33,8 @@ export class AppComponent implements OnInit {
   }
   token: string = localStorage.getItem('token');
 
-  navigateTo(here: string) {
+  navigateTo(here: string, name:string) {
+    this.solutions=name+" 🔻";
     this.router.navigate([here]);
   }
   shouldButtonHide(role) {
