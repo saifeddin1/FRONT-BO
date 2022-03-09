@@ -125,7 +125,6 @@ export class UsersComponent implements OnInit {
         birthday:this.form.value.birthday
 
       }
-      console.log("***********",user)
       
       if(this.modalType === 'add'){
         this.usersService.createUser(user).subscribe(

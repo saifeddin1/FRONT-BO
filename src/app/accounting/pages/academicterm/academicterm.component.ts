@@ -103,7 +103,7 @@ export class AcademictermComponent implements OnInit {
       _id: '',
       name: ['', [Validators.required]],
       description: ['', [Validators.required]],
-      
+      academicyearid: ['', [Validators.required]],
       
       
      
@@ -115,6 +115,7 @@ export class AcademictermComponent implements OnInit {
       _id: body._id,
       name: body.termname,
       description: body.description,
+      academicyearid: body.academicyearid,
     });
   }
 
@@ -147,7 +148,7 @@ export class AcademictermComponent implements OnInit {
       }
       
       if(this.modalType === 'add'){
-        this.academictermService.createAcademicterm(academicterm,'62278fc07cd6e2804e406399').subscribe(
+        this.academictermService.createAcademicterm(academicterm,this.form.value.academicyearid).subscribe(
           (result)=>{
             
             console.log(result)
