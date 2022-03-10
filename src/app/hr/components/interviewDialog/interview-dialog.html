@@ -1,16 +1,63 @@
-<h2 mat-dialog-title>{{ data['interview']?.title }}</h2>
+<h2 mat-dialog-title>
+  {{ user['type']==='EADMIN'?'Edit Interview': data['interview']?.title }}
+</h2>
+<input
+  type="text"
+  class="form-control mb-4"
+  [style.display]="user['type']==='EADMIN'?'block': 'none'"
+  [(ngModel)]="data['interview'].title"
+  placeholder="title"
+/>
 <mat-dialog-content>
   <h4>Files</h4>
   <strong>{{ data['interview']?.files }}</strong>
   <h4>Tests</h4>
-  <div *ngFor="let test of data['interview']?.test">
+  <div
+    *ngFor="let test of data['interview']?.test"
+    [style.display]="user['type']==='EADMIN'?'none': 'block'"
+  >
     Title : <strong>{{ test.title }}</strong> <br />
     Description :<strong>{{ test.description }}</strong><br />
     URL: <strong>{{ test.url }}</strong><br />
+  </div>
+
+  <div
+    *ngFor="let test of data['interview']?.test"
+    [style.display]="user['type']==='EADMIN'?'block': 'none'"
+  >
+    Title :
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="test.title"
+      placeholder="title"
+    />
+    <br />
+    Description :<input
+      class="form-control"
+      type="text"
+      [(ngModel)]="test.description"
+      placeholder="description"
+    /><br />
+    URL:
+    <input
+      class="form-control"
+      type="text"
+      [(ngModel)]="test.url"
+      placeholder="url"
+    />
+    <br />
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div mat-div [mat-dialog-close]="true">
     <app-button-filled [title]="'close'"></app-button-filled>
+  </div>
+  <div [mat-dialog-close]="'close'">
+    <app-button-outline
+      [style.display]="user['type']==='EADMIN'?'block': 'none'"
+      [title]="'EDIT'"
+      (onClick)="updateRecord(data['interview'])"
+    ></app-button-outline>
   </div>
 </mat-dialog-actions>

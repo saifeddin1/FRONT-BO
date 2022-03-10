@@ -5,6 +5,7 @@ import { EmployeeSummaryService } from './hr/services/employee-summary.service';
 import { STUDENT } from './lms/constants/roles.constant';
 import { User } from './lms/models/user.model';
 import { UserService } from './lms/services/user.service';
+import { NotificationsService } from './services/notifications.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -14,16 +15,19 @@ export class AppComponent implements OnInit {
   notificationItems: Notification[];
   solutions:string= 'LMS SYSTEM 🔻' ;
   dropDownActive: boolean;
+  unreadNotifications: number;
   constructor(
     private router: Router,
     private userService: UserService,
-    private employeeService: EmployeeSummaryService
+    private employeeService: EmployeeSummaryService,
+    private notificationService: NotificationsService
   ) {
     this.dropDownActive = false;
   }
 
   ngOnInit() {
     this.getNotifications();
+    this.unreadCount();
   }
 
   shoudNavShow() {
@@ -53,7 +57,21 @@ export class AppComponent implements OnInit {
     });
   }
   toggleIsRead(notif) {
-    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$');
-    notif.isRead = true;
+    if (notif.isRead) {
+      return;
+    }
+    this.notificationService
+      .updateNotification(notif._id, { isRead: true })
+      .subscribe((result) => {
+        notif.isRead = result['response']['isRead'];
+        console.log('⚡ ~  toggleIsRead ~ result', result);
+        this.unreadCount();
+      });
+  }
+  unreadCount() {
+    this.notificationService.getUnreadNotifCount().subscribe((result) => {
+      this.unreadNotifications = result['response'];
+      console.log('⚡ ~ ~ ~ unreadCount ~ result', result);
+    });
   }
 }

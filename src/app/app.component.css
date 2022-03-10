@@ -37,6 +37,7 @@
   min-width: 200px;
   top: 60px;
   width: max-content;
+  border: 1px solid #f1f1f1;
   max-width: 500px;
 }
 .notif-count {

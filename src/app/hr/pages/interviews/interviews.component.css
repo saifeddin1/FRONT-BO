@@ -1,3 +1,6 @@
+th {
+  background-color: #f1f1f1 !important;
+}
 td,
 th {
   font-size: 17px;
@@ -8,4 +11,41 @@ select {
   padding: 5px;
   border-radius: 5px;
   border-color: #ccc;
+}
+.interview-add {
+  transition: all 2s ease-in-out;
+}
+
+.interviews-header {
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.interviews-header .heading {
+  font-size: 2rem;
+}
+
+.interviews-header .mat-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  height: auto;
+  width: auto;
+}
+.interviews-wrapper {
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+}
+.interviews-wrapper .mat-icon {
+  cursor: pointer;
+}
+.interviews-wrapper .candidate {
+  display: flex;
+  font-size: 1.2em;
+}
+.interviews-wrapper .candidate .headshot img {
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
 }

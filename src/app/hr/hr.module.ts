@@ -8,6 +8,8 @@ import { HrdashboardComponent } from './pages/hrdashboard/hrdashboard.component'
 import { HRRoutingModule } from './hr-routing.module';
 import { InterviewsComponent } from './pages/interviews/interviews.component';
 import { RouterModule } from '@angular/router';
+import { ClarityModule, ClrIconModule } from '@clr/angular';
+
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
@@ -45,6 +47,8 @@ import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-time
     HRRoutingModule,
     RouterModule,
     SharedModule,
+    ClarityModule,
+    ClrIconModule,
     FormsModule,
     ReactiveFormsModule,
     MatDialogModule,
