@@ -8,6 +8,7 @@ import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { AboutComponent } from '../lms/pages/home-pages/about/about.component';
 import { AccountingComponent } from './accounting.component';
 import { ProgramComponent } from './pages/program/program.component';
+import { AcademictermComponent } from './pages/academicterm/academicterm.component';
 
 
 
@@ -23,7 +24,8 @@ const routes: Routes = [
       { path: 'program', component:ProgramComponent, pathMatch: 'full' },
       {path:'feeCategory',component:FeeCategoryComponent, pathMatch:'full'},
       {path:'academicyear',component:AcademicyearComponent, pathMatch:'full'},
-      {path:'feestructure',component: FeestructureComponent, pathMatch:'full'}
+      {path:'feestructure',component: FeestructureComponent, pathMatch:'full'},
+      {path:'academicterm',component: AcademictermComponent, pathMatch:'full'}
     
     ],
   },

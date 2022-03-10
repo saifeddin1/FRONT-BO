@@ -12,6 +12,7 @@ import { UsersService } from '../../services/users.service';
 })
 export class UsersComponent implements OnInit {
 
+  studentnivs : object[] = [];
   clrModalOpen: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
@@ -28,6 +29,7 @@ export class UsersComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService ) 
   {
     this.getallUsers();
+    this.getstudentniv();
    }
 
   ngOnInit(): void {
@@ -35,6 +37,20 @@ export class UsersComponent implements OnInit {
   }
 
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
+
+  getstudentniv(){
+    this.usersService.getStudetNiv().subscribe(
+      (res)=>{
+        this.studentnivs = res;
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+
+    
+
+  }
   getallUsers(){
     this.usersService.getUsers().subscribe(
       (res)=>{
@@ -90,7 +106,7 @@ export class UsersComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    location.reload();
+    
   }
 
   onSubmit(){
@@ -109,7 +125,6 @@ export class UsersComponent implements OnInit {
         birthday:this.form.value.birthday
 
       }
-      console.log("***********",user)
       
       if(this.modalType === 'add'){
         this.usersService.createUser(user).subscribe(
@@ -117,6 +132,8 @@ export class UsersComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
+            this.getallUsers();
+
           },
           (err)=>{
             console.log(err)
@@ -127,6 +144,8 @@ export class UsersComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
+            this.getallUsers();
+
           },(err)=>{
             console.log(err)
             this.toasterService.error('Something wrong')
@@ -138,6 +157,22 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  activateUser(id:string){
+
+    this.usersService.activateUser(id).subscribe(
+      (result)=>{
+        console.log('Activated successfully:',result);
+        this.toasterService.success('Activated Successfully');
+        this.getallUsers();
+
+      },(err)=>{
+        console.log(err)
+        this.toasterService.error('Something wrong')
+      }
+
+    )
+  }
+
   editById(body: Partial<User>) {
     this.fillFormModel(body);
     this.openModal('edit');
@@ -147,7 +182,8 @@ export class UsersComponent implements OnInit {
     this.usersService.deleteUser(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
-        location.reload();
+        this.getallUsers();
+
       },
       (err)=>{
         this.toasterService.error('Something wrong ')

@@ -7,6 +7,7 @@ import { AccountingRoutingModule } from './accounting-routing.module';
 import { AccountingComponent } from './accounting.component';
 import { ProgramComponent } from './pages/program/program.component';
 import { ClarityModule } from '@clr/angular';
+import { CdkTableModule} from '@angular/cdk/table'
 import { ClrIconModule } from '@clr/angular';
 import { MatTableModule } from '@angular/material/table'  
 import { MatSortModule } from '@angular/material/sort';
@@ -14,9 +15,10 @@ import {MatIconModule} from '@angular/material/icon';
 import { FeeCategoryComponent } from './pages/fee-category/fee-category.component';
 import { AcademicyearComponent } from './pages/academicyear/academicyear.component';
 import { FeestructureComponent } from './pages/feestructure/feestructure.component';
+import { AcademictermComponent } from './pages/academicterm/academicterm.component';
 
 @NgModule({
-  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent],
+  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent],
   imports: [
     CommonModule,
     AccountingRoutingModule,
@@ -28,12 +30,14 @@ import { FeestructureComponent } from './pages/feestructure/feestructure.compone
     MatTableModule,
     MatSortModule,
     MatIconModule,
+    CdkTableModule
   ],
   exports:[
     AccountingComponent,
     ProgramComponent,
     FeeCategoryComponent,
     AcademicyearComponent,
+    AcademictermComponent,
     FeestructureComponent
   ]
 })
