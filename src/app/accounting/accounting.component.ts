@@ -39,6 +39,11 @@ const ROUTES : Array<Route>=[
     icon:'layers',
     label:'Fee Structure',
   },
+  {
+    link:'./groupstudent',
+    icon:'layers',
+    label:'Group Student',
+  },
  
  
  

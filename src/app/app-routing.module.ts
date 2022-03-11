@@ -28,7 +28,7 @@ import { AnonymousGuard } from './core/guards/anonymous.guard';
 const routes: Routes = [
   // { path: '', redirectTo: 'about', pathMatch: 'full' },
   {
-    path: 'signup',
+    path: 'signup/',
     component: LoginSignupComponent,
     canActivate: [AnonymousGuard],
   },

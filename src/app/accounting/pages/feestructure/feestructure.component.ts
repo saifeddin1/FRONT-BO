@@ -113,7 +113,7 @@ export class FeestructureComponent implements OnInit {
 
 
       }
-      console.log("***********",this.form.value._id)
+      
       
       if(this.modalType === 'add'){
         this.feeStructureService.createFeestructure(program).subscribe(
