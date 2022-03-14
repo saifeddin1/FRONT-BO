@@ -73,13 +73,11 @@
 }
 
 .route-content {
-  background-color: #fff;
   box-shadow: 5px 5px 30px #f1f1f1;
-  border: 2px solid #ffffff;
   border-radius: 30px;
   width: 100%;
-  padding: 2rem;
-  overflow-y: scroll;
+  padding: 1rem;
+  height: auto;
   margin-left: 10px;
 }
 .navitem {

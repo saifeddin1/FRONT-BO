@@ -1,65 +1,114 @@
-<h2 class="mb-5">Summary</h2>
-<div class="picture d-flex align-items-end">
-  <h2 class="mt-2 ml-3">{{ userFile?.userRef }}</h2>
-</div>
+<div class="">
+  <div class="summary-wrapper">
+    <div class="hr-card profile">
+      <!-- <span>👨‍🎓 Profile</span> -->
+      <div class="headshot">
+        <img
+          src="../../../../assets/img/{{ userFile?.profile.image }}"
+          alt=""
+        />
+      </div>
+      <div class="info-column">
+        <h4>{{ userFile?.userRef }}</h4>
 
-<div class="container d-flex border pb-4 mb-4">
-  <div class="card mx-2 p-5">
-    <div class="profile">
-      <h3>👨‍🎓 Profile</h3>
-      <hr class="w-25" />
-      <!-- ID : {{ userFile?._id }} <br /> -->
-      <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
-      <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
-      timeOffBalance : <b>{{ userFile?.timeOffBalance }}</b> <br />
-      Position : <b>{{ userFile?.profile["position"] }}</b> <br />
-      Email : <b>{{ userFile?.profile["proEmail"] }}</b> <br />
-    </div>
-    <hr />
-    <div class="contract">
-      <h3>📜 Active Contract</h3>
-      <hr class="w-25" />
-      <!-- ID : {{ contract._id }} <br /> -->
-      Contract Type : <b>{{ contract?.contractType }}</b> <br />
-      <!-- userId : <b>{{ contract?.userId }}</b> <br /> -->
-      Hours per Week : <b>{{ contract?.hoursNumber }}</b> <br />
-      Start Date :
-      <b>{{ formatDate(contract?.startDate) }}</b> <br />
-    </div>
-    <a routerLink="contracts" class="d-flex justify-content-end">See all</a>
-  </div>
+        <div class="position">
+          <mat-icon>business_center</mat-icon> &nbsp;
+          {{ userFile?.profile.position }}
+        </div>
+        <div class="address bold-text">
+          <mat-icon>location_on</mat-icon> &nbsp;
+          {{ userFile?.profile.address }}
+        </div>
+        <p>
+          Some long long descripttionSome long long descripttion Some long long
+          descripttion Some long long
+        </p>
+      </div>
+      <div class="info-column">
+        <div class="birth"><mat-icon>face</mat-icon> &nbsp; June, 20th</div>
+        <div class="start-date">
+          <mat-icon>calendar_today</mat-icon> &nbsp; June, 20th 2022
+        </div>
+        <div class="email">
+          <mat-icon> email</mat-icon> &nbsp; me.saifeddin@gmail.com
+        </div>
+      </div>
 
-  <div class="card mx-2 p-5">
-    <div class="Interviews">
-      <h3>🖥️ Upcoming Interviews</h3>
-      <hr class="w-25" />
-      <!-- ID : {{ userFile?._id }} <br /> -->
-      <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
-      <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
-      <div *ngFor="let interview of interviews">
-        <div class="row lh-lg">
-          <div class="col-5">Interview Date :</div>
-          <div class="col-7">
-            <b>{{ formatDate(interview?.date) }}</b>
-          </div>
-        </div>
-        <div class="row lh-lg">
-          <div class="col-5">Title :</div>
-          <div class="col-7">
-            <b>{{ interview?.title }}</b>
-          </div>
-        </div>
-        <hr />
+      <!-- <div><span>TimeOff Balance </span> {{ userFile?.timeOffBalance }}</div>
+      <div><span>Position </span> {{ userFile?.profile["position"] }}</div>
+      <div><span>Email </span> {{ userFile?.profile["proEmail"] }}</div> -->
+    </div>
+    <div class="timeoff-balance">
+      <span class="title"> TimeOff Balance</span>
+      <div class="hr-card">
+        <span>{{ userFile?.timeOffBalance }}</span>
       </div>
     </div>
-    <a
-      routerLink="interviews"
-      class="d-flex justify-content-end align-items-end"
-      >See all</a
-    >
+  </div>
+
+  <div class="summary-wrapper">
+    <div class="contract">
+      <h4 class="heading">Active Contract</h4>
+      <div *ngIf="contract" class="hr-card">
+        <div class="row">
+          <div class="col">
+            <span class="bold-text"> Contract Type :</span>
+          </div>
+          <div class="col">
+            {{ contract?.contractType }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="bold-text">Hours per Week :</span>
+          </div>
+          <div class="col">
+            {{ contract?.hoursNumber }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="bold-text">Start Date :</span>
+          </div>
+          <div class="col">
+            {{ formatDate(contract?.startDate) }}
+          </div>
+        </div>
+      </div>
+      <div class="hr-card" *ngIf="!contract">
+        <span>No Active Contracts.</span>
+      </div>
+    </div>
+    <div class="interviews">
+      <h4 class="heading">Upcoming Interviews</h4>
+      <!-- ID : {{ userFile?._id }} <br /> -->
+      <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
+      <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
+      <div *ngIf="interviews && interviews.length">
+        <div *ngFor="let interview of interviews" class="hr-card">
+          <div class="row lh-lg">
+            <div class="col-5">
+              <span class="bold-text">Interview Date :</span>
+            </div>
+            <div class="col-7">
+              {{ formatDate(interview?.date) }}
+            </div>
+          </div>
+          <div class="row lh-lg">
+            <div class="col-5"><span class="bold-text">Title :</span></div>
+            <div class="col-7">
+              {{ interview?.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!interviews || !interviews.length" class="hr-card">
+        No upcoming interviews
+      </div>
+    </div>
   </div>
 </div>
-<div class="p-3 border">
+<!-- <div class="p-3 border">
   <h2>Current TimeSheet</h2>
   <table class="table table-striped">
     <thead>
@@ -98,4 +147,4 @@
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->

@@ -13,7 +13,7 @@ import { NotificationsService } from './services/notifications.service';
 })
 export class AppComponent implements OnInit {
   notificationItems: Notification[];
-  solutions:string= 'LMS SYSTEM 🔻' ;
+  solutions: string = 'LMS SYSTEM 🔻';
   dropDownActive: boolean;
   unreadNotifications: number;
   constructor(
@@ -37,8 +37,8 @@ export class AppComponent implements OnInit {
   }
   token: string = localStorage.getItem('token');
 
-  navigateTo(here: string, name:string) {
-    this.solutions=name+" 🔻";
+  navigateTo(here: string, name: string) {
+    this.solutions = name + ' 🔻';
     this.router.navigate([here]);
   }
   shouldButtonHide(role) {

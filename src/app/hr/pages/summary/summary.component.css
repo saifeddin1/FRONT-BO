@@ -3,3 +3,73 @@ th {
   font-size: 17px;
   padding: 1rem !important;
 }
+
+.summary-wrapper {
+  display: flex;
+  align-content: center;
+  justify-content: space-around;
+  margin-bottom: 1rem;
+}
+
+.hr-card {
+  margin-inline: 5px;
+  background-color: #fff;
+  /* width: 50%; */
+  border-radius: 5px;
+  padding: 1rem;
+  box-shadow: 0px 5px 30px #f1f1f1;
+}
+
+.summary-wrapper .hr-card.profile {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 75%;
+}
+
+.summary-wrapper .hr-card.profile .address,
+.summary-wrapper .hr-card.profile .position,
+.summary-wrapper .hr-card.profile .birth,
+.summary-wrapper .hr-card.profile .start-date,
+.summary-wrapper .hr-card.profile .email {
+  display: flex;
+  align-items: center;
+  margin-block: 5px;
+  font-weight: 600;
+}
+.summary-wrapper .hr-card.profile img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+.summary-wrapper .hr-card .bold-text {
+  font-weight: 600;
+  line-height: 35px;
+}
+.summary-wrapper .timeoff-balance {
+  text-align: center;
+}
+
+.summary-wrapper .timeoff-balance span.title {
+  font-weight: 700;
+  margin-bottom: 15px;
+  font-size: 20px;
+}
+.summary-wrapper .timeoff-balance .hr-card span {
+  font-size: 45px;
+  font-weight: normal;
+  line-height: 7.5rem;
+  width: 200px;
+}
+
+.summary-wrapper .interviews {
+  width: 45%;
+}
+.summary-wrapper .contract {
+  width: 44%;
+}
+.summary-wrapper .interviews .heading,
+.summary-wrapper .contract .heading {
+  padding-left: 1rem;
+  line-height: 40px;
+}

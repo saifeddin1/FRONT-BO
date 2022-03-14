@@ -25,6 +25,7 @@
               class="form-control"
               placeholder="first name"
               value="{{ userFile?.userRef }}"
+              [(ngModel)]="userFile.userRef"
             />
           </div>
           <div class="col-md-6">
@@ -45,7 +46,7 @@
               class="form-control"
               placeholder="enter phone number"
               value="{{ userFile?.profile.phone }}"
-              [(ngModel)]="profile.phone"
+              [(ngModel)]="userFile?.profile.phone"
             />
           </div>
           <div class="col-md-12">
@@ -55,7 +56,7 @@
               class="form-control"
               placeholder="enter address line 1"
               value="{{ userFile?.profile.address }}"
-              [(ngModel)]="profile.address"
+              [(ngModel)]="userFile?.profile.address"
             />
           </div>
 
@@ -66,7 +67,7 @@
               class="form-control"
               placeholder="enter email id"
               value="{{ userFile?.profile.proEmail }}"
-              [(ngModel)]="profile.proEmail"
+              [(ngModel)]="userFile?.profile.proEmail"
             />
           </div>
         </div>
@@ -107,7 +108,7 @@
         <div class="mt-5 w-100 d-flex justify-content-end align-items-end">
           <!-- <button (click)="updateEmployee()">save</button> -->
           <app-button-outline
-            (onClick)="updateEmployee()"
+            (onClick)="updateEmployee(userFile)"
             [title]="'Save'"
           ></app-button-outline>
         </div>

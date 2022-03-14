@@ -1,42 +1,40 @@
 <div class="global-nav" [style.display]="shoudNavShow() ? 'flex' : 'none'">
+  <button mat-button [matMenuTriggerFor]="belowMenu">{{ solutions }}</button>
+  <mat-menu #belowMenu="matMenu" yPosition="below">
+    <button
+      mat-menu-item
+      (click)="navigateTo('hr/administration', 'HR Management')"
+      [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
+    >
+      HR Management
+    </button>
+    <button
+      mat-menu-item
+      routerLink="lms"
+      [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
+      (click)="navigateTo('lms', 'LMS SYSTEM')"
+    >
+      LMS SYSTEM
+    </button>
+    <button
+      mat-menu-item
+      routerLink="accouting"
+      [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
+      (click)="navigateTo('accounting', ' ACCOUNTING SYSTEM')"
+    >
+      ACCOUNTING SYSTEM
+    </button>
 
+    <button
+      mat-menu-item
+      routerLink="identity"
+      [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
+      (click)="navigateTo('identity', 'IDENTITY')"
+    >
+      IDENTITY
+    </button>
+  </mat-menu>
 
-  <button mat-button [matMenuTriggerFor]="belowMenu">{{solutions}}</button>
-    <mat-menu #belowMenu="matMenu" yPosition="below">
-      <button mat-menu-item
-    (click)="navigateTo('hr/administration','HR Management')"
-    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
-  >
-    HR Management
-  </button>
-  <button mat-menu-item
-    routerLink="lms"
-    [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
-    (click)="navigateTo('lms', 'LMS SYSTEM')"
-  >
-    LMS SYSTEM
-  </button>
-  <button mat-menu-item
-    routerLink="accouting"
-    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
-    (click)="navigateTo('accounting',' ACCOUNTING SYSTEM')"
-  >
-    ACCOUNTING SYSTEM
-  </button>
-
-  <button mat-menu-item
-    routerLink="identity"
-    [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
-    (click)="navigateTo('identity','IDENTITY')"
-  >
-    IDENTITY
-  </button>
-      
-    </mat-menu>
-
-  
-
-  
   <div
     class="notif-bell"
     [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"

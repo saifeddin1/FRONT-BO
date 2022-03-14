@@ -62,9 +62,9 @@ export class ProfileComponent implements OnInit {
     this.toastr.error('Something went wrong.');
   }
 
-  updateEmployee() {
+  updateEmployee(file) {
     this.summaryService
-      .updateProfile(this.profile)
+      .updateProfile(file)
       .pipe(
         catchError((err) => {
           console.log('Handling error locally and rethrowing it...', err);

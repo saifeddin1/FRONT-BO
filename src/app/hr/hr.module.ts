@@ -26,6 +26,8 @@ import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 import { CollaboratorDialogComponent } from './components/collaborator-dialog/collaborator-dialog.component';
 import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
+import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
+import { EmployeeDialogComponent } from './components/employee-dialog/employee-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-time
     TimeoffsComponent,
     CollaboratorDialogComponent,
     ManageTimesheetsComponent,
+    ManageEmployeesComponent,
+    EmployeeDialogComponent,
   ],
   imports: [
     HRRoutingModule,

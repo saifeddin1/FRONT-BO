@@ -12,6 +12,7 @@ import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
 import { PreventStudentGuard } from './helpers/prevent-student.guard';
+import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'collaborators',
         component: CollaboratorsComponent,
+      },
+      {
+        path: 'manage-employees',
+        component: ManageEmployeesComponent,
       },
       {
         path: 'profile',
