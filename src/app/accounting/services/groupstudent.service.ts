@@ -13,6 +13,9 @@ export class GroupstudentService {
 
   private BASE_URL: string= environment.Accounting;
 
+  getStudentgroup():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/`);
+  }
   getStudents():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/student/`);
   }

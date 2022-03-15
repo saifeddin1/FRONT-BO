@@ -56,10 +56,10 @@ export class UserService {
       email,
       type,
       studentNiveauId,
-      studentOffreId,
-      profile,
-      phone,
-      permissions,
+      // studentOffreId,
+      // profile,
+      phone, 
+      // permissions,
     } = newUser;
     return this.http.post<{ token: string }>(
       `${environment.IdentityApi}/api/v1/auth/register`,
@@ -69,10 +69,10 @@ export class UserService {
         email,
         type,
         studentNiveauId,
-        studentOffreId,
-        profile,
+        // studentOffreId,
+        // profile,
         phone,
-        permissions,
+        // permissions,
       }
     );
   }

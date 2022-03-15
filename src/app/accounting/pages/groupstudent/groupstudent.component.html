@@ -4,7 +4,7 @@
       class="row d-flex dates"
       style="justify-content: space-between; align-items: center"
     >
-      <h6>Group Student Table</h6>
+      <h6>Group Student </h6>
 
       <div class="profile-card">
         <div class="edit-button"  style="float:left">
@@ -19,6 +19,17 @@
     <form [formGroup]="form1">
       <div class="row d-flex cadre">
         <div class="left modal-body">
+
+          <div class="modalRow resize-input">
+            <strong>name</strong>
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="name"
+              formControlName="name"
+            />
+          </div>
+
           <div class="modalRow resize-input position-top ">
             <strong>academic year</strong>
             
@@ -56,6 +67,7 @@
               formControlName="program"
             />
             <section class="section-search" *ngIf="ismatch && programs.length > 0">
+              <p *ngIf="   programs.length < 1 ">Sorry nothing found</p>
               <ng-template ngFor let-program [ngForOf]="programs" let-i="index">
               
                 <p (click)=" ismatch=false">{{ program?.name }}</p>
