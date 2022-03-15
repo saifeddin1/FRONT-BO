@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { STUDENT } from 'src/app/lms/constants/roles.constant';
+import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { AddEmployeeDialogComponent } from '../../components/add-employee-dialog/add-employee-dialog.component';
 import { EmployeeDialogComponent } from '../../components/employee-dialog/employee-dialog.component';
 import { File } from '../../models/file.models';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
@@ -11,6 +14,8 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
   styleUrls: ['./manage-employees.component.css'],
 })
 export class ManageEmployeesComponent implements OnInit {
+  users: User[];
+
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -19,8 +24,14 @@ export class ManageEmployeesComponent implements OnInit {
   employees: File[];
   ngOnInit(): void {
     this.getAllEmployeesFiles();
+    this.getUsers();
   }
-
+  getUsers() {
+    this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
+      this.users = result['response'];
+      console.log('result', this.users);
+    });
+  }
   getAllEmployeesFiles() {
     this.employeeService.getFiles().subscribe((result) => {
       this.employees = result['response'][0]['totalData'];
@@ -39,7 +50,7 @@ export class ManageEmployeesComponent implements OnInit {
       }
     );
   }
-  openDialog(event) {
+  openUpdateDialog(event) {
     let _employee_id = event?.target?.id;
     console.log(event?.target);
 
@@ -55,6 +66,21 @@ export class ManageEmployeesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
+    });
+  }
+
+  openCreateDialog(event) {
+    const dialogRef = this.dialog.open(AddEmployeeDialogComponent, {
+      height: 'auto',
+      width: '700px',
+      data: {
+        users: this.users,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getAllEmployeesFiles();
     });
   }
 }

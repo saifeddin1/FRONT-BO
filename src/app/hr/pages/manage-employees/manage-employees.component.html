@@ -1,6 +1,6 @@
 <div class="main-wrapper">
   <div class="btn-add-employee">
-    <button>Add employee</button>
+    <button (click)="openCreateDialog($event)">Add employee</button>
   </div>
   <div class="employees-list">
     <div class="employee-card-header">
@@ -33,7 +33,7 @@
         {{ employee.profile.address }}
       </div>
       <div class="manage-actions">
-        <mat-icon id="{{ employee?._id }}" (click)="openDialog($event)"
+        <mat-icon id="{{ employee?._id }}" (click)="openUpdateDialog($event)"
           >edit</mat-icon
         >
         <div class="vertical-row"></div>

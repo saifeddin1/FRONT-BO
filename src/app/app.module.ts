@@ -10,8 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
-
+import { MatMenuModule } from '@angular/material/menu';
 
 // import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 // import { GlobalSearchComponent } from './components/global-search/global-search.component';
@@ -85,8 +84,9 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     // WorkProcessComponent,
     // PricingComponent,
     // TestimonialsComponent,
+    // ImgPreloaderDirective,
+
     LoginSignupComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -118,7 +118,7 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     LMSModule,
     MatMenuModule,
     AccountingModule,
-    EidentityModule
+    EidentityModule,
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

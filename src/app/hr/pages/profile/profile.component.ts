@@ -38,7 +38,23 @@ export class ProfileComponent implements OnInit {
   constructor(
     private summaryService: EmployeeSummaryService,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.userFile = {
+      userId: this.currentUser?._id,
+      userRef: '',
+      timeOffBalance: 0,
+      profile: {
+        image: '',
+        position: '',
+        proEmail: '',
+        phone: 0,
+        address: '',
+        jobType: '',
+        workFrom: '',
+        seniorityLevel: '',
+      },
+    };
+  }
 
   ngOnInit(): void {
     this.getEmployeeFileDetails();

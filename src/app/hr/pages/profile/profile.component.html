@@ -19,22 +19,13 @@
       <div class="">
         <div class="row mt-2">
           <div class="col-md-6">
-            <label class="labels my-2">Name</label
+            <label class="labels my-2">Full Name</label
             ><input
               type="text"
               class="form-control"
-              placeholder="first name"
+              placeholder="full name"
               value="{{ userFile?.userRef }}"
               [(ngModel)]="userFile.userRef"
-            />
-          </div>
-          <div class="col-md-6">
-            <label class="labels my-2">Surname</label
-            ><input
-              type="text"
-              class="form-control"
-              value=""
-              placeholder="surname"
             />
           </div>
         </div>
@@ -116,7 +107,11 @@
     </div>
   </div>
 </div>
-<div class="row border mt-3 px-5 d-flex align-items-center">
+
+<div
+  class="row border mt-3 px-5 d-flex align-items-center"
+  *ngIf="employeeContract"
+>
   <div
     class="d-flex justify-content-between align-items-center mt-5 employee-profile-section-title"
   >

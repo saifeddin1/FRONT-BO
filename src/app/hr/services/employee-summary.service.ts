@@ -69,6 +69,11 @@ export class EmployeeSummaryService {
   }
 
   // --------------------------------- PROFILE / FILE -----------------------------
+
+  createEmployeeFile(body: File): Observable<File> {
+    return this.http.post<File>(`${this.BASE_URL}/files`, body);
+  }
+
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
@@ -78,7 +83,6 @@ export class EmployeeSummaryService {
   }
 
   getFileDetails(): Observable<File> {
-    console.log('😁😁😁😁😁', getToken());
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
