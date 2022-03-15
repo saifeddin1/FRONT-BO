@@ -28,6 +28,9 @@ const colors: any = {
 })
 
 export class VcCalendarComponent implements OnInit {
+   formElemet = document.getElementById('123');
+
+  conratsEchec:any;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
@@ -66,6 +69,7 @@ export class VcCalendarComponent implements OnInit {
   ngOnInit(): void {
     this.getAll();
     console.log(this.events)
+    this.formElemet.hidden=true;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -144,16 +148,25 @@ export class VcCalendarComponent implements OnInit {
     )
   }
   openDialog(templateRef) {
-    let dialogRef = this.dialog.open(templateRef, {
 
-    });
+    this.dialog.open(templateRef);
   }
   // *****add new meet*****
-  addNewMeet(){
-    // this.toastr.warning('verify your infos', '')
-    this.calendarService.addVC(this.meet).subscribe(res=>{
-
+  addNewMeet(templateRef1,tmpref2){
+    console.log(this.meet)
+    if (this.meet.startDate>this.meet.endDate){
+      this.conratsEchec="check your data"
+      this.dialog.open(tmpref2);
+  }
+  else{
+      this.calendarService.addVC(this.meet).subscribe(res=>{
     });
+    this.conratsEchec="added successfully"
+    this.dialog.open(tmpref2);
+  }
+  }
+  closeeeModal(){
+    this.dialog.closeAll()
   }
 
 }

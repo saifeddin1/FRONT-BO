@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./vc-profile.component.css']
 })
 export class VcProfileComponent implements OnInit {
-
+  disabled:any=""
   constructor() { }
 
   ngOnInit(): void {
+  }
+
+  enableEdit(){
+    this.disabled="false"
+  }
+  createe(){
+    console.log(this.disabled)
   }
 
 }

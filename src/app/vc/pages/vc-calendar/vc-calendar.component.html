@@ -1,13 +1,25 @@
-<button (click)="openDialog(template)">Open my dialog</button>
+<ng-template #templateSuccess>
+  <p>{{conratsEchec}}</p>
+  <button (click)="closeeeModal()">OK</button>
+</ng-template>
+<button (click)="openDialog(template)" id="123">add new meet</button>
 <ng-template #template>
     <input type="datetime-local" name="" id="" [(ngModel)]="meet.startDate"><br>
-    <input type="datetime-local" name="" id="" [(ngModel)]="meet.endDate"><br>
+    <mat-form-field>
+      <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" [(ngModel)]="disabled">
+
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+
+      <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+      <input Matinput type="text">
+    </mat-form-field>
     <input type="text" [(ngModel)]="meet.classId"><br>
     <input type="text" [(ngModel)]="meet.url"><br>
     <input type="text" [(ngModel)]="meet.description"><br>
     <input type="text" [(ngModel)]="meet.name"><br>
-    <button (click)="addNewMeet()">Save</button>
+    <button (click)="addNewMeet(template,templateSuccess)">Save</button>
 </ng-template>
+
 <div class="calendar">
   <!-- <div class="card" id="delete-account"> -->
   <div

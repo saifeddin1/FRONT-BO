@@ -13,9 +13,23 @@ import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.componen
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
 import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
+
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatInputModule } from '@angular/material/input';
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+
+
+
 
 @NgModule({
+
   declarations: [
+      VcProfileComponent,
       VcCalendarComponent,
       VcDashboardComponent,
       VcLiveSessionsComponent,
@@ -24,19 +38,31 @@ import { MatDialogModule } from '@angular/material/dialog';
       VcDevoirsComponent
   ],
   imports: [
+    MatInputModule,
+    MatDatepickerModule,
+    MatIconModule,
+    MatButtonModule,
+    MatFormFieldModule,
     MatDialogModule,
     CommonModule,
     VcRoutingModule,
     FormsModule,
     NgbModalModule,
+    BrowserAnimationsModule,
+
 
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    MatFormFieldModule,
+    NgxMatNativeDateModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
 
   ],
+
 
 
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
