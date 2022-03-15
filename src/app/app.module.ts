@@ -55,6 +55,7 @@ import { SharedModule } from './shared/shared.module';
 import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
+import { VcModule } from './vc/vc.module';
  
 
 @NgModule({
@@ -122,6 +123,7 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     MatMenuModule,
     AccountingModule,
     EidentityModule,
+    VcModule
  
   ],
   // providers: [

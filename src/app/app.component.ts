@@ -26,8 +26,8 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getNotifications();
-    this.unreadCount();
+    // this.getNotifications();
+    // this.unreadCount();
   }
 
   shoudNavShow() {
