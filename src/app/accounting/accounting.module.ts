@@ -22,9 +22,10 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FeestructureComponent } from './pages/feestructure/feestructure.component';
 import { AcademictermComponent } from './pages/academicterm/academicterm.component';
 import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
+import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
 
 @NgModule({
-  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent],
+  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent, FeescheduleComponent],
   imports: [
     CommonModule,
     AccountingRoutingModule,
@@ -48,7 +49,8 @@ import { GroupstudentComponent } from './pages/groupstudent/groupstudent.compone
     AcademicyearComponent,
     AcademictermComponent,
     FeestructureComponent,
-    GroupstudentComponent
+    GroupstudentComponent,
+    FeescheduleComponent
   ]
 })
 export class AccountingModule { }

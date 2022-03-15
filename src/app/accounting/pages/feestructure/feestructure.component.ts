@@ -17,6 +17,7 @@ export class FeestructureComponent implements OnInit {
   form: FormGroup;
   displayedColumns : string[]=[
     '#',
+    'name',
     'program',
     'academicyear',
     'academicterm',
@@ -54,6 +55,7 @@ export class FeestructureComponent implements OnInit {
   createForm() {
     this.form = this.formBuilder.group({
       _id: '',
+      name: ['', [Validators.required]],
       program: ['', [Validators.required]],
       academicyear: ['', [Validators.required]],
       academicterm: ['', [Validators.required]],
@@ -69,13 +71,14 @@ export class FeestructureComponent implements OnInit {
   fillFormModel(body) {
     this.form.patchValue({
       _id: body._id,
+      name:body.name,
       program: body.program,
       academicyear: body.academicyear,
       academicterm: body.academicterm,
       studentCategory: body.studentCategory,
       feeCategory: body.feeCategory,
       description: body.description,
-      amount:body.amount
+      amount: body.amount
     });
   }
 
@@ -101,6 +104,7 @@ export class FeestructureComponent implements OnInit {
 
      
       const program={
+        name:this.form.value.name,
         program : this.form.value.program,
         academicyear : this.form.value.academicyear,
         academicterm: this.form.value.academicterm,
@@ -108,11 +112,8 @@ export class FeestructureComponent implements OnInit {
         feeCategory: this.form.value.feeCategory,
         description: this.form.value.description,
         amount: this.form.value.amount,
-
-
-
-
-      }
+    }
+    
       
       
       if(this.modalType === 'add'){

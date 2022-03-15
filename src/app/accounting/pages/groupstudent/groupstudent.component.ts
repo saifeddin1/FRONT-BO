@@ -1,12 +1,11 @@
 import { Program } from './../../models/program.model';
 import { Academicterm } from './../../models/academicterm.model';
-import { AcademictermService } from './../../services/academicterm.service';
 import { AcademicyearService } from './../../services/academicyear.service';
 import { GroupstudentService } from './../../services/groupstudent.service';
 import { Academicyear } from './../../models/acadmicyear.model';
 import { FeeStructure } from './../../models/feeStructure.model';
 import { FeestructureService } from './../../services/feestructure.service';
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -53,7 +52,6 @@ export class GroupstudentComponent implements OnInit{
   }
  
 
-  
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getStudents(){
     this.groupstudentService.getStudents().subscribe(
@@ -87,6 +85,7 @@ export class GroupstudentComponent implements OnInit{
   this.form1 = this.formBuilder.group({
     _id: '',
     program: ['', [Validators.required]],
+    name: ['', [Validators.required]],
     academicyear: ['', [Validators.required]],
     academicterm: ['', [Validators.required]],
     maxsize: ['', [Validators.required]],
@@ -141,7 +140,7 @@ export class GroupstudentComponent implements OnInit{
         code : this.form.value.code,
         grouprollnumber: this.form.value.grouprollnumber,
       }
-      console.log("iiiid", student._id)
+     
       
         this.groupstudentService.editStudent(student._id,student).subscribe(
           (result)=>{
@@ -205,6 +204,7 @@ export class GroupstudentComponent implements OnInit{
 // Save student group first save 
 saveStudentGroup(){
   const program={
+    name : this.form1.value.name,
     program : this.form1.value.program,
     academicyear : this.form1.value.academicyear,
     academicterm: this.form1.value.academicterm,
