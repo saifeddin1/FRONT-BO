@@ -1,5 +1,6 @@
 
 export interface FeeStructure {
+    name:string,
     program:string,
     academicyear:string,
     academicterm:string,

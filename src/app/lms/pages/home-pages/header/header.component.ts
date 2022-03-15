@@ -106,7 +106,7 @@ export class HeaderComponent implements OnInit {
     if (type && type === 'login') {
       this.router.navigate(['signup', 'login']);
     } else if (type && type === 'register') {
-      this.router.navigate(['signup']);
+      this.router.navigate(['signup','register']);
     } else if (type && type === 'profile') {
       this.userService.goToProfile();
     }

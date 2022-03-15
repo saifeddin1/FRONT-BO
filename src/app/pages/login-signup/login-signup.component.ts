@@ -158,7 +158,7 @@ export class LoginSignupComponent implements OnInit {
   loginHandler(user: any) {
     this.userService.loginUser(user.email, user.password).subscribe(
       (res: boolean | { token: string } | any) => {
-        if (res === false) {
+         if (res === false) {
           this.toasterService.error(
             DEFAULT_MESSAGES.confirmation.password.invalid
           );
@@ -203,12 +203,12 @@ export class LoginSignupComponent implements OnInit {
     studentNiveauId: string;
    
   }) {
-    debugger;
+    // debugger;
     if (
       !user.username ||
       !user.email ||
       !user.password ||
-      !user.phone ||
+      !user.phone  ||
       !user.type
     ) {
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.pleaseFill);

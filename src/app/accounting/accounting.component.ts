@@ -18,6 +18,7 @@ const ROUTES : Array<Route>=[
     icon:'layers',
     label:'Program',
   },
+  
   {
     link:'./feeCategory',
     icon:'layers',
@@ -39,6 +40,16 @@ const ROUTES : Array<Route>=[
     icon:'layers',
     label:'Fee Structure',
   },
+  {
+    link:'./groupstudent',
+    icon:'layers',
+    label:'Group Student',
+  },
+  {
+    link:'./feeSchedule',
+    icon:'layers',
+    label:'Fee schedule',
+  }
  
  
  

@@ -9,6 +9,8 @@ import { AboutComponent } from '../lms/pages/home-pages/about/about.component';
 import { AccountingComponent } from './accounting.component';
 import { ProgramComponent } from './pages/program/program.component';
 import { AcademictermComponent } from './pages/academicterm/academicterm.component';
+import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
+import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
 
 
 
@@ -21,12 +23,14 @@ const routes: Routes = [
     component:  AccountingComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
-      { path: 'program', component:ProgramComponent, pathMatch: 'full' },
+      {path: 'program', component:ProgramComponent, pathMatch: 'full' },
       {path:'feeCategory',component:FeeCategoryComponent, pathMatch:'full'},
       {path:'academicyear',component:AcademicyearComponent, pathMatch:'full'},
       {path:'feestructure',component: FeestructureComponent, pathMatch:'full'},
-      {path:'academicterm',component: AcademictermComponent, pathMatch:'full'}
-    
+      {path:'academicterm',component: AcademictermComponent, pathMatch:'full'},
+      {path:'groupstudent',component:GroupstudentComponent, pathMatch:'full'},
+      {path:'feeSchedule',component:FeescheduleComponent, pathMatch:'full'}
+        
     ],
   },
   // { path: 'solutions', component: SolutionsComponent },

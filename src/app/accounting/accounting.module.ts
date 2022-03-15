@@ -9,16 +9,23 @@ import { ProgramComponent } from './pages/program/program.component';
 import { ClarityModule } from '@clr/angular';
 import { CdkTableModule} from '@angular/cdk/table'
 import { ClrIconModule } from '@clr/angular';
-import { MatTableModule } from '@angular/material/table'  
+import { MatTableModule } from '@angular/material/table' ;
 import { MatSortModule } from '@angular/material/sort';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+
+
 import {MatIconModule} from '@angular/material/icon';
 import { FeeCategoryComponent } from './pages/fee-category/fee-category.component';
 import { AcademicyearComponent } from './pages/academicyear/academicyear.component';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { FeestructureComponent } from './pages/feestructure/feestructure.component';
 import { AcademictermComponent } from './pages/academicterm/academicterm.component';
+import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
+import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
 
 @NgModule({
-  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent],
+  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent, FeescheduleComponent],
   imports: [
     CommonModule,
     AccountingRoutingModule,
@@ -30,7 +37,10 @@ import { AcademictermComponent } from './pages/academicterm/academicterm.compone
     MatTableModule,
     MatSortModule,
     MatIconModule,
-    CdkTableModule
+    CdkTableModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   exports:[
     AccountingComponent,
@@ -38,7 +48,9 @@ import { AcademictermComponent } from './pages/academicterm/academicterm.compone
     FeeCategoryComponent,
     AcademicyearComponent,
     AcademictermComponent,
-    FeestructureComponent
+    FeestructureComponent,
+    GroupstudentComponent,
+    FeescheduleComponent
   ]
 })
 export class AccountingModule { }

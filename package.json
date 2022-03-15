@@ -39,6 +39,7 @@
     "flatpickr": "^4.6.9",
     "jquery": "^3.6.0",
     "jwt-decode": "^3.1.2",
+    "luxon-angular": "^5.0.0",
     "magnific-popup": "^1.1.0",
     "moment": "^2.29.1",
     "ng": "0.0.0",

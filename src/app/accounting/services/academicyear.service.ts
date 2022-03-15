@@ -26,6 +26,10 @@ export class AcademicyearService {
     return this.http.delete(`${this.BASE_URL}/api/academicyear/${id}`)
   }
 
+  getOneAcademicyearterms(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/terms/${id}`)
+  }
+
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/academicyear/${id}`,element);
   }
