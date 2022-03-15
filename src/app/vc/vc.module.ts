@@ -18,7 +18,7 @@ import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-
+import { ClarityModule, ClrIconModule } from '@clr/angular';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
@@ -38,6 +38,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
       VcDevoirsComponent
   ],
   imports: [
+    ClarityModule, 
+    ClrIconModule,
     MatInputModule,
     MatDatepickerModule,
     MatIconModule,
