@@ -77,7 +77,7 @@ export class FeeCategoryComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    location.reload();
+    
   }
 
   onSubmit(){
@@ -99,6 +99,7 @@ export class FeeCategoryComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
+            this.getallFeeCategory();
           },
           (err)=>{
             console.log(err)
@@ -109,6 +110,7 @@ export class FeeCategoryComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
+            this.getallFeeCategory();
           },(err)=>{
             console.log(err)
             this.toasterService.error('Something wrong')
@@ -127,7 +129,7 @@ export class FeeCategoryComponent implements OnInit {
     this.feeCategoryService.deleteFeeCategory(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
-        location.reload();
+        this.getallFeeCategory();
       },
       (err)=>{
         this.toasterService.error('Something wrong ')

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { RequestOptions } from 'karma-jasmine-html-reporter';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/eidentity/models/user.model';
 import { environment } from 'src/environments/environment';
@@ -8,7 +9,7 @@ import { environment } from 'src/environments/environment';
   providedIn: 'root'
 })
 export class UsersService {
-
+ 
   constructor(private http: HttpClient) { }
 
   private BASE_URL: string = environment.IdentityApi;
@@ -22,8 +23,10 @@ export class UsersService {
   }
 
   createUser(user: any): Observable<any> {
-    const headers = { 'content-type': 'application/json'} 
-    return this.http.post<any>(`${this.BASE_URL}/api/v1/users/`, user,{'headers':headers});
+    const body = JSON.stringify(user)
+    
+
+    return this.http.post<any>(`${this.BASE_URL}/api/v1/users/`, user);
   }
 
   deleteUser(userId: string): Observable<any> {

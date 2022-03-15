@@ -80,7 +80,6 @@ export class AcademicyearComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    location.reload();
   }
 
   onSubmit(){
@@ -103,6 +102,8 @@ export class AcademicyearComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
+            this.getallAcademicyear()
+            this.closeModal()
           },
           (err)=>{
             console.log(err)
@@ -113,6 +114,8 @@ export class AcademicyearComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
+            this.getallAcademicyear();
+            this.closeModal();
           },(err)=>{
             console.log(err)
             this.toasterService.error('Something wrong')
@@ -123,15 +126,16 @@ export class AcademicyearComponent implements OnInit {
   }
 
   editById(body: Partial<Academicyear>) {
+    
     this.fillFormModel(body);
     this.openModal('edit');
   }
 
-  deleteFeeCategory(id:string){
+  delete(id:string){
     this.academicyearService.deleteAcademicyear(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
-        location.reload();
+        this.getallAcademicyear()
       },
       (err)=>{
         this.toasterService.error('Something wrong ')
