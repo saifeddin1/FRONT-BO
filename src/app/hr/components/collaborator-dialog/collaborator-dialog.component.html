@@ -1,0 +1,22 @@
+<h2 mat-dialog-title>{{ data["collaborator"].userRef | titlecase }}</h2>
+<div class="d-flex collab-popup">
+  <img
+    id="{{ data['collaborator']._id }}"
+    src="../../../../assets/img/{{ data['collaborator'].profile['image'] }}"
+    class="card-img-top"
+    alt="Card image cap"
+  />
+  <div class="card-body">
+    <p class="card-text">
+      Position : <b>{{ data["collaborator"].profile["position"] }}</b>
+    </p>
+    <p>
+      Email : <b>{{ data["collaborator"].profile["proEmail"] }}</b>
+    </p>
+  </div>
+</div>
+<mat-dialog-actions align="end">
+  <div mat-div [mat-dialog-close]="true">
+    <app-button-filled [title]="'close'"></app-button-filled>
+  </div>
+</mat-dialog-actions>

@@ -1,0 +1,9 @@
+label {
+  font-weight: 600;
+}
+
+.employee-profile-section-title {
+  background-color: rgb(113, 126, 243);
+  padding-top: 1rem;
+  width: 400px;
+}

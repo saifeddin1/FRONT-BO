@@ -1,0 +1,85 @@
+<div>
+  <div class="row" [style.display]="isAdmin ? 'none' : 'flex'">
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newTimeoffRequest.startDate"
+        value="{{ newTimeoffRequest.startDate }}"
+        type="date"
+      />
+    </div>
+    <div class="col">
+      <input
+        class="form-control"
+        [(ngModel)]="newTimeoffRequest.offDays"
+        value="{{ newTimeoffRequest.offDays }}"
+        type="number"
+        min="1"
+        max="22"
+      />
+    </div>
+    <div class="col">
+      <app-button-outline
+        (onClick)="requestTimeoff()"
+        [title]="'Add'"
+      ></app-button-outline>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th [style.display]="isAdmin ? 'block' : 'none'">USER</th>
+        <th>Start Date</th>
+        <th>{{ isAdmin ? "Off Days" : "End Date" }}</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let toff of timeoffHistory">
+        <td [style.display]="isAdmin || isHR ? 'block' : 'none'">
+          <span>{{ toff.userId }}</span>
+        </td>
+        <td>
+          <span>{{ formatedDate(toff.startDate) }}</span>
+        </td>
+        <td [style.display]="isAdmin ? 'none' : 'block'">
+          <span>{{
+            formatedDate(getEndDate(toff.startDate, toff.offDays))
+          }}</span>
+        </td>
+        <td [style.display]="isAdmin ? 'block' : 'none'">
+          <input
+            type="number"
+            [(ngModel)]="toff.offDays"
+            value="{{ toff.offDays }}"
+          />
+        </td>
+        <td>
+          <div
+            [style.display]="shouldDisplay ? 'flex' : 'none'"
+            class="align-items-center justify-content-center"
+          >
+            <select [(ngModel)]="toff.status">
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+            <app-button-filled
+              [title]="'EDIT'"
+              (onClick)="
+                isAdmin ? updateTimeoffRequest(toff) : updateStatus(toff)
+              "
+            ></app-button-filled>
+            <app-button-outline
+              [style.display]="isAdmin ? 'block' : 'none'"
+              [title]="'Delete'"
+              (onClick)="deleteRequest(toff)"
+            ></app-button-outline>
+          </div>
+          <span [style.display]="shouldDisplay ? 'none' : 'block'">
+            {{ toff.status }}
+          </span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

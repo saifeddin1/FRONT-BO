@@ -1,77 +1,77 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { User } from './models/user.model';
-import { UserService } from './services/user.service';
-
-interface Route {
-  roles: Array<string>;
-  link: string;
-  icon: string;
-  label: string;
-}
-const ROUTES: Array<Route> = [
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./dashboard", icon: "home", label: "Accueil" },
-  { roles: ['EADMIN'], link: "./offre", icon: "layers", label: "Gestion des Offres" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./niveau", icon: "layers", label: "Gestion des Niveaux" },
-  { roles: ['EADMIN'], link: "./matiere", icon: "layers", label: "Gestion des Matières" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./seances", icon: "layers", label: "Gestion des Séances" },
-  { roles: ['EADMIN'], link: "./media/types/list", icon: "grid-view", label: "Types Media" },
-  { roles: ['EINSTRUCTOR', 'EADMIN'], link: "./media/list", icon: "image-gallery", label: "Medias" },
-  { roles: ['EADMIN'], link: "./instructors", icon: "users", label: "Instructeurs" },
-  { roles: ['EADMIN'], link: "./students", icon: "users", label: "Apprenants" },
-  { roles: ['ESTUDENT'], link: "./calendar", icon: "video-camera", label: "En direct" },
-  { roles: ['ESTUDENT'], link: "./offres", icon: "layers", label: "Offres" },
-  { roles: ['ESTUDENT'], link: "./matieres", icon: "book", label: "Matières" },
-  // { roles: ['ESTUDENT'], link: "./assistance", icon: "headphones", label: "Assistance" }
-]
-
+import { Notification } from './hr/models/notification.model';
+import { EmployeeSummaryService } from './hr/services/employee-summary.service';
+import { STUDENT } from './lms/constants/roles.constant';
+import { User } from './lms/models/user.model';
+import { UserService } from './lms/services/user.service';
+import { NotificationsService } from './services/notifications.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css'],
 })
-export class AppComponent {
-  user: User;
-
-  constructor(private router: Router, private userService: UserService) { }
-
-  /**
-   * LifeCycle hook of Angular that runs literally after anything happens.
-   * Best used for custom change-detection that `ngOnChanges` can't pick up.
-   *
-   * From my understanding, using this is a bad idea if doing anything intensive. But for our purposes, it's fine.
-   * `this.user` in this component is the same reference as the one in the service, so there's no copying or reinstantiation.
-   */
-  routes: Array<Route>;
-  ngDoCheck() {
-    this.user = this.userService.getCurrentUser();
-    if (this.user && this.user.type) {
-      this.routes = ROUTES.filter(route => route.roles.includes(this.user.type))
-    }
+export class AppComponent implements OnInit {
+  notificationItems: Notification[];
+  solutions: string = 'LMS SYSTEM 🔻';
+  dropDownActive: boolean;
+  unreadNotifications: number;
+  constructor(
+    private router: Router,
+    private userService: UserService,
+    private employeeService: EmployeeSummaryService,
+    private notificationService: NotificationsService
+  ) {
+    this.dropDownActive = false;
   }
 
-  shouldNavShow = (): Boolean => {
-    if (this.isHomePages()) return false;
-    return (
-      !!this.user &&
-      this.router.url !== '/signup'
+  ngOnInit() {
+    this.getNotifications();
+    this.unreadCount();
+  }
+
+  shoudNavShow() {
+    return !(
+      this.router.url.includes('/signup') || this.router.url.includes('/about')
     );
-  };
-
-  shouldHeaderShow(): Boolean {
-    return (!this.shouldNavShow());
   }
+  token: string = localStorage.getItem('token');
 
-  shouldFooterShow(): Boolean {
-    return this.isHomePages() || (!this.user && this.router.url.includes('user'));
+  navigateTo(here: string, name: string) {
+    this.solutions = name + ' 🔻';
+    this.router.navigate([here]);
   }
-
-  isHomePages(): Boolean {
-    return this.router.url === '/about' ||
-      this.router.url === '/solutions'
+  shouldButtonHide(role) {
+    return this.userService.user?.type == role;
   }
-
-  logout() {
-    this.userService.logOut()
+  toggleDropdown() {
+    this.dropDownActive = !this.dropDownActive;
+  }
+  getNotifications() {
+    this.employeeService.getUserNotifications().subscribe((result) => {
+      this.notificationItems = result['response'][0]['totalData'];
+      console.log(
+        '🔕 ~ file: app.component.ts ~ line 47 getUserNotifications',
+        result
+      );
+    });
+  }
+  toggleIsRead(notif) {
+    if (notif.isRead) {
+      return;
+    }
+    this.notificationService
+      .updateNotification(notif._id, { isRead: true })
+      .subscribe((result) => {
+        notif.isRead = result['response']['isRead'];
+        console.log('⚡ ~  toggleIsRead ~ result', result);
+        this.unreadCount();
+      });
+  }
+  unreadCount() {
+    this.notificationService.getUnreadNotifCount().subscribe((result) => {
+      this.unreadNotifications = result['response'];
+      console.log('⚡ ~ ~ ~ unreadCount ~ result', result);
+    });
   }
 }

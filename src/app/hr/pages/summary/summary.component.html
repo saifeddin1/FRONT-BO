@@ -1,0 +1,150 @@
+<div class="">
+  <div class="summary-wrapper">
+    <div class="hr-card profile">
+      <!-- <span>👨‍🎓 Profile</span> -->
+      <div class="headshot">
+        <img
+          src="../../../../assets/img/{{ userFile?.profile.image }}"
+          alt=""
+        />
+      </div>
+      <div class="info-column">
+        <h4>{{ userFile?.userRef }}</h4>
+
+        <div class="position">
+          <mat-icon>business_center</mat-icon> &nbsp;
+          {{ userFile?.profile.position }}
+        </div>
+        <div class="address bold-text">
+          <mat-icon>location_on</mat-icon> &nbsp;
+          {{ userFile?.profile.address }}
+        </div>
+        <p>
+          Some long long descripttionSome long long descripttion Some long long
+          descripttion Some long long
+        </p>
+      </div>
+      <div class="info-column">
+        <div class="birth"><mat-icon>face</mat-icon> &nbsp; June, 20th</div>
+        <div class="start-date">
+          <mat-icon>calendar_today</mat-icon> &nbsp; June, 20th 2022
+        </div>
+        <div class="email">
+          <mat-icon> email</mat-icon> &nbsp; me.saifeddin@gmail.com
+        </div>
+      </div>
+
+      <!-- <div><span>TimeOff Balance </span> {{ userFile?.timeOffBalance }}</div>
+      <div><span>Position </span> {{ userFile?.profile["position"] }}</div>
+      <div><span>Email </span> {{ userFile?.profile["proEmail"] }}</div> -->
+    </div>
+    <div class="timeoff-balance">
+      <span class="title"> TimeOff Balance</span>
+      <div class="hr-card">
+        <span>{{ userFile?.timeOffBalance }}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="summary-wrapper">
+    <div class="contract">
+      <h4 class="heading">Active Contract</h4>
+      <div *ngIf="contract" class="hr-card">
+        <div class="row">
+          <div class="col">
+            <span class="bold-text"> Contract Type :</span>
+          </div>
+          <div class="col">
+            {{ contract?.contractType }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="bold-text">Hours per Week :</span>
+          </div>
+          <div class="col">
+            {{ contract?.hoursNumber }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="bold-text">Start Date :</span>
+          </div>
+          <div class="col">
+            {{ formatDate(contract?.startDate) }}
+          </div>
+        </div>
+      </div>
+      <div class="hr-card" *ngIf="!contract">
+        <span>No Active Contracts.</span>
+      </div>
+    </div>
+    <div class="interviews">
+      <h4 class="heading">Upcoming Interviews</h4>
+      <!-- ID : {{ userFile?._id }} <br /> -->
+      <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
+      <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
+      <div *ngIf="interviews && interviews.length">
+        <div *ngFor="let interview of interviews" class="hr-card">
+          <div class="row lh-lg">
+            <div class="col-5">
+              <span class="bold-text">Interview Date :</span>
+            </div>
+            <div class="col-7">
+              {{ formatDate(interview?.date) }}
+            </div>
+          </div>
+          <div class="row lh-lg">
+            <div class="col-5"><span class="bold-text">Title :</span></div>
+            <div class="col-7">
+              {{ interview?.title }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!interviews || !interviews.length" class="hr-card">
+        No upcoming interviews
+      </div>
+    </div>
+  </div>
+</div>
+<!-- <div class="p-3 border">
+  <h2>Current TimeSheet</h2>
+  <table class="table table-striped">
+    <thead>
+      <th>date</th>
+      <th>Note</th>
+      <th>working hours</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>
+          {{ formatDate(timesheet?.date) }}
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="text"
+            value="{{ timesheet?.note }}"
+            [(ngModel)]="timesheet.note"
+          />
+        </td>
+        <td>
+          <input
+            class="form-control"
+            type="number"
+            value="{{ timesheet?.workingHours }}"
+            [(ngModel)]="timesheet.workingHours"
+          />
+        </td>
+        <td>
+          <app-button-outline
+            (onClick)="updateRecord(timesheet)"
+            [title]="'add'"
+          >
+          </app-button-outline>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->

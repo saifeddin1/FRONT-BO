@@ -1,0 +1,101 @@
+<h2 class="mat-dialog-title">Update Details</h2>
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="user REF"
+      value="{{ newEmployee?.userRef }}"
+      [(ngModel)]="newEmployee.userRef"
+    />
+  </div>
+  <div>
+    <input
+      type="number"
+      value="{{ newEmployee?.timeOffBalance }}"
+      [(ngModel)]="newEmployee.timeOffBalance"
+      placeholder="Doe"
+    />
+  </div>
+</div>
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="Email"
+      value="{{ newEmployee?.profile.proEmail }}"
+      [(ngModel)]="newEmployee?.profile.proEmail"
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      value="{{ newEmployee?.profile.phone }}"
+      [(ngModel)]="newEmployee?.profile.phone"
+      placeholder="phone"
+    />
+  </div>
+</div>
+
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="address"
+      value="{{ newEmployee?.profile.address }}"
+      [(ngModel)]="newEmployee?.profile.address"
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      value="{{ newEmployee?.profile.position }}"
+      [(ngModel)]="newEmployee?.profile.position"
+      placeholder="position"
+    />
+  </div>
+</div>
+
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      value="{{ newEmployee?.profile.jobType }}"
+      [(ngModel)]="newEmployee?.profile.jobType"
+      placeholder="job type"
+    />
+  </div>
+
+  <div>
+    <input
+      type="text"
+      placeholder="work from.."
+      value="{{ newEmployee?.profile.workFrom }}"
+      [(ngModel)]="newEmployee?.profile.workFrom"
+    />
+  </div>
+</div>
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      value="{{ newEmployee?.profile.seniorityLevel }}"
+      [(ngModel)]="newEmployee?.profile.seniorityLevel"
+      placeholder="seniorityLevel"
+    />
+  </div>
+  <div>
+    <select [(ngModel)]="newEmployee.userId">
+      <option value="{{ user?._id }}" *ngFor="let user of data['users']">
+        {{ user?.username }}
+      </option>
+    </select>
+  </div>
+</div>
+
+<mat-dialog-actions align="end">
+  <div class="btn-update-file">
+    <button mat-button [mat-dialog-close]="true" (click)="addEmployee()">
+      Add
+    </button>
+  </div>
+</mat-dialog-actions>

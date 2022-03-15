@@ -5,5 +5,6 @@ export interface FormDisplay {
     link: string;
     submit: string;
     img: string;
+    forgetpass:string,
     slogan: string;
 }
