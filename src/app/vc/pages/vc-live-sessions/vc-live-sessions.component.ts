@@ -7,8 +7,8 @@ import { VcChatService } from 'src/app/services/vc-chat.service';
   styleUrls: ['./vc-live-sessions.component.css']
 })
 export class VcLiveSessionsComponent implements OnInit {
-  appppppp=document.getElementById('friends-chat')
-  p = document.createElement("p");
+  message: string;
+  messages: string[] = [];
   
   today = new Date();
   date = this.today.getFullYear()+'-'+( this.today.getMonth()+1)+'-'+ this.today.getDate()
@@ -20,7 +20,7 @@ export class VcLiveSessionsComponent implements OnInit {
   }]
 
   msgToSend:any={
-    message:"sdd",
+    message:"",
     userId:"aziz",
     createdAt:new Date(this.date)
   }
@@ -29,20 +29,23 @@ export class VcLiveSessionsComponent implements OnInit {
     this.chatService.listen('test event').subscribe((data)=>{
       console.log(data)
     })
-    this.getAll()
+    this.chatService
+      .getMessages()
+      .subscribe((message: string) => {
+        this.messages.push(message);
+      });
   }
   ngOnDestroy() {
     this.chatService.disconnect();
   }
 
   sendMsg(){
-    
+    this.chatService.addMsg(this.msgToSend).subscribe(res=>{
+
+    });
     const socketChannel:String="VCChatMsg"
     console.log(this.msgToSend)  
-    this.chatService.emit(socketChannel,this.msgToSend.message)  
-    this.p.textContent="hi"
-    this.appppppp.appendChild(this.p)
-
+    this.chatService.emit(socketChannel,this.msgToSend.message)
    
       
    

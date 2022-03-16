@@ -25,8 +25,10 @@ export class VcChatService {
       })
     })
   }
-  emit(eventName:String,data:any){
-    this.socket.emit(eventName, data);
+
+
+  emit(eventName:String,msg:any){
+    this.socket.emit(eventName, msg);
     this.socket.on('my broadcast messageVC', (data: string) => {
       console.log(data);
     });
@@ -38,6 +40,13 @@ export class VcChatService {
         this.socket.disconnect();
     }
 }
+  public getMessages () {
+    return new Observable((observer) => {
+        this.socket.on('VCChatMsg', (message) => {
+            observer.next(message);
+        });
+    });
+  }
 
   getAll() {
 
