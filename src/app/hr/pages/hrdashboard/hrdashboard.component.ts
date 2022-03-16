@@ -34,8 +34,14 @@ const ROUTES: Array<Route> = [
     label: 'Employees',
   },
   {
-    roles: [INSTRUCTOR, HR, ADMIN],
+    roles: [INSTRUCTOR, HR],
     link: './contracts',
+    icon: 'copy',
+    label: 'Contracts',
+  },
+  {
+    roles: [ADMIN],
+    link: './manage-contracts',
     icon: 'copy',
     label: 'Contracts',
   },

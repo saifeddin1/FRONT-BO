@@ -1,10 +1,27 @@
-/* Table Styles */
+.contracts-header {
+  border: 1px solid #f1f1f1;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 
+.contracts-header .mat-icon {
+  font-size: 2rem;
+  cursor: pointer;
+  height: auto;
+  width: auto;
+}
+.contracts-header span {
+  font-size: 2rem;
+}
 .contracts-list {
-  margin: 10px 70px 70px;
+  padding: 15px;
+  border: 1px solid #f1f1f1;
   box-shadow: 5px 5px 30px #f1f1f1;
 }
 
+/* Table Styles */
 .fl-table {
   border-radius: 5px;
   font-size: 12px;
@@ -32,6 +49,10 @@
   background: #f1f1f1;
 }
 
+.fl-table td .mat-icon {
+  cursor: pointer;
+  display: inline-block;
+}
 /* Responsive */
 
 @media (max-width: 767px) {
@@ -99,48 +120,4 @@
     display: block;
     text-align: center;
   }
-}
-
-td input,
-select {
-  padding: 5px;
-  border-radius: 5px;
-  border-color: #ccc;
-}
-.interview-add {
-  transition: all 2s ease-in-out;
-}
-
-.interviews-header {
-  border: 1px solid #f1f1f1;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-.interviews-header .heading {
-  font-size: 2rem;
-}
-
-.interviews-header .mat-icon {
-  font-size: 2rem;
-  cursor: pointer;
-  height: auto;
-  width: auto;
-}
-.interviews-wrapper {
-  border: 1px solid #f1f1f1;
-  padding: 15px;
-}
-.interviews-wrapper .mat-icon {
-  cursor: pointer;
-}
-.interviews-wrapper .candidate {
-  display: flex;
-  font-size: 1.2em;
-}
-.interviews-wrapper .candidate .headshot img {
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
 }

@@ -90,6 +90,12 @@
       </option>
     </select>
   </div>
+  <textarea
+    value="{{ newEmployee?.profile.description }}"
+    [(ngModel)]="newEmployee.profile.description"
+    cols="30"
+    rows="10"
+  ></textarea>
 </div>
 
 <mat-dialog-actions align="end">

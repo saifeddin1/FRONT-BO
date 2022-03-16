@@ -1,7 +1,7 @@
 <div class="interviews-header">
   <span class="heading">Interviews</span>
   <mat-icon
-    (click)="toggleIsOpen()"
+    (click)="openCreateDialog($event)"
     [style.display]="isAdmin ? 'flex' : 'none'"
     >{{ isOpen ? "remove_circle" : "add_circle" }}</mat-icon
   >
@@ -14,80 +14,8 @@
       <span>{{ currentUser["username"] }}</span>
     </div>
   </div>
-  <div
-    class="flex flex-wrap justify-content-center interview-add"
-    [ngClass]="isOpen ? 'opened' : ''"
-    [style.display]="isOpen ? 'flex' : 'none'"
-  >
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newInterview.title"
-        value="{{ newInterview?.title }}"
-        type="text"
-        placeholder="Title"
-      />
-    </div>
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newInterview.date"
-        value="{{ newInterview?.date }}"
-        type="datetime-local"
-        min="1"
-        max="22"
-      />
-    </div>
-    <div class="col">
-      <select [(ngModel)]="newInterview.userId">
-        <option *ngFor="let user of users" value="{{ user._id }}">
-          {{ user.username }}
-        </option>
-      </select>
-    </div>
 
-    <div class="row" *ngFor="let test of newInterview.test">
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.title"
-          placeholder="Test title"
-        />
-      </div>
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.description"
-          placeholder="Test description"
-        />
-      </div>
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.url"
-          placeholder="Test url"
-        />
-      </div>
-    </div>
-    <div class="col">
-      <input
-        type="file"
-        class="form-control"
-        [(ngModel)]="newInterview.files"
-      />
-    </div>
-    <div class=" ">
-      <app-button-outline
-        (onClick)="createInterview(newInterview)"
-        [title]="'Add'"
-      ></app-button-outline>
-    </div>
-  </div>
-
-  <table class="table">
+  <table class="fl-table">
     <thead>
       <tr>
         <th [style.display]="isAdmin ? 'block' : 'none'">User</th>

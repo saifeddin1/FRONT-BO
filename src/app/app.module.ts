@@ -56,11 +56,9 @@ import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
 import { VcModule } from './vc/vc.module';
- 
 
 @NgModule({
   declarations: [
-
     AppComponent,
     // FrontPageHeaderComponent,
     // LoginSignupComponent,
@@ -123,8 +121,7 @@ import { VcModule } from './vc/vc.module';
     MatMenuModule,
     AccountingModule,
     EidentityModule,
-    VcModule
- 
+    VcModule,
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

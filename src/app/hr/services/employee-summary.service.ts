@@ -40,6 +40,9 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/contracts/employeeContracts`
     );
   }
+  getAllContracts(): Observable<Contract[]> {
+    return this.http.get<Contract[]>(`${this.BASE_URL}/contracts`);
+  }
   getContractsWithSalary(): Observable<Contract[]> {
     return this.http.get<Contract[]>(
       `${this.BASE_URL}/contracts/employeeContractsWithSalary`

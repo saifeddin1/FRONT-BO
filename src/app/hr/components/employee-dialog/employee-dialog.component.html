@@ -82,6 +82,12 @@
     placeholder="seniorityLevel"
   />
 </div>
+<textarea
+  value="{{ employee?.profile.description }}"
+  [(ngModel)]="employee.profile.description"
+  cols="30"
+  rows="10"
+></textarea>
 
 <mat-dialog-actions align="end">
   <div class="btn-update-file">

@@ -20,17 +20,18 @@
           {{ userFile?.profile.address }}
         </div>
         <p>
-          Some long long descripttionSome long long descripttion Some long long
-          descripttion Some long long
+          {{ userFile?.profile.description }}
         </p>
       </div>
       <div class="info-column">
-        <div class="birth"><mat-icon>face</mat-icon> &nbsp; June, 20th</div>
-        <div class="start-date">
+        <div class="birth line-height-lg">
+          <mat-icon>face</mat-icon> &nbsp; June, 20th
+        </div>
+        <div class="start-date line-height-lg">
           <mat-icon>calendar_today</mat-icon> &nbsp; June, 20th 2022
         </div>
-        <div class="email">
-          <mat-icon> email</mat-icon> &nbsp; me.saifeddin@gmail.com
+        <div class="email line-height-lg">
+          <mat-icon> email</mat-icon> &nbsp; {{ userFile?.profile.proEmail }}
         </div>
       </div>
 

@@ -34,19 +34,21 @@
       IDENTITY
     </button>
     <button
-    mat-menu-item
-    routerLink="VCDASHBOARD"
-    (click)="navigateTo('VCDASHBOARD', 'VCDASHBOARD')"
-  >
-    VC
-  </button>
+      mat-menu-item
+      routerLink="VCDASHBOARD"
+      (click)="navigateTo('VCDASHBOARD', 'VCDASHBOARD')"
+    >
+      VC
+    </button>
   </mat-menu>
 
   <div
     class="notif-bell"
     [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
   >
-    <span class="notif-count">{{ unreadNotifications }}</span>
+    <span class="notif-count">{{
+      unreadNotifications ? unreadNotifications : 0
+    }}</span>
     <button (click)="toggleDropdown()">
       <mat-icon>notifications</mat-icon>
     </button>
@@ -55,7 +57,10 @@
       class="notif-content"
       [style.display]="dropDownActive ? 'block' : 'none'"
     >
-      <ul>
+      <span *ngIf="!notificationItems || !notificationItems.length"
+        >No notifications</span
+      >
+      <ul *ngIf="notificationItems">
         <li
           *ngFor="let item of notificationItems"
           [ngClass]="!item.isRead ? 'not-read' : ''"

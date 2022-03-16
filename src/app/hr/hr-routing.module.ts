@@ -13,6 +13,7 @@ import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
 import { PreventStudentGuard } from './helpers/prevent-student.guard';
 import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
+import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
 
 const routes: Routes = [
   {
@@ -44,6 +45,10 @@ const routes: Routes = [
       {
         path: 'contracts',
         component: ContractsComponent,
+      },
+      {
+        path: 'manage-contracts',
+        component: ManageContractsComponent,
       },
       {
         path: 'timetable',

@@ -33,6 +33,7 @@ export class AddEmployeeDialogComponent implements OnInit {
         jobType: '',
         workFrom: '',
         seniorityLevel: '',
+        description: '',
       },
     };
   }

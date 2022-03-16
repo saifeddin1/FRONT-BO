@@ -8,6 +8,7 @@ interface Profile {
   jobType?: string;
   workFrom?: string;
   seniorityLevel?: string;
+  description?: string;
 }
 
 export interface File {

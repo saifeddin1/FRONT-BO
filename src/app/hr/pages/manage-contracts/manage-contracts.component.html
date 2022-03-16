@@ -1,0 +1,32 @@
+<div class="contracts-wrapper">
+  <div class="contracts-header">
+    <span>Contracts</span>
+    <mat-icon>{{ isOpen ? "remove_circle" : "add_circle" }}</mat-icon>
+  </div>
+  <div class="contracts-list">
+    <table class="fl-table">
+      <thead>
+        <th>User</th>
+        <th>Start Date</th>
+        <th>Type</th>
+        <th></th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let contract of contracts">
+          <td>{{ contract?.userId }}</td>
+          <td>{{ contract?.startDate }}</td>
+          <td>{{ contract?.contractType }}</td>
+          <td>
+            <mat-icon>remove_red_eye</mat-icon>
+          </td>
+          <td>
+            <mat-icon id="{{ contract }}">edit</mat-icon>
+
+            <mat-icon (click)="deleteContract(contract?._id)">delete</mat-icon>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
