@@ -26,14 +26,18 @@ export class VcLiveSessionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getAll();
     this.chatService.listen('test event').subscribe((data)=>{
       console.log(data)
     })
     this.chatService
       .getMessages()
-      .subscribe((message: string) => {
-        this.messages.push(message);
+      .subscribe(() => {
+
+            this.getAll();
+           
       });
+      
   }
   ngOnDestroy() {
     this.chatService.disconnect();
