@@ -10,8 +10,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material/icon';
-import {MatMenuModule} from '@angular/material/menu';
-
+import { MatMenuModule } from '@angular/material/menu';
 
 // import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 // import { GlobalSearchComponent } from './components/global-search/global-search.component';
@@ -56,6 +55,7 @@ import { SharedModule } from './shared/shared.module';
 import { HRModule } from './hr/hr.module';
 import { LMSModule } from './lms/lms.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
+import { VcModule } from './vc/vc.module';
 
 @NgModule({
   declarations: [
@@ -85,8 +85,9 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     // WorkProcessComponent,
     // PricingComponent,
     // TestimonialsComponent,
+    // ImgPreloaderDirective,
+
     LoginSignupComponent,
-    
   ],
   imports: [
     BrowserModule,
@@ -97,6 +98,7 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     // BrowserAnimationsModule,
     // ToastrModule.forRoot(),
     FormsModule,
+
     // HttpClientModule,
     // PdfViewerModule,
     // NgxFileDropModule,
@@ -118,7 +120,8 @@ import { LoginSignupComponent } from './pages/login-signup/login-signup.componen
     LMSModule,
     MatMenuModule,
     AccountingModule,
-    EidentityModule
+    EidentityModule,
+    VcModule,
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

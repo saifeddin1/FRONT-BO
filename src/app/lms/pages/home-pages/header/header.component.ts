@@ -71,7 +71,7 @@ export class HeaderComponent implements OnInit {
   defaultNavigations = [
     {
       id: 1,
-      link: '/signup',
+      link: '/signup/register',
       code: 'register',
       linkText: 'Inscription',
     },

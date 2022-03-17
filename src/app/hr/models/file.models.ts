@@ -3,11 +3,12 @@ interface Profile {
   image?: string;
   position?: string;
   proEmail?: string;
-  phone?: number;
+  phone: number;
   address?: string;
   jobType?: string;
   workFrom?: string;
   seniorityLevel?: string;
+  description?: string;
 }
 
 export interface File {

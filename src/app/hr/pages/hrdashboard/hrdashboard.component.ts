@@ -1,54 +1,78 @@
 import { Component, OnInit } from '@angular/core';
+import { ADMIN, HR, INSTRUCTOR } from 'src/app/lms/constants/roles.constant';
+import { User } from 'src/app/lms/models/user.model';
 import { UserService } from 'src/app/lms/services/user.service';
 interface Route {
+  roles: string[];
   link: string;
   icon: string;
   label: string;
 }
 const ROUTES: Array<Route> = [
   {
+    roles: [INSTRUCTOR, HR, ADMIN],
     link: './',
     icon: 'book',
     label: 'Summary',
   },
   {
+    roles: [INSTRUCTOR, HR, ADMIN],
     link: './profile',
     icon: 'user',
     label: 'Profile',
   },
   {
+    roles: [INSTRUCTOR, HR],
     link: './collaborators',
     icon: 'users',
     label: 'Collaborators',
   },
   {
+    roles: [ADMIN],
+    link: './manage-employees',
+    icon: 'users',
+    label: 'Employees',
+  },
+  {
+    roles: [INSTRUCTOR, HR],
     link: './contracts',
+    icon: 'copy',
+    label: 'Contracts',
+  },
+  {
+    roles: [ADMIN],
+    link: './manage-contracts',
     icon: 'copy',
     label: 'Contracts',
   },
 
   {
+    roles: [INSTRUCTOR, HR, ADMIN],
     link: './interviews',
     icon: 'form',
     label: 'Interviews',
   },
 
   {
+    roles: [INSTRUCTOR, HR],
     link: './timetable',
     icon: 'clock',
     label: 'Timetable',
   },
   {
+    roles: [INSTRUCTOR, HR],
     link: './timesheets',
     icon: 'calendar',
     label: 'Timesheets',
   },
   {
+    roles: [ADMIN],
     link: './timesheetManagement',
     icon: 'calendar',
     label: 'T-heet Management',
   },
   {
+    roles: [INSTRUCTOR, HR, ADMIN],
     link: './timeoffs',
     icon: 'on-holiday',
     label: 'Timeoffs',
@@ -64,7 +88,7 @@ export class HrdashboardComponent implements OnInit {
   isAdmin: boolean = false;
   isStudent: boolean = false;
   routes: Array<Route> = ROUTES;
-
+  user: User;
   isHr: boolean = false;
   isInstructor: boolean;
   constructor(public userService: UserService) {}
@@ -74,6 +98,14 @@ export class HrdashboardComponent implements OnInit {
   }
   logout() {
     this.userService.logOut();
+  }
+  ngDoCheck() {
+    this.user = this.userService.getCurrentUser();
+    if (this.user && this.user.type) {
+      this.routes = ROUTES.filter((route) =>
+        route.roles.includes(this.user.type)
+      );
+    }
   }
   checkRoles() {
     switch (this.userService.getCurrentUser()?.type) {

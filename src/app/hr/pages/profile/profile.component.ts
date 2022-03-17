@@ -38,7 +38,23 @@ export class ProfileComponent implements OnInit {
   constructor(
     private summaryService: EmployeeSummaryService,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.userFile = {
+      userId: this.currentUser?._id,
+      userRef: '',
+      timeOffBalance: 0,
+      profile: {
+        image: '',
+        position: '',
+        proEmail: '',
+        phone: 0,
+        address: '',
+        jobType: '',
+        workFrom: '',
+        seniorityLevel: '',
+      },
+    };
+  }
 
   ngOnInit(): void {
     this.getEmployeeFileDetails();
@@ -62,9 +78,9 @@ export class ProfileComponent implements OnInit {
     this.toastr.error('Something went wrong.');
   }
 
-  updateEmployee() {
+  updateEmployee(file) {
     this.summaryService
-      .updateProfile(this.profile)
+      .updateProfile(file)
       .pipe(
         catchError((err) => {
           console.log('Handling error locally and rethrowing it...', err);

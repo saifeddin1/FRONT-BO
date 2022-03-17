@@ -1,0 +1,102 @@
+<h2 class="mat-dialog-title">Update Details</h2>
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="user REF"
+      value="{{ employee?.userRef }}"
+      [(ngModel)]="employee.userRef"
+    />
+  </div>
+  <div>
+    <input
+      type="number"
+      value="{{ employee?.timeOffBalance }}"
+      [(ngModel)]="employee.timeOffBalance"
+      placeholder="Doe"
+    />
+  </div>
+</div>
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="Email"
+      value="{{ employee?.profile.proEmail }}"
+      [(ngModel)]="employee?.profile.proEmail"
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      value="{{ employee?.profile.phone }}"
+      [(ngModel)]="employee?.profile.phone"
+      placeholder="phone"
+    />
+  </div>
+</div>
+
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      placeholder="address"
+      value="{{ employee?.profile.address }}"
+      [(ngModel)]="employee?.profile.address"
+    />
+  </div>
+  <div>
+    <input
+      type="text"
+      value="{{ employee?.profile.position }}"
+      [(ngModel)]="employee?.profile.position"
+      placeholder="position"
+    />
+  </div>
+</div>
+
+<div class="inputs-row">
+  <div>
+    <input
+      type="text"
+      value="{{ employee?.profile.jobType }}"
+      [(ngModel)]="employee?.profile.jobType"
+      placeholder="job type"
+    />
+  </div>
+
+  <div>
+    <input
+      type="text"
+      placeholder="work from.."
+      value="{{ employee?.profile.workFrom }}"
+      [(ngModel)]="employee?.profile.workFrom"
+    />
+  </div>
+</div>
+<div class="inputs-row">
+  <input
+    type="text"
+    value="{{ employee?.profile.seniorityLevel }}"
+    [(ngModel)]="employee?.profile.seniorityLevel"
+    placeholder="seniorityLevel"
+  />
+</div>
+<textarea
+  value="{{ employee?.profile.description }}"
+  [(ngModel)]="employee.profile.description"
+  cols="30"
+  rows="10"
+></textarea>
+
+<mat-dialog-actions align="end">
+  <div class="btn-update-file">
+    <button
+      mat-button
+      [mat-dialog-close]="true"
+      (click)="updateEmployee(employee)"
+    >
+      Update
+    </button>
+  </div>
+</mat-dialog-actions>

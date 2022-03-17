@@ -8,21 +8,25 @@ import { CustomSwitchComponent } from './components/custom-switch/custom-switch.
 import { CustomDropdownComponent } from './components/custom-dropdown/custom-dropdown.component';
 import { CustomSearchButtonComponent } from './components/custom-search-button/custom-search-button.component';
 
-
-
 @NgModule({
-  declarations: [ButtonOutlineComponent, ButtonFilledComponent, CustomTextInputComponent, CustomDateInputComponent, CustomSwitchComponent, CustomDropdownComponent, CustomSearchButtonComponent],
-  imports: [
-    CommonModule
-  ],
-  exports :  [
+  declarations: [
     ButtonOutlineComponent,
     ButtonFilledComponent,
     CustomTextInputComponent,
     CustomDateInputComponent,
     CustomSwitchComponent,
     CustomDropdownComponent,
-    CustomSearchButtonComponent
-  ]
+    CustomSearchButtonComponent,
+  ],
+  imports: [CommonModule],
+  exports: [
+    ButtonOutlineComponent,
+    ButtonFilledComponent,
+    CustomTextInputComponent,
+    CustomDateInputComponent,
+    CustomSwitchComponent,
+    CustomDropdownComponent,
+    CustomSearchButtonComponent,
+  ],
 })
-export class SharedModule { }
+export class SharedModule {}

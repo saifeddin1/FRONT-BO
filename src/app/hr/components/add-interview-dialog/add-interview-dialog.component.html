@@ -1,0 +1,51 @@
+<div class="flex flex-wrap justify-content-center interview-add">
+  <div class="col mb-3">
+    <input
+      [(ngModel)]="newInterview.title"
+      value="{{ newInterview?.title }}"
+      type="text"
+      placeholder="Title"
+    />
+  </div>
+  <div class="col mb-3">
+    <input
+      [(ngModel)]="newInterview.date"
+      value="{{ newInterview?.date }}"
+      type="datetime-local"
+      min="1"
+      max="22"
+    />
+  </div>
+  <div class="col mb-3">
+    <select [(ngModel)]="newInterview.userId" class="users-list">
+      <option *ngFor="let user of users" value="{{ user._id }}">
+        {{ user.username }}
+      </option>
+    </select>
+  </div>
+
+  <div class="row" *ngFor="let test of newInterview.test">
+    <div class="col mb-3">
+      <input type="text" [(ngModel)]="test.title" placeholder="Test title" />
+    </div>
+    <div class="col mb-3">
+      <input
+        type="text"
+        [(ngModel)]="test.description"
+        placeholder="Test description"
+      />
+    </div>
+    <div class="col mb-3">
+      <input type="text" [(ngModel)]="test.url" placeholder="Test url" />
+    </div>
+  </div>
+  <div class="col mb-3">
+    <input type="file" [(ngModel)]="newInterview.files" />
+  </div>
+  <div [mat-dialog-close]="'close'">
+    <app-button-outline
+      (onClick)="createInterview(newInterview)"
+      [title]="'Add'"
+    ></app-button-outline>
+  </div>
+</div>

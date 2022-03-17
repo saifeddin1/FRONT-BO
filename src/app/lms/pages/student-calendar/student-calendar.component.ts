@@ -72,10 +72,16 @@ export class StudentCalendarComponent implements OnChanges, OnInit {
   }
   isStudent: boolean = false;
   ngOnInit(): void {
-    var user: User = this.userService.getCurrentUser();
-    if (user.type === STUDENT) {
-      this.isStudent = true;
-    }
+    this.events=[
+      {
+        title: 'No event end date',
+        start: new Date(2022, 2,21,9,10),
+        end: new Date(2022, 2,21,10,10),
+
+
+
+    }]
+    console.log(this.events);
   }
   getAll() {
     const viewDateStr = this.viewDate.toISOString().split('T')[0];

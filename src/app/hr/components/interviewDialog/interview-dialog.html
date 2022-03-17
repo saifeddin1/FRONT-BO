@@ -11,6 +11,11 @@
 <mat-dialog-content>
   <h4>Files</h4>
   <strong>{{ data['interview']?.files }}</strong>
+  <input
+    type="file"
+    [(ngModel)]="data['interview'].files"
+    [style.display]="user['type']==='EADMIN'?'block': 'none'"
+  />
   <h4>Tests</h4>
   <div
     *ngFor="let test of data['interview']?.test"

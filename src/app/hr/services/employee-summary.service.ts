@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { Observable, ObservableInput } from 'rxjs';
 import { UserService } from 'src/app/lms/services/user.service';
 import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
@@ -40,6 +40,9 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/contracts/employeeContracts`
     );
   }
+  getAllContracts(): Observable<Contract[]> {
+    return this.http.get<Contract[]>(`${this.BASE_URL}/contracts`);
+  }
   getContractsWithSalary(): Observable<Contract[]> {
     return this.http.get<Contract[]>(
       `${this.BASE_URL}/contracts/employeeContractsWithSalary`
@@ -69,6 +72,11 @@ export class EmployeeSummaryService {
   }
 
   // --------------------------------- PROFILE / FILE -----------------------------
+
+  createEmployeeFile(body: File): Observable<File> {
+    return this.http.post<File>(`${this.BASE_URL}/files`, body);
+  }
+
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
@@ -78,7 +86,6 @@ export class EmployeeSummaryService {
   }
 
   getFileDetails(): Observable<File> {
-    console.log('😁😁😁😁😁', getToken());
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
@@ -90,14 +97,22 @@ export class EmployeeSummaryService {
     );
   }
 
-  getAllFiles(): Observable<File> {
-    return this.http.get<File>(`${this.BASE_URL}/files`);
+  updateEmployeeFileAsAdmin(id: string, body: File): Observable<File> {
+    return this.http.put<File>(
+      `${this.BASE_URL}/files/employeeFileAsAdmin/${id}`,
+      JSON.stringify(body),
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
+    );
   }
 
   getSingleFile(userId: string): Observable<File> {
     return this.http.get<File>(
       `${this.BASE_URL}/files/getOneByUserId/${userId}`
     );
+  }
+
+  deleteEmployeeFile(id: string): Observable<File> {
+    return this.http.delete<File>(`${this.BASE_URL}/files/${id}`);
   }
   // ------------------------------------- TIMESHEET ---------------------------------------
   getEmployeeTimeSheets(): Observable<Timesheet[]> {

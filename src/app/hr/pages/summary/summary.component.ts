@@ -36,7 +36,6 @@ export class SummaryComponent implements OnInit {
     this.getEmployeeInterviews();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
-
   getCurrentTimesheet() {
     let today = new Date().toISOString().split('T')[0];
     console.log(

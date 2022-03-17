@@ -1,0 +1,95 @@
+.settings{
+  position: static;
+left: 0%;
+right: 50.7%;
+top: 25.83%;
+bottom: 25.83%;
+
+/* Title 02 */
+
+font-family: Montserrat;
+font-style: normal;
+font-weight: bold;
+font-size: 24px;
+line-height: 29px;
+
+/* Main text */
+
+color: #040404;
+
+
+/* Inside auto layout */
+
+flex: none;
+order: 0;
+flex-grow: 0;
+margin: 0px 48px;
+height: 29px;
+width: 105px;
+left: 0px;
+top: 15.5px;
+border-radius: nullpx;
+
+}
+
+.container {
+  margin-top: -3%;
+  margin-left: 0%;
+  text-decoration: none;
+  height: 500px;
+  width: 250px;
+  background-color: transparent;
+}
+.element{
+  box-shadow: 1px 1px 5px 0.1px grey;
+  height: 120px;
+  display: block;
+  width: 237px;
+  top: 120px;
+  border-radius: 6px;
+  width: 237px;
+  height: 120px;
+  margin: 10px;
+
+/* White */
+
+background: #fff6f6;
+border-radius: 6px;
+}
+.itemText{
+  padding-top: 22%;
+  font-family: Montserrat;
+  font-style: normal;
+  /* font-weight: 500px; */
+  line-height: 17px;
+  letter-spacing: 0em;
+
+/* Body 02 */
+
+font-family: Montserrat;
+font-style: normal;
+font-size: 20px;
+/* identical to box height */
+
+
+align-items: center;
+text-align: center;
+
+/* Main text */
+
+color: #040404;
+
+
+
+}
+.element:focus {
+  background-color:yellow;
+}
+.element:hover{
+  background-color:#4DC591;
+  transition-duration: 500ms;
+}
+.element:hover:after{
+  background-color:#fff6f6;
+  transition-duration: 500ms;
+}
