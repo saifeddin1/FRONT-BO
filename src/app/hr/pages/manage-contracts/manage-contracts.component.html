@@ -1,7 +1,9 @@
 <div class="contracts-wrapper">
   <div class="contracts-header">
     <span>Contracts</span>
-    <mat-icon>{{ isOpen ? "remove_circle" : "add_circle" }}</mat-icon>
+    <mat-icon (click)="openDialog($event, 'add')">{{
+      isOpen ? "remove_circle" : "add_circle"
+    }}</mat-icon>
   </div>
   <div class="contracts-list">
     <table class="fl-table">
@@ -18,10 +20,18 @@
           <td>{{ contract?.startDate }}</td>
           <td>{{ contract?.contractType }}</td>
           <td>
-            <mat-icon>remove_red_eye</mat-icon>
+            <mat-icon
+              id="{{ contract._id }}"
+              (click)="openDialog($event, 'view')"
+              >remove_red_eye</mat-icon
+            >
           </td>
           <td>
-            <mat-icon id="{{ contract }}">edit</mat-icon>
+            <mat-icon
+              id="{{ contract._id }}"
+              (click)="openDialog($event, 'edit')"
+              >edit</mat-icon
+            >
 
             <mat-icon (click)="deleteContract(contract?._id)">delete</mat-icon>
           </td>

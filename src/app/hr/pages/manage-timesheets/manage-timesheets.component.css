@@ -3,6 +3,7 @@ th {
   font-size: 15px;
   padding: 0.5rem !important;
 }
-td input {
-  width: 50px;
+
+td .mat-icon {
+  cursor: pointer;
 }

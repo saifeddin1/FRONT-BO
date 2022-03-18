@@ -5,6 +5,7 @@ import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { Contract } from '../../models/contract.model';
+import { ContractsDialogComponent } from '../../components/contracts-dialog/contracts-dialog.component';
 @Component({
   selector: 'app-manage-contracts',
   templateUrl: './manage-contracts.component.html',
@@ -14,6 +15,7 @@ export class ManageContractsComponent implements OnInit {
   users: User[];
   contracts: any;
   isOpen: boolean;
+  dialogOperation: string;
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -23,7 +25,8 @@ export class ManageContractsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAllContracts();
+    this.getContractsWithSalary();
+    this.getUsers();
   }
 
   getUsers() {
@@ -33,40 +36,64 @@ export class ManageContractsComponent implements OnInit {
     });
   }
 
-  getAllContracts() {
-    this.employeeService.getAllContracts().subscribe((result) => {
-      console.log('⚡~ getAllContracts ~ result', result);
-      this.contracts = result['response'][0]['totalData'];
-    });
-  }
-
   updateContract(contract: Contract) {}
 
   addContract() {}
 
   deleteContract(id: string) {
-    console.log('deleted');
+    this.employeeService.deleteContract(id).subscribe((result) => {
+      console.log('⚡ deleteContract ~ result', result);
+      this.getContractsWithSalary();
+      this.toaster.success('Successfuly Deleted');
+    });
   }
 
-  // openUpdateDialog(event) {
-  //   let _employee_id = event?.target?.id;
-  //   console.log(event?.target);
+  openDialog(event, operation) {
+    this.dialogOperation = operation;
+    let _contract_id = event?.target?.id;
+    console.log(_contract_id);
 
-  //   const dialogRef = this.dialog.open(EmployeeDialogComponent, {
-  //     height: 'auto',
-  //     width: '700px',
-  //     data: {
-  //       employee: this.employees.filter(
-  //         (employee) => employee._id === _employee_id
-  //       )[0],
-  //     },
-  //   });
+    const dialogRef = this.dialog.open(ContractsDialogComponent, {
+      height: 'auto',
+      width: '700px',
+      data: {
+        contract:
+          this.dialogOperation === 'edit' || this.dialogOperation === 'view'
+            ? this.contracts.filter(
+                (contract) => contract._id === _contract_id
+              )[0]
+            : {
+                contractType: '',
+                hoursNumber: 0,
+                startDate: null,
+                endDate: null,
+                userId: '',
+                salary: {
+                  seniority: '',
+                  annualCompensation: {
+                    annual: 0,
+                    effective: 0,
+                    gross: 0,
+                  },
+                },
+              },
+        dialogOperation: this.dialogOperation,
+        users: this.users,
+      },
+    });
 
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //   });
-  // }
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getContractsWithSalary();
+    });
+  }
 
+  getContractsWithSalary() {
+    this.employeeService.getAllContractsWithSalaries().subscribe((result) => {
+      console.log('⚡ ~  getContractsWithSalary ~ result', result);
+      this.contracts = result['response'][0]['totalData'];
+    });
+  }
   // openCreateDialog(event) {
   //   const dialogRef = this.dialog.open(AddEmployeeDialogComponent, {
   //     height: 'auto',

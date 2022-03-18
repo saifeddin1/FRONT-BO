@@ -46,6 +46,7 @@
     <th>Note</th>
     <th>Start</th>
     <th>Working Hours</th>
+    <th></th>
   </thead>
   <tbody>
     <tr *ngFor="let ts of timesheets">
@@ -72,14 +73,8 @@
         />
       </td>
       <td>
-        <app-button-outline
-          [title]="'edit'"
-          (onClick)="updateRecord(ts)"
-        ></app-button-outline>
-        <app-button-filled
-          [title]="'delete'"
-          (onClick)="deleteRecord(ts)"
-        ></app-button-filled>
+        <mat-icon (click)="updateRecord(ts)">edit</mat-icon>
+        <mat-icon (click)="deleteRecord(ts)">delete</mat-icon>
       </td>
     </tr>
   </tbody>

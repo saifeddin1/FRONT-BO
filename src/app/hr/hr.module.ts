@@ -31,6 +31,8 @@ import { EmployeeDialogComponent } from './components/employee-dialog/employee-d
 import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add-employee-dialog.component';
 import { AddInterviewDialogComponent } from './components/add-interview-dialog/add-interview-dialog.component';
 import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
+import { ContractsDialogComponent } from './components/contracts-dialog/contracts-dialog.component';
+import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -52,6 +54,7 @@ import { ManageContractsComponent } from './pages/manage-contracts/manage-contra
     AddEmployeeDialogComponent,
     AddInterviewDialogComponent,
     ManageContractsComponent,
+    ContractsDialogComponent,
   ],
   imports: [
     HRRoutingModule,
@@ -66,6 +69,7 @@ import { ManageContractsComponent } from './pages/manage-contracts/manage-contra
     ToastrModule,
     CalendarModule,
     MatIconModule,
+    NgxPaginationModule,
   ],
   exports: [
     SummaryComponent,

@@ -1,15 +1,41 @@
 <div class="container-fluid">
-  <div [style.display]="isDeclared ? 'none' : 'block'">
-    <app-button-filled
-      [title]="'Declare'"
-      (onClick)="createDeclaration()"
-    ></app-button-filled>
-  </div>
-  <div [style.display]="isDeclared ? 'block' : 'none'">
-    <app-button-outline
-      [title]="'Cancel'"
-      (onClick)="cancelDeclaration()"
-    ></app-button-outline>
+  <div class="timesheets-header">
+    <div class="hours-limit">{{ totalHours }} Hours</div>
+    <div class="year-month-wrapper">
+      <select [(ngModel)]="yearMonth" (change)="getEmployeeTimeSheets()">
+        <option value="2022-01">January 2022</option>
+        <option value="2022-02">February 2022</option>
+        <option value="2022-03">March 2022</option>
+        <option value="2022-04">April 2022</option>
+        <option value="2022-05">May 2022</option>
+        <option value="2022-06">June 2022</option>
+        <option value="2022-07">July 2022</option>
+        <option value="2022-08">August 2022</option>
+        <option value="2022-09">September 2022</option>
+        <option value="2022-10">October 2022</option>
+        <option value="2022-11">November 2022</option>
+        <option value="2022-12">December 2022</option>
+      </select>
+    </div>
+    <div class="declaration-btn">
+      <button class="approved" *ngIf="isApproved" [disabled]="isApproved">
+        Approved
+      </button>
+      <button
+        *ngIf="!isDeclared && !isApproved"
+        [title]="''"
+        (click)="createDeclaration()"
+      >
+        Declare
+      </button>
+      <button
+        class="declared"
+        *ngIf="isDeclared && !isApproved"
+        (click)="cancelDeclaration()"
+      >
+        Cancel
+      </button>
+    </div>
   </div>
   <table class="table table-striped">
     <thead>
@@ -18,46 +44,44 @@
       <th>working hours</th>
     </thead>
     <tbody>
-      <tr *ngFor="let ts of timesheets">
+      <tr
+        *ngFor="
+          let ts of timesheets
+            | paginate
+              : { itemsPerPage: limit, currentPage: p, totalItems: total }
+        "
+      >
         <td>
-          <label class="form-control" for="{{ ts?._id }}">
-            {{ formatedDate(ts?.date) }}</label
-          >
-          <input
-            id="{{ ts?._id }}"
-            type="date"
-            class="form-control"
-            value=" {{ formatedDate(ts?.date) }}"
-            [(ngModel)]="ts.date"
-          />
+          <label for="{{ ts?._id }}"> {{ formatedDate(ts?.date) }}</label>
         </td>
         <td>
           <input
+            [disabled]="isApproved"
             type="text"
-            class="form-control"
+            class="form-control timesheet-input"
             value="{{ ts.note }}"
             [(ngModel)]="ts.note"
           />
         </td>
         <td>
           <input
-            class="form-control"
+            [disabled]="isApproved"
+            class="form-control timesheet-input"
             type="number"
             value="{{ ts.workingHours }}"
             [(ngModel)]="ts.workingHours"
           />
         </td>
         <td>
-          <app-button-outline (onClick)="updateRecord(ts)" [title]="'+'">
-          </app-button-outline>
+          <mat-icon (click)="updateRecord(ts)">edit </mat-icon>
         </td>
       </tr>
 
-      <tr>
+      <!-- <tr>
         <td>
           <input
             class="form-control"
-            type="date"
+            type="datetime-local"
             value="{{ currentTimesheet.date }}"
             [(ngModel)]="currentTimesheet.date"
           />
@@ -79,138 +103,28 @@
           />
         </td>
         <td>
-          <app-button-outline (onClick)="insertRecord()" [title]="'add'">
-          </app-button-outline>
+          <mat-icon (onClick)="insertRecord()" [title]="'add'">
+          </mat-icon>
         </td>
-      </tr>
+      </tr> -->
     </tbody>
   </table>
 </div>
+<pagination-controls
+  (pageChange)="changePage($event)"
+  previousLabel="Prev."
+  nextLabel="Next"
+></pagination-controls>
 
-<!-- <pagination-controls (pageChange)="page = $event"></pagination-controls> -->
-
-<!-- <table class="table">
-  <tr>
-    <td></td>
-    <td>Lun 17</td>
-    <td>Lun 18</td>
-    <td>Lun 19</td>
-    <td>Lun 20</td>
-    <td>Lun 21</td>
-    <td>Lun 22</td>
-  </tr>
-  <tr>
-    <td>Some note here</td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-    <td>
-      <span>
-        <input
-          type="number"
-          value="8"
-          class="working-hours"
-          max="12"
-          (change)="checkHours()"
-          [(ngModel)]="workignHoursInput"
-        />
-        hrs
-      </span>
-      <app-button-filled [title]="'edit'"></app-button-filled>
-      <span>{{ extraHours }}</span>
-    </td>
-  </tr>
-  <tr>
-    <td></td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-    <td>
-      <input type="checkbox" name="" id="" />
-    </td>
-  </tr>
-</table> -->
+<!-- <div>
+  <ul>
+    <li
+      *ngFor="
+        let ts of timesheets
+          
+      "
+    >
+      <p>{{ ts.date }}</p>
+    </li>
+  </ul>
+</div> -->

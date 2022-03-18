@@ -119,7 +119,7 @@ export class TimetableComponent implements OnInit, OnChanges {
     }
   }
   getAll() {
-    this.summaryService.getEmployeeTimeSheets().subscribe(
+    this.summaryService.getEmployeeTimeSheets(1, 31).subscribe(
       (result) => {
         if (result['response'] && result['response'].length) {
           console.log('⚡ TimetableComponent ~ getAll ~ result', result);

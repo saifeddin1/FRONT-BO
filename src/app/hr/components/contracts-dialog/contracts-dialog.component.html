@@ -1,0 +1,167 @@
+<h2 mat-dialog-title>Contract</h2>
+
+<mat-dialog-content>
+  <div class="inputs-row">
+    <select [(ngModel)]="contract.userId">
+      <option value="">Pick a user</option>
+      <option value="{{ user?._id }}" *ngFor="let user of data['users']">
+        {{ user?.username }}
+      </option>
+    </select>
+  </div>
+  <div>
+    <div class="inputs-row">
+      <div>
+        <label>Contract Type</label>
+        <input
+          type="text"
+          placeholder="CDD, CDI, SIVP..."
+          value="{{ contract?.contractType }}"
+          [(ngModel)]="contract.contractType"
+        />
+      </div>
+
+      <div>
+        <label>Hours / Week</label>
+        <input
+          type="text"
+          value="{{ contract?.hoursNumber }}"
+          [(ngModel)]="contract.hoursNumber"
+          placeholder="40..."
+        />
+      </div>
+    </div>
+    <div class="inputs-row">
+      <div>
+        <label>Start Date</label>
+        <input
+          type="date"
+          placeholder="yyyy-mm-dd"
+          value="{{ contract?.startDate }}"
+          [(ngModel)]="contract.startDate"
+        />
+      </div>
+      <div>
+        <label>End Date</label
+        ><input
+          type="date"
+          placeholder="yyyy-mm-dd"
+          value="{{ contract?.endDate }}"
+          [(ngModel)]="contract.endDate"
+        />
+      </div>
+    </div>
+  </div>
+  <div *ngIf="contract['salary']">
+    <div>
+      <h3>Salary information</h3>
+      <div class="inputs-row">
+        <div>
+          <label>Seniory</label
+          ><input
+            type="number"
+            value="{{ contract['salary']?.seniority }}"
+            [(ngModel)]="contract['salary'].seniority"
+          />
+        </div>
+        <br />
+        <div>
+          <label>Annual Componsation</label
+          ><input
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.annual }}"
+            [(ngModel)]="contract['salary'].annualCompensation.annual"
+            annual
+          />
+        </div>
+      </div>
+      <div class="inputs-row">
+        <div>
+          <label>Gross contract['Salary']</label
+          ><input
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.gross }}"
+            [(ngModel)]="contract['salary'].annualCompensation.gross"
+          />
+        </div>
+        <div>
+          <label>Effective</label
+          ><input
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.effective }}"
+            [(ngModel)]="contract['salary'].annualCompensation.effective"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!contract['salary']">
+    <h3>Salary information</h3>
+    <div class="inputs-row">
+      <div>
+        <label>Seniority</label
+        ><input
+          type="number"
+          value="{{ contract.salary?.seniority }}"
+          [(ngModel)]="contract.salary.seniority"
+        />
+      </div>
+      <br />
+      <div>
+        <label>Annual Componsation</label
+        ><input
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.annual }}"
+          [(ngModel)]="contract.salary.annualCompensation.annual"
+          annual
+        />
+      </div>
+    </div>
+    <div class="inputs-row">
+      <div>
+        <label>Gross</label
+        ><input
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.gross }}"
+          [(ngModel)]="contract.salary.annualCompensation.gross"
+        />
+      </div>
+      <div>
+        <label>Effective</label
+        ><input
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.effective }}"
+          [(ngModel)]="contract.salary.annualCompensation.effective"
+        />
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    style="padding: 5px; margin: 3px"
+    mat-button
+    *ngIf="data['dialogOperation'] === 'edit'"
+    [mat-dialog-close]="'close'"
+    (click)="updateContractWithSalary(contract)"
+  >
+    Edit
+  </button>
+  <button
+    style="padding: 5px; margin: 3px"
+    mat-button
+    *ngIf="data['dialogOperation'] === 'add'"
+    [mat-dialog-close]="'close'"
+    (click)="addContract(contract)"
+  >
+    Add
+  </button>
+  <button
+    style="padding: 5px; margin: 3px"
+    mat-button
+    [mat-dialog-close]="'close'"
+  >
+    Close
+  </button>
+</mat-dialog-actions>
