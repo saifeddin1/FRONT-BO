@@ -5,5 +5,5 @@ export interface Contract {
   startDate: Date;
   endDate: Date;
   userId: string;
-  salaries: any;
+  salary: any;
 }

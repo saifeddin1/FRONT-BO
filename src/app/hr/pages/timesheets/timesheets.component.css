@@ -1,8 +1,12 @@
-td {
+td,
+th {
   font-size: 17px;
   padding: 1rem !important;
   /* display: flex;
   align-items: center; */
+}
+td .mat-icon {
+  cursor: pointer;
 }
 .working-hours {
   width: 50px;
@@ -19,4 +23,65 @@ p {
   flex-grow: 1;
   height: 100px;
   width: calc(100% * (1 / 4) - 10px - 1px);
+}
+.timesheets-header {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.timesheets-header .hours-limit {
+  background-color: #fff;
+  padding: 5px;
+  border-radius: 50%;
+  width: 90px;
+  height: 90px;
+  font-weight: 500;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  filter: drop-shadow(6px 6px 20px #ddd);
+}
+
+.timesheets-header .year-month-wrapper {
+  width: 60%;
+}
+
+.timesheets-header .year-month-wrapper select {
+  padding: 10px;
+  border: 1px solid #eee;
+  width: 10rem;
+}
+
+.timesheets-header .declaration-btn button {
+  height: 2rem;
+  filter: drop-shadow(0px 4px 30px #f1f1f1);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  color: #ffffff;
+  background-color: var(--green-base);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+}
+
+.timesheets-header .declaration-btn button.declared {
+  background-color: #ffffff;
+  color: var(--green-base);
+  border: 1px solid var(--green-base);
+}
+
+.timesheets-header .declaration-btn button.approved {
+  background-color: #ffffff;
+  color: #31d81b;
+  border: 1px solid #31d81b;
+}
+
+.timesheets-input > .mat-icon {
+  visibility: hidden;
+}
+.timesheets-input:focus > .mat-icon {
+  visibility: visible;
 }

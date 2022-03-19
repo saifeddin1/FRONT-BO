@@ -87,8 +87,6 @@
       *ngSwitchCase="CalendarView.Week"
       [viewDate]="viewDate"
       [events]="events"
-      [dayStartHour]="8"
-      [dayEndHour]="17"
       [refresh]="refresh"
       (eventClicked)="handleEvent($event.event)"
       (eventTimesChanged)="eventTimesChanged($event)"

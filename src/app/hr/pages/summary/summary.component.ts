@@ -36,22 +36,22 @@ export class SummaryComponent implements OnInit {
     this.getEmployeeInterviews();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
-  getCurrentTimesheet() {
-    let today = new Date().toISOString().split('T')[0];
-    console.log(
-      '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
-      today
-    );
-    return this.summaryService
-      .getEmployeeCurrentTimeSheet(today)
-      .subscribe((result) => {
-        this.timesheet = result['response'];
-        console.log(
-          '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
-          result['response']
-        );
-      });
-  }
+  // getCurrentTimesheet() {
+  //   let today = new Date().toISOString().split('T')[0];
+  //   console.log(
+  //     '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
+  //     today
+  //   );
+  //   return this.summaryService
+  //     .getEmployeeCurrentTimeSheet(today)
+  //     .subscribe((result) => {
+  //       this.timesheet = result['response'];
+  //       console.log(
+  //         '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
+  //         result['response']
+  //       );
+  //     });
+  // }
   updateRecord(timesheet) {
     console.log(timesheet);
 

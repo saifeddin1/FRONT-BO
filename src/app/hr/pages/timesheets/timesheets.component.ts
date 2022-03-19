@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { Timesheet } from '../../models/timesheet.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { formatDate } from '../../helpers/formatDate';
-import { time } from 'console';
+
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TimesheetDeclaration } from '../../models/timesheetDeclaration.model';
-import { Timeslot } from '../../models/timeslot.model';
+
 @Component({
   selector: 'app-timesheets',
   templateUrl: './timesheets.component.html',
@@ -15,6 +15,12 @@ import { Timeslot } from '../../models/timeslot.model';
 })
 export class TimesheetsComponent implements OnInit {
   timesheets: Timesheet[];
+  p: number = 1;
+  limit: number = 7;
+  total: number;
+  monthlyWorkingHours: number;
+  monthlyHoursLimit: number;
+  totalHours: number;
   currentTimesheet: Timesheet = {
     userId: this.employeeService.getUser()['_id'],
     date: null,
@@ -23,7 +29,10 @@ export class TimesheetsComponent implements OnInit {
   };
   timesheet: Timesheet;
   isDeclared: boolean;
+  isApproved: boolean;
   extraHours: number;
+  yearMonth: string;
+  contract: any;
   formatedDate(date) {
     return formatDate(date);
   }
@@ -32,14 +41,37 @@ export class TimesheetsComponent implements OnInit {
   constructor(
     private employeeService: EmployeeSummaryService,
     private toastr: ToastrService
-  ) {}
+  ) {
+    this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
+  }
 
   currUser = this.employeeService.getUser();
   ngOnInit(): void {
     this.getEmployeeTimeSheets();
     this.getCurrentDeclaration();
+    this.getEmployeeActiveContract();
+    this.getMonthlyHours();
+  }
 
-    console.log(this.isDeclared);
+  getEmployeeActiveContract() {
+    let today = new Date();
+    return this.employeeService.getContractsWithSalary().subscribe((result) => {
+      this.contract = result['response'].filter(
+        (c) => new Date(c.endDate) >= new Date(today)
+      )[0];
+
+      this.monthlyHoursLimit = this.contract?.hoursNumber;
+    });
+  }
+
+  getMonthlyHours() {
+    this.employeeService
+      .getWorkedHoursMonthly(new Date().toISOString())
+      .subscribe((result) => {
+        this.monthlyWorkingHours = result['response'][0]['sum'];
+        console.log('⚡  getMonthlyHours', this.monthlyWorkingHours);
+        this.totalHours = this.monthlyWorkingHours - this.monthlyHoursLimit;
+      });
   }
   checkHours() {
     if (this.workignHoursInput === 8) {
@@ -48,27 +80,29 @@ export class TimesheetsComponent implements OnInit {
       this.extraHours = this.workignHoursInput - 8;
     }
   }
-  getEmployeeTimeSheets() {
-    this.employeeService.getEmployeeTimeSheets().subscribe((result) => {
-      console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
-      this.timesheets = result['response'][0]['totalData'];
-    });
-  }
-  // getEmployeeTimeSheets() {
-  //   this.employeeService.getTimeSlots().subscribe((result) => {
-  //     console.log('📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets', result);
-  //     this.timesheets = result['response'][0]['totalData'].map(
-  //       (el: Timeslot) => ({
-  //         date: el.start,
-  //         note: el.description,
-  //         workingHours: Number(
-  //           new Date(el.end).getHours() - new Date(el.start).getHours()
-  //         ),
-  //       })
-  //     );
-  //   });
-  // }
 
+  getEmployeeTimeSheets() {
+    console.log(this.yearMonth);
+    this.employeeService
+      .getMonthlyEmployeeTimesheets(
+        this.p,
+        this.limit,
+        this.yearMonth && this.yearMonth
+      )
+      .subscribe((result) => {
+        console.log(
+          '📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets',
+          result
+        );
+        this.timesheets = result['response'][0]['totalData'];
+        this.total = result['response'][0]['totalCount'][0]['count'];
+      });
+  }
+  changePage(event) {
+    console.log(event);
+    this.p = event;
+    this.getEmployeeTimeSheets();
+  }
   getCurrentTimesheet() {
     let today = new Date().toISOString().split('T')[0];
     console.log(
@@ -112,6 +146,7 @@ export class TimesheetsComponent implements OnInit {
         (result) => {
           this.showSuccessToaster(result['message']);
           console.log(result);
+          this.getMonthlyHours();
         },
         (err) => {
           this.showErrorToaster(err?.message);
@@ -133,7 +168,6 @@ export class TimesheetsComponent implements OnInit {
   }
 
   createDeclaration() {
-    this.isDeclared = true;
     return this.employeeService
       .createTimesheetDeclaration({
         userId: this.currUser['_id'],
@@ -141,15 +175,17 @@ export class TimesheetsComponent implements OnInit {
       })
       .subscribe((result) => {
         console.log('✅ CREATED', result);
+        this.declaration = result['response'];
+        this.isDeclared = true;
       });
   }
 
   cancelDeclaration() {
-    this.isDeclared = false;
     this.employeeService
       .deleteDeclaration(this.declaration._id)
       .subscribe((result) => {
         console.log('❌deleteDeclaration ~ result', result);
+        this.isDeclared = false;
       });
   }
 
@@ -163,6 +199,11 @@ export class TimesheetsComponent implements OnInit {
             ? true
             : false;
         console.log('✅ this.declaration', this.declaration);
+        this.isApproved =
+          this.declaration && this.declaration?.status === 'approved'
+            ? true
+            : false;
+        console.log(this.isApproved);
       });
   }
 }
