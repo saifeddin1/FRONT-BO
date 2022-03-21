@@ -32,7 +32,8 @@ import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add
 import { AddInterviewDialogComponent } from './components/add-interview-dialog/add-interview-dialog.component';
 import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
 import { ContractsDialogComponent } from './components/contracts-dialog/contracts-dialog.component';
-import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { NgxPaginationModule } from 'ngx-pagination'; // <-- import the module
     AddInterviewDialogComponent,
     ManageContractsComponent,
     ContractsDialogComponent,
+    UserTimesheetsComponent,
   ],
   imports: [
     HRRoutingModule,

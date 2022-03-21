@@ -7,6 +7,12 @@ import { User } from 'src/app/lms/models/user.model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
+import { YearMonth } from '../../models/yearMonth.model';
+interface TimesheetCollection {
+  user: User;
+  yearMonth: string;
+  createdAt: Date;
+}
 @Component({
   selector: 'app-manage-timesheets',
   templateUrl: './manage-timesheets.component.html',
@@ -14,10 +20,11 @@ import { STUDENT } from 'src/app/lms/constants/roles.constant';
 })
 export class ManageTimesheetsComponent implements OnInit {
   timesheet: Timesheet;
-  timesheets: Timesheet[];
-
   users: User[];
   userId: string;
+  collections: TimesheetCollection[];
+  newYearMonthItem: YearMonth;
+  yearMonthItems: YearMonth[];
   constructor(
     private employeeService: EmployeeSummaryService,
     private toaster: ToasterService
@@ -28,29 +35,20 @@ export class ManageTimesheetsComponent implements OnInit {
       note: '',
       workingHours: 0,
     };
+    this.newYearMonthItem = {
+      title: '',
+    };
   }
+
   formatedDate(date) {
     return formatDate(date);
   }
   ngOnInit(): void {
     this.getUsers();
-    this.getAllTimesheets();
+
+    this.getAllYearMonthItems();
   }
 
-  createTimesheet() {
-    this.employeeService
-      .createEmployeeTimeSheet(this.timesheet)
-      .subscribe((result) => {
-        console.log('⚡  ManageTimesheetsComponent  ~ result', result);
-        this.toaster.success('Created Successfully');
-        this.getAllTimesheets();
-      });
-  }
-  getAllTimesheets() {
-    this.employeeService.getAllSheets().subscribe((result) => {
-      this.timesheets = result['response'][0]['totalData'];
-    });
-  }
   getUsers() {
     this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
       this.users = result['response'];
@@ -83,10 +81,24 @@ export class ManageTimesheetsComponent implements OnInit {
         }
       );
   }
-  deleteRecord(tsheet) {
-    this.employeeService.deleteTimesheet(tsheet._id).subscribe((result) => {
-      console.log('Deleted sheet: ', result);
-      this.getAllTimesheets();
+
+  getAllYearMonthItems() {
+    this.employeeService.getAllYearMonthItems().subscribe((result) => {
+      console.log('📆📆  getAllYearMonthItems ~ result', result);
+      this.yearMonthItems = result['response'][0]['totalData'];
     });
   }
+
+  createYearMonthItem() {
+    this.employeeService
+      .createYearMonthItem(this.newYearMonthItem, this.userId)
+      .subscribe((result) => {
+        console.log('📆✅ createYearMonthItems ~ result', result);
+        this.collections.push({
+          user: this.users.filter((user) => user._id === this.userId)[0],
+          yearMonth: this.newYearMonthItem?.title,
+          createdAt: new Date(),
+        });
+      });
+    }
 }

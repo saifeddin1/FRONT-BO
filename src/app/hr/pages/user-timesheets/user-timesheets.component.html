@@ -1,0 +1,39 @@
+<table class="table table-stripped">
+  <thead>
+    <th>User</th>
+    <th>Note</th>
+    <th>Start</th>
+    <th>Working Hours</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let ts of timesheets">
+      <td>
+        <select [(ngModel)]="ts.userId">
+          <option *ngFor="let user of users" value="{{ user._id }}">
+            {{ user.username }}
+          </option>
+        </select>
+      </td>
+      <td><input [(ngModel)]="ts.note" value="{{ ts.note }}" type="text" /></td>
+      <td>
+        <input
+          [(ngModel)]="ts.date"
+          value="{{ ts.date }}"
+          type="datetime-local"
+        />
+      </td>
+      <td>
+        <input
+          [(ngModel)]="ts.workingHours"
+          value="{{ ts.workingHours }}"
+          type="number"
+        />
+      </td>
+      <td>
+        <mat-icon (click)="updateRecord(ts)">edit</mat-icon>
+        <mat-icon (click)="deleteRecord(ts)">delete</mat-icon>
+      </td>
+    </tr>
+  </tbody>
+</table>

@@ -92,6 +92,7 @@
             clrVerticalNavLink
             [routerLink]="route.link"
             routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
           >
             <clr-icon [attr.shape]="route.icon"></clr-icon>
             <span>{{ route.label }}</span>

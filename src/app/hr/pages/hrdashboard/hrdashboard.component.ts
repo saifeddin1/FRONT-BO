@@ -6,6 +6,7 @@ interface Route {
   roles: string[];
   link: string;
   icon: string;
+  status: string;
   label: string;
 }
 const ROUTES: Array<Route> = [
@@ -13,36 +14,42 @@ const ROUTES: Array<Route> = [
     roles: [INSTRUCTOR, HR, ADMIN],
     link: './',
     icon: 'book',
+    status: 'active',
     label: 'Summary',
   },
   {
     roles: [INSTRUCTOR, HR, ADMIN],
     link: './profile',
     icon: 'user',
+    status: 'active',
     label: 'Profile',
   },
   {
     roles: [INSTRUCTOR, HR],
     link: './collaborators',
     icon: 'users',
+    status: 'active',
     label: 'Collaborators',
   },
   {
     roles: [ADMIN],
     link: './manage-employees',
     icon: 'users',
+    status: 'active',
     label: 'Employees',
   },
   {
     roles: [INSTRUCTOR, HR],
     link: './contracts',
     icon: 'copy',
+    status: 'active',
     label: 'Contracts',
   },
   {
     roles: [ADMIN],
     link: './manage-contracts',
     icon: 'copy',
+    status: 'active',
     label: 'Contracts',
   },
 
@@ -50,6 +57,7 @@ const ROUTES: Array<Route> = [
     roles: [INSTRUCTOR, HR, ADMIN],
     link: './interviews',
     icon: 'form',
+    status: 'active',
     label: 'Interviews',
   },
 
@@ -57,24 +65,28 @@ const ROUTES: Array<Route> = [
     roles: [INSTRUCTOR, HR],
     link: './timetable',
     icon: 'clock',
+    status: 'active',
     label: 'Timetable',
   },
   {
     roles: [INSTRUCTOR, HR],
     link: './timesheets',
     icon: 'calendar',
+    status: 'active',
     label: 'Timesheets',
   },
   {
     roles: [ADMIN],
     link: './timesheetManagement',
     icon: 'calendar',
+    status: 'active',
     label: 'T-heet Management',
   },
   {
     roles: [INSTRUCTOR, HR, ADMIN],
     link: './timeoffs',
     icon: 'on-holiday',
+    status: 'active',
     label: 'Timeoffs',
   },
 ];
