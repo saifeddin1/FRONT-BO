@@ -3,29 +3,23 @@
     <div class="hours-limit">{{ totalHours }} Hours</div>
     <div class="year-month-wrapper">
       <select [(ngModel)]="yearMonth" (change)="getEmployeeTimeSheets()">
-        <option value="2022-01">January 2022</option>
-        <option value="2022-02">February 2022</option>
-        <option value="2022-03">March 2022</option>
-        <option value="2022-04">April 2022</option>
-        <option value="2022-05">May 2022</option>
-        <option value="2022-06">June 2022</option>
-        <option value="2022-07">July 2022</option>
-        <option value="2022-08">August 2022</option>
-        <option value="2022-09">September 2022</option>
-        <option value="2022-10">October 2022</option>
-        <option value="2022-11">November 2022</option>
-        <option value="2022-12">December 2022</option>
+        <option
+          value="{{ yearMonth }}"
+          *ngIf="!yearMonthItems || !yearMonthItems.length"
+        >
+          {{ yearMonth }}
+        </option>
+
+        <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
+          {{ item?.title }}
+        </option>
       </select>
     </div>
     <div class="declaration-btn">
       <button class="approved" *ngIf="isApproved" [disabled]="isApproved">
         Approved
       </button>
-      <button
-        *ngIf="!isDeclared && !isApproved"
-        [title]="''"
-        (click)="createDeclaration()"
-      >
+      <button *ngIf="!isDeclared && !isApproved" (click)="createDeclaration()">
         Declare
       </button>
       <button

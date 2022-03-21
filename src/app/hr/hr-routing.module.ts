@@ -14,6 +14,7 @@ import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-time
 import { PreventStudentGuard } from './helpers/prevent-student.guard';
 import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
 import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
+import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
 
 const routes: Routes = [
   {
@@ -61,6 +62,10 @@ const routes: Routes = [
       {
         path: 'timesheetManagement',
         component: ManageTimesheetsComponent,
+      },
+      {
+        path: 'timesheetManagement/:userId',
+        component: UserTimesheetsComponent,
       },
       {
         path: 'timeoffs',

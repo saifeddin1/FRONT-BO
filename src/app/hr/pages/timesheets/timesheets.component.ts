@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
 import { TimesheetDeclaration } from '../../models/timesheetDeclaration.model';
+import { YearMonth } from '../../models/yearMonth.model';
 
 @Component({
   selector: 'app-timesheets',
@@ -33,6 +34,7 @@ export class TimesheetsComponent implements OnInit {
   extraHours: number;
   yearMonth: string;
   contract: any;
+  yearMonthItems: YearMonth[];
   formatedDate(date) {
     return formatDate(date);
   }
@@ -43,6 +45,7 @@ export class TimesheetsComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
+    this.totalHours = 0;
   }
 
   currUser = this.employeeService.getUser();
@@ -51,6 +54,14 @@ export class TimesheetsComponent implements OnInit {
     this.getCurrentDeclaration();
     this.getEmployeeActiveContract();
     this.getMonthlyHours();
+    this.getAllYearMonthItems();
+  }
+
+  getAllYearMonthItems() {
+    this.employeeService.getAllYearMonthItems().subscribe((result) => {
+      console.log('📆📆  getAllYearMonthItems ~ result', result);
+      this.yearMonthItems = result['response'][0]['totalData'];
+    });
   }
 
   getEmployeeActiveContract() {

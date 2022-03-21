@@ -53,6 +53,10 @@ p {
   width: 10rem;
 }
 
+.timesheets-header .year-month-wrapper select:focus {
+  outline: unset;
+  border: none;
+}
 .timesheets-header .declaration-btn button {
   height: 2rem;
   filter: drop-shadow(0px 4px 30px #f1f1f1);

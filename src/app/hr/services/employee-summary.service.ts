@@ -14,6 +14,7 @@ import { Timeoff } from '../models/timeoff.model';
 import { Timesheet } from '../models/timesheet.model';
 import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
 import { Timeslot } from '../models/timeslot.model';
+import { YearMonth } from '../models/yearMonth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -270,5 +271,30 @@ export class EmployeeSummaryService {
     );
 
     return this.http.post<Notification>(`${this.BASE_URL}/notifications`, body);
+  }
+
+  // ------------------- Year Month Items -----------------------------
+
+  getAllYearMonthItems(): Observable<YearMonth[]> {
+    return this.http.get<YearMonth[]>(`${this.BASE_URL}/yearMonths`);
+  }
+
+  getYearMonthItem(id: string): Observable<YearMonth> {
+    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+  }
+
+  createYearMonthItem(body: YearMonth, userId: string): Observable<YearMonth> {
+    return this.http.post<YearMonth>(
+      `${this.BASE_URL}/yearMonths/${userId}`,
+      body
+    );
+  }
+
+  editYearMonthItem(id: string, body: YearMonth): Observable<YearMonth> {
+    return this.http.put<YearMonth>(`${this.BASE_URL}/yearMonths${id}`, body);
+  }
+
+  deleteYearMonthItem(id: string, body: YearMonth): Observable<YearMonth> {
+    return this.http.delete<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
   }
 }
