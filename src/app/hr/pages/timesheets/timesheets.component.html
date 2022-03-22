@@ -10,13 +10,21 @@
           {{ yearMonth }}
         </option>
 
-        <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
+        <option
+          value="{{ item?.title }}"
+          *ngFor="let item of yearMonthItems"
+          [(ngModel)]="yearMonth"
+        >
           {{ item?.title }}
         </option>
       </select>
     </div>
     <div class="declaration-btn">
-      <button class="approved" *ngIf="isApproved" [disabled]="isApproved">
+      <button
+        class="approved"
+        *ngIf="isApproved"
+        [disabled]="isApproved || isDeclared"
+      >
         Approved
       </button>
       <button *ngIf="!isDeclared && !isApproved" (click)="createDeclaration()">
@@ -50,7 +58,7 @@
         </td>
         <td>
           <input
-            [disabled]="isApproved"
+            [disabled]="isApproved || isDeclared"
             type="text"
             class="form-control timesheet-input"
             value="{{ ts.note }}"
@@ -59,7 +67,7 @@
         </td>
         <td>
           <input
-            [disabled]="isApproved"
+            [disabled]="isApproved || isDeclared"
             class="form-control timesheet-input"
             type="number"
             value="{{ ts.workingHours }}"

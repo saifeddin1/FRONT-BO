@@ -1,22 +1,20 @@
 <table class="table table-stripped">
   <thead>
-    <th>User</th>
     <th>Note</th>
     <th>Start</th>
     <th>Working Hours</th>
     <th></th>
   </thead>
   <tbody>
-    <tr *ngFor="let ts of timesheets">
-      <td>
-        <select [(ngModel)]="ts.userId">
-          <option *ngFor="let user of users" value="{{ user._id }}">
-            {{ user.username }}
-          </option>
-        </select>
-      </td>
+    <tr
+      *ngFor="
+        let ts of timesheets
+          | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }
+      "
+    >
       <td><input [(ngModel)]="ts.note" value="{{ ts.note }}" type="text" /></td>
       <td>
+        <label>{{ ts?.date }}</label>
         <input
           [(ngModel)]="ts.date"
           value="{{ ts.date }}"
@@ -37,3 +35,8 @@
     </tr>
   </tbody>
 </table>
+<pagination-controls
+  (pageChange)="changePage($event)"
+  previousLabel="Prev."
+  nextLabel="Next"
+></pagination-controls>

@@ -1,17 +1,41 @@
-<input type="text" placeholder="yyyy-mm" [(ngModel)]="newYearMonthItem.title" />
-<br />
-<button (click)="createYearMonthItem()">Add</button> <br />
+<div class="year-month-items">
+  <span>Months : </span>
+  <select>
+    <option value="{{ item?._id }}" *ngFor="let item of yearMonthItems">
+      {{ item?.title }}
+    </option>
+  </select>
+</div>
 
-<select>
-  <option value="{{ item?._id }}" *ngFor="let item of yearMonthItems">
-    {{ item?.title }}
-  </option>
-</select>
-
-<select [(ngModel)]="userId">
-  <option *ngFor="let user of users" value="{{ user._id }}">
-    {{ user.username }}
-  </option>
-</select>
-
-
+<div class="main-wrapper">
+  <div class="employees-list">
+    <div class="employee-card-header">
+      <div>USERNAME</div>
+      <div>EMAIL</div>
+      <div>Type</div>
+      <div></div>
+    </div>
+    <div
+      (click)="viewTimesheets(employee)"
+      class="employee-card"
+      *ngFor="let employee of users"
+    >
+      <div>
+        <div class="test-info">
+          <h5>{{ employee?.username }}</h5>
+        </div>
+      </div>
+      <div class="employee-email">
+        {{ employee.email }}
+      </div>
+      <div class="employee-jobType">
+        {{ employee.type }}
+      </div>
+      <div>
+        <mat-icon (click)="openCreateDialog($event)" id="{{ employee._id }}"
+          >add</mat-icon
+        >
+      </div>
+    </div>
+  </div>
+</div>

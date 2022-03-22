@@ -1,0 +1,7 @@
+<h2 mat-dialog-title>Add Year Month Item (YYYY-MM) :</h2>
+<input type="text" placeholder="yyyy-mm" [(ngModel)]="newYearMonthItem.title" />
+<br />
+
+<div class="dialog-actions" [mat-dialog-close]="'close'">
+  <button (click)="createYearMonthItem()">Add</button>
+</div>

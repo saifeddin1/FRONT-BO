@@ -146,6 +146,18 @@ export class EmployeeSummaryService {
     );
   }
 
+  getTimesheetsByUserId(
+    userId: string,
+    p: number,
+    limit: number
+  ): Observable<Timesheet[]> {
+    return this.http.get<Timesheet[]>(
+      `${this.BASE_URL}/timesheets/getTimesheetsByUserId/${userId}?page=${
+        p - 1
+      }&limit=${limit}`
+    );
+  }
+
   getMonthlyEmployeeTimesheets(
     p: number,
     limit: number,
