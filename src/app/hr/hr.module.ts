@@ -33,7 +33,8 @@ import { AddInterviewDialogComponent } from './components/add-interview-dialog/a
 import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
 import { ContractsDialogComponent } from './components/contracts-dialog/contracts-dialog.component';
 import { NgxPaginationModule } from 'ngx-pagination';
-import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component'; // <-- import the module
+import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
+import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/add-year-month-dialog.component'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets
     ManageContractsComponent,
     ContractsDialogComponent,
     UserTimesheetsComponent,
+    AddYearMonthDialogComponent,
   ],
   imports: [
     HRRoutingModule,

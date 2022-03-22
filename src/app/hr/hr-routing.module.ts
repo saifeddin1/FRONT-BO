@@ -36,6 +36,10 @@ const routes: Routes = [
         component: CollaboratorsComponent,
       },
       {
+        path: 'timesheetManagement/detail/:userId',
+        component: UserTimesheetsComponent,
+      },
+      {
         path: 'manage-employees',
         component: ManageEmployeesComponent,
       },
@@ -62,10 +66,6 @@ const routes: Routes = [
       {
         path: 'timesheetManagement',
         component: ManageTimesheetsComponent,
-      },
-      {
-        path: 'timesheetManagement/:userId',
-        component: UserTimesheetsComponent,
       },
       {
         path: 'timeoffs',
