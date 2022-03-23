@@ -149,10 +149,13 @@ export class EmployeeSummaryService {
   getTimesheetsByUserId(
     userId: string,
     p: number,
-    limit: number
+    limit: number,
+    yearMonth: string
   ): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
-      `${this.BASE_URL}/timesheets/getTimesheetsByUserId/${userId}?page=${
+      `${
+        this.BASE_URL
+      }/timesheets/getTimesheetsByUserId/${yearMonth}/${userId}?page=${
         p - 1
       }&limit=${limit}`
     );

@@ -11,7 +11,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class AddYearMonthDialogComponent implements OnInit {
   newYearMonthItem: YearMonth;
-
+  userId: string;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private employeeService: EmployeeSummaryService,
@@ -28,7 +28,7 @@ export class AddYearMonthDialogComponent implements OnInit {
     console.log('this.newYearMonthItem => ', this.newYearMonthItem);
 
     this.employeeService
-      .createYearMonthItem(this.newYearMonthItem, this.data['id'])
+      .createYearMonthItem(this.newYearMonthItem, this.userId)
       .subscribe((result) => {
         console.log('📆✅ createYearMonthItems ~ result', result);
         this.toaster.success(

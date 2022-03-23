@@ -1,4 +1,5 @@
-input {
+input,
+select {
   padding: 0.5rem;
   outline: unset;
   border: 1px solid #cacaca;

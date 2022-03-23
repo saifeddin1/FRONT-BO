@@ -3,6 +3,7 @@
     <div class="hours-limit">{{ totalHours }} Hours</div>
     <div class="year-month-wrapper">
       <select [(ngModel)]="yearMonth" (change)="getEmployeeTimeSheets()">
+        <option value="">Pick a Month</option>
         <option
           value="{{ yearMonth }}"
           *ngIf="!yearMonthItems || !yearMonthItems.length"
@@ -12,8 +13,8 @@
 
         <option
           value="{{ item?.title }}"
-          *ngFor="let item of yearMonthItems"
-          [(ngModel)]="yearMonth"
+          *ngFor="let item of yearMonthItems; let i = index"
+          selected="{{ i === 0 }}"
         >
           {{ item?.title }}
         </option>
@@ -75,7 +76,11 @@
           />
         </td>
         <td>
-          <mat-icon (click)="updateRecord(ts)">edit </mat-icon>
+          <mat-icon
+            (click)="updateRecord(ts)"
+            *ngIf="!isApproved && !isDeclared"
+            >edit
+          </mat-icon>
         </td>
       </tr>
 
