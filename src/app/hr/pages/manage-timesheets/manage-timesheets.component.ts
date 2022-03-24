@@ -19,7 +19,6 @@ import { MatDialog } from '@angular/material/dialog';
 export class ManageTimesheetsComponent implements OnInit {
   timesheet: Timesheet;
   users: User[];
-
   yearMonthItems: YearMonth[];
   constructor(
     private employeeService: EmployeeSummaryService,
@@ -40,12 +39,13 @@ export class ManageTimesheetsComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getUsers();
-
     this.getAllYearMonthItems();
   }
 
   viewTimesheets(employee): void {
-    this.router.navigate([`timesheetManagement/detail/${employee._id}`]);
+    console.log(this.router.url);
+
+    this.router.navigateByUrl(`${this.router.url}/detail/${employee._id}`);
   }
   getUsers() {
     this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
@@ -53,29 +53,27 @@ export class ManageTimesheetsComponent implements OnInit {
       console.log('result', this.users);
     });
   }
-
   getAllYearMonthItems() {
     this.employeeService.getAllYearMonthItems().subscribe((result) => {
       console.log('📆📆  getAllYearMonthItems ~ result', result);
       this.yearMonthItems = result['response'][0]['totalData'];
     });
   }
-
   openCreateDialog(event) {
-    let employee_id = event.target.id;
-    console.log('employee_id => ', employee_id);
+    // let employee_id = event.target.id;
+    // console.log('employee_id => ', employee_id);
     const dialogRef = this.dialog.open(AddYearMonthDialogComponent, {
       height: 'auto',
       width: '500px',
       data: {
         users: this.users,
-        id: employee_id,
+        // id: employee_id,
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
-      this.getAllYearMonthItems();
+      // this.getAllYearMonthItems();
     });
   }
 }

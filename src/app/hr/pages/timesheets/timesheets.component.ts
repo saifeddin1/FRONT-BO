@@ -45,6 +45,7 @@ export class TimesheetsComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
+
     this.totalHours = 0;
   }
 
@@ -53,8 +54,9 @@ export class TimesheetsComponent implements OnInit {
     this.getEmployeeTimeSheets();
     this.getCurrentDeclaration();
     this.getEmployeeActiveContract();
-    this.getMonthlyHours();
     this.getAllYearMonthItems();
+
+    //
   }
 
   getAllYearMonthItems() {
@@ -77,10 +79,14 @@ export class TimesheetsComponent implements OnInit {
 
   getMonthlyHours() {
     this.employeeService
-      .getWorkedHoursMonthly(new Date().toISOString())
+      .getWorkedHoursMonthly(
+        this.yearMonth
+          ? new Date(this.yearMonth).toISOString()
+          : new Date().toISOString()
+      )
       .subscribe((result) => {
+        console.log('⚡  getMonthlyHours', result);
         this.monthlyWorkingHours = result['response'][0]['sum'];
-        console.log('⚡  getMonthlyHours', this.monthlyWorkingHours);
         this.totalHours = this.monthlyWorkingHours - this.monthlyHoursLimit;
       });
   }
@@ -105,9 +111,11 @@ export class TimesheetsComponent implements OnInit {
           '📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets',
           result
         );
+        this.getMonthlyHours();
         this.timesheets = result['response'][0]['totalData'];
         this.total = result['response'][0]['totalCount'][0]['count'];
         this.isApproved = false;
+        this.isDeclared = false;
         this.employeeService
           .getCurrentDeclaration(parseInt(this.yearMonth.split('-')[1]))
           .subscribe((result) => {

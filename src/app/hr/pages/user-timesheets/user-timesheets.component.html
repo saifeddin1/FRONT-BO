@@ -1,3 +1,17 @@
+<div class="user-tsheets-header">
+  <mat-icon (click)="goBack()" style="cursor: pointer; font-size: 3rem"
+    >chevron_left</mat-icon
+  >
+  <div class="year-month-items">
+    <span>Months &nbsp; &nbsp; </span>
+    <select [(ngModel)]="yearMonth" (change)="getAllTimesheets()">
+      <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
+        {{ item?.title }}
+      </option>
+    </select>
+  </div>
+</div>
+
 <table class="table table-stripped">
   <thead>
     <th>Note</th>
@@ -12,9 +26,13 @@
           | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }
       "
     >
-      <td><input [(ngModel)]="ts.note" value="{{ ts.note }}" type="text" /></td>
       <td>
-        <label>{{ ts?.date }}</label>
+        <span>{{ ts.note || "Not filled by User" }}</span>
+        <!-- <input [(ngModel)]="ts.note" value="{{ ts.note }}" type="text" /> -->
+      </td>
+      <td>
+        <label style="margin-bottom: 5px; color: #ccc">{{ ts?.date }}</label>
+        <br />
         <input
           [(ngModel)]="ts.date"
           value="{{ ts.date }}"
