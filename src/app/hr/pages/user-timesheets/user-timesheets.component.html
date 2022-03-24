@@ -5,6 +5,8 @@
   <div class="year-month-items">
     <span>Months &nbsp; &nbsp; </span>
     <select [(ngModel)]="yearMonth" (change)="getAllTimesheets()">
+      <option value="">Pick a Month</option>
+
       <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
         {{ item?.title }}
       </option>
@@ -20,6 +22,9 @@
     <th></th>
   </thead>
   <tbody>
+    <ng-container *ngIf="!timesheets || !timesheets.length">
+      No timesheets.
+    </ng-container>
     <tr
       *ngFor="
         let ts of timesheets

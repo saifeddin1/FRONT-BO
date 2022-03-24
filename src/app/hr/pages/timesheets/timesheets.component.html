@@ -20,11 +20,16 @@
         </option>
       </select>
     </div>
+
+    <div class="extra-hours">
+      <span>Monthly Extra Hours</span>
+      <div>{{ monthlyExtraHours }} Hours</div>
+    </div>
     <div class="declaration-btn">
       <button
         class="approved"
         *ngIf="isApproved"
-        [disabled]="isApproved || isDeclared"
+        [disabled]="isApproved || isDeclared || ts.isDayOff"
       >
         Approved
       </button>
@@ -47,6 +52,9 @@
       <th>working hours</th>
     </thead>
     <tbody>
+      <ng-container *ngIf="!timesheets || !timesheets.length">
+        No timesheets.
+      </ng-container>
       <tr
         *ngFor="
           let ts of timesheets
@@ -59,61 +67,41 @@
         </td>
         <td>
           <input
-            [disabled]="isApproved || isDeclared"
+            [disabled]="isApproved || isDeclared || ts.isDayOff"
             type="text"
             class="form-control timesheet-input"
             value="{{ ts.note }}"
             [(ngModel)]="ts.note"
           />
         </td>
-        <td>
+        <td style="display: flex; align-items: center">
           <input
-            [disabled]="isApproved || isDeclared"
+            [disabled]="isApproved || isDeclared || ts.isDayOff"
             class="form-control timesheet-input"
             type="number"
             value="{{ ts.workingHours }}"
             [(ngModel)]="ts.workingHours"
+            (change)="checkHours(ts)"
           />
+          &nbsp; &nbsp;
+          <div class="extra-hours-count">+ {{ ts.extraHours || 0 }}</div>
+          <input
+            type="text"
+            value="{{ ts.extraHours }}"
+            [(ngModel)]="ts.extraHours"
+            hidden
+          />
+
+          <!-- <label for="">{{ extraHours }}</label> -->
         </td>
         <td>
           <mat-icon
             (click)="updateRecord(ts)"
-            *ngIf="!isApproved && !isDeclared"
+            *ngIf="!isApproved && !isDeclared && !ts.isDayOff"
             >edit
           </mat-icon>
         </td>
       </tr>
-
-      <!-- <tr>
-        <td>
-          <input
-            class="form-control"
-            type="datetime-local"
-            value="{{ currentTimesheet.date }}"
-            [(ngModel)]="currentTimesheet.date"
-          />
-        </td>
-        <td>
-          <input
-            class="form-control"
-            type="text"
-            value="{{ currentTimesheet.note }}"
-            [(ngModel)]="currentTimesheet.note"
-          />
-        </td>
-        <td>
-          <input
-            class="form-control"
-            type="number"
-            value="{{ currentTimesheet.workingHours }}"
-            [(ngModel)]="currentTimesheet.workingHours"
-          />
-        </td>
-        <td>
-          <mat-icon (onClick)="insertRecord()" [title]="'add'">
-          </mat-icon>
-        </td>
-      </tr> -->
     </tbody>
   </table>
 </div>
@@ -122,16 +110,3 @@
   previousLabel="Prev."
   nextLabel="Next"
 ></pagination-controls>
-
-<!-- <div>
-  <ul>
-    <li
-      *ngFor="
-        let ts of timesheets
-          
-      "
-    >
-      <p>{{ ts.date }}</p>
-    </li>
-  </ul>
-</div> -->

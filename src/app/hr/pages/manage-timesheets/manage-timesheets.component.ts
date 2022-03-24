@@ -59,6 +59,24 @@ export class ManageTimesheetsComponent implements OnInit {
       this.yearMonthItems = result['response'][0]['totalData'];
     });
   }
+  deleteYearMonth(ymItem) {
+    this.employeeService.deleteYearMonthItem(ymItem._id).subscribe((result) => {
+      console.log('❌❌ ~ deleteYearMonth ~ result', result);
+      this.toaster.success('Successfuly deleted');
+      this.getAllYearMonthItems();
+    });
+  }
+
+  editYearMonth(ymItem) {
+    this.employeeService
+      .editYearMonthItem(ymItem._id, ymItem)
+      .subscribe((result) => {
+        console.log('⚡ .edit ym ~ result', result);
+        this.toaster.success('Successfuly updated');
+        this.getAllYearMonthItems();
+      });
+  }
+
   openCreateDialog(event) {
     // let employee_id = event.target.id;
     // console.log('employee_id => ', employee_id);
@@ -73,7 +91,7 @@ export class ManageTimesheetsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
-      // this.getAllYearMonthItems();
+      this.getAllYearMonthItems();
     });
   }
 }

@@ -19,6 +19,7 @@ export class TimesheetsComponent implements OnInit {
   p: number = 1;
   limit: number = 7;
   total: number;
+  // extraHours: number;
   monthlyWorkingHours: number;
   monthlyHoursLimit: number;
   totalHours: number;
@@ -31,14 +32,15 @@ export class TimesheetsComponent implements OnInit {
   timesheet: Timesheet;
   isDeclared: boolean;
   isApproved: boolean;
-  extraHours: number;
+
   yearMonth: string;
   contract: any;
   yearMonthItems: YearMonth[];
+  monthlyExtraHours: any;
   formatedDate(date) {
     return formatDate(date);
   }
-  workignHoursInput: number = 8;
+  workignHoursInput: number;
   declaration: TimesheetDeclaration;
   constructor(
     private employeeService: EmployeeSummaryService,
@@ -55,7 +57,7 @@ export class TimesheetsComponent implements OnInit {
     this.getCurrentDeclaration();
     this.getEmployeeActiveContract();
     this.getAllYearMonthItems();
-
+    this.getExtraHours();
     //
   }
 
@@ -77,79 +79,82 @@ export class TimesheetsComponent implements OnInit {
     });
   }
 
-  getMonthlyHours() {
+  getMonthlyWorkingHours() {
     this.employeeService
-      .getWorkedHoursMonthly(
+      .getHoursMonthly(
         this.yearMonth
           ? new Date(this.yearMonth).toISOString()
-          : new Date().toISOString()
+          : new Date().toISOString(),
+        'workingHours'
       )
       .subscribe((result) => {
-        console.log('⚡  getMonthlyHours', result);
+        console.log('⚡  getMonthlyWorkingHours', result);
         this.monthlyWorkingHours = result['response'][0]['sum'];
         this.totalHours = this.monthlyWorkingHours - this.monthlyHoursLimit;
       });
   }
-  checkHours() {
-    if (this.workignHoursInput === 8) {
-      this.extraHours = null;
+
+  getExtraHours() {
+    this.employeeService
+      .getHoursMonthly(
+        this.yearMonth
+          ? new Date(this.yearMonth).toISOString()
+          : new Date().toISOString(),
+        'extraHours'
+      )
+      .subscribe((result) => {
+        console.log('⚡  getExtraHours', result);
+        this.monthlyExtraHours = result['response'][0]['sum'];
+      });
+  }
+
+  checkHours(timesheet) {
+    this.getExtraHours();
+    if (timesheet.workingHours > 8) {
+      timesheet.extraHours = timesheet.workingHours - 8;
     } else {
-      this.extraHours = this.workignHoursInput - 8;
+      timesheet.extraHours = 0;
     }
   }
 
   getEmployeeTimeSheets() {
     console.log('this.yearMonth', this.yearMonth);
-    this.employeeService
-      .getMonthlyEmployeeTimesheets(
-        this.p,
-        this.limit,
-        this.yearMonth && this.yearMonth
-      )
-      .subscribe((result) => {
-        console.log(
-          '📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets',
-          result
-        );
-        this.getMonthlyHours();
-        this.timesheets = result['response'][0]['totalData'];
-        this.total = result['response'][0]['totalCount'][0]['count'];
-        this.isApproved = false;
-        this.isDeclared = false;
-        this.employeeService
-          .getCurrentDeclaration(parseInt(this.yearMonth.split('-')[1]))
-          .subscribe((result) => {
-            this.declaration = result['response'];
-            this.isDeclared =
-              this.declaration && this.declaration?.status === 'declared';
-            console.log('✅ declaration', this.declaration);
-            console.log('✅ this.declared', this.isDeclared);
+    if (!this.yearMonth || this.yearMonth == '') {
+      return;
+    } else {
+      this.employeeService
+        .getMonthlyEmployeeTimesheets(this.p, this.limit, this.yearMonth)
+        .subscribe((result) => {
+          console.log(
+            '📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets',
+            result
+          );
+          this.getMonthlyWorkingHours();
+          this.getExtraHours();
+          this.timesheets = result['response'][0]['totalData'];
+          this.total = result['response'][0]['totalCount'][0]['count'];
+          this.isApproved = false;
+          this.isDeclared = false;
+          this.employeeService
+            .getCurrentDeclaration(parseInt(this.yearMonth.split('-')[1]))
+            .subscribe((result) => {
+              this.declaration = result['response'];
+              this.isDeclared =
+                this.declaration && this.declaration?.status === 'declared';
+              console.log('✅ declaration', this.declaration);
+              console.log('✅ this.declared', this.isDeclared);
 
-            this.isApproved =
-              this.declaration && this.declaration?.status === 'approved';
-          });
-      });
+              this.isApproved =
+                this.declaration && this.declaration?.status === 'approved';
+            });
+        });
+    }
   }
+
   changePage(event) {
     console.log(event);
     this.p = event;
     this.getEmployeeTimeSheets();
-  }
-  getCurrentTimesheet() {
-    let today = new Date().toISOString().split('T')[0];
-    console.log(
-      '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
-      today
-    );
-    return this.employeeService
-      .getEmployeeCurrentTimeSheet(today)
-      .subscribe((result) => {
-        this.timesheet = result['response'];
-        console.log(
-          '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
-          result['response']
-        );
-      });
   }
 
   showSuccessToaster(msg) {
@@ -168,6 +173,7 @@ export class TimesheetsComponent implements OnInit {
         note: timesheet.note,
         workingHours: timesheet.workingHours,
         date: new Date(timesheet.date),
+        extraHours: timesheet.extraHours,
       })
       .pipe(
         catchError((err) => {
@@ -178,7 +184,8 @@ export class TimesheetsComponent implements OnInit {
         (result) => {
           this.showSuccessToaster(result['message']);
           console.log(result);
-          this.getMonthlyHours();
+          this.getMonthlyWorkingHours();
+          this.getExtraHours();
         },
         (err) => {
           this.showErrorToaster(err?.message);
@@ -222,7 +229,7 @@ export class TimesheetsComponent implements OnInit {
   }
 
   getCurrentDeclaration() {
-    return this.employeeService
+    this.employeeService
       .getCurrentDeclaration(new Date().getMonth() + 1)
       .subscribe((result) => {
         this.declaration = result['response'];

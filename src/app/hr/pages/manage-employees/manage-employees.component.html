@@ -10,6 +10,10 @@
       <div>ADDRESS</div>
       <div>MANAGE</div>
     </div>
+    <ng-container *ngIf="!employees || !employees.length">
+      No employees.
+    </ng-container>
+
     <div class="employee-card" *ngFor="let employee of employees">
       <div class="employee-basic">
         <div>
