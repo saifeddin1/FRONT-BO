@@ -20,6 +20,7 @@ export class VcLiveSessionsComponent implements OnInit {
   }]
 
   msgToSend:any={
+    niveau:"dsi31",
     message:"",
     userId:"aziz",
     createdAt:new Date(this.date)

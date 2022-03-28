@@ -50,12 +50,12 @@ export class VcChatService {
 
   getAll() {
 
-    return this.http.get(this.socketUrl + '/LMS/VC/getMsg');
+    return this.http.get(this.socketUrl + '/VC/getMsg');
 
   }
 
   addMsg(data:any){
-      return this.http.post(this.socketUrl + '/LMS/VC/addMsg' ,data);
+      return this.http.post(this.socketUrl + '/VC/addMsg' ,data);
   }
 
 }

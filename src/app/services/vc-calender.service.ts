@@ -14,7 +14,7 @@ export class ConfigService {
 export class VcCalenderService {
 
 
-  private VCURL = 'http://localhost:3000/LMS/VC/';
+  private VCURL = 'http://localhost:3000/VC/';
 
    constructor(private http: HttpClient) { }
   // private _refreshNeeded$=new Subject<void>();

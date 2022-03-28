@@ -22,6 +22,7 @@ import { ClarityModule, ClrIconModule } from '@clr/angular';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { MatTableModule } from '@angular/material/table';
 
 
 
@@ -51,8 +52,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     FormsModule,
     NgbModalModule,
     BrowserAnimationsModule,
-
-
+    MatTableModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,

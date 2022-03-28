@@ -9,7 +9,7 @@
         </div>
 
         <!-- name -->
-        <h4 class="name friend-name">Math</h4>
+        <h4 class="name friend-name">{{msgToSend.niveau}}</h4>
 
         <!-- some btn -->
         <div class="some-btn">
@@ -26,7 +26,7 @@
         <!-- FRIENDS CHAT TEMPLATE -->
         <div id="friends-chat" class="friends-chat" *ngFor="let msg of msgs">
           <div class="profile friends-chat-photo">
-            <img src="images/ava2.jpg" alt="">
+            <img src="../../../../assets/eunoia-logo.png" alt="">
           </div>
           <div class="friends-chat-content">
             <p class="friends-chat-name">{{msg.nom}}</p>
