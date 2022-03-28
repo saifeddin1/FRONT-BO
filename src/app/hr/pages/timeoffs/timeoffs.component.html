@@ -1,34 +1,17 @@
 <div>
-  <div class="row" [style.display]="isAdmin ? 'none' : 'flex'">
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newTimeoffRequest.startDate"
-        value="{{ newTimeoffRequest.startDate }}"
-        type="date"
-      />
-    </div>
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newTimeoffRequest.offDays"
-        value="{{ newTimeoffRequest.offDays }}"
-        type="number"
-        min="1"
-        max="22"
-      />
-    </div>
-    <div class="col">
-      <app-button-outline
-        (onClick)="requestTimeoff()"
-        [title]="'Add'"
-      ></app-button-outline>
-    </div>
+  <!-- make it ngif -->
+  <div class="interviews-header">
+    <span class="heading">Timeoff Requests</span>
+    <mat-icon (click)="openCreateDialog($event)" *ngIf="!isAdmin">{{
+      isOpen ? "remove_circle" : "add_circle"
+    }}</mat-icon>
   </div>
-  <table class="table">
+
+  <table class="fl-table">
     <thead>
       <tr>
-        <th [style.display]="isAdmin ? 'block' : 'none'">USER</th>
+        <!-- make it ngif -->
+        <th *ngIf="isAdmin">USER</th>
         <th>Start Date</th>
         <th>{{ isAdmin ? "Off Days" : "End Date" }}</th>
         <th>Status</th>
@@ -36,18 +19,21 @@
     </thead>
     <tbody>
       <tr *ngFor="let toff of timeoffHistory">
-        <td [style.display]="isAdmin || isHR ? 'block' : 'none'">
+        <!-- make it ngif -->
+        <td *ngIf="isAdmin || isHR">
           <span>{{ toff.userId }}</span>
         </td>
         <td>
           <span>{{ formatedDate(toff.startDate) }}</span>
         </td>
-        <td [style.display]="isAdmin ? 'none' : 'block'">
+        <!-- make it ngif -->
+        <td *ngIf="!isAdmin">
           <span>{{
             formatedDate(getEndDate(toff.startDate, toff.offDays))
           }}</span>
         </td>
-        <td [style.display]="isAdmin ? 'block' : 'none'">
+        <!-- make it ngif -->
+        <td *ngIf="isAdmin">
           <input
             type="number"
             [(ngModel)]="toff.offDays"
@@ -55,27 +41,26 @@
           />
         </td>
         <td>
-          <div
-            [style.display]="shouldDisplay ? 'flex' : 'none'"
-            class="align-items-center justify-content-center"
-          >
+          <!-- make it ngif -->
+          <div class=" " *ngIf="shouldDisplay">
             <select [(ngModel)]="toff.status">
               <option value="Approved">Approved</option>
               <option value="Rejected">Rejected</option>
             </select>
-            <app-button-filled
-              [title]="'EDIT'"
-              (onClick)="
+
+            <mat-icon
+              (click)="
                 isAdmin ? updateTimeoffRequest(toff) : updateStatus(toff)
               "
-            ></app-button-filled>
-            <app-button-outline
-              [style.display]="isAdmin ? 'block' : 'none'"
-              [title]="'Delete'"
-              (onClick)="deleteRequest(toff)"
-            ></app-button-outline>
+              >edit</mat-icon
+            >
+
+            <mat-icon *ngIf="isAdmin" (click)="deleteRequest(toff)"
+              >delete</mat-icon
+            >
           </div>
-          <span [style.display]="shouldDisplay ? 'none' : 'block'">
+          <!-- make it ngif -->
+          <span *ngIf="!shouldDisplay">
             {{ toff.status }}
           </span>
         </td>

@@ -34,7 +34,8 @@ import { ManageContractsComponent } from './pages/manage-contracts/manage-contra
 import { ContractsDialogComponent } from './components/contracts-dialog/contracts-dialog.component';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
-import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/add-year-month-dialog.component'; // <-- import the module
+import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/add-year-month-dialog.component';
+import { TimeoffAddDialogComponent } from './components/timeoff-add-dialog/timeoff-add-dialog.component'; // <-- import the module
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/
     ContractsDialogComponent,
     UserTimesheetsComponent,
     AddYearMonthDialogComponent,
+    TimeoffAddDialogComponent,
   ],
   imports: [
     HRRoutingModule,

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
 import { ToasterService } from '../../../lms/services/toaster.service';
+import { TimeoffAddDialogComponent } from '../../components/timeoff-add-dialog/timeoff-add-dialog.component';
 import { formatDate } from '../../helpers/formatDate';
 import { Notification } from '../../models/notification.model';
 import { Timeoff } from '../../models/timeoff.model';
@@ -13,7 +15,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class TimeoffsComponent implements OnInit {
   timeoffHistory: Timeoff[];
-  newTimeoffRequest: Timeoff;
+  isOpen: boolean = false;
   newNotification: Notification;
   isAdmin: boolean;
   isHR: boolean;
@@ -21,15 +23,13 @@ export class TimeoffsComponent implements OnInit {
   notificationItems: any;
   constructor(
     private toaster: ToasterService,
-    private employeeService: EmployeeSummaryService
+    private employeeService: EmployeeSummaryService,
+    private dialog: MatDialog
   ) {
     this.isAdmin = this.currUser['type'] === ADMIN;
     this.isHR = this.currUser['type'] === HR;
     this.shouldDisplay = this.isHR || this.isAdmin;
-    this.newTimeoffRequest = {
-      startDate: null,
-      offDays: 0,
-    };
+
     this.newNotification = {
       userId: '',
       content: '',
@@ -76,21 +76,6 @@ export class TimeoffsComponent implements OnInit {
         });
   }
 
-  requestTimeoff() {
-    console.log(this.newTimeoffRequest);
-
-    return this.employeeService
-      .createTimeoffRequest(this.newTimeoffRequest)
-      .subscribe(
-        (result) => {
-          this.getEmlpoyeeTimeoffs();
-          console.log('⚡ ~ ~ requestTimeoff ~ result', result);
-          this.toaster.success(result['message']);
-        },
-
-        (error) => this.toaster.error(error['error']['message'])
-      );
-  }
   // for hr agent
 
   updateStatus(timeoff) {
@@ -140,5 +125,21 @@ export class TimeoffsComponent implements OnInit {
       },
       (error) => this.toaster.error(error['error']['message'])
     );
+  }
+
+  openCreateDialog(event) {
+    this.isOpen = true;
+    const dialogRef = this.dialog.open(TimeoffAddDialogComponent, {
+      height: '600px',
+      width: '700px',
+      data: {},
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.isOpen = false;
+
+      this.getEmlpoyeeTimeoffs();
+    });
   }
 }

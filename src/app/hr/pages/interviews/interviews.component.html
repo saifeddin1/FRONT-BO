@@ -27,13 +27,6 @@
     </thead>
     <tbody>
       <tr *ngFor="let interview of interviews">
-        <!-- <td [style.display]="isAdmin ? 'block' : 'none'">
-          <select [(ngModel)]="interview.userId" [disabled]="!isAdmin">
-            <option *ngFor="let user of users" value="{{ user._id }}">
-              {{ user.username }}
-            </option>
-          </select>
-        </td> -->
         <td [style.display]="isAdmin ? 'table-cell' : 'none'">
           <span>{{ interview.userId }}</span>
         </td>
@@ -43,12 +36,6 @@
             {{ formatDate(interview?.date) }}</label
           >
           <br /><br />
-          <!-- <input
-            [style.display]="isAdmin ? 'block' : 'none'"
-            type="datetime-local"
-            value="{{ formatDate(interview?.date) }}"
-            [(ngModel)]="interview.date"
-          /> -->
         </td>
         <td>
           <span>
@@ -75,4 +62,3 @@
     </tbody>
   </table>
 </div>
-<!-- <app-json-form [jsonFormData]="formData"></app-json-form> -->
