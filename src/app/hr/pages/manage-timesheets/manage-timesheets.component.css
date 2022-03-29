@@ -12,15 +12,23 @@ select {
   padding: 0.5rem;
 }
 
-.year-month-items {
-  display: flex;
-  align-items: center;
+.year-month-list {
+  /* display: flex;
+  align-items: center; */
   margin-bottom: 1rem;
+  width: 40%;
 }
-.year-month-items span {
+.year-month-list span {
   font-size: 15px;
   margin-inline: 1rem;
+
   font-weight: 500;
+}
+
+.year-month-list ul li {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f1f1;
 }
 .main-wrapper {
   padding: 1rem;

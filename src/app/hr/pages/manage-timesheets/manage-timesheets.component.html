@@ -24,6 +24,7 @@
       <div>Type</div>
       <div style="width: 5%"></div>
     </div>
+    <ng-container *ngIf="!users || !users.length"> No users. </ng-container>
     <div
       (click)="viewTimesheets(employee)"
       class="employee-card"
@@ -46,9 +47,18 @@
   <div class="year-month-list mrg-t-2">
     <h1>Year Months list</h1>
     <div style="background-color: white; padding: 1rem; border-radius: 15px">
+      <ng-container *ngIf="!yearMonthItems || !yearMonthItems.length">
+        No year Month items.
+      </ng-container>
       <ul>
         <li *ngFor="let item of yearMonthItems" class="mrg-t-2">
-          {{ item?.title }}
+          <div>
+            {{ item?.title }}
+          </div>
+          <div>
+            <mat-icon (click)="editYearMonth(item)">edit</mat-icon>
+            <mat-icon (click)="deleteYearMonth(item)">delete</mat-icon>
+          </div>
         </li>
       </ul>
     </div>

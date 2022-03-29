@@ -12,6 +12,28 @@ td .mat-icon {
   width: 50px;
 }
 
+.extra-hours {
+  padding: 1rem;
+  background-color: #fff;
+  line-height: 2rem;
+  border-radius: 5px;
+  filter: drop-shadow(1px 1px 20px #eee);
+  /* background-color: #5ecf90;; */
+}
+
+.extra-hours span {
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.extra-hours-count {
+  border-radius: 50%;
+  background-color: #5ecf90;
+  color: white;
+  min-width: 50px;
+  min-height: 50px;
+  line-height: 50px;
+}
 .horizontal {
   display: flex;
   justify-content: space-between;

@@ -80,4 +80,6 @@ th {
 .summary-wrapper .contract .heading {
   padding-left: 1rem;
   line-height: 40px;
+  font-weight: 500;
+  font-size: 20px;
 }

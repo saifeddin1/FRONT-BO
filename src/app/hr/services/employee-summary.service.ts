@@ -224,9 +224,9 @@ export class EmployeeSummaryService {
     );
   }
 
-  getWorkedHoursMonthly(date: string): Observable<Number> {
+  getHoursMonthly(date: string, field: string): Observable<Number> {
     return this.http.get<Number>(
-      `${this.BASE_URL}/timesheets/getMonthlyWorkingHours/${date}`
+      `${this.BASE_URL}/timesheets/getMonthlyHours/${date}?field=${field}`
     );
   }
 
@@ -306,10 +306,10 @@ export class EmployeeSummaryService {
   }
 
   editYearMonthItem(id: string, body: YearMonth): Observable<YearMonth> {
-    return this.http.put<YearMonth>(`${this.BASE_URL}/yearMonths${id}`, body);
+    return this.http.put<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`, body);
   }
 
-  deleteYearMonthItem(id: string, body: YearMonth): Observable<YearMonth> {
-    return this.http.delete<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+  deleteYearMonthItem(id: string): Observable<YearMonth> {
+    return this.http.delete<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
   }
 }
