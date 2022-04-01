@@ -21,40 +21,6 @@
   box-shadow: 5px 5px 30px #f1f1f1;
 }
 
-/* Table Styles */
-.fl-table {
-  border-radius: 5px;
-  font-size: 12px;
-  font-weight: normal;
-  border: none;
-  border-collapse: collapse;
-  width: 100%;
-  max-width: 100%;
-  white-space: nowrap;
-  background-color: white;
-}
-
-.fl-table td,
-.fl-table th {
-  text-align: center;
-  padding: 8px;
-}
-
-.fl-table td {
-  border-right: 1px solid #f8f8f8;
-  font-size: 12px;
-}
-
-.fl-table thead th {
-  background: #f1f1f1;
-}
-
-.fl-table td .mat-icon {
-  cursor: pointer;
-  display: inline-block;
-}
-/* Responsive */
-
 @media (max-width: 767px) {
   .fl-table {
     display: block;
@@ -120,4 +86,45 @@
     display: block;
     text-align: center;
   }
+}
+
+.dashboard {
+  padding-inline: 2rem;
+  height: 100%;
+}
+
+.modalRow {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+h2 {
+  line-height: initial;
+  font-size: 2rem;
+}
+
+table {
+  width: 100%;
+}
+.events-container {
+  margin-bottom: 1rem;
+}
+button {
+  /* Shadow Dark · 16dp */
+  box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  /* width: 5rem; */
+  height: 2.5rem;
+  /* White Base */
+  background-color: #000;
+  color: #ffffff;
+}
+
+.edit-button {
+  display: flex;
+  justify-content: end;
 }

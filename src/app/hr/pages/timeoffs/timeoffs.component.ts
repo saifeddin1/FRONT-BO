@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
 import { ToasterService } from '../../../lms/services/toaster.service';
 import { TimeoffAddDialogComponent } from '../../components/timeoff-add-dialog/timeoff-add-dialog.component';
@@ -14,12 +15,17 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
   styleUrls: ['./timeoffs.component.css'],
 })
 export class TimeoffsComponent implements OnInit {
-  timeoffHistory: Timeoff[];
+  timeoffs: Timeoff[]; // to be used in dialog
+  timeoffHistory: MatTableDataSource<Timeoff> =
+    new MatTableDataSource<Timeoff>();
   isOpen: boolean = false;
   newNotification: Notification;
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
+  displayedColumns: string[] = ['#', 'user', 'startdate', 'status', 'action'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
   notificationItems: any;
   constructor(
     private toaster: ToasterService,
@@ -34,6 +40,12 @@ export class TimeoffsComponent implements OnInit {
       userId: '',
       content: '',
     };
+
+    if (this.isAdmin) {
+      this.displayedColumns.splice(3, 0, 'offDays');
+    } else {
+      this.displayedColumns.splice(3, 0, 'endDate');
+    }
   }
   ngOnInit(): void {
     this.getEmlpoyeeTimeoffs();
@@ -62,6 +74,7 @@ export class TimeoffsComponent implements OnInit {
     return this.isAdmin || this.isHR
       ? this.employeeService.getAllTimeoffs().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
+          this.timeoffs = result['response'][0]['totalData'];
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory
@@ -69,6 +82,7 @@ export class TimeoffsComponent implements OnInit {
         })
       : this.employeeService.getEmployeeTimeoffHistory().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
+          this.timeoffs = result['response'][0]['totalData'];
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory
@@ -127,12 +141,21 @@ export class TimeoffsComponent implements OnInit {
     );
   }
 
-  openCreateDialog(event) {
+  openDialog(event, operation, toff_id) {
     this.isOpen = true;
     const dialogRef = this.dialog.open(TimeoffAddDialogComponent, {
-      height: '600px',
-      width: '700px',
-      data: {},
+      height: 'auto',
+      width: 'auto',
+      data: {
+        timeoffRequest:
+          operation === 'add'
+            ? {
+                startDate: null,
+                offDays: 0,
+              }
+            : this.timeoffs.filter((toff) => toff._id === toff_id)[0],
+        operation: operation,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result) => {

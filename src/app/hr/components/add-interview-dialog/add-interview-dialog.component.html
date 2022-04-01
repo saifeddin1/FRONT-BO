@@ -1,14 +1,17 @@
-<div class="flex flex-wrap justify-content-center interview-add">
-  <div class="col mb-3">
+<h2 matDialogTitle>Add Interview</h2>
+
+<div class=" ">
+  <div class="inputs-row">
     <input
+      class="text-area"
       [(ngModel)]="newInterview.title"
       value="{{ newInterview?.title }}"
       type="text"
       placeholder="Title"
     />
-  </div>
-  <div class="col mb-3">
+
     <input
+      class="text-area"
       [(ngModel)]="newInterview.date"
       value="{{ newInterview?.date }}"
       type="datetime-local"
@@ -16,36 +19,38 @@
       max="22"
     />
   </div>
-  <div class="col mb-3">
-    <select [(ngModel)]="newInterview.userId" class="users-list">
+  <div class="inputs-row">
+    <select [(ngModel)]="newInterview.userId" class="text-area">
       <option *ngFor="let user of users" value="{{ user._id }}">
         {{ user.username }}
       </option>
     </select>
+
+    <input class="text-area" type="file" [(ngModel)]="newInterview.files" />
+  </div>
+  <div class="inputs-row">
+    <input
+      class="text-area"
+      type="text"
+      [(ngModel)]="newInterview.test['title']"
+      placeholder="Test title"
+    />
+
+    <input
+      class="text-area"
+      type="text"
+      [(ngModel)]="newInterview.test['url']"
+      placeholder="Test url"
+    />
   </div>
 
-  <div class="row" *ngFor="let test of newInterview.test">
-    <div class="col mb-3">
-      <input type="text" [(ngModel)]="test.title" placeholder="Test title" />
-    </div>
-    <div class="col mb-3">
-      <input
-        type="text"
-        [(ngModel)]="test.description"
-        placeholder="Test description"
-      />
-    </div>
-    <div class="col mb-3">
-      <input type="text" [(ngModel)]="test.url" placeholder="Test url" />
-    </div>
-  </div>
-  <div class="col mb-3">
-    <input type="file" [(ngModel)]="newInterview.files" />
-  </div>
+  <textarea
+    class="text-area"
+    [(ngModel)]="newInterview.test['description']"
+    placeholder="Test description"
+  ></textarea>
+
   <div [mat-dialog-close]="'close'">
-    <app-button-outline
-      (onClick)="createInterview(newInterview)"
-      [title]="'Add'"
-    ></app-button-outline>
+    <button (click)="createInterview(newInterview)">Add</button>
   </div>
 </div>

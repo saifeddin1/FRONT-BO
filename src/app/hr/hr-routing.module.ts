@@ -47,10 +47,10 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
       },
-      {
-        path: 'contracts',
-        component: ContractsComponent,
-      },
+      // {
+      //   path: 'contracts',
+      //   component: ContractsComponent,
+      // },
       {
         path: 'manage-contracts',
         component: ManageContractsComponent,

@@ -89,6 +89,8 @@ export class ProfileComponent implements OnInit {
         })
       )
       .subscribe((result) => {
+        console.log('🤦‍♂️ ~  ProfileComponent ~ .subscribe ~ result', result);
+
         console.log('after', this.userFile);
         this.showSuccessToaster();
       });

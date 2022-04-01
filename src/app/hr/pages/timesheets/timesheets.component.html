@@ -1,6 +1,6 @@
 <div class="container-fluid">
   <div class="timesheets-header">
-    <div class="hours-limit">{{ totalHours }} Hours</div>
+    <div class="hours-limit">{{ totalHours || 0 }} Hours</div>
     <div class="year-month-wrapper">
       <select [(ngModel)]="yearMonth" (change)="getEmployeeTimeSheets()">
         <option value="">Pick a Month</option>

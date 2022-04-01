@@ -10,25 +10,33 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
   styleUrls: ['./timeoff-add-dialog.component.css'],
 })
 export class TimeoffAddDialogComponent implements OnInit {
-  newTimeoffRequest: Timeoff;
+  isAddOperation: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
     private summaryService: EmployeeSummaryService,
     private toaster: ToasterService
   ) {
-    this.newTimeoffRequest = {
-      startDate: null,
-      offDays: 0,
-    };
+    this.isAddOperation = this.data['operation'] === 'add';
   }
 
   ngOnInit(): void {}
+
+  updateTimeoffRequest(timeoff) {
+    return this.summaryService.updateTimeoff(timeoff._id, timeoff).subscribe(
+      (result) => {
+        console.log(result);
+        this.toaster.success(result['message']);
+      },
+      (error) => this.toaster.error(error['error']['message'])
+    );
+  }
+
   requestTimeoff() {
-    console.log(this.newTimeoffRequest);
+    console.log(this.data['timeoffRequest']);
 
     return this.summaryService
-      .createTimeoffRequest(this.newTimeoffRequest)
+      .createTimeoffRequest(this.data['timeoffRequest'])
       .subscribe(
         (result) => {
           console.log('⚡ ~ ~ requestTimeoff ~ result', result);

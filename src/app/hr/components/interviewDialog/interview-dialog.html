@@ -1,68 +1,67 @@
 <h2 mat-dialog-title>
-  {{ user['type']==='EADMIN'?'Edit Interview': data['interview']?.title }}
+  {{ isAdmin?'Edit Interview': data['interview']?.title }}
 </h2>
+
 <input
   type="text"
-  class="form-control mb-4"
-  [style.display]="user['type']==='EADMIN'?'block': 'none'"
+  class="text-area"
+  *ngIf="isAdmin"
   [(ngModel)]="data['interview'].title"
   placeholder="title"
 />
 <mat-dialog-content>
   <h4>Files</h4>
-  <strong>{{ data['interview']?.files }}</strong>
+  <em>{{ data['interview']?.files }}</em>
   <input
     type="file"
+    class="text-area"
     [(ngModel)]="data['interview'].files"
-    [style.display]="user['type']==='EADMIN'?'block': 'none'"
+    *ngIf="isAdmin"
   />
   <h4>Tests</h4>
-  <div
-    *ngFor="let test of data['interview']?.test"
-    [style.display]="user['type']==='EADMIN'?'none': 'block'"
-  >
-    Title : <strong>{{ test.title }}</strong> <br />
-    Description :<strong>{{ test.description }}</strong><br />
-    URL: <strong>{{ test.url }}</strong><br />
-  </div>
+  <!-- <ng-container *ngIf="!isAdmin">
+    <div *ngFor="let test of data['interview']?.test">
+      Title : <strong>{{ test.title }}</strong> <br />
+      Description :<strong>{{ test.description }}</strong><br />
+      URL: <strong>{{ test.url }}</strong><br />
+    </div>
+  </ng-container> -->
 
-  <div
-    *ngFor="let test of data['interview']?.test"
-    [style.display]="user['type']==='EADMIN'?'block': 'none'"
-  >
-    Title :
-    <input
-      class="form-control"
-      type="text"
-      [(ngModel)]="test.title"
-      placeholder="title"
-    />
-    <br />
-    Description :<input
-      class="form-control"
-      type="text"
-      [(ngModel)]="test.description"
-      placeholder="description"
-    /><br />
-    URL:
-    <input
-      class="form-control"
-      type="text"
-      [(ngModel)]="test.url"
-      placeholder="url"
-    />
-    <br />
-  </div>
+  <ng-container>
+    <div *ngFor="let test of data['interview']?.test">
+      <div class="inputs-row">
+        <input
+          [disabled]="!isAdmin"
+          class="text-area"
+          type="text"
+          [(ngModel)]="test.title"
+          placeholder="title"
+        />
+
+        <input
+          [disabled]="!isAdmin"
+          class="text-area"
+          type="text"
+          [(ngModel)]="test.url"
+          placeholder="url"
+        />
+      </div>
+      <textarea
+        [disabled]="!isAdmin"
+        class="text-area"
+        [(ngModel)]="test.description"
+        placeholder="description"
+      ></textarea>
+    </div>
+  </ng-container>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div mat-div [mat-dialog-close]="true">
-    <app-button-filled [title]="'close'"></app-button-filled>
+    <button>Close</button>
   </div>
   <div [mat-dialog-close]="'close'">
-    <app-button-outline
-      [style.display]="user['type']==='EADMIN'?'block': 'none'"
-      [title]="'EDIT'"
-      (onClick)="updateRecord(data['interview'])"
-    ></app-button-outline>
+    <button *ngIf="isAdmin" (click)="updateRecord(data['interview'])">
+      Edit
+    </button>
   </div>
 </mat-dialog-actions>

@@ -1,16 +1,16 @@
 .inputs-row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
-.inputs-row input {
+/* .inputs-row input {
   padding: 12px;
   border-radius: 3px;
   border: 1px solid #ccc;
   outline: unset;
   margin: 5px;
   width: 300px;
-}
+} */
 .btn-update-file {
   display: flex;
   justify-content: center;
@@ -29,4 +29,24 @@
   align-items: center;
   justify-content: center;
   padding: 1.25rem;
+}
+.text-area {
+  /* Rectangle 1637 */
+  width: 300px;
+  /* height: 50px; */
+
+  /* Gray · 10% */
+  background: #fafafa;
+  /* Gray · 20% */
+  border: 3px solid #f5f7fa;
+  border-radius: 11px;
+
+  font-size: 1rem;
+  font-weight: 300;
+
+  padding: 1rem;
+
+  /* Gray · 60% */
+  color: var(--gray80);
+  margin-bottom: 1rem;
 }

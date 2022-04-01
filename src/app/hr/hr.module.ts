@@ -36,6 +36,12 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
 import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/add-year-month-dialog.component';
 import { TimeoffAddDialogComponent } from './components/timeoff-add-dialog/timeoff-add-dialog.component'; // <-- import the module
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { CdkTableModule } from '@angular/cdk/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -76,6 +82,13 @@ import { TimeoffAddDialogComponent } from './components/timeoff-add-dialog/timeo
     CalendarModule,
     MatIconModule,
     NgxPaginationModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    CdkTableModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
   exports: [
     SummaryComponent,

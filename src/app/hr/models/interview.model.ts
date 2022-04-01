@@ -4,5 +4,5 @@ export interface Interview {
   date: Date;
   title: string;
   files: File;
-  test?: Array<Object>;
+  test?: Object;
 }

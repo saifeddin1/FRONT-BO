@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
@@ -26,6 +27,11 @@ export class InterviewsComponent implements OnInit {
   isAdmin: boolean;
   users: User[];
 
+  displayedColumns: string[] = ['#', 'user', 'title', 'action'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
+  dataSource: MatTableDataSource<Interview> =
+    new MatTableDataSource<Interview>();
   constructor(
     private summaryService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -34,12 +40,12 @@ export class InterviewsComponent implements OnInit {
   ) {
     this.currentUser = this.summaryService.getUser();
     this.isAdmin = this.currentUser['type'] === ADMIN;
+    this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
   }
 
   ngOnInit(): void {
-    this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
     this.getUsers();
-    !this.isAdmin && this.getEmployeFile();
+    // !this.isAdmin && this.getEmployeFile();
   }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
@@ -85,24 +91,28 @@ export class InterviewsComponent implements OnInit {
   getAllnterviews() {
     this.summaryService.getAllInterviews().subscribe((result) => {
       this.interviews = result['response'][0]['totalData'];
+      this.dataSource = new MatTableDataSource(
+        result['response'][0]['totalData']
+      );
       console.log('⚡ this.interviews', this.interviews);
     });
   }
   getEmployeeInterview() {
     this.summaryService.getInterviews().subscribe((result) => {
       this.interviews = result['response'][0]['totalData'];
+      this.dataSource = new MatTableDataSource(
+        result['response'][0]['totalData']
+      );
       console.log('⚡ this.interviews', this.interviews);
     });
   }
-  openDialog(event) {
-    let eventId = event?.target?.closest('.id-saver')?.id;
-
+  openDialog(event, _interview_id) {
     const dialogRef = this.dialog.open(InterviewDialog, {
-      height: '600px',
+      height: 'auto',
       width: '700px',
       data: {
         interview: this.interviews.filter(
-          (interview) => interview._id === eventId
+          (interview) => interview._id === _interview_id
         )[0],
         user: this.currentUser,
       },
@@ -116,7 +126,7 @@ export class InterviewsComponent implements OnInit {
   openCreateDialog(event) {
     this.isOpen = true;
     const dialogRef = this.dialog.open(AddInterviewDialogComponent, {
-      height: '600px',
+      height: 'auto',
       width: '700px',
       data: {
         users: this.users,
