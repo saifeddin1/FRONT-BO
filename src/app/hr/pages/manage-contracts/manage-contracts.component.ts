@@ -39,6 +39,8 @@ export class ManageContractsComponent implements OnInit {
   }
 
   contracts: MatTableDataSource<Contract> = new MatTableDataSource<Contract>();
+  allContracts: Contract[];
+
   ngOnInit(): void {
     this.getContractsWithSalary();
     this.getUsers();
@@ -75,7 +77,7 @@ export class ManageContractsComponent implements OnInit {
       data: {
         contract:
           operation === 'edit' || operation === 'view'
-            ? this.contracts.filter(
+            ? this.allContracts.filter(
                 (contract) => contract._id === _contract_id
               )[0]
             : {
@@ -111,6 +113,7 @@ export class ManageContractsComponent implements OnInit {
           .subscribe((result) => {
             console.log('⚡ ~  getContractsWithSalary ~ result', result);
             this.contracts = result['response'][0]['totalData'];
+            this.allContracts = result['response'][0]['totalData'];
           })
       : this.employeeService.getContractsWithSalary().subscribe((result) => {
           this.contracts = result['response'];
