@@ -12,6 +12,7 @@ import { Program } from '../../models/program.model';
 import { FeeCategoryService } from '../../services/fee-category.service';
 import { FeeCategory } from '../../models/feeCatgory.model';
 import { AcademictermService } from '../../services/academicterm.service';
+import { validateVerticalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-feestructure',
@@ -64,8 +65,8 @@ export class FeestructureComponent implements OnInit {
       (res)=>{
         
         for(var i=0; i< res.response.length;i++){
-          var p;
-          var feestruct =  {
+          
+          const feestruct =  {
             name:'',
             program:'',
             academicyear:'',
@@ -87,6 +88,7 @@ export class FeestructureComponent implements OnInit {
             (res)=>{
               
               feestruct.program= res.response.name;
+             
               
               
             }
@@ -95,9 +97,12 @@ export class FeestructureComponent implements OnInit {
           this.academicyearService.getOneAcademicyear(res.response[i].academicyear).subscribe(
             (res)=>{
               feestruct.academicyear= res.response.name;
+             
               
             }
           )
+          
+
 
           
           this.academictermService.getOneAcademicterm(res.response[i].academicterm).subscribe(
@@ -116,7 +121,7 @@ export class FeestructureComponent implements OnInit {
           
         
         
-        this.feestructures.unshift(feestruct);
+        this.feestructures.push(feestruct);
         
 
         
@@ -200,7 +205,7 @@ export class FeestructureComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
-            this.getallfeestructures();
+            location.reload()
 
           },
           (err)=>{
