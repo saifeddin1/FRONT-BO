@@ -20,6 +20,9 @@ export class FeeCategoryService {
   getFeeCatgories():Observable<any>{
    return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/`); 
   }
+  getOneFeeCatgory(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/${id}`); 
+   }
 
   deleteFeeCategory(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/feeCategory/${id}`)

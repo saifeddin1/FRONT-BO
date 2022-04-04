@@ -35,6 +35,7 @@ export class ManageEmployeesComponent implements OnInit {
     this.viewType = 'table';
   }
   employees: MatTableDataSource<File> = new MatTableDataSource<File>();
+  allemployees:any;
   ngOnInit(): void {
     this.getAllEmployeesFiles();
     this.getUsers();
@@ -54,6 +55,7 @@ export class ManageEmployeesComponent implements OnInit {
   getAllEmployeesFiles() {
     this.employeeService.getFiles().subscribe((result) => {
       this.employees = result['response'][0]['totalData'];
+      this.allemployees = result['response'][0]['totalData'];
     });
   }
 
@@ -74,7 +76,7 @@ export class ManageEmployeesComponent implements OnInit {
       height: 'auto',
       width: '700px',
       data: {
-        employee: this.employees.filter(
+        employee: this.allemployees.filter(
           (employee) => employee._id === _employee_id
         )[0],
       },

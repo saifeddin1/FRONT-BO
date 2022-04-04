@@ -14,6 +14,9 @@ import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { Student } from '../../models/student.model';
 import { StudentGroup } from '../../models/studentgroup.model';
+import { AcademictermService } from '../../services/academicterm.service';
+import { FeeCategoryService } from '../../services/fee-category.service';
+import { ProgramService } from '../../services/program.service';
 
 @Component({
   selector: 'app-feeschedule',
@@ -23,6 +26,7 @@ import { StudentGroup } from '../../models/studentgroup.model';
 export class FeescheduleComponent implements OnInit {
   ismatch:boolean= false;
   test:string = "test";
+ 
   feestruct ={
     
     program:'',
@@ -53,7 +57,8 @@ export class FeescheduleComponent implements OnInit {
 
   
 
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService,
+  constructor(private academicyearService:AcademicyearService,private programService: ProgramService,private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,
+     private formBuilder: FormBuilder,private toasterService: ToasterService,
      private feeStructureService: FeestructureService, private groupstudentService: GroupstudentService,
      private feescheduleService:FeescheduleService) {
       this.getfeeStructure();
@@ -175,10 +180,39 @@ savefeeshcedule(){
       for(var i=0; i< res.response.length;i++){
         
         if(res.response[i]._id == id){
-          this.feestruct.studentcat = res.response[i].studentCategory;
-          this.feestruct.academicyear = res.response[i].academicyear;
-          this.feestruct.academicterm = res.response[i].academicterm;
-          this.feestruct.program = res.response[i].program;
+
+          this.programService.getOneProgram(res.response[i].program).subscribe(
+            (res)=>{
+              this.feestruct.program= res.response.name;
+              
+            }
+          )
+
+          this.academicyearService.getOneAcademicyear(res.response[i].academicyear).subscribe(
+            (res)=>{
+              this.feestruct.academicyear= res.response.name;
+              
+            }
+          )
+
+          
+          this.academictermService.getOneAcademicterm(res.response[i].academicterm).subscribe(
+            (res)=>{
+              this.feestruct.academicterm= res.response.name;
+              
+            }
+          )
+
+          this.feeCategoryService.getOneFeeCatgory(res.response[i].feeCategory).subscribe(
+            (res)=>{
+              this.feestruct.studentcat= res.response.name;
+              
+            }
+          )
+          // this.feestruct.studentcat = res.response[i].studentCategory;
+          // this.feestruct.academicyear = res.response[i].academicyear;
+          // this.feestruct.academicterm = res.response[i].academicterm;
+          // this.feestruct.program = res.response[i].program;
           
         }
       }
