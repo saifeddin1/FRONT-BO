@@ -11,8 +11,8 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { MatPaginator } from '@angular/material/paginator';
-import { VcCalenderService } from 'src/app/services/vc-calender.service';
 import { MatDialog } from '@angular/material/dialog';
+import { VcCalenderService } from '../../services/vc-calender.service';
 
 const colors: any = {
   red: {

@@ -1,0 +1,93 @@
+    <!-- delete template -->
+
+    <ng-template #deleteTemp> 
+      <img src="../../../../assets/img/danger.png" class="danger"alt="">
+        <h3>
+          are you sure you want to delete ?
+        </h3>
+        <button (click)="deleteRecord()">Yes</button>
+        <button (click)="closeModal()">No</button>
+    </ng-template>
+
+
+
+
+
+<!-- add template -->
+
+    <ng-template #addTemp> 
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Course name</mat-label>
+        <input matInput placeholder="Course name" [(ngModel)]="newRecord.courseName">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Link</mat-label>
+        <input matInput placeholder="azeaz"  [(ngModel)]="newRecord.url">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Class</mat-label>
+        <input matInput placeholder="class" [(ngModel)]="newRecord.class">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Subject</mat-label>
+        <input matInput placeholder="Subject"  [(ngModel)]="newRecord.subject">
+      </mat-form-field><br>
+        <button (click)="addNewRec()">Yes</button>
+        <button (click)="closeModal()">No</button>
+    </ng-template>
+
+
+
+    <!-- edit template  -->
+
+    <ng-template #editTemp> 
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Course name</mat-label>
+        <input matInput placeholder={{records.url}} value="Sushi" [(ngModel)]="newRecord.courseName">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Link</mat-label>
+        <input matInput placeholder="azeaz" value="Sushi" [(ngModel)]="newRecord.url">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Class</mat-label>
+        <input matInput placeholder={{records.url}} value="Sushi" [(ngModel)]="newRecord.class">
+      </mat-form-field><br>
+      <mat-form-field class="example-full-width" appearance="fill">
+        <mat-label>Subject</mat-label>
+        <input matInput placeholder={{records.url}} value="Sushi" [(ngModel)]="newRecord.subject">
+      </mat-form-field><br>
+        <button (click)="updateRecord()">Yes</button>
+        <button (click)="closeModal()">No</button>
+    </ng-template>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Mukta:wght@300;400;600;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+   
+
+    <button mat-button (click)="openModal(addTemp,'')">add new record</button>
+    <input type="text" [(ngModel)]="courseName">
+    <table>
+      <thead>
+        <tr>
+          <th></th>  
+          <th>Course</th>
+          <th>Class</th>
+          <th>subject</th>
+          <th>Link</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let record of records|filter:courseName">
+            <td><img src="../../../../assets/YouTube-Logo.png" alt="" class="logo"></td>
+          <td>{{record.courseName}}</td>
+          <td>{{record.class}}</td>
+          <td>{{record.subject}}</td>
+          <td>{{record.url}}</td>
+          <td><i role="button" class="fa fa-trash" (click)="openModal(deleteTemp,record._id)"></i></td>
+          <td><i role="button" class="fa fa-edit" (click)="openModal(editTemp,record._id)"></i></td>
+          
+        </tr>
+      </tbody>
+    </table>

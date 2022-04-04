@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { VcRoutingModule } from './vc-routing.module';
 import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
 import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
@@ -23,8 +22,10 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import { MatTableModule } from '@angular/material/table';
+import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
+import { BrowserModule } from '@angular/platform-browser';
 
-
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
 
 
 @NgModule({
@@ -36,9 +37,12 @@ import { MatTableModule } from '@angular/material/table';
       VcLiveSessionsComponent,
       VcChatComponent,
       VcSettingsComponent,
-      VcDevoirsComponent
+      VcDevoirsComponent,
+      VcRecordsComponent
   ],
   imports: [
+    Ng2SearchPipeModule,
+    BrowserModule,
     ClarityModule, 
     ClrIconModule,
     MatInputModule,
@@ -50,7 +54,6 @@ import { MatTableModule } from '@angular/material/table';
     CommonModule,
     VcRoutingModule,
     FormsModule,
-    NgbModalModule,
     BrowserAnimationsModule,
     MatTableModule,
     FlatpickrModule.forRoot(),

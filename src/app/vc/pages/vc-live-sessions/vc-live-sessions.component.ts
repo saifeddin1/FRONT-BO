@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VcChatService } from 'src/app/services/vc-chat.service';
+import { VcChatService } from 'src/app/vc/services/vc-chat.service';
 
 @Component({
   selector: 'app-vc-live-sessions',
