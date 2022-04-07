@@ -1,12 +1,24 @@
 <div class="px-4" style="margin-inline: 85px">
   <h1>Collaborators</h1>
-  <div class="container collaborators-wrapper p-4 d-flex flex-row flex-wrap">
+  <div
+    *ngIf="isLoading"
+    style="display: flex; justify-content: center; align-items: center"
+  >
+    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+    </mat-progress-spinner>
+  </div>
+  <div
+    *ngIf="!isLoading"
+    class="container collaborators-wrapper p-4 d-flex flex-row flex-wrap"
+  >
     <div *ngFor="let file of allEmployees">
       <div class="card rounded-lg mx-2">
         <img
           id="{{ file?._id }}"
           (click)="openDialog($event)"
-          src="../../../../assets/img/{{ file?.profile['image'] }}"
+          src="../../../../assets/img/{{
+            file?.profile.image || 'user-placeholder.png'
+          }}"
           class="card-img-top"
           alt="Card image cap"
         />
