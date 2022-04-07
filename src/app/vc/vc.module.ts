@@ -24,13 +24,18 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
 import { MatTableModule } from '@angular/material/table';
 import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
-
+import { ToastrModule } from 'ngx-toastr';
+import { VcEventsComponent } from './pages/vc-events/vc-events.component';
+import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
+// import { NotificationService } from './services/notification.service';
+// import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
 
 @NgModule({
 
   declarations: [
+    
       VcProfileComponent,
       VcCalendarComponent,
       VcDashboardComponent,
@@ -38,9 +43,14 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
       VcChatComponent,
       VcSettingsComponent,
       VcDevoirsComponent,
-      VcRecordsComponent
+      VcRecordsComponent,
+      VcEventsComponent,
+      VcNotificationComponent,
   ],
   imports: [
+    
+    ScrollingModule,
+    ToastrModule,
     Ng2SearchPipeModule,
     BrowserModule,
     ClarityModule, 
@@ -67,7 +77,7 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
     NgxMatTimepickerModule,
 
   ],
-
+  // providers:[NotificationService]
 
 
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
