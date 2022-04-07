@@ -6,6 +6,7 @@ import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.componen
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
 import { VcEventsComponent } from './pages/vc-events/vc-events.component';
 import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
+import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
 import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
 import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
@@ -21,7 +22,8 @@ const routes: Routes = [
     { path:'liveSession',component:VcLiveSessionsComponent },
     { path:'chat',component:VcChatComponent },
     { path:'devoirs',component:VcDevoirsComponent },
-    { path:'events',component:VcEventsComponent }
+    { path:'events',component:VcEventsComponent },
+    {path:'notification',component:VcNotificationComponent}
 ]}
 ];
 

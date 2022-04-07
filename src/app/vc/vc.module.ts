@@ -29,8 +29,8 @@ import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ToastrModule } from 'ngx-toastr';
 import { VcEventsComponent } from './pages/vc-events/vc-events.component';
 import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
-// import { NotificationService } from './services/notification.service';
-// import { AngularFireMessagingModule } from '@angular/fire/compat/messaging';
+import { NotificationService } from './services/notification.service';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
 
 @NgModule({
 
@@ -48,7 +48,7 @@ import { VcNotificationComponent } from './pages/vc-notification/vc-notification
       VcNotificationComponent,
   ],
   imports: [
-    
+    AngularFireMessagingModule,
     ScrollingModule,
     ToastrModule,
     Ng2SearchPipeModule,
@@ -77,7 +77,7 @@ import { VcNotificationComponent } from './pages/vc-notification/vc-notification
     NgxMatTimepickerModule,
 
   ],
-  // providers:[NotificationService]
+  providers:[NotificationService]
 
 
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
