@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+
 import { VcRoutingModule } from './vc-routing.module';
 import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
 import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
@@ -49,7 +49,7 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     CommonModule,
     VcRoutingModule,
     FormsModule,
-    NgbModalModule,
+   
     BrowserAnimationsModule,
 
 

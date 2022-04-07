@@ -4,19 +4,25 @@ import { Timesheet } from '../../models/timesheet.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { Location } from '@angular/common';
 import { YearMonth } from '../../models/yearMonth.model';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-user-timesheets',
   templateUrl: './user-timesheets.component.html',
   styleUrls: ['./user-timesheets.component.css'],
 })
 export class UserTimesheetsComponent implements OnInit {
-  timesheets: Timesheet[];
+  // timesheets: Timesheet[];
   p: number = 1;
   limit: number = 7;
   yearMonth: string;
   yearMonthItems: YearMonth[];
   total: number;
   userId: string;
+
+  displayedColumns: string[] = ['#', 'note', 'start', 'hours', 'action'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
+
   constructor(
     private employeeService: EmployeeSummaryService,
     private activatedRoute: ActivatedRoute,
@@ -25,6 +31,8 @@ export class UserTimesheetsComponent implements OnInit {
   ) {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
   }
+  timesheets: MatTableDataSource<Timesheet> =
+    new MatTableDataSource<Timesheet>();
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe((param) => {
@@ -42,7 +50,7 @@ export class UserTimesheetsComponent implements OnInit {
   goBack() {
     this.location.back();
   }
- 
+
   getAllTimesheets() {
     console.log('this.yearMonth', this.yearMonth);
     this.employeeService
@@ -58,6 +66,7 @@ export class UserTimesheetsComponent implements OnInit {
           result
         );
         this.timesheets = result['response'][0]['totalData'];
+
         this.total = result['response'][0]['totalCount'][0]['count'];
       });
   }

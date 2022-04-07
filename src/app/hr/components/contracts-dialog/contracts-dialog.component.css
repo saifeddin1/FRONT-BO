@@ -1,9 +1,29 @@
 .inputs-row {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
-.inputs-row input,
+.text-area {
+  /* Rectangle 1637 */
+  width: 300px;
+  /* height: 50px; */
+
+  /* Gray · 10% */
+  background: #fafafa;
+  /* Gray · 20% */
+  border: 3px solid #f5f7fa;
+  border-radius: 11px;
+
+  font-size: 1rem;
+  font-weight: 300;
+
+  padding: 1rem;
+  margin-bottom: 1rem;
+  /* Gray · 60% */
+  color: var(--gray80);
+}
+
+/* .inputs-row input,
 .inputs-row select {
   padding: 12px;
   border-radius: 3px;
@@ -11,13 +31,13 @@
   outline: unset;
   margin: 5px;
   width: 300px;
-}
+} */
 .btn-update-file {
   display: flex;
   justify-content: center;
   margin-top: 2rem;
 }
-.btn-update-file button {
+button {
   height: 2rem;
   box-shadow: 0px 4px 12px rgb(120 98 188 / 16%);
   border-radius: 7px;
@@ -25,7 +45,8 @@
   font-size: 1rem;
   color: #ffffff;
   background-color: var(--green-base);
-  padding: 1rem;
+  padding: 10px 15px;
+  margin-inline: 1rem;
   display: flex;
   align-items: center;
   justify-content: center;

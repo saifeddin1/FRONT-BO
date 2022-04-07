@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { STUDENT } from 'src/app/lms/constants/roles.constant';
+import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { Contract } from '../../models/contract.model';
 import { ContractsDialogComponent } from '../../components/contracts-dialog/contracts-dialog.component';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
 @Component({
   selector: 'app-manage-contracts',
   templateUrl: './manage-contracts.component.html',
@@ -13,20 +15,38 @@ import { ContractsDialogComponent } from '../../components/contracts-dialog/cont
 })
 export class ManageContractsComponent implements OnInit {
   users: User[];
-  contracts: any;
   isOpen: boolean;
+  isAdmin: boolean;
   dialogOperation: string;
+  currentUser: any;
+  form: FormGroup;
+
+  displayedColumns: string[] = ['#', 'startdate', 'type', 'action'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
+
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
+    formBuilder: FormBuilder,
     private toaster: ToasterService
   ) {
     this.isOpen = false;
+    this.getContractsWithSalary();
+    this.getUsers();
+    this.currentUser = employeeService.getUser();
+    this.isAdmin = this.currentUser?.type === ADMIN;
   }
+
+  contracts: MatTableDataSource<Contract> = new MatTableDataSource<Contract>();
+  allContracts: Contract[];
 
   ngOnInit(): void {
     this.getContractsWithSalary();
     this.getUsers();
+    if (this.isAdmin) {
+      this.displayedColumns.splice(1, 0, 'user');
+    }
   }
 
   getUsers() {
@@ -48,18 +68,16 @@ export class ManageContractsComponent implements OnInit {
     });
   }
 
-  openDialog(event, operation) {
-    this.dialogOperation = operation;
-    let _contract_id = event?.target?.id;
-    console.log(_contract_id);
+  openDialog(event, operation, _contract_id) {
+    console.log(_contract_id, 'eee', this.dialogOperation);
 
     const dialogRef = this.dialog.open(ContractsDialogComponent, {
       height: 'auto',
       width: '700px',
       data: {
         contract:
-          this.dialogOperation === 'edit' || this.dialogOperation === 'view'
-            ? this.contracts.filter(
+          operation === 'edit' || operation === 'view'
+            ? this.allContracts.filter(
                 (contract) => contract._id === _contract_id
               )[0]
             : {
@@ -77,7 +95,7 @@ export class ManageContractsComponent implements OnInit {
                   },
                 },
               },
-        dialogOperation: this.dialogOperation,
+        dialogOperation: operation,
         users: this.users,
       },
     });
@@ -89,23 +107,34 @@ export class ManageContractsComponent implements OnInit {
   }
 
   getContractsWithSalary() {
-    this.employeeService.getAllContractsWithSalaries().subscribe((result) => {
-      console.log('⚡ ~  getContractsWithSalary ~ result', result);
-      this.contracts = result['response'][0]['totalData'];
-    });
+    this.isAdmin
+      ? this.employeeService
+          .getAllContractsWithSalaries()
+          .subscribe((result) => {
+            console.log('⚡ ~  getContractsWithSalary ~ result', result);
+            this.contracts = result['response'][0]['totalData'];
+            this.allContracts = result['response'][0]['totalData'];
+          })
+      : this.employeeService.getContractsWithSalary().subscribe((result) => {
+          this.contracts = result['response'];
+          console.log(
+            '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
+            this.contracts
+          );
+        });
   }
-  // openCreateDialog(event) {
-  //   const dialogRef = this.dialog.open(AddEmployeeDialogComponent, {
-  //     height: 'auto',
-  //     width: '700px',
-  //     data: {
-  //       users: this.users,
-  //     },
-  //   });
-
-  //   dialogRef.afterClosed().subscribe((result) => {
-  //     console.log(`Dialog result: ${result}`);
-  //     this.getAllEmployeesFiles();
-  //   });
-  // }
 }
+// openCreateDialog(event) {
+//   const dialogRef = this.dialog.open(AddEmployeeDialogComponent, {
+//     height: 'auto',
+//     width: '700px',
+//     data: {
+//       users: this.users,
+//     },
+//   });
+
+//   dialogRef.afterClosed().subscribe((result) => {
+//     console.log(`Dialog result: ${result}`);
+//     this.getAllEmployeesFiles();
+//   });
+// }

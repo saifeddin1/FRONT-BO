@@ -1,7 +1,8 @@
-<h2 class="mat-dialog-title">Update Details</h2>
+<h2 class="mat-dialog-title">Add Details</h2>
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="user REF"
       value="{{ newEmployee?.userRef }}"
@@ -10,6 +11,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="number"
       value="{{ newEmployee?.timeOffBalance }}"
       [(ngModel)]="newEmployee.timeOffBalance"
@@ -20,6 +22,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="Email"
       value="{{ newEmployee?.profile.proEmail }}"
@@ -28,6 +31,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ newEmployee?.profile.phone }}"
       [(ngModel)]="newEmployee?.profile.phone"
@@ -39,6 +43,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="address"
       value="{{ newEmployee?.profile.address }}"
@@ -47,6 +52,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ newEmployee?.profile.position }}"
       [(ngModel)]="newEmployee?.profile.position"
@@ -58,6 +64,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ newEmployee?.profile.jobType }}"
       [(ngModel)]="newEmployee?.profile.jobType"
@@ -67,6 +74,7 @@
 
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="work from.."
       value="{{ newEmployee?.profile.workFrom }}"
@@ -77,6 +85,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ newEmployee?.profile.seniorityLevel }}"
       [(ngModel)]="newEmployee?.profile.seniorityLevel"
@@ -84,15 +93,19 @@
     />
   </div>
   <div>
-    <select [(ngModel)]="newEmployee.userId">
+    <select [(ngModel)]="newEmployee.userId" class="text-area">
       <option value="{{ user?._id }}" *ngFor="let user of data['users']">
         {{ user?.username }}
       </option>
     </select>
   </div>
+</div>
+<div class="inputs-row">
   <textarea
+    class="text-area"
     value="{{ newEmployee?.profile.description }}"
     [(ngModel)]="newEmployee.profile.description"
+    placeholder="Description.."
     cols="30"
     rows="10"
   ></textarea>

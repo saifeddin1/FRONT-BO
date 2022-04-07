@@ -1,34 +1,15 @@
-<div>
-  <div class="row" [style.display]="isAdmin ? 'none' : 'flex'">
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newTimeoffRequest.startDate"
-        value="{{ newTimeoffRequest.startDate }}"
-        type="date"
-      />
-    </div>
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newTimeoffRequest.offDays"
-        value="{{ newTimeoffRequest.offDays }}"
-        type="number"
-        min="1"
-        max="22"
-      />
-    </div>
-    <div class="col">
-      <app-button-outline
-        (onClick)="requestTimeoff()"
-        [title]="'Add'"
-      ></app-button-outline>
-    </div>
+<!-- <div>
+  <div class="interviews-header">
+    <span class="heading">Timeoff Requests</span>
+    <mat-icon (click)="openCreateDialog($event)" *ngIf="!isAdmin">{{
+      isOpen ? "remove_circle" : "add_circle"
+    }}</mat-icon>
   </div>
-  <table class="table">
+
+  <table class="fl-table">
     <thead>
       <tr>
-        <th [style.display]="isAdmin ? 'block' : 'none'">USER</th>
+        <th *ngIf="isAdmin">USER</th>
         <th>Start Date</th>
         <th>{{ isAdmin ? "Off Days" : "End Date" }}</th>
         <th>Status</th>
@@ -36,18 +17,20 @@
     </thead>
     <tbody>
       <tr *ngFor="let toff of timeoffHistory">
-        <td [style.display]="isAdmin || isHR ? 'block' : 'none'">
+        <td *ngIf="isAdmin || isHR">
           <span>{{ toff.userId }}</span>
         </td>
         <td>
           <span>{{ formatedDate(toff.startDate) }}</span>
         </td>
-        <td [style.display]="isAdmin ? 'none' : 'block'">
+
+        <td *ngIf="!isAdmin">
           <span>{{
             formatedDate(getEndDate(toff.startDate, toff.offDays))
           }}</span>
         </td>
-        <td [style.display]="isAdmin ? 'block' : 'none'">
+
+        <td *ngIf="isAdmin">
           <input
             type="number"
             [(ngModel)]="toff.offDays"
@@ -55,31 +38,135 @@
           />
         </td>
         <td>
-          <div
-            [style.display]="shouldDisplay ? 'flex' : 'none'"
-            class="align-items-center justify-content-center"
-          >
+          <div class=" " *ngIf="shouldDisplay">
             <select [(ngModel)]="toff.status">
               <option value="Approved">Approved</option>
               <option value="Rejected">Rejected</option>
             </select>
-            <app-button-filled
-              [title]="'EDIT'"
-              (onClick)="
+
+            <mat-icon
+              (click)="
                 isAdmin ? updateTimeoffRequest(toff) : updateStatus(toff)
               "
-            ></app-button-filled>
-            <app-button-outline
-              [style.display]="isAdmin ? 'block' : 'none'"
-              [title]="'Delete'"
-              (onClick)="deleteRequest(toff)"
-            ></app-button-outline>
+              >edit</mat-icon
+            >
+
+            <mat-icon *ngIf="isAdmin" (click)="deleteRequest(toff)"
+              >delete</mat-icon
+            >
           </div>
-          <span [style.display]="shouldDisplay ? 'none' : 'block'">
+
+          <span *ngIf="!shouldDisplay">
             {{ toff.status }}
           </span>
         </td>
       </tr>
     </tbody>
   </table>
+</div> -->
+
+<div class="dashboard">
+  <div class="events-container">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
+      <h1>Timeoff Table</h1>
+
+      <div class="profile-card">
+        <div class="edit-button" *ngIf="!isAdmin">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openDialog($event, 'add', undefined)"
+          >
+            Add Timeoff
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="timeoffHistory">
+      <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.enabled" style="color: green">
+            check_circle
+          </mat-icon>
+          <mat-icon *ngIf="!element.enabled" style="color: rgb(201, 18, 18)"
+            >block</mat-icon
+          >
+        </td>
+      </ng-container>
+      <!-- user Column -->
+      <ng-container matColumnDef="user" *ngIf="isAdmin || isHR">
+        <th mat-header-cell *matHeaderCellDef>User</th>
+        <td mat-cell *matCellDef="let element">{{ element.userId }}</td>
+      </ng-container>
+
+      <!-- startdate Column -->
+      <ng-container matColumnDef="startdate">
+        <th mat-header-cell *matHeaderCellDef>Start Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.startDate }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="endDate" *ngIf="!isAdmin">
+        <th mat-header-cell *matHeaderCellDef>End Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getEndDate(element.startDate, element.offDays) }}
+        </td>
+      </ng-container>
+
+      <!-- type Column -->
+      <ng-container matColumnDef="offDays" *ngIf="isAdmin">
+        <th mat-header-cell *matHeaderCellDef>Days Off</th>
+        <td mat-cell *matCellDef="let element">{{ element.offDays }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>status</th>
+
+        <td mat-cell *matCellDef="let element">
+          <span *ngIf="!isHR">{{ element.status }}</span>
+          <div *ngIf="isHR">
+            <select [(ngModel)]="element.status" class="text-area">
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+            </select>
+          </div>
+        </td>
+      </ng-container>
+
+      <!-- action Column -->
+      <ng-container matColumnDef="action" *ngIf="shouldDisplay">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="
+              isAdmin
+                ? openDialog($event, 'edit', element?._id)
+                : updateStatus(element)
+            "
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteRequest(element)"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>

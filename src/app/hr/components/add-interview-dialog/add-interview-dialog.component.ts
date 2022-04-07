@@ -24,13 +24,11 @@ export class AddInterviewDialogComponent implements OnInit {
       title: '',
       date: null,
       files: null,
-      test: [
-        {
-          title: '',
-          description: '',
-          url: '',
-        },
-      ],
+      test: {
+        title: '',
+        description: '',
+        url: '',
+      },
     };
     this.users = data['users'];
   }

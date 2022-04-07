@@ -26,7 +26,6 @@ export class EmployeeSummaryService {
 
   public decodedToken = this.userservise.decodeToken(getToken());
   getUser() {
-    console.log(this.decodedToken, '****************************');
     return this.decodedToken;
   }
 
@@ -246,7 +245,8 @@ export class EmployeeSummaryService {
   createTimeoffRequest(body: Timeoff): Observable<Timeoff> {
     return this.http.post<Timeoff>(
       `${this.BASE_URL}/timeOffs/createTimeOffAsEmployee`,
-      body
+      JSON.stringify(body),
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
@@ -272,7 +272,7 @@ export class EmployeeSummaryService {
 
   getUserNotifications(): Observable<Notification> {
     return this.http.get<Notification>(
-      `${this.BASE_URL}/notifications/getUserNotifications`
+      `${this.BASE_URL}/notifications/getUserNotifications?sortBy=createdAt&orderBy=desc`
     );
   }
 

@@ -1,7 +1,12 @@
 <h2 mat-dialog-title>Add Year Month Item (YYYY-MM) :</h2>
-<input type="text" placeholder="yyyy-mm" [(ngModel)]="newYearMonthItem.title" />
+<input
+  class="text-area"
+  type="text"
+  placeholder="yyyy-mm"
+  [(ngModel)]="newYearMonthItem.title"
+/>
 <br />
-<select [(ngModel)]="userId">
+<select class="text-area" [(ngModel)]="userId">
   <option value="{{ user._id }}" *ngFor="let user of data['users']">
     {{ user.username }}
   </option>

@@ -2,6 +2,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="user REF"
       value="{{ employee?.userRef }}"
@@ -10,6 +11,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="number"
       value="{{ employee?.timeOffBalance }}"
       [(ngModel)]="employee.timeOffBalance"
@@ -20,6 +22,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="Email"
       value="{{ employee?.profile.proEmail }}"
@@ -28,6 +31,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ employee?.profile.phone }}"
       [(ngModel)]="employee?.profile.phone"
@@ -39,6 +43,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="address"
       value="{{ employee?.profile.address }}"
@@ -47,6 +52,7 @@
   </div>
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ employee?.profile.position }}"
       [(ngModel)]="employee?.profile.position"
@@ -58,6 +64,7 @@
 <div class="inputs-row">
   <div>
     <input
+      class="text-area"
       type="text"
       value="{{ employee?.profile.jobType }}"
       [(ngModel)]="employee?.profile.jobType"
@@ -67,6 +74,7 @@
 
   <div>
     <input
+      class="text-area"
       type="text"
       placeholder="work from.."
       value="{{ employee?.profile.workFrom }}"
@@ -76,18 +84,22 @@
 </div>
 <div class="inputs-row">
   <input
+    class="text-area"
     type="text"
     value="{{ employee?.profile.seniorityLevel }}"
     [(ngModel)]="employee?.profile.seniorityLevel"
     placeholder="seniorityLevel"
   />
 </div>
-<textarea
-  value="{{ employee?.profile.description }}"
-  [(ngModel)]="employee.profile.description"
-  cols="30"
-  rows="10"
-></textarea>
+<div class="inputs-row">
+  <textarea
+    class="text-area"
+    value="{{ employee?.profile.description }}"
+    [(ngModel)]="employee.profile.description"
+    cols="30"
+    rows="10"
+  ></textarea>
+</div>
 
 <mat-dialog-actions align="end">
   <div class="btn-update-file">

@@ -24,14 +24,14 @@
 }
 
 /* .inputs-row input,
-.inputs-row select {
-  padding: 12px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  outline: unset;
-  margin: 5px;
-  width: 300px;
-} */
+  .inputs-row select {
+    padding: 12px;
+    border-radius: 3px;
+    border: 1px solid #ccc;
+    outline: unset;
+    margin: 5px;
+    width: 300px;
+  } */
 .btn-update-file {
   display: flex;
   justify-content: center;

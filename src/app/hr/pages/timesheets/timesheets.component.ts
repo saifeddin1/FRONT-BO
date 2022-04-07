@@ -18,6 +18,7 @@ export class TimesheetsComponent implements OnInit {
   timesheets: Timesheet[];
   p: number = 1;
   limit: number = 7;
+  page: number = 1;
   total: number;
   // extraHours: number;
   monthlyWorkingHours: number;
@@ -58,6 +59,7 @@ export class TimesheetsComponent implements OnInit {
     this.getEmployeeActiveContract();
     this.getAllYearMonthItems();
     this.getExtraHours();
+
     //
   }
 
@@ -129,9 +131,17 @@ export class TimesheetsComponent implements OnInit {
             '📚 ~  TimesheetsComponent ~ getEmployeeTimeSheets',
             result
           );
+
           this.getMonthlyWorkingHours();
           this.getExtraHours();
           this.timesheets = result['response'][0]['totalData'];
+          // this.timesheets.forEach((el) => {
+          //   if (formatDate(el.date) == formatDate(new Date())) {
+          //     console.log('le p  est: => ', this.p);
+          //     this.page = this.p;
+          //   }
+          // });
+
           this.total = result['response'][0]['totalCount'][0]['count'];
           this.isApproved = false;
           this.isDeclared = false;
