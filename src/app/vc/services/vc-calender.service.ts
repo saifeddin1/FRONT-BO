@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { env } from '../constants/env';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,6 @@ export class ConfigService {
 export class VcCalenderService {
 
 
-  private VCURL = 'http://localhost:3000/VC/';
 
    constructor(private http: HttpClient) { }
   // private _refreshNeeded$=new Subject<void>();
@@ -25,17 +25,24 @@ export class VcCalenderService {
 
   getAll() {
 
-    return this.http.get(this.VCURL + 'getMeets');
+    return this.http.get(env.VCURL + '/VC/getAllSeances');
 
   }
 
-  addVC(data:any){
-      return this.http.post(this.VCURL + 'addMeet' ,data);
+  addSeance(data:any){
+      return this.http.post(env.VCURL + '/VC/addSeance' ,data);
   }
 
   deleteOne(id:any) {
 
-    return this.http.delete(this.VCURL + 'deleteMeet/'+id);
+    return this.http.delete(env.VCURL + '/VC/deleteSeance/'+id);
 
+  }
+  updateSeance(id:any, data:any){
+    return this.http.put(env.VCURL +'/VC/updateSeance/'+id , data)
+  }
+
+  getOneSeance(id:any){
+    return this.http.get(env.VCURL+ '/VC/findSeanceById/' + id)
   }
 }

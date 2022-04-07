@@ -1,4 +1,11 @@
-    <!-- delete template -->
+
+<style>
+  .btn{
+      margin-left: 80%;
+    
+}
+</style>
+<!-- delete template -->
 
     <ng-template #deleteTemp> 
       <img src="../../../../assets/img/danger.png" class="danger"alt="">
@@ -60,12 +67,18 @@
         <button (click)="updateRecord()">Yes</button>
         <button (click)="closeModal()">No</button>
     </ng-template>
+
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700;900&family=Mukta:wght@300;400;600;700;800&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
    
-
-    <button mat-button (click)="openModal(addTemp,'')">add new record</button>
-    <input type="text" [(ngModel)]="courseName">
+    
+    <div class="search__container">
+      <input class="search__input" type="text" placeholder="Search" [(ngModel)]="courseName">
+      <button class="btn" mat-button (click)="openModal(addTemp,'')">add new record</button>
+    </div>
+    
+    <div>
     <table>
       <thead>
         <tr>
@@ -91,3 +104,4 @@
         </tr>
       </tbody>
     </table>
+  </div>

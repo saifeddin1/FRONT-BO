@@ -27,6 +27,11 @@ const ROUTES: Array<Route> = [
     label: 'Records',
   },
   {
+    link: './events',
+    icon: 'event',
+    label: 'Events',
+  },
+  {
     link: './settings',
     icon: 'form',
     label: 'settings',

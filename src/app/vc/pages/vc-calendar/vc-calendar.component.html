@@ -1,23 +1,100 @@
-<ng-template #templateSuccess>
-  <p>{{conratsEchec}}</p>
-  <button (click)="closeeeModal()">OK</button>
+<button (click)="openDialog(addSeance,'')" id="123">add new meet</button>
+<button (click)="openMainModal(listSeances)" id="123">edit</button>
+<ng-template #addSeance> 
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Seance name</mat-label>
+    <input matInput placeholder="Name" value="Sushi" [(ngModel)]="seance.name">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Link</mat-label>
+    <input matInput placeholder="azeaz" value="Sushi" [(ngModel)]="seance.url">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Description"  [(ngModel)]="seance.description">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Start date</mat-label>
+    <input matInput type="datetime-local" [(ngModel)]="seance.startDate">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>end Date</mat-label>
+    <input matInput type="datetime-local" [(ngModel)]="seance.endDate">
+  </mat-form-field><br>
+    <button (click)="addNewseance()">Yes</button>
+    <button (click)="closeModal()">No</button>
 </ng-template>
-<button (click)="openDialog(template)" id="123">add new meet</button>
-<ng-template #template>
-    <input type="datetime-local" name="" id="" [(ngModel)]="meet.startDate"><br>
-    <mat-form-field>
-      <input matInput [ngxMatDatetimePicker]="picker" placeholder="Choose a date & time" [(ngModel)]="disabled">
 
-      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+<ng-template #editSeance> 
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Seance name</mat-label>
+    <input matInput placeholder="Name" value="Sushi" [(ngModel)]="oneSeance.name">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Link</mat-label>
+    <input matInput placeholder="azeaz" value="Sushi" [(ngModel)]="oneSeance.url">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput placeholder="Description"  [(ngModel)]="oneSeance.description">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>Start date</mat-label>
+    <input matInput type="datetime-local" [(ngModel)]="oneSeance.startDate">
+  </mat-form-field><br>
+  <mat-form-field class="example-full-width" appearance="fill">
+    <mat-label>end Date</mat-label>
+    <input matInput type="datetime-local" [(ngModel)]="oneSeance.endDate">
+  </mat-form-field><br>
+    <button (click)="updateSeance()">Yes</button>
+    <button (click)="closeModal()">No</button>
+</ng-template>
 
-      <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
-      <input Matinput type="text">
-    </mat-form-field>
-    <input type="text" [(ngModel)]="meet.classId"><br>
-    <input type="text" [(ngModel)]="meet.url"><br>
-    <input type="text" [(ngModel)]="meet.description"><br>
-    <input type="text" [(ngModel)]="meet.name"><br>
-    <button (click)="addNewMeet(template,templateSuccess)">Save</button>
+<!-- delete template  -->
+<ng-template #deleteTemp> 
+  <img src="../../../../assets/img/danger.png" class="danger"alt="">
+    <h3>
+      are you sure you want to delete ?
+    </h3>
+    <button (click)="deleteSeance()">Yes</button>
+    <button (click)="closeModal()">No</button>
+</ng-template>
+
+
+
+
+<button (click)="openDialog(addSeance,'')" id="123">add new meet</button>
+<ng-template #listSeances> 
+  <div class="search__container">
+    <input class="search__input" type="text" placeholder="Search" [(ngModel)]="filter">
+  </div>
+  <div>
+    <table>
+      <thead>
+        <tr>
+          <th></th>  
+          <th>Course</th>
+          <th>Class</th>
+          <th>subject</th>
+          <th>Link</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody *ngFor="let seance of seances|filter:filter">
+        <tr >
+          <td>{{seance.name}}</td>
+          <td>{{seance.description}}</td>
+          <td>{{seance.url}}</td>
+          <td>{{seance.startDate}}</td>
+          <td>{{seance.endDate}}</td>
+          <td><i role="button" class="fa fa-trash" (click)="openDialog(deleteTemp,seance._id)"></i></td>
+          <td><i role="button" class="fa fa-edit" (click)="openDialog(editSeance,seance._id)"></i></td>
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </ng-template>
 
 <div class="calendar">
