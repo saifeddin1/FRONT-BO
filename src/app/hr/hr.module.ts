@@ -9,6 +9,7 @@ import { HRRoutingModule } from './hr-routing.module';
 import { InterviewsComponent } from './pages/interviews/interviews.component';
 import { RouterModule } from '@angular/router';
 import { ClarityModule, ClrIconModule } from '@clr/angular';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
@@ -42,6 +43,7 @@ import { CdkTableModule } from '@angular/cdk/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { UsernamePipe } from './helpers/username.pipe';
 
 @NgModule({
   declarations: [
@@ -67,6 +69,7 @@ import { MatInputModule } from '@angular/material/input';
     UserTimesheetsComponent,
     AddYearMonthDialogComponent,
     TimeoffAddDialogComponent,
+    UsernamePipe,
   ],
   imports: [
     HRRoutingModule,
@@ -89,6 +92,7 @@ import { MatInputModule } from '@angular/material/input';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     SummaryComponent,
@@ -101,7 +105,7 @@ import { MatInputModule } from '@angular/material/input';
   ],
   providers: [
     EmployeeSummaryService,
-
+    // UsernameService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })

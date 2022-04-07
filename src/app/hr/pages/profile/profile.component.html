@@ -1,9 +1,11 @@
 <div class="profile-wrapper">
   <div class="profile-header">
     <img
-      class=""
+      class="profile-headshot"
       width="150px"
-      src="../../../../assets/img/{{ userFile?.profile?.image }}"
+      src="../../../../assets/img/{{
+        userFile?.profile?.image || 'user-placeholder.png'
+      }}"
     />
     <div class=" ">
       <button (click)="updateEmployee(userFile)">Save</button>
@@ -66,39 +68,47 @@
       </div>
       <div class="">
         <div class="">
-          <div class="input-row">
+          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
             <label class="">Level</label
             ><input
               matInput
               class="text-area"
               type="text"
-              [disabled]="isDisabled"
+              *ngIf="!isDisabled"
               value="{{ userFile?.profile.seniorityLevel }}"
             />
+            <label style="width: 2vw" *ngIf="isDisabled">
+              {{ userFile?.profile.seniorityLevel }}
+            </label>
           </div>
-          <br />
-          <div class="input-row">
+          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
             <label class="">Job Type</label
             ><input
               matInput
               class="text-area"
               type="text"
-              [disabled]="isDisabled"
+              *ngIf="!isDisabled"
               placeholder="additional details"
               value="{{ userFile?.profile.jobType }}"
             />
+            <label style="width: 2vw" *ngIf="isDisabled">{{
+              userFile?.profile.jobType
+            }}</label>
           </div>
 
-          <div class="input-row">
+          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
             <label class="">Work From</label
             ><input
               matInput
               class="text-area"
               type="text"
-              [disabled]="isDisabled"
+              *ngIf="!isDisabled"
               placeholder="additional details"
               value="{{ userFile?.profile.workFrom }}"
             />
+            <label style="width: 2vw" *ngIf="isDisabled">{{
+              userFile?.profile.jobType
+            }}</label>
           </div>
           <div
             style="

@@ -2,23 +2,35 @@
 
 <mat-dialog-content>
   <div class="inputs-row">
-    <select
-      [(ngModel)]="contract.userId"
-      class="text-area"
-      *ngIf="data['dialogOperation'] !== 'view'"
-    >
-      <option value="">Pick a user</option>
-      <option value="{{ user?._id }}" *ngFor="let user of data['users']">
-        {{ user?.username }}
-      </option>
-    </select>
+    <div>
+      <select
+        [(ngModel)]="contract.userId"
+        class="text-area"
+        *ngIf="!isViewOperation"
+      >
+        <option value="">Pick a user</option>
+        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
+          {{ user?.username }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <select
+        [(ngModel)]="contract.status"
+        class="text-area"
+        *ngIf="!isViewOperation"
+      >
+        <option value="active">active</option>
+        <option value="inactive">inactive</option>
+      </select>
+    </div>
   </div>
   <div>
     <div class="inputs-row">
       <div>
         <label>Contract Type</label>
         <input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="text"
           placeholder="CDD, CDI, SIVP..."
@@ -30,7 +42,7 @@
       <div>
         <label>Hours / Week</label>
         <input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="text"
           value="{{ contract?.hoursNumber }}"
@@ -40,28 +52,38 @@
       </div>
     </div>
     <div class="inputs-row">
-      <div>
+      <div [style]="isViewOperation ? 'width: 50%' : ''">
         <label>Start Date</label>
 
         <input
-          [disabled]="data['dialogOperation'] === 'view'"
+          *ngIf="!isViewOperation"
           class="text-area"
-          [type]="data['dialogOperation'] === 'view' ? 'text' : 'date'"
+          [type]="isViewOperation ? 'text' : 'date'"
           placeholder="yyyy-mm-dd"
-          value="{{ contract?.startDate | date }}"
           [(ngModel)]="contract.startDate"
+          value="{{ contract?.startDate }}"
         />
+        <div *ngIf="isViewOperation" style="margin-block: 1rem">
+          <strong>
+            {{ contract?.startDate | date }}
+          </strong>
+        </div>
       </div>
-      <div>
+      <div [style]="isViewOperation ? 'width: 50%' : ''">
         <label>End Date</label>
         <input
-          [disabled]="data['dialogOperation'] === 'view'"
+          *ngIf="!isViewOperation"
           class="text-area"
-          [type]="data['dialogOperation'] === 'view' ? 'text' : 'date'"
+          [type]="isViewOperation ? 'text' : 'date'"
           placeholder="yyyy-mm-dd"
-          value="{{ contract?.endDate | date }}"
           [(ngModel)]="contract.endDate"
+          value="{{ contract?.endDate }}"
         />
+        <div *ngIf="isViewOperation" style="margin-block: 1rem">
+          <strong>
+            {{ contract?.endDate | date }}
+          </strong>
+        </div>
       </div>
     </div>
   </div>
@@ -72,7 +94,7 @@
         <div>
           <label>Seniory</label
           ><input
-            [disabled]="data['dialogOperation'] === 'view'"
+            [disabled]="isViewOperation"
             class="text-area"
             type="number"
             value="{{ contract['salary']?.seniority }}"
@@ -83,7 +105,7 @@
         <div>
           <label>Annual Componsation</label
           ><input
-            [disabled]="data['dialogOperation'] === 'view'"
+            [disabled]="isViewOperation"
             class="text-area"
             type="text"
             value="{{ contract['salary']?.annualCompensation?.annual }}"
@@ -95,7 +117,7 @@
         <div>
           <label>Gross </label
           ><input
-            [disabled]="data['dialogOperation'] === 'view'"
+            [disabled]="isViewOperation"
             class="text-area"
             type="text"
             value="{{ contract['salary']?.annualCompensation?.gross }}"
@@ -105,7 +127,7 @@
         <div>
           <label>Effective</label
           ><input
-            [disabled]="data['dialogOperation'] === 'view'"
+            [disabled]="isViewOperation"
             class="text-area"
             type="text"
             value="{{ contract['salary']?.annualCompensation?.effective }}"
@@ -121,7 +143,7 @@
       <div>
         <label>Seniority</label
         ><input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="number"
           value="{{ contract.salary?.seniority }}"
@@ -132,7 +154,7 @@
       <div>
         <label>Annual Componsation</label
         ><input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="text"
           value="{{ contract.salary?.annualCompensation?.annual }}"
@@ -145,7 +167,7 @@
       <div>
         <label>Gross</label
         ><input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="text"
           value="{{ contract.salary?.annualCompensation?.gross }}"
@@ -155,7 +177,7 @@
       <div>
         <label>Effective</label
         ><input
-          [disabled]="data['dialogOperation'] === 'view'"
+          [disabled]="isViewOperation"
           class="text-area"
           type="text"
           value="{{ contract.salary?.annualCompensation?.effective }}"

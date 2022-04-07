@@ -166,7 +166,7 @@ export class LoginSignupComponent implements OnInit {
             this.userService.decodeToken(res.accessToken)
           );
           this.userService.setToken(res.accessToken);
-          // console.log(this.userService.user);
+          console.log(this.userService.user);
 
           if (
             this.userService.user.type === STUDENT ||

@@ -12,10 +12,10 @@
   <div>
     <input
       class="text-area"
-      type="number"
+      type="text"
       value="{{ newEmployee?.timeOffBalance }}"
       [(ngModel)]="newEmployee.timeOffBalance"
-      placeholder="Doe"
+      placeholder="Timeoff Balance"
     />
   </div>
 </div>
@@ -63,34 +63,29 @@
 
 <div class="inputs-row">
   <div>
-    <input
-      class="text-area"
-      type="text"
-      value="{{ newEmployee?.profile.jobType }}"
-      [(ngModel)]="newEmployee?.profile.jobType"
-      placeholder="job type"
-    />
+    <select class="text-area" [(ngModel)]="newEmployee?.profile.jobType">
+      <option value="Full-Time">Full-Time</option>
+      <option value="Part-Time">Part-Time</option>
+      <option value="Contract">Contract</option>
+      <option value="Internship">Internship</option>
+    </select>
   </div>
 
   <div>
-    <input
-      class="text-area"
-      type="text"
-      placeholder="work from.."
-      value="{{ newEmployee?.profile.workFrom }}"
-      [(ngModel)]="newEmployee?.profile.workFrom"
-    />
+    <select class="text-area" [(ngModel)]="newEmployee?.profile.workFrom">
+      <option value="On-Site">On-Site</option>
+      <option value="Remote">Remote</option>
+      <option value="Hybrid">Hybrid</option>
+    </select>
   </div>
 </div>
 <div class="inputs-row">
   <div>
-    <input
-      class="text-area"
-      type="text"
-      value="{{ newEmployee?.profile.seniorityLevel }}"
-      [(ngModel)]="newEmployee?.profile.seniorityLevel"
-      placeholder="seniorityLevel"
-    />
+    <select class="text-area" [(ngModel)]="newEmployee?.profile.seniorityLevel">
+      <option value="Junior">Junior</option>
+      <option value="Senior">Senior</option>
+      <option value="Consultant">Consultant</option>
+    </select>
   </div>
   <div>
     <select [(ngModel)]="newEmployee.userId" class="text-area">

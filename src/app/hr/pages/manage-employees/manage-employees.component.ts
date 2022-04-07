@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
@@ -27,6 +29,11 @@ export class ManageEmployeesComponent implements OnInit {
 
   displayedOptionColumns: string[] = ['name', 'action'];
   viewType: string;
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
+
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -56,6 +63,7 @@ export class ManageEmployeesComponent implements OnInit {
     this.employeeService.getFiles().subscribe((result) => {
       this.employees = result['response'][0]['totalData'];
       this.allEmployees = result['response'][0]['totalData'];
+      this.isLoading = false;
     });
   }
 

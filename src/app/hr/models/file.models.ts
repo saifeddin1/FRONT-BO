@@ -3,18 +3,19 @@ interface Profile {
   image?: string;
   position?: string;
   proEmail?: string;
-  phone: number;
+  phone: string;
   address?: string;
   jobType?: string;
   workFrom?: string;
   seniorityLevel?: string;
   description?: string;
+  birthdate?: Date;
 }
 
 export interface File {
   _id?: string;
   userRef: string;
   userId: string;
-  timeOffBalance: number;
+  timeOffBalance: string;
   profile: Profile;
 }

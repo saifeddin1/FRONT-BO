@@ -42,12 +42,12 @@ export class ProfileComponent implements OnInit {
     this.userFile = {
       userId: this.currentUser?._id,
       userRef: '',
-      timeOffBalance: 0,
+      timeOffBalance: '',
       profile: {
         image: '',
         position: '',
         proEmail: '',
-        phone: 0,
+        phone: '',
         address: '',
         jobType: '',
         workFrom: '',

@@ -64,6 +64,12 @@ export class EmployeeSummaryService {
     );
   }
 
+  getActiveContract(): Observable<Contract> {
+    return this.http.get<Contract>(
+      `${this.BASE_URL}/contracts/getActiveContract`
+    );
+  }
+
   updateContractWithSalary(id: string, body): Observable<Contract> {
     return this.http.put<Contract>(
       `${this.BASE_URL}/contracts/updateContractWithSalaries/${id}`,

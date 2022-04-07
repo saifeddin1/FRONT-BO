@@ -11,6 +11,8 @@ import { YearMonth } from '../../models/yearMonth.model';
 import { Router } from '@angular/router';
 import { AddYearMonthDialogComponent } from '../../components/add-year-month-dialog/add-year-month-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-manage-timesheets',
   templateUrl: './manage-timesheets.component.html',
@@ -20,6 +22,10 @@ export class ManageTimesheetsComponent implements OnInit {
   timesheet: Timesheet;
   users: User[];
   yearMonthItems: YearMonth[];
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
   constructor(
     private employeeService: EmployeeSummaryService,
     private toaster: ToasterService,
@@ -51,6 +57,7 @@ export class ManageTimesheetsComponent implements OnInit {
     this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
       this.users = result['response'];
       console.log('result', this.users);
+      this.isLoading = false;
     });
   }
   getAllYearMonthItems() {
