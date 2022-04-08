@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NotificationService } from '../../services/notification.service';
 
 @Component({
   selector: 'app-vc-notification',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class VcNotificationComponent implements OnInit {
 
-  constructor() { }
+  constructor(private notification:NotificationService) { }
 
   ngOnInit(): void {
+    this.notification.requestPerm("anbu")
   }
 
 }

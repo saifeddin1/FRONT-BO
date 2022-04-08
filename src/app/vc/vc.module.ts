@@ -31,7 +31,8 @@ import { VcEventsComponent } from './pages/vc-events/vc-events.component';
 import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
 import { NotificationService } from './services/notification.service';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
-
+import { AngularFireModule } from '@angular/fire';
+import { firebaseConfig } from './constants/notifEnv'
 @NgModule({
 
   declarations: [
@@ -48,6 +49,7 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
       VcNotificationComponent,
   ],
   imports: [
+    AngularFireModule.initializeApp(firebaseConfig),
     AngularFireMessagingModule,
     ScrollingModule,
     ToastrModule,
