@@ -5,6 +5,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { AcademicyearService } from '../../services/academicyear.service';
+import { Academicterm } from '../../models/academicterm.model';
+import { ProgramService } from '../../services/program.service';
+import { Program } from '../../models/program.model';
+import { FeeCategoryService } from '../../services/fee-category.service';
+import { FeeCategory } from '../../models/feeCatgory.model';
+import { AcademictermService } from '../../services/academicterm.service';
+import { validateVerticalPosition } from '@angular/cdk/overlay';
 
 @Component({
   selector: 'app-feestructure',
@@ -13,6 +21,12 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class FeestructureComponent implements OnInit {
 
+  academicterms:Academicterm []=[];
+  academicyears:Academicyear []=[];
+  programs:Program []=[];
+  feeCtaegories:FeeCategory[]=[];
+  feestructures : any[]=[];
+ 
   clrModalOpen: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
@@ -29,10 +43,15 @@ export class FeestructureComponent implements OnInit {
   ];
 
   displayedOptionColumns: string[] = ['name', 'action'];
+
+
  
 
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
+  constructor( private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,private programService: ProgramService,private academicyearService:AcademicyearService,private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
     this.getallfeestructures();
+    this.getallacademicyears();
+    this.getallprograms();
+    this.getallfeeCategory();
    }
 
   ngOnInit(): void {
@@ -44,7 +63,71 @@ export class FeestructureComponent implements OnInit {
   getallfeestructures(){
     this.feeStructureService.getFeestructures().subscribe(
       (res)=>{
-        this.dataSource = new MatTableDataSource(res.response);
+        
+        for(var i=0; i< res.response.length;i++){
+          
+          const feestruct =  {
+            name:'',
+            program:'',
+            academicyear:'',
+            academicterm:'',
+            studentCategory:'',
+            feeCategory:'',
+            description:'',
+            amount:'',
+        
+          };
+          
+
+          feestruct.name= res.response[i].name;
+          feestruct.studentCategory= res.response[i].studentCategory;
+          feestruct.description= res.response[i].description;
+          feestruct.amount= res.response[i].amount;
+          
+          this.programService.getOneProgram(res.response[i].program).subscribe(
+            (res)=>{
+              
+              feestruct.program= res.response.name;
+             
+              
+              
+            }
+          )
+
+          this.academicyearService.getOneAcademicyear(res.response[i].academicyear).subscribe(
+            (res)=>{
+              feestruct.academicyear= res.response.name;
+             
+              
+            }
+          )
+          
+
+
+          
+          this.academictermService.getOneAcademicterm(res.response[i].academicterm).subscribe(
+            (res)=>{
+              feestruct.academicterm= res.response.name;
+              
+            }
+          )
+
+          this.feeCategoryService.getOneFeeCatgory(res.response[i].feeCategory).subscribe(
+            (res)=>{
+              feestruct.feeCategory= res.response.name;
+              
+            }
+          )
+          
+        
+        
+        this.feestructures.push(feestruct);
+        
+
+        
+        } 
+        this.dataSource = new MatTableDataSource(this.feestructures);
+        
       },
       (error)=>{
         console.error(error)
@@ -122,7 +205,7 @@ export class FeestructureComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
-            this.getallfeestructures();
+            location.reload()
 
           },
           (err)=>{
@@ -162,5 +245,45 @@ export class FeestructureComponent implements OnInit {
       }
     )
   }
+
+
+// Get all academic year
+getallacademicyears(){
+  this.academicyearService.getAcademicyears().subscribe(
+    (res) =>{
+      this.academicyears = res.response;
+    }
+  )
+}
+
+//Get all programs
+getallprograms(){
+  this.programService.getPrograms().subscribe(
+    (res) =>{
+      this.programs = res.response;
+    }
+  )
+}
+
+//Get all fee Category
+getallfeeCategory(){
+  this.feeCategoryService.getFeeCatgories().subscribe(
+    (res) =>{
+      this.feeCtaegories = res.response;
+    }
+  )
+}
+
+
+getallacademicterms(){
+
+  this.academicyearService.getOneAcademicyearterms(this.form.value.academicyear).subscribe(
+    (res)=>{
+     
+      this.academicterms = res.response.terms ;
+    }
+  )
+}
+
 
 }

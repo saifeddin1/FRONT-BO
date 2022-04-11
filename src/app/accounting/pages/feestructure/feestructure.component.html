@@ -128,23 +128,44 @@
           
           <div class="position-top modalRow">
             <strong class="modalcol3">fee structure name:</strong>
-            <input matInput class="text-area modalcol" placeholder="totalestudent.." formControlName="name" >
+            <input matInput class="text-area modalcol" placeholder="name.." formControlName="name" >
           </div>
 
 
           <div class="position-top modalRow">
             <strong class="modalcol3">program</strong>
-            <input matInput class="text-area modalcol" placeholder="program" formControlName="program" >
+            <select class="text-area modalcol" formControlName="program">
+              <option
+                *ngFor="let program of programs"
+                value="{{program._id}}"
+              >
+                {{ program.name }}
+              </option>
+            </select>
           </div>
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Acadmicyear</strong>
-            <input matInput class="text-area modalcol" placeholder="academicyear" formControlName="academicyear" >
+            <select class="text-area modalcol " formControlName="academicyear" (change)="getallacademicterms()">
+              <option
+                *ngFor="let academicyear of academicyears"
+                value="{{ academicyear._id }}"
+              >
+                {{ academicyear.name }}
+              </option>
+            </select>
           </div>
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Academicterm</strong>
-            <input matInput class="text-area modalcol" placeholder="academicterm" formControlName="academicterm" >
+            <select class="text-area modalcol" formControlName="academicterm">
+              <option
+                *ngFor="let academicterm of academicterms"
+                value="{{academicterm._id}}"
+              >
+                {{ academicterm.name }}
+              </option>
+            </select>
           </div>
 
           <div class="position-top modalRow">
@@ -154,7 +175,14 @@
 
           <div class="position-top modalRow">
             <strong class="modalcol3">FeeCategory</strong>
-            <input matInput class="text-area modalcol" placeholder="feeCategory" formControlName="feeCategory" >
+            <select class="text-area modalcol" formControlName="feeCategory">
+              <option
+                *ngFor="let feeCategory of feeCtaegories"
+                value="{{feeCategory._id}}"
+              >
+                {{ feeCategory.name }}
+              </option>
+            </select>
           </div>
 
           <div class="position-top modalRow">
