@@ -26,7 +26,7 @@
         class="text-area"
         type="text"
         placeholder="Email"
-        value="{{ employee?.profile.proEmail }}"
+        value="{{ employee?.profile?.proEmail }}"
         [(ngModel)]="employee?.profile.proEmail"
       />
     </div>
@@ -34,7 +34,7 @@
       <input
         class="text-area"
         type="text"
-        value="{{ employee?.profile.phone }}"
+        value="{{ employee?.profile?.phone }}"
         [(ngModel)]="employee?.profile.phone"
         placeholder="phone"
       />
@@ -47,7 +47,7 @@
         class="text-area"
         type="text"
         placeholder="address"
-        value="{{ employee?.profile.address }}"
+        value="{{ employee?.profile?.address }}"
         [(ngModel)]="employee?.profile.address"
       />
     </div>
@@ -55,7 +55,7 @@
       <input
         class="text-area"
         type="text"
-        value="{{ employee?.profile.position }}"
+        value="{{ employee?.profile?.position }}"
         [(ngModel)]="employee?.profile.position"
         placeholder="position"
       />
@@ -91,7 +91,7 @@
     </select>
     <textarea
       class="text-area"
-      value="{{ employee?.profile.description }}"
+      value="{{ employee?.profile?.description }}"
       [(ngModel)]="employee.profile.description"
       cols="30"
       rows="5"

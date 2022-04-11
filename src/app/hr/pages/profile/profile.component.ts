@@ -46,6 +46,7 @@ export class ProfileComponent implements OnInit {
       profile: {
         image: '',
         position: '',
+        fullname: '',
         proEmail: '',
         phone: '',
         address: '',

@@ -24,6 +24,7 @@ export class EmployeeDialogComponent implements OnInit {
   }
 
   updateEmployee(employee: File) {
+    console.log(employee);
     this.employeeService
       .updateEmployeeFileAsAdmin(employee._id, employee)
       .subscribe((result) => {
