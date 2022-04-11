@@ -98,13 +98,22 @@ export class SummaryComponent implements OnInit {
   }
 
   getEmployeeActiveContract() {
-    let today = new Date();
-    return this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.contract = result['response'].filter(
-        (c) => new Date(c.endDate) >= new Date(today)
-      )[0];
-      console.log(this.contract);
+    this.summaryService.getActiveContract().subscribe((result) => {
+      console.log(
+        '⚡   this.summaryService.getActiveContract ~ result',
+        result
+      );
+
+      this.contract = result['response'];
     });
+
+    // let today = new Date();
+    // return this.summaryService.getContractsWithSalary().subscribe((result) => {
+    //   this.contract = result['response'].filter(
+    //     (c) => new Date(c.endDate) >= new Date(today)
+    //   )[0];
+    //   console.log(this.contract);
+    // });
   }
 
   getEmployeeInterviews() {

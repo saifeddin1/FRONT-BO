@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
@@ -27,6 +29,11 @@ export class ManageEmployeesComponent implements OnInit {
 
   displayedOptionColumns: string[] = ['name', 'action'];
   viewType: string;
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
+
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -35,7 +42,9 @@ export class ManageEmployeesComponent implements OnInit {
     this.viewType = 'table';
   }
   employees: MatTableDataSource<File> = new MatTableDataSource<File>();
-  allemployees:any;
+
+  allEmployees: any;
+
   ngOnInit(): void {
     this.getAllEmployeesFiles();
     this.getUsers();
@@ -55,7 +64,9 @@ export class ManageEmployeesComponent implements OnInit {
   getAllEmployeesFiles() {
     this.employeeService.getFiles().subscribe((result) => {
       this.employees = result['response'][0]['totalData'];
-      this.allemployees = result['response'][0]['totalData'];
+
+      this.allEmployees = result['response'][0]['totalData'];
+      this.isLoading = false;
     });
   }
 
@@ -76,7 +87,7 @@ export class ManageEmployeesComponent implements OnInit {
       height: 'auto',
       width: '700px',
       data: {
-        employee: this.allemployees.filter(
+        employee: this.allEmployees.filter(
           (employee) => employee._id === _employee_id
         )[0],
       },

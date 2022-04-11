@@ -2,19 +2,21 @@ interface Profile {
   _id?: string;
   image?: string;
   position?: string;
+  fullname: string;
   proEmail?: string;
-  phone: number;
+  phone: string;
   address?: string;
   jobType?: string;
   workFrom?: string;
   seniorityLevel?: string;
   description?: string;
+  birthdate?: Date;
 }
 
 export interface File {
   _id?: string;
   userRef: string;
   userId: string;
-  timeOffBalance: number;
+  timeOffBalance: string;
   profile: Profile;
 }

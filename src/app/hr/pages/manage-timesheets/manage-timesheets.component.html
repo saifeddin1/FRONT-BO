@@ -1,6 +1,7 @@
 <div class="main-wrapper">
   <div class="list-header">
     <div><h1>Timesheets Management</h1></div>
+
     <div>
       <mat-icon
         style="
@@ -17,7 +18,14 @@
       >
     </div>
   </div>
-  <div class="employees-list">
+  <div
+    *ngIf="isLoading"
+    style="display: flex; justify-content: center; align-items: center"
+  >
+    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+    </mat-progress-spinner>
+  </div>
+  <div class="employees-list" *ngIf="!isLoading">
     <div class="employee-card-header">
       <div>USERNAME</div>
       <div>EMAIL</div>
@@ -46,7 +54,17 @@
 
   <div class="year-month-list mrg-t-2">
     <h1>Year Months list</h1>
-    <div style="background-color: white; padding: 1rem; border-radius: 15px">
+    <div
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+      </mat-progress-spinner>
+    </div>
+    <div
+      style="background-color: white; padding: 1rem; border-radius: 15px"
+      *ngIf="!isLoading"
+    >
       <ng-container *ngIf="!yearMonthItems || !yearMonthItems.length">
         No year Month items.
       </ng-container>

@@ -4,6 +4,8 @@
     <mat-icon (click)="setViewType('card')">dashboard</mat-icon> -->
     <button (click)="openCreateDialog($event)">Add employee</button>
   </div>
+
+  <!-- Card View  -->
   <!--  <div class="employees-list" *ngIf="viewType === 'card'">
     <div class="employee-card-header">
       <div>EMPLOYEE</div>
@@ -53,7 +55,15 @@
 
   <div class="dashboard" *ngIf="viewType === 'table'">
     <div class="row d-flex dates">
-      <table mat-table [dataSource]="employees">
+      <div
+        *ngIf="isLoading"
+        style="display: flex; justify-content: center; align-items: center"
+      >
+        <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+        </mat-progress-spinner>
+      </div>
+
+      <table mat-table [dataSource]="employees" *ngIf="!isLoading">
         <ng-container matColumnDef="#">
           <th mat-header-cell *matHeaderCellDef>#</th>
           <td mat-cell *matCellDef="let element">
@@ -72,13 +82,15 @@
             <div class="employee-basic-table">
               <div>
                 <img
-                  src="../../../../assets/img/{{ element.profile.image }}"
+                  src="../../../../assets/img/{{
+                    element?.profile?.image || 'user-placeholder.png'
+                  }}"
                   alt=""
                 />
               </div>
               <div class="test-info">
-                <h4>{{ element.userRef }}</h4>
-                <em>{{ element.profile.position }}</em>
+                <h4>{{ element?.userRef }}</h4>
+                <em>{{ element?.profile?.position }}</em>
               </div>
             </div>
           </td>
@@ -88,7 +100,7 @@
         <ng-container matColumnDef="EMAIL">
           <th mat-header-cell *matHeaderCellDef>EMAIL</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.profile.proEmail }}
+            {{ element?.profile?.proEmail }}
           </td>
         </ng-container>
 
@@ -96,14 +108,14 @@
         <ng-container matColumnDef="JOB-TYPE">
           <th mat-header-cell *matHeaderCellDef>JOB TYPE</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.profile.jobType }}
+            {{ element?.profile?.jobType }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="ADDRESS">
           <th mat-header-cell *matHeaderCellDef>ADDRESS</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.profile.address }}
+            {{ element?.profile?.address }}
           </td>
         </ng-container>
 

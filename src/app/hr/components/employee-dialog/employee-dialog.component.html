@@ -1,106 +1,105 @@
 <h2 class="mat-dialog-title">Update Details</h2>
-<div class="inputs-row">
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      placeholder="user REF"
-      value="{{ employee?.userRef }}"
-      [(ngModel)]="employee.userRef"
-    />
+<mat-dialog-content>
+  <div class="inputs-row">
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        placeholder="user REF"
+        value="{{ employee?.userRef }}"
+        [(ngModel)]="employee.userRef"
+      />
+    </div>
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        value="{{ employee?.timeOffBalance }}"
+        [(ngModel)]="employee.timeOffBalance"
+        placeholder="Timeoff Balance"
+      />
+    </div>
   </div>
-  <div>
-    <input
-      class="text-area"
-      type="number"
-      value="{{ employee?.timeOffBalance }}"
-      [(ngModel)]="employee.timeOffBalance"
-      placeholder="Doe"
-    />
-  </div>
-</div>
-<div class="inputs-row">
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      placeholder="Email"
-      value="{{ employee?.profile.proEmail }}"
-      [(ngModel)]="employee?.profile.proEmail"
-    />
-  </div>
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      value="{{ employee?.profile.phone }}"
-      [(ngModel)]="employee?.profile.phone"
-      placeholder="phone"
-    />
-  </div>
-</div>
-
-<div class="inputs-row">
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      placeholder="address"
-      value="{{ employee?.profile.address }}"
-      [(ngModel)]="employee?.profile.address"
-    />
-  </div>
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      value="{{ employee?.profile.position }}"
-      [(ngModel)]="employee?.profile.position"
-      placeholder="position"
-    />
-  </div>
-</div>
-
-<div class="inputs-row">
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      value="{{ employee?.profile.jobType }}"
-      [(ngModel)]="employee?.profile.jobType"
-      placeholder="job type"
-    />
+  <div class="inputs-row">
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        placeholder="Email"
+        value="{{ employee?.profile?.proEmail }}"
+        [(ngModel)]="employee?.profile.proEmail"
+      />
+    </div>
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        value="{{ employee?.profile?.phone }}"
+        [(ngModel)]="employee?.profile.phone"
+        placeholder="phone"
+      />
+    </div>
   </div>
 
-  <div>
-    <input
-      class="text-area"
-      type="text"
-      placeholder="work from.."
-      value="{{ employee?.profile.workFrom }}"
-      [(ngModel)]="employee?.profile.workFrom"
-    />
+  <div class="inputs-row">
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        placeholder="address"
+        value="{{ employee?.profile?.address }}"
+        [(ngModel)]="employee?.profile.address"
+      />
+    </div>
+    <div>
+      <input
+        class="text-area"
+        type="text"
+        value="{{ employee?.profile?.position }}"
+        [(ngModel)]="employee?.profile.position"
+        placeholder="position"
+      />
+    </div>
   </div>
-</div>
-<div class="inputs-row">
-  <input
-    class="text-area"
-    type="text"
-    value="{{ employee?.profile.seniorityLevel }}"
-    [(ngModel)]="employee?.profile.seniorityLevel"
-    placeholder="seniorityLevel"
-  />
-</div>
-<div class="inputs-row">
-  <textarea
-    class="text-area"
-    value="{{ employee?.profile.description }}"
-    [(ngModel)]="employee.profile.description"
-    cols="30"
-    rows="10"
-  ></textarea>
-</div>
 
+  <div class="inputs-row">
+    <div>
+      <select class="text-area" [(ngModel)]="employee?.profile.jobType">
+        <option value="">Pick jobType</option>
+        <option value="Full-Time">Full-Time</option>
+        <option value="Part-Time">Part-Time</option>
+        <option value="Contract">Contract</option>
+        <option value="Internship">Internship</option>
+      </select>
+    </div>
+
+    <div>
+      <select class="text-area" [(ngModel)]="employee?.profile.workFrom">
+        <option value="">Pick workFrom</option>
+        <option value="On-Site">On-Site</option>
+        <option value="Remote">Remote</option>
+        <option value="Hybrid">Hybrid</option>
+      </select>
+    </div>
+  </div>
+  <div class="inputs-row last">
+    <select class="text-area" [(ngModel)]="employee?.profile.seniorityLevel">
+      <option value="">Pick Level</option>
+      <option value="Junior">Junior</option>
+      <option value="Senior">Senior</option>
+      <option value="Consultant">Consultant</option>
+    </select>
+    <textarea
+      class="text-area"
+      value="{{ employee?.profile?.description }}"
+      [(ngModel)]="employee.profile.description"
+      cols="30"
+      rows="5"
+    ></textarea>
+  </div>
+  <!-- <div class="inputs-row">
+</div> -->
+</mat-dialog-content>
 <mat-dialog-actions align="end">
   <div class="btn-update-file">
     <button

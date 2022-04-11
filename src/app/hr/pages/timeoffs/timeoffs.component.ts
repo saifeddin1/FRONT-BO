@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
 import { ToasterService } from '../../../lms/services/toaster.service';
@@ -23,10 +25,16 @@ export class TimeoffsComponent implements OnInit {
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
-  displayedColumns: string[] = ['#', 'user', 'startdate', 'status', 'action'];
+  displayedColumns: string[] = ['#', 'startdate', 'status'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
   notificationItems: any;
+
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
+
   constructor(
     private toaster: ToasterService,
     private employeeService: EmployeeSummaryService,
@@ -42,9 +50,14 @@ export class TimeoffsComponent implements OnInit {
     };
 
     if (this.isAdmin) {
-      this.displayedColumns.splice(3, 0, 'offDays');
+      this.displayedColumns.splice(2, 0, 'offDays');
+      this.displayedColumns.splice(1, 0, 'user');
     } else {
-      this.displayedColumns.splice(3, 0, 'endDate');
+      this.displayedColumns.splice(2, 0, 'endDate');
+    }
+
+    if (this.shouldDisplay) {
+      this.displayedColumns.splice(this.displayedColumns.length, 0, 'action');
     }
   }
   ngOnInit(): void {
@@ -75,6 +88,7 @@ export class TimeoffsComponent implements OnInit {
       ? this.employeeService.getAllTimeoffs().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
           this.timeoffs = result['response'][0]['totalData'];
+          this.isLoading = false;
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory
@@ -83,6 +97,7 @@ export class TimeoffsComponent implements OnInit {
       : this.employeeService.getEmployeeTimeoffHistory().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
           this.timeoffs = result['response'][0]['totalData'];
+          this.isLoading = false;
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory

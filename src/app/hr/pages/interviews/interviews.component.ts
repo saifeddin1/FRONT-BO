@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
@@ -30,6 +32,12 @@ export class InterviewsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'user', 'title', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
+
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
+
   dataSource: MatTableDataSource<Interview> =
     new MatTableDataSource<Interview>();
   constructor(
@@ -94,6 +102,7 @@ export class InterviewsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(
         result['response'][0]['totalData']
       );
+      this.isLoading = false;
       console.log('⚡ this.interviews', this.interviews);
     });
   }
@@ -103,6 +112,7 @@ export class InterviewsComponent implements OnInit {
       this.dataSource = new MatTableDataSource(
         result['response'][0]['totalData']
       );
+      this.isLoading = false;
       console.log('⚡ this.interviews', this.interviews);
     });
   }

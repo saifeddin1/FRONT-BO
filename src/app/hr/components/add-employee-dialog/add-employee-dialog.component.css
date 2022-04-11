@@ -2,7 +2,9 @@
   display: flex;
   justify-content: space-between;
 }
-
+.inputs-row.last {
+  align-items: flex-start;
+}
 /* .inputs-row input {
   padding: 12px;
   border-radius: 3px;

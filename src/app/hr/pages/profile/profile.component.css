@@ -53,3 +53,17 @@ button {
   width: 100%;
   margin-top: 1rem;
 }
+
+.labels-row:first-of-type {
+  margin-top: 1rem;
+}
+.labels-row {
+  width: 23%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.profile-headshot {
+  border-radius: 50%;
+}

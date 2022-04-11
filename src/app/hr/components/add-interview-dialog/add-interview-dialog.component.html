@@ -1,6 +1,5 @@
 <h2 matDialogTitle>Add Interview</h2>
-
-<div class=" ">
+<mat-dialog-content>
   <div class="inputs-row">
     <input
       class="text-area"
@@ -49,8 +48,7 @@
     [(ngModel)]="newInterview.test['description']"
     placeholder="Test description"
   ></textarea>
-
-  <div [mat-dialog-close]="'close'">
-    <button (click)="createInterview(newInterview)">Add</button>
-  </div>
+</mat-dialog-content>
+<div [mat-dialog-close]="'close'">
+  <button (click)="createInterview(newInterview)">Add</button>
 </div>

@@ -3,35 +3,42 @@
     <div class="hr-card profile">
       <!-- <span>👨‍🎓 Profile</span> -->
       <div class="headshot">
+        <!-- <img
+          src="../../../../assets/img/user-placeholder.png"
+          alt=""
+          *ngIf="!userFile"
+        /> -->
         <img
-          src="../../../../assets/img/{{ userFile?.profile.image }}"
+          src="../../../../assets/img/{{
+            userFile?.profile.image || 'user-placeholder.png'
+          }}"
           alt=""
         />
       </div>
       <div class="info-column">
-        <h4>{{ userFile?.userRef }}</h4>
+        <h4>{{ userFile?.userRef || "John Doe" }}</h4>
 
         <div class="position">
           <mat-icon>business_center</mat-icon> &nbsp;
-          {{ userFile?.profile.position }}
+          {{ userFile?.profile.position || "Super Employee" }}
         </div>
         <div class="address bold-text">
           <mat-icon>location_on</mat-icon> &nbsp;
-          {{ userFile?.profile.address }}
+          {{ userFile?.profile.address || "Mars" }}
         </div>
         <p>
-          {{ userFile?.profile.description }}
+          {{ userFile?.profile.description || "I'm a mysterious individual" }}
         </p>
       </div>
       <div class="info-column">
         <div class="birth line-height-lg">
-          <mat-icon>face</mat-icon> &nbsp; June, 20th
+          <mat-icon>face</mat-icon> &nbsp;
+          {{ userFile?.profile?.birthdate || "June, 20th" }}
         </div>
-        <div class="start-date line-height-lg">
-          <mat-icon>calendar_today</mat-icon> &nbsp; June, 20th 2022
-        </div>
+
         <div class="email line-height-lg">
-          <mat-icon> email</mat-icon> &nbsp; {{ userFile?.profile.proEmail }}
+          <mat-icon> email</mat-icon> &nbsp;
+          {{ userFile?.profile.proEmail || "John@doe.com" }}
         </div>
       </div>
 
@@ -42,7 +49,7 @@
     <div class="timeoff-balance">
       <span class="title"> TimeOff Balance</span>
       <div class="hr-card">
-        <span>{{ userFile?.timeOffBalance }}</span>
+        <span>{{ userFile?.timeOffBalance || 0 }}</span>
       </div>
     </div>
   </div>
