@@ -7,6 +7,8 @@ import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { AddEmployeeDialogComponent } from '../../components/add-employee-dialog/add-employee-dialog.component';
+import { AddInterviewDialogComponent } from '../../components/add-interview-dialog/add-interview-dialog.component';
+import { ContractsDialogComponent } from '../../components/contracts-dialog/contracts-dialog.component';
 import { EmployeeDialogComponent } from '../../components/employee-dialog/employee-dialog.component';
 import { File } from '../../models/file.models';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
@@ -94,7 +96,7 @@ export class ManageEmployeesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-      console.log(`Dialog result: ${result}`);
+      // console.log(`Dialog result: ${result}`);
     });
   }
 
@@ -110,6 +112,53 @@ export class ManageEmployeesComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       this.getAllEmployeesFiles();
+    });
+  }
+
+  addContract(event, employee) {
+    const dialogRef = this.dialog.open(ContractsDialogComponent, {
+      height: 'auto',
+      width: '700px',
+      data: {
+        contract: {
+          contractType: '',
+          hoursNumber: 0,
+          startDate: null,
+          endDate: null,
+          userId: employee?.userId,
+          salary: {
+            seniority: '',
+            annualCompensation: {
+              annual: 0,
+              effective: 0,
+              gross: 0,
+            },
+          },
+        },
+
+        users: this.users,
+        dialogOperation: 'add',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getAllEmployeesFiles();
+    });
+  }
+
+  addInterview(event, employee) {
+    const dialogRef = this.dialog.open(AddInterviewDialogComponent, {
+      height: 'auto',
+      width: '700px',
+      data: {
+        users: this.users,
+        userId: employee?.userId,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }

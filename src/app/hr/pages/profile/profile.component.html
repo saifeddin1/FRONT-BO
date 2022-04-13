@@ -68,20 +68,25 @@
       </div>
       <div class="">
         <div class="">
-          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
-            <label class="">Level</label
-            ><input
-              matInput
+          <div [class]="!isDisabled ? 'input-row' : 'labels-row'">
+            <label class="">Level</label>
+            <select
               class="text-area"
-              type="text"
               *ngIf="!isDisabled"
-              value="{{ userFile?.profile.seniorityLevel }}"
-            />
+              [(ngModel)]="userFile?.profile.seniorityLevel"
+            >
+              <option selected="selected" disabled="disabled">
+                Pick level
+              </option>
+              <option value="{{ level?.title }}" *ngFor="let level of levels">
+                {{ level?.title }}
+              </option>
+            </select>
             <label style="width: 2vw" *ngIf="isDisabled">
               {{ userFile?.profile.seniorityLevel }}
             </label>
           </div>
-          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
+          <!-- <div [class]="!isDisabled ? 'input-row' : 'labels-row'">
             <label class="">Job Type</label
             ><input
               matInput
@@ -94,18 +99,25 @@
             <label style="width: 2vw" *ngIf="isDisabled">{{
               userFile?.profile.jobType
             }}</label>
-          </div>
+          </div> -->
 
-          <div [class]="!isDisabled ? 'inputs-row' : 'labels-row'">
-            <label class="">Work From</label
-            ><input
-              matInput
+          <div [class]="!isDisabled ? 'input-row' : 'labels-row'">
+            <label class="">Work From</label>
+            <select
               class="text-area"
-              type="text"
+              [(ngModel)]="userFile?.profile.workFrom"
               *ngIf="!isDisabled"
-              placeholder="additional details"
-              value="{{ userFile?.profile.workFrom }}"
-            />
+            >
+              <option selected="selected" disabled="disabled">
+                Pick workFrom
+              </option>
+              <option
+                value="{{ item?.title }}"
+                *ngFor="let item of workFromItems"
+              >
+                {{ item?.title }}
+              </option>
+            </select>
             <label style="width: 2vw" *ngIf="isDisabled">{{
               userFile?.profile.jobType
             }}</label>

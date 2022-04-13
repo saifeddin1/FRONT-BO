@@ -6,8 +6,8 @@
         class="text-area"
         type="text"
         placeholder="user REF"
-        value="{{ newEmployee?.userRef }}"
-        [(ngModel)]="newEmployee.userRef"
+        value="{{ newEmployee?.profile.fullname }}"
+        [(ngModel)]="newEmployee.profile.fullname"
       />
     </div>
     <div>
@@ -63,42 +63,31 @@
   </div>
 
   <div class="inputs-row">
-    <div>
+    <!-- <div>
       <select class="text-area" [(ngModel)]="newEmployee?.profile.jobType">
-        <option value="">Pick Jobtype</option>
+        <option selected disabled>Pick Jobtype</option>
         <option value="Full-Time">Full-Time</option>
         <option value="Part-Time">Part-Time</option>
         <option value="Contract">Contract</option>
         <option value="Internship">Internship</option>
       </select>
-    </div>
-
-    <div>
-      <select class="text-area" [(ngModel)]="newEmployee?.profile.workFrom">
-        <option value="">Pick workFrom</option>
-        <option value="On-Site">On-Site</option>
-        <option value="Remote">Remote</option>
-        <option value="Hybrid">Hybrid</option>
-      </select>
-    </div>
-  </div>
-  <div class="inputs-row">
+    </div> -->
     <div>
       <select
         class="text-area"
         [(ngModel)]="newEmployee?.profile.seniorityLevel"
       >
-        <option value="">Pick level</option>
-        <option value="Junior">Junior</option>
-        <option value="Senior">Senior</option>
-        <option value="Consultant">Consultant</option>
+        <option selected="selected" disabled="disabled">Pick level</option>
+        <option value="{{ level?.title }}" *ngFor="let level of levels">
+          {{ level?.title }}
+        </option>
       </select>
     </div>
     <div>
-      <select [(ngModel)]="newEmployee.userId" class="text-area">
-        <option value="">Pick user</option>
-        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
-          {{ user?.username }}
+      <select class="text-area" [(ngModel)]="newEmployee?.profile.workFrom">
+        <option selected="selected" disabled="disabled">Pick workFrom</option>
+        <option value="{{ item?.title }}" *ngFor="let item of workFromItems">
+          {{ item?.title }}
         </option>
       </select>
     </div>
@@ -112,7 +101,36 @@
       cols="30"
       rows="5"
     ></textarea>
+    <div>
+      <!-- <select [(ngModel)]="newEmployee.userId" class="text-area">
+        <option selected disabled>Pick user</option>
+        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
+          {{ user?.username }}
+        </option>
+      </select> -->
+
+      <input
+        type="text"
+        matInput
+        class="text-area"
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+        [(ngModel)]="newEmployee.userId"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn.bind(this)"
+      >
+        <mat-option
+          *ngFor="let user of filteredOptions | async"
+          [value]="user._id"
+        >
+          {{ user.username }}
+        </mat-option>
+      </mat-autocomplete>
+    </div>
   </div>
+  <div class="inputs-row"></div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div class="btn-update-file">

@@ -7,13 +7,16 @@ import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
 // import { getToken } from '../helpers/getToken';
 import { Contract } from '../models/contract.model';
+import { contractType } from '../models/ContractType.model';
 import { File } from '../models/file.models';
 import { Interview } from '../models/interview.model';
+import { Level } from '../models/Level.models';
 import { Notification } from '../models/notification.model';
 import { Timeoff } from '../models/timeoff.model';
 import { Timesheet } from '../models/timesheet.model';
 import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
 import { Timeslot } from '../models/timeslot.model';
+import { WorkFrom } from '../models/WorkFrom.model';
 import { YearMonth } from '../models/yearMonth.model';
 
 @Injectable({
@@ -317,5 +320,76 @@ export class EmployeeSummaryService {
 
   deleteYearMonthItem(id: string): Observable<YearMonth> {
     return this.http.delete<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
+  }
+
+  // ---------- workFrom Items --------------------
+
+  getAllWorkFroms(): Observable<WorkFrom[]> {
+    return this.http.get<YearMonth[]>(`${this.BASE_URL}/workFroms`);
+  }
+
+  getWorkFrom(id: string): Observable<WorkFrom> {
+    return this.http.get<WorkFrom>(`${this.BASE_URL}/workFroms${id}`);
+  }
+
+  createWorkFrom(body: WorkFrom): Observable<WorkFrom> {
+    return this.http.post<WorkFrom>(`${this.BASE_URL}/workFroms`, body);
+  }
+
+  editWorkFrom(id: string, body: WorkFrom): Observable<WorkFrom> {
+    return this.http.put<WorkFrom>(`${this.BASE_URL}/workFroms/${id}`, body);
+  }
+
+  deleteWorkFrom(id: string): Observable<WorkFrom> {
+    return this.http.delete<WorkFrom>(`${this.BASE_URL}/workFroms/${id}`);
+  }
+
+  // ---------- level Items --------------------
+
+  getAllLevels(): Observable<Level[]> {
+    return this.http.get<YearMonth[]>(`${this.BASE_URL}/levels`);
+  }
+
+  getLevel(id: string): Observable<Level> {
+    return this.http.get<Level>(`${this.BASE_URL}/levels${id}`);
+  }
+
+  createLevel(body: Level): Observable<Level> {
+    return this.http.post<Level>(`${this.BASE_URL}/levels`, body);
+  }
+
+  editLevel(id: string, body: Level): Observable<Level> {
+    return this.http.put<Level>(`${this.BASE_URL}/levels/${id}`, body);
+  }
+
+  deleteLevel(id: string): Observable<Level> {
+    return this.http.delete<Level>(`${this.BASE_URL}/levels/${id}`);
+  }
+
+  // ---------- contractType Items --------------------
+
+  getAllContractTypes(): Observable<contractType[]> {
+    return this.http.get<YearMonth[]>(`${this.BASE_URL}/contractTypes`);
+  }
+
+  getContractType(id: string): Observable<contractType> {
+    return this.http.get<contractType>(`${this.BASE_URL}/contractTypes${id}`);
+  }
+
+  createContractType(body: contractType): Observable<contractType> {
+    return this.http.post<contractType>(`${this.BASE_URL}/contractTypes`, body);
+  }
+
+  editContractType(id: string, body: contractType): Observable<contractType> {
+    return this.http.put<contractType>(
+      `${this.BASE_URL}/contractTypes/${id}`,
+      body
+    );
+  }
+
+  deleteContractType(id: string): Observable<contractType> {
+    return this.http.delete<contractType>(
+      `${this.BASE_URL}/contractTypes/${id}`
+    );
   }
 }

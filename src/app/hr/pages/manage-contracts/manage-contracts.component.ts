@@ -127,10 +127,11 @@ export class ManageContractsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      console.log('⚡ ~ ', this.isAdmin);
       this.isAdmin
         ? this.getAllContractsWithSalary()
         : this.getEmployeeContracts();
-      console.log(`Dialog result: ${result}`);
     });
   }
 }
