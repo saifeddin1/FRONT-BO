@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { CantineComponent } from './pages/cantine/cantine.component';
 import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
@@ -10,10 +11,12 @@ import { VcNotificationComponent } from './pages/vc-notification/vc-notification
 import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
 import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
-
+import { AuthGuard } from '../lms/core/guards/auth.guard';
 
 const routes: Routes = [
-  {path:'VCDASHBOARD',component:VcDashboardComponent,children:[
+  {path:'VCDASHBOARD',component:VcDashboardComponent,
+  // canActivate: [AuthGuard],
+  children:[
     { path:'',component:VcProfileComponent },
     { path:'profile',component:VcProfileComponent },
     { path:'records',component:VcRecordsComponent },
@@ -23,7 +26,8 @@ const routes: Routes = [
     { path:'chat',component:VcChatComponent },
     { path:'devoirs',component:VcDevoirsComponent },
     { path:'events',component:VcEventsComponent },
-    {path:'notification',component:VcNotificationComponent}
+    {path:'notification',component:VcNotificationComponent},
+    {path:'cantine',component:CantineComponent}
 ]}
 ];
 

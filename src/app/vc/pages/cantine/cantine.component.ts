@@ -1,0 +1,76 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { User } from 'src/app/lms/models/user.model';
+import { CantineService } from '../../services/cantine.service';
+import { FormGroup } from '@angular/forms';
+import {Cantine} from '../../models/cantine'
+import { MatDialog } from '@angular/material/dialog';
+
+@Component({
+  selector: 'app-cantine',
+  templateUrl: './cantine.component.html',
+  styleUrls: ['./cantine.component.css']
+})
+export class CantineComponent implements OnInit {
+  cantines:any;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  clrModalOpen: boolean = false;
+  displayedColumns: string[] = ['day','menu','action'];
+
+  paginatorOptions = {
+    length: 10,
+    pageSize: 10,
+    currentPage: 0,
+  };
+  week=['Lundi','Mardi','Mercredi','Jeudi','Vendredi','Samedi','Dimanche']
+  tt=['zaeaze']
+  
+  dataSource: MatTableDataSource<Cantine> = new MatTableDataSource<Cantine>();
+  constructor(private cantineService:CantineService,public MatDialog:MatDialog) { }
+  
+  openModal(templateRef){
+    this.MatDialog.open(templateRef)
+
+  }
+  
+  ngOnInit() {
+    this.getAll()
+  }
+
+  getAll(){
+      
+      this.cantineService.getAll().subscribe(res=>{
+      this.cantines=res['response']
+      console.log(this.dataSource)
+      this.dataSource.paginator = this.paginator;
+      console.log(this.week.length)
+      let contLength=this.cantines.length
+      let index=0
+      while (index<contLength){
+        for (let i=0; i<this.week.length; i++){
+            if (this.week[i].includes(this.cantines[index].day)){
+              console.log('yes exist')
+              this.week.splice(1,1)
+              break;
+            }
+            else{
+              console.log("nooo")
+            }
+        }
+        index=+1
+      }
+    })
+  }
+
+  deleleCantine(id:any){
+    this.cantineService.deleteOne(id).subscribe(
+      res=>{
+      
+    }) 
+    this.ngOnInit();
+  }
+
+}

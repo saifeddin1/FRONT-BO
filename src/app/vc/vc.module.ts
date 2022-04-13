@@ -32,7 +32,8 @@ import { VcNotificationComponent } from './pages/vc-notification/vc-notification
 import { NotificationService } from './services/notification.service';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireModule } from '@angular/fire';
-import { firebaseConfig } from './constants/notifEnv'
+import { firebaseConfig } from './constants/notifEnv';
+import { CantineComponent } from './pages/cantine/cantine.component'
 @NgModule({
 
   declarations: [
@@ -47,6 +48,7 @@ import { firebaseConfig } from './constants/notifEnv'
       VcRecordsComponent,
       VcEventsComponent,
       VcNotificationComponent,
+      CantineComponent,
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig),

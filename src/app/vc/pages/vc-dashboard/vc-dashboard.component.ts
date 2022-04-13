@@ -18,8 +18,8 @@ const ROUTES: Array<Route> = [
   },
   {
     link: './liveSession',
-    icon: 'video-gallery',
-    label: 'Live class',
+    icon: 'chat-bubble',
+    label: 'Class chat',
   },
   {
     link: './records',
@@ -30,6 +30,11 @@ const ROUTES: Array<Route> = [
     link: './events',
     icon: 'event',
     label: 'Events',
+  },
+  {
+    link: './cantine',
+    icon: 'food',
+    label: 'Cantine',
   },
   {
     link: './notification',
