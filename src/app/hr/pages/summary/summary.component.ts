@@ -36,22 +36,22 @@ export class SummaryComponent implements OnInit {
     this.getEmployeeInterviews();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
-  getCurrentTimesheet() {
-    let today = new Date().toISOString().split('T')[0];
-    console.log(
-      '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
-      today
-    );
-    return this.summaryService
-      .getEmployeeCurrentTimeSheet(today)
-      .subscribe((result) => {
-        this.timesheet = result['response'];
-        console.log(
-          '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
-          result['response']
-        );
-      });
-  }
+  // getCurrentTimesheet() {
+  //   let today = new Date().toISOString().split('T')[0];
+  //   console.log(
+  //     '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
+  //     today
+  //   );
+  //   return this.summaryService
+  //     .getEmployeeCurrentTimeSheet(today)
+  //     .subscribe((result) => {
+  //       this.timesheet = result['response'];
+  //       console.log(
+  //         '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
+  //         result['response']
+  //       );
+  //     });
+  // }
   updateRecord(timesheet) {
     console.log(timesheet);
 
@@ -98,13 +98,22 @@ export class SummaryComponent implements OnInit {
   }
 
   getEmployeeActiveContract() {
-    let today = new Date();
-    return this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.contract = result['response'].filter(
-        (c) => new Date(c.endDate) >= new Date(today)
-      )[0];
-      console.log(this.contract);
+    this.summaryService.getActiveContract().subscribe((result) => {
+      console.log(
+        '⚡   this.summaryService.getActiveContract ~ result',
+        result
+      );
+
+      this.contract = result['response'];
     });
+
+    // let today = new Date();
+    // return this.summaryService.getContractsWithSalary().subscribe((result) => {
+    //   this.contract = result['response'].filter(
+    //     (c) => new Date(c.endDate) >= new Date(today)
+    //   )[0];
+    //   console.log(this.contract);
+    // });
   }
 
   getEmployeeInterviews() {

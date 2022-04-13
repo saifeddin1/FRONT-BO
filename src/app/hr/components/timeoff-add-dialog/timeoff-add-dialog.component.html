@@ -1,0 +1,38 @@
+<div>
+  <div>
+    <input
+      class="text-area"
+      [(ngModel)]="data['timeoffRequest'].startDate"
+      value="{{ data['timeoffRequest'].startDate }}"
+      type="date"
+    />
+    &nbsp; <strong>{{ data["timeoffRequest"].startDate | date }}</strong>
+  </div>
+  <div>
+    <input
+      class="text-area"
+      [(ngModel)]="data['timeoffRequest'].offDays"
+      value="{{ data['timeoffRequest'].offDays }}"
+      type="number"
+    />
+  </div>
+
+  <div *ngIf="!isAddOperation">
+    <select [(ngModel)]="data['timeoffRequest'].status" class="text-area">
+      <option value="Approved">Approved</option>
+      <option value="Rejected">Rejected</option>
+    </select>
+  </div>
+  <div>
+    <button
+      mat-dialog-close="close"
+      (click)="
+        isAddOperation
+          ? requestTimeoff()
+          : updateTimeoffRequest(data['timeoffRequest'])
+      "
+    >
+      {{ isAddOperation ? "Add" : "Edit" }}
+    </button>
+  </div>
+</div>

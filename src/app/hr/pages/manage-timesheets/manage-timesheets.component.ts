@@ -7,6 +7,12 @@ import { User } from 'src/app/lms/models/user.model';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
+import { YearMonth } from '../../models/yearMonth.model';
+import { Router } from '@angular/router';
+import { AddYearMonthDialogComponent } from '../../components/add-year-month-dialog/add-year-month-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 @Component({
   selector: 'app-manage-timesheets',
   templateUrl: './manage-timesheets.component.html',
@@ -14,12 +20,17 @@ import { STUDENT } from 'src/app/lms/constants/roles.constant';
 })
 export class ManageTimesheetsComponent implements OnInit {
   timesheet: Timesheet;
-  timesheets: Timesheet[];
   users: User[];
-  userId: string;
+  yearMonthItems: YearMonth[];
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
   constructor(
     private employeeService: EmployeeSummaryService,
-    private toaster: ToasterService
+    private toaster: ToasterService,
+    private router: Router,
+    private dialog: MatDialog
   ) {
     this.timesheet = {
       userId: '',
@@ -28,64 +39,66 @@ export class ManageTimesheetsComponent implements OnInit {
       workingHours: 0,
     };
   }
+
   formatedDate(date) {
     return formatDate(date);
   }
   ngOnInit(): void {
     this.getUsers();
-    this.getAllTimesheets();
+    this.getAllYearMonthItems();
   }
 
-  createTimesheet() {
-    this.employeeService
-      .createEmployeeTimeSheet(this.timesheet)
-      .subscribe((result) => {
-        console.log('⚡  ManageTimesheetsComponent  ~ result', result);
-        this.toaster.success('Created Successfully');
-        this.getAllTimesheets();
-      });
-  }
-  getAllTimesheets() {
-    this.employeeService.getAllSheets().subscribe((result) => {
-      this.timesheets = result['response'][0]['totalData'];
-    });
+  viewTimesheets(employee): void {
+    console.log(this.router.url);
+
+    this.router.navigateByUrl(`${this.router.url}/detail/${employee._id}`);
   }
   getUsers() {
     this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
       this.users = result['response'];
       console.log('result', this.users);
+      this.isLoading = false;
     });
   }
-  updateRecord(timesheet) {
-    console.log(timesheet);
-
-    this.employeeService
-      .updateTimeSheet(timesheet._id, {
-        userId: timesheet.userId,
-        note: timesheet.note,
-        workingHours: timesheet.workingHours,
-        date: new Date(timesheet.date),
-      })
-      .pipe(
-        catchError((err) => {
-          return throwError(err['error']);
-        })
-      )
-      .subscribe(
-        (result) => {
-          this.toaster.success(result['message']);
-          console.log(result);
-        },
-        (err) => {
-          this.toaster.error(err?.message);
-          console.log(err);
-        }
-      );
+  getAllYearMonthItems() {
+    this.employeeService.getAllYearMonthItems().subscribe((result) => {
+      console.log('📆📆  getAllYearMonthItems ~ result', result);
+      this.yearMonthItems = result['response'][0]['totalData'];
+    });
   }
-  deleteRecord(tsheet) {
-    this.employeeService.deleteTimesheet(tsheet._id).subscribe((result) => {
-      console.log('Deleted sheet: ', result);
-      this.getAllTimesheets();
+  deleteYearMonth(ymItem) {
+    this.employeeService.deleteYearMonthItem(ymItem._id).subscribe((result) => {
+      console.log('❌❌ ~ deleteYearMonth ~ result', result);
+      this.toaster.success('Successfuly deleted');
+      this.getAllYearMonthItems();
+    });
+  }
+
+  editYearMonth(ymItem) {
+    this.employeeService
+      .editYearMonthItem(ymItem._id, ymItem)
+      .subscribe((result) => {
+        console.log('⚡ .edit ym ~ result', result);
+        this.toaster.success('Successfuly updated');
+        this.getAllYearMonthItems();
+      });
+  }
+
+  openCreateDialog(event) {
+    // let employee_id = event.target.id;
+    // console.log('employee_id => ', employee_id);
+    const dialogRef = this.dialog.open(AddYearMonthDialogComponent, {
+      height: 'auto',
+      width: '500px',
+      data: {
+        users: this.users,
+        // id: employee_id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getAllYearMonthItems();
     });
   }
 }

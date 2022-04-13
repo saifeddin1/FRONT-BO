@@ -42,12 +42,13 @@ export class ProfileComponent implements OnInit {
     this.userFile = {
       userId: this.currentUser?._id,
       userRef: '',
-      timeOffBalance: 0,
+      timeOffBalance: '',
       profile: {
         image: '',
         position: '',
+        fullname: '',
         proEmail: '',
-        phone: 0,
+        phone: '',
         address: '',
         jobType: '',
         workFrom: '',
@@ -89,6 +90,8 @@ export class ProfileComponent implements OnInit {
         })
       )
       .subscribe((result) => {
+        console.log('🤦‍♂️ ~  ProfileComponent ~ .subscribe ~ result', result);
+
         console.log('after', this.userFile);
         this.showSuccessToaster();
       });

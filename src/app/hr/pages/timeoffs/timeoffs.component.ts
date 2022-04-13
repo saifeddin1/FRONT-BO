@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatTableDataSource } from '@angular/material/table';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
 import { ToasterService } from '../../../lms/services/toaster.service';
+import { TimeoffAddDialogComponent } from '../../components/timeoff-add-dialog/timeoff-add-dialog.component';
 import { formatDate } from '../../helpers/formatDate';
 import { Notification } from '../../models/notification.model';
 import { Timeoff } from '../../models/timeoff.model';
@@ -12,28 +17,48 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
   styleUrls: ['./timeoffs.component.css'],
 })
 export class TimeoffsComponent implements OnInit {
-  timeoffHistory: Timeoff[];
-  newTimeoffRequest: Timeoff;
+  timeoffs: Timeoff[]; // to be used in dialog
+  timeoffHistory: MatTableDataSource<Timeoff> =
+    new MatTableDataSource<Timeoff>();
+  isOpen: boolean = false;
   newNotification: Notification;
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
+  displayedColumns: string[] = ['#', 'startdate', 'status'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
   notificationItems: any;
+
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
+
   constructor(
     private toaster: ToasterService,
-    private employeeService: EmployeeSummaryService
+    private employeeService: EmployeeSummaryService,
+    private dialog: MatDialog
   ) {
     this.isAdmin = this.currUser['type'] === ADMIN;
     this.isHR = this.currUser['type'] === HR;
     this.shouldDisplay = this.isHR || this.isAdmin;
-    this.newTimeoffRequest = {
-      startDate: null,
-      offDays: 0,
-    };
+
     this.newNotification = {
       userId: '',
       content: '',
     };
+
+    if (this.isAdmin) {
+      this.displayedColumns.splice(2, 0, 'offDays');
+      this.displayedColumns.splice(1, 0, 'user');
+    } else {
+      this.displayedColumns.splice(2, 0, 'endDate');
+    }
+
+    if (this.shouldDisplay) {
+      this.displayedColumns.splice(this.displayedColumns.length, 0, 'action');
+    }
   }
   ngOnInit(): void {
     this.getEmlpoyeeTimeoffs();
@@ -62,6 +87,8 @@ export class TimeoffsComponent implements OnInit {
     return this.isAdmin || this.isHR
       ? this.employeeService.getAllTimeoffs().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
+          this.timeoffs = result['response'][0]['totalData'];
+          this.isLoading = false;
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory
@@ -69,6 +96,8 @@ export class TimeoffsComponent implements OnInit {
         })
       : this.employeeService.getEmployeeTimeoffHistory().subscribe((result) => {
           this.timeoffHistory = result['response'][0]['totalData'];
+          this.timeoffs = result['response'][0]['totalData'];
+          this.isLoading = false;
           console.log(
             '⚡ TimeoffsComponent  this.timeoffHistory',
             this.timeoffHistory
@@ -76,21 +105,6 @@ export class TimeoffsComponent implements OnInit {
         });
   }
 
-  requestTimeoff() {
-    console.log(this.newTimeoffRequest);
-
-    return this.employeeService
-      .createTimeoffRequest(this.newTimeoffRequest)
-      .subscribe(
-        (result) => {
-          this.getEmlpoyeeTimeoffs();
-          console.log('⚡ ~ ~ requestTimeoff ~ result', result);
-          this.toaster.success(result['message']);
-        },
-
-        (error) => this.toaster.error(error['error']['message'])
-      );
-  }
   // for hr agent
 
   updateStatus(timeoff) {
@@ -140,5 +154,30 @@ export class TimeoffsComponent implements OnInit {
       },
       (error) => this.toaster.error(error['error']['message'])
     );
+  }
+
+  openDialog(event, operation, toff_id) {
+    this.isOpen = true;
+    const dialogRef = this.dialog.open(TimeoffAddDialogComponent, {
+      height: 'auto',
+      width: 'auto',
+      data: {
+        timeoffRequest:
+          operation === 'add'
+            ? {
+                startDate: null,
+                offDays: 0,
+              }
+            : this.timeoffs.filter((toff) => toff._id === toff_id)[0],
+        operation: operation,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.isOpen = false;
+
+      this.getEmlpoyeeTimeoffs();
+    });
   }
 }

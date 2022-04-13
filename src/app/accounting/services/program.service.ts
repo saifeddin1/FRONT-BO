@@ -22,6 +22,10 @@ export class ProgramService {
    return this.http.get<any>(`${this.BASE_URL}/api/program/`); 
   }
 
+  getOneProgram(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/program/${id}`); 
+  }
+
   deleteProgram(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/program/${id}`)
   }
@@ -29,4 +33,5 @@ export class ProgramService {
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/program/${id}`,element);
   }
+
 }

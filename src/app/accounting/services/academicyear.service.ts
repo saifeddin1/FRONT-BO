@@ -22,6 +22,10 @@ export class AcademicyearService {
    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/`); 
   }
 
+  getOneAcademicyear(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/${id}`); 
+   }
+
   deleteAcademicyear(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/academicyear/${id}`)
   }

@@ -1,86 +1,84 @@
-<div class="row">
-  <div class="col">
-    <input
-      class="form-control"
-      [(ngModel)]="timesheet.note"
-      value="{{ timesheet.note }}"
-      type="text"
-    />
+<div class="main-wrapper">
+  <div class="list-header">
+    <div><h1>Timesheets Management</h1></div>
+
+    <div>
+      <mat-icon
+        style="
+          font-size: 2rem;
+          background-color: black;
+          color: aliceblue;
+          border-radius: 50%;
+          width: 30px;
+          height: 30px;
+          cursor: pointer;
+        "
+        (click)="openCreateDialog($event)"
+        >add</mat-icon
+      >
+    </div>
   </div>
-  <div class="col">
-    <input
-      class="form-control"
-      [(ngModel)]="timesheet.date"
-      value="{{ timesheet.date }}"
-      type="datetime-local"
-    />
+  <div
+    *ngIf="isLoading"
+    style="display: flex; justify-content: center; align-items: center"
+  >
+    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+    </mat-progress-spinner>
   </div>
-  <div class="col">
-    <input
-      class="form-control"
-      [(ngModel)]="timesheet.workingHours"
-      value="{{ timesheet.workingHours }}"
-      type="number"
-      min="1"
-      max="12"
-    />
+  <div class="employees-list" *ngIf="!isLoading">
+    <div class="employee-card-header">
+      <div>USERNAME</div>
+      <div>EMAIL</div>
+      <div>Type</div>
+      <div style="width: 5%"></div>
+    </div>
+    <ng-container *ngIf="!users || !users.length"> No users. </ng-container>
+    <div
+      (click)="viewTimesheets(employee)"
+      class="employee-card"
+      *ngFor="let employee of users"
+    >
+      <div>
+        <div class="test-info">
+          <h5>{{ employee?.username }}</h5>
+        </div>
+      </div>
+      <div class="employee-email">
+        {{ employee.email }}
+      </div>
+      <div class="employee-jobType">
+        {{ employee.type }}
+      </div>
+    </div>
   </div>
-  <div class="col">
-    <select [(ngModel)]="timesheet.userId">
-      <option *ngFor="let user of users" value="{{ user._id }}">
-        {{ user.username }}
-      </option>
-    </select>
-  </div>
-  <div class="col">
-    <app-button-outline
-      (onClick)="createTimesheet()"
-      [title]="'Add'"
-    ></app-button-outline>
+
+  <div class="year-month-list mrg-t-2">
+    <h1>Year Months list</h1>
+    <div
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+      </mat-progress-spinner>
+    </div>
+    <div
+      style="background-color: white; padding: 1rem; border-radius: 15px"
+      *ngIf="!isLoading"
+    >
+      <ng-container *ngIf="!yearMonthItems || !yearMonthItems.length">
+        No year Month items.
+      </ng-container>
+      <ul>
+        <li *ngFor="let item of yearMonthItems" class="mrg-t-2">
+          <div>
+            {{ item?.title }}
+          </div>
+          <div>
+            <mat-icon (click)="editYearMonth(item)">edit</mat-icon>
+            <mat-icon (click)="deleteYearMonth(item)">delete</mat-icon>
+          </div>
+        </li>
+      </ul>
+    </div>
   </div>
 </div>
-
-<table class="table table-stripped">
-  <thead>
-    <th>User</th>
-    <th>Note</th>
-    <th>Start</th>
-    <th>Working Hours</th>
-  </thead>
-  <tbody>
-    <tr *ngFor="let ts of timesheets">
-      <td>
-        <select [(ngModel)]="ts.userId">
-          <option *ngFor="let user of users" value="{{ user._id }}">
-            {{ user.username }}
-          </option>
-        </select>
-      </td>
-      <td><input [(ngModel)]="ts.note" value="{{ ts.note }}" type="text" /></td>
-      <td>
-        <input
-          [(ngModel)]="ts.date"
-          value="{{ ts.date }}"
-          type="datetime-local"
-        />
-      </td>
-      <td>
-        <input
-          [(ngModel)]="ts.workingHours"
-          value="{{ ts.workingHours }}"
-          type="number"
-        />
-      </td>
-      <td>
-        <app-button-outline
-          [title]="'edit'"
-          (onClick)="updateRecord(ts)"
-        ></app-button-outline>
-        <app-button-filled
-          [title]="'delete'"
-          (onClick)="deleteRecord(ts)"
-        ></app-button-filled>
-      </td>
-    </tr>
-  </tbody>
-</table>

@@ -1,0 +1,54 @@
+<h2 matDialogTitle>Add Interview</h2>
+<mat-dialog-content>
+  <div class="inputs-row">
+    <input
+      class="text-area"
+      [(ngModel)]="newInterview.title"
+      value="{{ newInterview?.title }}"
+      type="text"
+      placeholder="Title"
+    />
+
+    <input
+      class="text-area"
+      [(ngModel)]="newInterview.date"
+      value="{{ newInterview?.date }}"
+      type="datetime-local"
+      min="1"
+      max="22"
+    />
+  </div>
+  <div class="inputs-row">
+    <select [(ngModel)]="newInterview.userId" class="text-area">
+      <option *ngFor="let user of users" value="{{ user._id }}">
+        {{ user.username }}
+      </option>
+    </select>
+
+    <input class="text-area" type="file" [(ngModel)]="newInterview.files" />
+  </div>
+  <div class="inputs-row">
+    <input
+      class="text-area"
+      type="text"
+      [(ngModel)]="newInterview.test['title']"
+      placeholder="Test title"
+    />
+
+    <input
+      class="text-area"
+      type="text"
+      [(ngModel)]="newInterview.test['url']"
+      placeholder="Test url"
+    />
+  </div>
+
+  <textarea
+    class="text-area"
+    [(ngModel)]="newInterview.test['description']"
+    placeholder="Test description"
+  ></textarea>
+</mat-dialog-content>
+<div [mat-dialog-close]="'close'">
+  <button (click)="createInterview(newInterview)">Add</button>
+</div>

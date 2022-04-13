@@ -1,0 +1,209 @@
+<h2 mat-dialog-title>Contract</h2>
+
+<mat-dialog-content>
+  <div class="inputs-row">
+    <div>
+      <select
+        [(ngModel)]="contract.userId"
+        class="text-area"
+        *ngIf="!isViewOperation"
+      >
+        <option value="">Pick a user</option>
+        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
+          {{ user?.username }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <select
+        [(ngModel)]="contract.status"
+        class="text-area"
+        *ngIf="!isViewOperation"
+      >
+        <option value="active">active</option>
+        <option value="inactive">inactive</option>
+      </select>
+    </div>
+  </div>
+  <div>
+    <div class="inputs-row">
+      <div>
+        <label>Contract Type</label>
+        <input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="text"
+          placeholder="CDD, CDI, SIVP..."
+          value="{{ contract?.contractType }}"
+          [(ngModel)]="contract.contractType"
+        />
+      </div>
+
+      <div>
+        <label>Hours / Week</label>
+        <input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="text"
+          value="{{ contract?.hoursNumber }}"
+          [(ngModel)]="contract.hoursNumber"
+          placeholder="40..."
+        />
+      </div>
+    </div>
+    <div class="inputs-row">
+      <div [style]="isViewOperation ? 'width: 50%' : ''">
+        <label>Start Date</label>
+
+        <input
+          *ngIf="!isViewOperation"
+          class="text-area"
+          [type]="isViewOperation ? 'text' : 'date'"
+          placeholder="yyyy-mm-dd"
+          [(ngModel)]="contract.startDate"
+          value="{{ contract?.startDate }}"
+        />
+        <div *ngIf="isViewOperation" style="margin-block: 1rem">
+          <strong>
+            {{ contract?.startDate | date }}
+          </strong>
+        </div>
+      </div>
+      <div [style]="isViewOperation ? 'width: 50%' : ''">
+        <label>End Date</label>
+        <input
+          *ngIf="!isViewOperation"
+          class="text-area"
+          [type]="isViewOperation ? 'text' : 'date'"
+          placeholder="yyyy-mm-dd"
+          [(ngModel)]="contract.endDate"
+          value="{{ contract?.endDate }}"
+        />
+        <div *ngIf="isViewOperation" style="margin-block: 1rem">
+          <strong>
+            {{ contract?.endDate | date }}
+          </strong>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="contract['salary']">
+    <div>
+      <h3>Salary information</h3>
+      <div class="inputs-row">
+        <div>
+          <label>Seniory</label
+          ><input
+            [disabled]="isViewOperation"
+            class="text-area"
+            type="number"
+            value="{{ contract['salary']?.seniority }}"
+            [(ngModel)]="contract['salary'].seniority"
+          />
+        </div>
+        &nbsp; &nbsp; &nbsp; &nbsp;
+        <div>
+          <label>Annual Componsation</label
+          ><input
+            [disabled]="isViewOperation"
+            class="text-area"
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.annual }}"
+            [(ngModel)]="contract['salary'].annualCompensation.annual"
+          />
+        </div>
+      </div>
+      <div class="inputs-row">
+        <div>
+          <label>Gross </label
+          ><input
+            [disabled]="isViewOperation"
+            class="text-area"
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.gross }}"
+            [(ngModel)]="contract['salary'].annualCompensation.gross"
+          />
+        </div>
+        <div>
+          <label>Effective</label
+          ><input
+            [disabled]="isViewOperation"
+            class="text-area"
+            type="text"
+            value="{{ contract['salary']?.annualCompensation?.effective }}"
+            [(ngModel)]="contract['salary'].annualCompensation.effective"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="!contract['salary']">
+    <h3>Salary information</h3>
+    <div class="inputs-row">
+      <div>
+        <label>Seniority</label
+        ><input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="number"
+          value="{{ contract.salary?.seniority }}"
+          [(ngModel)]="contract.salary.seniority"
+        />
+      </div>
+
+      <div>
+        <label>Annual Componsation</label
+        ><input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.annual }}"
+          [(ngModel)]="contract.salary.annualCompensation.annual"
+          annual
+        />
+      </div>
+    </div>
+    <div class="inputs-row">
+      <div>
+        <label>Gross</label
+        ><input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.gross }}"
+          [(ngModel)]="contract.salary.annualCompensation.gross"
+        />
+      </div>
+      <div>
+        <label>Effective</label
+        ><input
+          [disabled]="isViewOperation"
+          class="text-area"
+          type="text"
+          value="{{ contract.salary?.annualCompensation?.effective }}"
+          [(ngModel)]="contract.salary.annualCompensation.effective"
+        />
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    *ngIf="data['dialogOperation'] === 'edit'"
+    [mat-dialog-close]="'close'"
+    (click)="updateContractWithSalary(contract)"
+  >
+    Edit
+  </button>
+  <button
+    mat-button
+    *ngIf="data['dialogOperation'] === 'add'"
+    [mat-dialog-close]="'close'"
+    (click)="addContract(contract)"
+  >
+    Add
+  </button>
+  <button mat-button [mat-dialog-close]="'close'">Close</button>
+</mat-dialog-actions>

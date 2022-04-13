@@ -9,6 +9,7 @@ import { HRRoutingModule } from './hr-routing.module';
 import { InterviewsComponent } from './pages/interviews/interviews.component';
 import { RouterModule } from '@angular/router';
 import { ClarityModule, ClrIconModule } from '@clr/angular';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { SharedModule } from '../shared/shared.module';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
@@ -29,6 +30,20 @@ import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-time
 import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
 import { EmployeeDialogComponent } from './components/employee-dialog/employee-dialog.component';
 import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add-employee-dialog.component';
+import { AddInterviewDialogComponent } from './components/add-interview-dialog/add-interview-dialog.component';
+import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
+import { ContractsDialogComponent } from './components/contracts-dialog/contracts-dialog.component';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
+import { AddYearMonthDialogComponent } from './components/add-year-month-dialog/add-year-month-dialog.component';
+import { TimeoffAddDialogComponent } from './components/timeoff-add-dialog/timeoff-add-dialog.component'; // <-- import the module
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { CdkTableModule } from '@angular/cdk/table';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { UsernamePipe } from './helpers/username.pipe';
 
 @NgModule({
   declarations: [
@@ -48,6 +63,13 @@ import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add
     ManageEmployeesComponent,
     EmployeeDialogComponent,
     AddEmployeeDialogComponent,
+    AddInterviewDialogComponent,
+    ManageContractsComponent,
+    ContractsDialogComponent,
+    UserTimesheetsComponent,
+    AddYearMonthDialogComponent,
+    TimeoffAddDialogComponent,
+    UsernamePipe,
   ],
   imports: [
     HRRoutingModule,
@@ -62,6 +84,15 @@ import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add
     ToastrModule,
     CalendarModule,
     MatIconModule,
+    NgxPaginationModule,
+    MatTableModule,
+    MatSortModule,
+    MatIconModule,
+    CdkTableModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatProgressSpinnerModule,
   ],
   exports: [
     SummaryComponent,
@@ -74,7 +105,7 @@ import { AddEmployeeDialogComponent } from './components/add-employee-dialog/add
   ],
   providers: [
     EmployeeSummaryService,
-
+    // UsernameService,
     // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
 })

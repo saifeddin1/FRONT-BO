@@ -23,16 +23,17 @@ export class AddEmployeeDialogComponent implements OnInit {
     this.newEmployee = {
       userId: '',
       userRef: '',
-      timeOffBalance: 0,
+      timeOffBalance: '',
       profile: {
         image: '',
         position: '',
         proEmail: '',
-        phone: 0,
+        phone: '',
         address: '',
         jobType: '',
         workFrom: '',
         seniorityLevel: '',
+        description: '',
       },
     };
   }

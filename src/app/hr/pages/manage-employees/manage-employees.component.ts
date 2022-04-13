@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
+import { MatTableDataSource } from '@angular/material/table';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
@@ -15,16 +18,42 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class ManageEmployeesComponent implements OnInit {
   users: User[];
+  displayedColumns: string[] = [
+    '#',
+    'EMPLOYEE',
+    'EMAIL',
+    'JOB-TYPE',
+    'ADDRESS',
+    'ACTIONS',
+  ];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
+  viewType: string;
+  color: ThemePalette = 'accent';
+  mode: ProgressSpinnerMode = 'indeterminate';
+  value = 50;
+  isLoading: boolean = true;
 
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
     private toaster: ToasterService
-  ) {}
-  employees: File[];
+  ) {
+    this.viewType = 'table';
+  }
+  employees: MatTableDataSource<File> = new MatTableDataSource<File>();
+
+  allEmployees: any;
+
   ngOnInit(): void {
     this.getAllEmployeesFiles();
     this.getUsers();
+  }
+
+  setViewType(view) {
+    console.log(this.viewType);
+
+    this.viewType = view;
   }
   getUsers() {
     this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
@@ -35,6 +64,9 @@ export class ManageEmployeesComponent implements OnInit {
   getAllEmployeesFiles() {
     this.employeeService.getFiles().subscribe((result) => {
       this.employees = result['response'][0]['totalData'];
+
+      this.allEmployees = result['response'][0]['totalData'];
+      this.isLoading = false;
     });
   }
 
@@ -50,15 +82,12 @@ export class ManageEmployeesComponent implements OnInit {
       }
     );
   }
-  openUpdateDialog(event) {
-    let _employee_id = event?.target?.id;
-    console.log(event?.target);
-
+  openUpdateDialog(event, _employee_id) {
     const dialogRef = this.dialog.open(EmployeeDialogComponent, {
       height: 'auto',
       width: '700px',
       data: {
-        employee: this.employees.filter(
+        employee: this.allEmployees.filter(
           (employee) => employee._id === _employee_id
         )[0],
       },

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Contract } from '../../models/contract.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { formatDate } from '../../helpers/formatDate';
+import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
   selector: 'app-contracts',
@@ -10,8 +11,9 @@ import { formatDate } from '../../helpers/formatDate';
 })
 export class ContractsComponent implements OnInit {
   public contracts: Contract[];
-  constructor(private summaryService: EmployeeSummaryService) {}
 
+  constructor(private summaryService: EmployeeSummaryService) {}
+  dataSource: MatTableDataSource<Contract> = new MatTableDataSource<Contract>();
   public isDisabled: boolean =
     this.summaryService.getUser()['type'] !== 'ADMIN';
 

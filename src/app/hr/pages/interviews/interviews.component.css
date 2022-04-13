@@ -1,51 +1,41 @@
-th {
-  background-color: #f1f1f1 !important;
-}
-td,
-th {
-  font-size: 17px;
-  padding: 1rem !important;
-}
-td input,
-select {
-  padding: 5px;
-  border-radius: 5px;
-  border-color: #ccc;
-}
-.interview-add {
-  transition: all 2s ease-in-out;
+.dashboard {
+  padding-inline: 2rem;
+  height: 100%;
 }
 
-.interviews-header {
-  border: 1px solid #f1f1f1;
-  padding: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.events-container {
+  margin-bottom: 1rem;
 }
-.interviews-header .heading {
+.modalRow {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+h2 {
+  line-height: initial;
   font-size: 2rem;
 }
 
-.interviews-header .mat-icon {
-  font-size: 2rem;
-  cursor: pointer;
-  height: auto;
-  width: auto;
+table {
+  width: 100%;
 }
-.interviews-wrapper {
-  border: 1px solid #f1f1f1;
-  padding: 15px;
+
+button {
+  /* Shadow Dark · 16dp */
+  box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  /* width: 5rem; */
+  height: 2.5rem;
+  /* White Base */
+  background-color: #000;
+  color: #ffffff;
 }
-.interviews-wrapper .mat-icon {
-  cursor: pointer;
-}
-.interviews-wrapper .candidate {
+
+.edit-button {
   display: flex;
-  font-size: 1.2em;
-}
-.interviews-wrapper .candidate .headshot img {
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
+  justify-content: end;
 }

@@ -1,0 +1,89 @@
+.year-month-items {
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+}
+
+.inputs-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-area {
+  /* Rectangle 1637 */
+  width: 300px;
+  /* height: 50px; */
+
+  /* Gray · 10% */
+  background: #fafafa;
+  /* Gray · 20% */
+  border: 3px solid #f5f7fa;
+  border-radius: 11px;
+
+  font-size: 1rem;
+  font-weight: 300;
+
+  padding: 1rem;
+  margin-bottom: 1rem;
+  /* Gray · 60% */
+  color: var(--gray80);
+}
+
+select.text-area {
+  border: 1px solid #ccc;
+}
+/* .inputs-row input,
+.inputs-row select {
+  padding: 12px;
+  border-radius: 3px;
+  border: 1px solid #ccc;
+  outline: unset;
+  margin: 5px;
+  width: 300px;
+} */
+.btn-update-file {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+.dashboard {
+  padding-inline: 2rem;
+  height: 100%;
+}
+
+.modalRow {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+h2 {
+  line-height: initial;
+  font-size: 2rem;
+}
+
+table {
+  width: 100%;
+}
+.events-container {
+  margin-bottom: 1rem;
+}
+button {
+  /* Shadow Dark · 16dp */
+  box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  /* width: 5rem; */
+  height: 2.5rem;
+  /* White Base */
+  background-color: #000;
+  color: #ffffff;
+}
+
+.edit-button {
+  display: flex;
+  justify-content: end;
+}

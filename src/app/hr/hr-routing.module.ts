@@ -13,6 +13,8 @@ import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { ManageTimesheetsComponent } from './pages/manage-timesheets/manage-timesheets.component';
 import { PreventStudentGuard } from './helpers/prevent-student.guard';
 import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
+import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
+import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
 
 const routes: Routes = [
   {
@@ -34,6 +36,10 @@ const routes: Routes = [
         component: CollaboratorsComponent,
       },
       {
+        path: 'timesheetManagement/detail/:userId',
+        component: UserTimesheetsComponent,
+      },
+      {
         path: 'manage-employees',
         component: ManageEmployeesComponent,
       },
@@ -41,9 +47,13 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
       },
+      // {
+      //   path: 'contracts',
+      //   component: ContractsComponent,
+      // },
       {
-        path: 'contracts',
-        component: ContractsComponent,
+        path: 'manage-contracts',
+        component: ManageContractsComponent,
       },
       {
         path: 'timetable',

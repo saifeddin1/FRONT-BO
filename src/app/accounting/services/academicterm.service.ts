@@ -22,6 +22,10 @@ export class AcademictermService {
    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/terms`); 
   }
 
+  getOneAcademicterm(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/academicterm/${id}`); 
+   }
+
   deleteAcademicterm(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/academicterm/${id}`)
   }

@@ -2,8 +2,68 @@ label {
   font-weight: 600;
 }
 
-.employee-profile-section-title {
-  background-color: rgb(113, 126, 243);
-  padding-top: 1rem;
-  width: 400px;
+.profile-wrapper {
+  padding: 2rem;
+  height: auto;
+  background-color: #fff;
+  border-radius: 15px;
+}
+.profile-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+button {
+  box-shadow: 0px 4px 4px rgb(120 98 188 / 16%);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+
+  color: #ffffff;
+  width: auto;
+  padding: 10px 15px;
+  background-color: #000;
+}
+
+.text-area {
+  /* Rectangle 1637 */
+  width: 80%;
+  /* height: 50px; */
+
+  /* Gray · 10% */
+  background: #fafafa;
+  /* Gray · 20% */
+  border: 3px solid #f5f7fa;
+  border-radius: 11px;
+
+  font-size: 1rem;
+  font-weight: 300;
+
+  padding: 1rem;
+
+  /* Gray · 60% */
+  color: var(--gray80);
+}
+
+.input-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.labels-row:first-of-type {
+  margin-top: 1rem;
+}
+.labels-row {
+  width: 23%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.profile-headshot {
+  border-radius: 50%;
 }

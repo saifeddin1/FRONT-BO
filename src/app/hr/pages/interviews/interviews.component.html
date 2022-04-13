@@ -1,112 +1,31 @@
-<div class="interviews-header">
+<!-- <div class="interviews-header">
   <span class="heading">Interviews</span>
-  <mat-icon
-    (click)="toggleIsOpen()"
-    [style.display]="isAdmin ? 'flex' : 'none'"
-    >{{ isOpen ? "remove_circle" : "add_circle" }}</mat-icon
-  >
+  <mat-icon (click)="openCreateDialog($event)" *ngIf="isAdmin">{{
+    isOpen ? "remove_circle" : "add_circle"
+  }}</mat-icon>
 </div>
 <div class="interviews-wrapper">
-  <div class="candidate" [style.display]="!isAdmin ? 'flex' : 'none'">
+  <div class="candidate" *ngIf="!isAdmin">
     <span>Interviews of candidate: </span> &nbsp; &nbsp;
     <div class="headshot">
       <img src="../../../../assets/img/{{ employeeImgPath }}" />&nbsp;
       <span>{{ currentUser["username"] }}</span>
     </div>
   </div>
-  <div
-    class="flex flex-wrap justify-content-center interview-add"
-    [ngClass]="isOpen ? 'opened' : ''"
-    [style.display]="isOpen ? 'flex' : 'none'"
-  >
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newInterview.title"
-        value="{{ newInterview?.title }}"
-        type="text"
-        placeholder="Title"
-      />
-    </div>
-    <div class="col">
-      <input
-        class="form-control"
-        [(ngModel)]="newInterview.date"
-        value="{{ newInterview?.date }}"
-        type="datetime-local"
-        min="1"
-        max="22"
-      />
-    </div>
-    <div class="col">
-      <select [(ngModel)]="newInterview.userId">
-        <option *ngFor="let user of users" value="{{ user._id }}">
-          {{ user.username }}
-        </option>
-      </select>
-    </div>
 
-    <div class="row" *ngFor="let test of newInterview.test">
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.title"
-          placeholder="Test title"
-        />
-      </div>
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.description"
-          placeholder="Test description"
-        />
-      </div>
-      <div class="col">
-        <input
-          type="text"
-          class="form-control"
-          [(ngModel)]="test.url"
-          placeholder="Test url"
-        />
-      </div>
-    </div>
-    <div class="col">
-      <input
-        type="file"
-        class="form-control"
-        [(ngModel)]="newInterview.files"
-      />
-    </div>
-    <div class=" ">
-      <app-button-outline
-        (onClick)="createInterview(newInterview)"
-        [title]="'Add'"
-      ></app-button-outline>
-    </div>
-  </div>
-
-  <table class="table">
+  <table class="fl-table">
     <thead>
       <tr>
-        <th [style.display]="isAdmin ? 'block' : 'none'">User</th>
+        <th *ngIf="isAdmin">User</th>
         <th scope="col">Date</th>
         <th scope="col">Details</th>
         <th></th>
-        <th [style.display]="isAdmin ? 'table-cell' : 'none'"></th>
+        <th *ngIf="isAdmin"></th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let interview of interviews">
-        <!-- <td [style.display]="isAdmin ? 'block' : 'none'">
-          <select [(ngModel)]="interview.userId" [disabled]="!isAdmin">
-            <option *ngFor="let user of users" value="{{ user._id }}">
-              {{ user.username }}
-            </option>
-          </select>
-        </td> -->
-        <td [style.display]="isAdmin ? 'table-cell' : 'none'">
+        <td *ngIf="isAdmin">
           <span>{{ interview.userId }}</span>
         </td>
         <td>
@@ -115,12 +34,6 @@
             {{ formatDate(interview?.date) }}</label
           >
           <br /><br />
-          <!-- <input
-            [style.display]="isAdmin ? 'block' : 'none'"
-            type="datetime-local"
-            value="{{ formatDate(interview?.date) }}"
-            [(ngModel)]="interview.date"
-          /> -->
         </td>
         <td>
           <span>
@@ -134,11 +47,7 @@
         <td id="{{ interview._id }}" class="id-saver">
           <mat-icon (click)="openDialog($event)">remove_red_eye</mat-icon>
         </td>
-        <td
-          [style.display]="isAdmin ? 'table-cell' : 'none'"
-          id="{{ interview._id }}"
-          class="id-saver"
-        >
+        <td *ngIf="isAdmin" id="{{ interview._id }}" class="id-saver">
           <mat-icon (click)="openDialog($event)">edit</mat-icon>
 
           <mat-icon (click)="deleteRecord(interview)">delete</mat-icon>
@@ -146,5 +55,96 @@
       </tr>
     </tbody>
   </table>
+</div> -->
+
+<div class="dashboard">
+  <div class="events-container">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
+      <h1>Interviews Table</h1>
+
+      <div class="profile-card">
+        <div class="edit-button">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openCreateDialog($event)"
+          >
+            Add Interview
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row d-flex dates">
+    <div
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+      </mat-progress-spinner>
+    </div>
+    <table mat-table [dataSource]="dataSource" *ngIf="!isLoading">
+      <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef>#</th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.enabled" style="color: green">
+            check_circle
+          </mat-icon>
+          <mat-icon *ngIf="!element.enabled" style="color: rgb(201, 18, 18)"
+            >block</mat-icon
+          >
+        </td>
+      </ng-container>
+      <!-- user Column -->
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.userId | username }}
+        </td>
+      </ng-container>
+
+      <!-- startdate Column -->
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="openDialog($event, element?._id)"
+          >
+            <clr-icon *ngIf="isAdmin" shape="pencil"></clr-icon>
+            <clr-icon *ngIf="!isAdmin" shape="eye"></clr-icon>
+          </button>
+
+          <button
+            *ngIf="isAdmin"
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteRecord(element)"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+      <!-- type Column -->
+      <!-- <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>type</th>
+        <td mat-cell *matCellDef="let element">{{ element.contractType }}</td>
+      </ng-container> -->
+
+      <!-- action Column -->
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>
-<!-- <app-json-form [jsonFormData]="formData"></app-json-form> -->

@@ -4,6 +4,10 @@ th {
   padding: 1rem !important;
 }
 
+.line-height-lg {
+  line-height: 30px;
+}
+
 .summary-wrapper {
   display: flex;
   align-content: center;
@@ -26,6 +30,9 @@ th {
   align-items: center;
   width: 75%;
 }
+.summary-wrapper .hr-card.profile .info-column {
+  width: 43%;
+}
 
 .summary-wrapper .hr-card.profile .address,
 .summary-wrapper .hr-card.profile .position,
@@ -35,7 +42,8 @@ th {
   display: flex;
   align-items: center;
   margin-block: 5px;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 13px;
 }
 .summary-wrapper .hr-card.profile img {
   width: 150px;
@@ -51,7 +59,7 @@ th {
 }
 
 .summary-wrapper .timeoff-balance span.title {
-  font-weight: 700;
+  font-weight: 500;
   margin-bottom: 15px;
   font-size: 20px;
 }
@@ -72,4 +80,6 @@ th {
 .summary-wrapper .contract .heading {
   padding-left: 1rem;
   line-height: 40px;
+  font-weight: 500;
+  font-size: 20px;
 }

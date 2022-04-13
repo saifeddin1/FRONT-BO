@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import jwtDecode from 'jwt-decode';
-import { Observable, ObservableInput } from 'rxjs';
+import { Observable, ObservableInput, ObservableLike } from 'rxjs';
 import { UserService } from 'src/app/lms/services/user.service';
 import { environment } from 'src/environments/environment';
 import { getToken } from '../helpers/getToken';
@@ -14,6 +14,7 @@ import { Timeoff } from '../models/timeoff.model';
 import { Timesheet } from '../models/timesheet.model';
 import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
 import { Timeslot } from '../models/timeslot.model';
+import { YearMonth } from '../models/yearMonth.model';
 
 @Injectable({
   providedIn: 'root',
@@ -25,7 +26,6 @@ export class EmployeeSummaryService {
 
   public decodedToken = this.userservise.decodeToken(getToken());
   getUser() {
-    console.log(this.decodedToken, '****************************');
     return this.decodedToken;
   }
 
@@ -35,14 +35,45 @@ export class EmployeeSummaryService {
     );
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
+  createContract(body): Observable<Contract> {
+    return this.http.post<Contract>(`${this.BASE_URL}/contracts`, body);
+  }
+
+  deleteContract(id: string): Observable<Contract> {
+    return this.http.delete<Contract>(`${this.BASE_URL}/contracts/${id}`);
+  }
+
   getContracts(): Observable<Contract[]> {
     return this.http.get<Contract[]>(
       `${this.BASE_URL}/contracts/employeeContracts`
     );
   }
+  getAllContracts(): Observable<Contract[]> {
+    return this.http.get<Contract[]>(`${this.BASE_URL}/contracts`);
+  }
+
+  getAllContractsWithSalaries(): Observable<Contract[]> {
+    return this.http.get<Contract[]>(
+      `${this.BASE_URL}/contracts/getAllContractsWithSalaries`
+    );
+  }
+
   getContractsWithSalary(): Observable<Contract[]> {
     return this.http.get<Contract[]>(
       `${this.BASE_URL}/contracts/employeeContractsWithSalary`
+    );
+  }
+
+  getActiveContract(): Observable<Contract> {
+    return this.http.get<Contract>(
+      `${this.BASE_URL}/contracts/getActiveContract`
+    );
+  }
+
+  updateContractWithSalary(id: string, body): Observable<Contract> {
+    return this.http.put<Contract>(
+      `${this.BASE_URL}/contracts/updateContractWithSalaries/${id}`,
+      body
     );
   }
 
@@ -112,11 +143,43 @@ export class EmployeeSummaryService {
     return this.http.delete<File>(`${this.BASE_URL}/files/${id}`);
   }
   // ------------------------------------- TIMESHEET ---------------------------------------
-  getEmployeeTimeSheets(): Observable<Timesheet[]> {
+  getEmployeeTimeSheets(p: number, limit: number): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
-      `${this.BASE_URL}/timesheets/getEmployeeTimeSheets`
+      `${this.BASE_URL}/timesheets/getEmployeeTimeSheets?page=${
+        p - 1
+      }&limit=${limit}`
     );
   }
+
+  getTimesheetsByUserId(
+    userId: string,
+    p: number,
+    limit: number,
+    yearMonth: string
+  ): Observable<Timesheet[]> {
+    return this.http.get<Timesheet[]>(
+      `${
+        this.BASE_URL
+      }/timesheets/getTimesheetsByUserId/${yearMonth}/${userId}?page=${
+        p - 1
+      }&limit=${limit}`
+    );
+  }
+
+  getMonthlyEmployeeTimesheets(
+    p: number,
+    limit: number,
+    yearMonth: string
+  ): Observable<Timesheet[]> {
+    return this.http.get<Timesheet[]>(
+      `${
+        this.BASE_URL
+      }/timesheets/getMonthlyEmployeeTimesheets/${yearMonth}?page=${
+        p - 1
+      }&limit=${limit}`
+    );
+  }
+
   getAllSheets(): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(`${this.BASE_URL}/timesheets`);
   }
@@ -166,6 +229,12 @@ export class EmployeeSummaryService {
     );
   }
 
+  getHoursMonthly(date: string, field: string): Observable<Number> {
+    return this.http.get<Number>(
+      `${this.BASE_URL}/timesheets/getMonthlyHours/${date}?field=${field}`
+    );
+  }
+
   // --------------------------------- TIMETABLE ----------------------------
   getTimeSlots(): Observable<Timeslot[]> {
     return this.http.get<Timeslot[]>(
@@ -182,7 +251,8 @@ export class EmployeeSummaryService {
   createTimeoffRequest(body: Timeoff): Observable<Timeoff> {
     return this.http.post<Timeoff>(
       `${this.BASE_URL}/timeOffs/createTimeOffAsEmployee`,
-      body
+      JSON.stringify(body),
+      { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
   }
 
@@ -208,7 +278,7 @@ export class EmployeeSummaryService {
 
   getUserNotifications(): Observable<Notification> {
     return this.http.get<Notification>(
-      `${this.BASE_URL}/notifications/getUserNotifications`
+      `${this.BASE_URL}/notifications/getUserNotifications?sortBy=createdAt&orderBy=desc`
     );
   }
 
@@ -222,5 +292,30 @@ export class EmployeeSummaryService {
     );
 
     return this.http.post<Notification>(`${this.BASE_URL}/notifications`, body);
+  }
+
+  // ------------------- Year Month Items -----------------------------
+
+  getAllYearMonthItems(): Observable<YearMonth[]> {
+    return this.http.get<YearMonth[]>(`${this.BASE_URL}/yearMonths`);
+  }
+
+  getYearMonthItem(id: string): Observable<YearMonth> {
+    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+  }
+
+  createYearMonthItem(body: YearMonth, userId: string): Observable<YearMonth> {
+    return this.http.post<YearMonth>(
+      `${this.BASE_URL}/yearMonths/${userId}`,
+      body
+    );
+  }
+
+  editYearMonthItem(id: string, body: YearMonth): Observable<YearMonth> {
+    return this.http.put<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`, body);
+  }
+
+  deleteYearMonthItem(id: string): Observable<YearMonth> {
+    return this.http.delete<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
   }
 }
