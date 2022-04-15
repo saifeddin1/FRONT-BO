@@ -132,11 +132,27 @@
             </button>
 
             <button
-              mat-icon-button
               class="btn btn-outline-danger"
               (click)="deleteEmployee(element?._id)"
+              matTooltip="Delete"
+              mat-raised-button
+              aria-label="Button that shows a red tooltip"
             >
               <clr-icon shape="trash" style="color: red !important"></clr-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="btn btn-outline-primary"
+              (click)="addContract($event, element)"
+            >
+              <clr-icon shape="file-group"></clr-icon>
+            </button>
+            <button
+              mat-icon-button
+              class="btn btn-outline-primary"
+              (click)="addInterview($event, element)"
+            >
+              <clr-icon shape="assign-user"></clr-icon>
             </button>
           </td>
         </ng-container>

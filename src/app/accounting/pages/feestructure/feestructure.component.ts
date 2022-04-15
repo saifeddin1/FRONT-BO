@@ -47,7 +47,8 @@ export class FeestructureComponent implements OnInit {
 
  
 
-  constructor( private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,private programService: ProgramService,private academicyearService:AcademicyearService,private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
+  constructor( private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,
+    private programService: ProgramService,private academicyearService:AcademicyearService,private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
     this.getallfeestructures();
     this.getallacademicyears();
     this.getallprograms();
@@ -58,7 +59,7 @@ export class FeestructureComponent implements OnInit {
     this.createForm();
   }
 
-  
+ 
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getallfeestructures(){
     this.feeStructureService.getFeestructures().subscribe(

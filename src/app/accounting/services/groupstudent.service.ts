@@ -16,6 +16,21 @@ export class GroupstudentService {
   getStudentgroup():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/`);
   }
+  getOneStudentgroup(id:string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/studentsofgroup/${id}`);
+  }
+  
+  
+
+  editStudentgroup(id:string, element:any):Observable<any>{
+    console.log("element edit",element)
+    return this.http.put<any>(`${this.BASE_URL}/api/studentGroup/${id}`,element);
+  }
+
+
+
+
+
   getStudents():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/student/`);
   }
@@ -39,5 +54,8 @@ export class GroupstudentService {
   }
   deleteStudent(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/studentGroup/student/${id}`)
+  }
+  deleteStudentgroup(id:string):Observable<any>{
+    return this.http.delete(`${this.BASE_URL}/api/studentGroup/${id}`)
   }
 }

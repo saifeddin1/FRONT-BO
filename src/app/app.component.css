@@ -2,6 +2,16 @@
   padding: 0px;
   margin: 0px;
 }
+::ng-deep .cdk-global-overlay-wrapper,
+::ng-deep .cdk-overlay-container {
+  z-index: 1000 !important;
+}
+
+::ng-deep .mat-autocomplete-panel.mat-autocomplete-visible,
+::ng-deep .cdk-overlay-pane {
+  visibility: visible;
+  z-index: 99999 !important;
+}
 
 .global-nav {
   background: #ffffff;

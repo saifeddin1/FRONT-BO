@@ -8,6 +8,8 @@ import { Contract } from '../../models/contract.model';
 import moment from 'moment';
 import { formatDate } from '../../helpers/formatDate';
 import { ADMIN } from '../../../lms/constants/roles.constant';
+import { WorkFrom } from '../../models/WorkFrom.model';
+import { Level } from '../../models/Level.models';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -18,9 +20,9 @@ export class ProfileComponent implements OnInit {
   public currentUser = this.summaryService.getUser();
   public isDisabled = this.currentUser['type'] !== ADMIN;
   public employeeContract: Contract;
-
+  levels: Level[];
   eventsSubject: Subject<void> = new Subject<void>();
-
+  workFromItems: WorkFrom[];
   emitEventToChild() {
     this.eventsSubject.next();
   }
@@ -28,6 +30,7 @@ export class ProfileComponent implements OnInit {
   public profile = {
     image: '',
     // position: '',
+    fullname:'',
     proEmail: '',
     phone: '',
     address: '',
@@ -59,7 +62,9 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeFileDetails();
-    this.getEmployeeActiveContract();
+    // this.getEmployeeActiveContract();
+    this.getAllWorkFromItems();
+    this.getAllLevels();
   }
   getEmployeeFileDetails() {
     this.summaryService.getFileDetails().subscribe((result) => {
@@ -70,7 +75,12 @@ export class ProfileComponent implements OnInit {
       );
     });
   }
-
+  getAllWorkFromItems() {
+    this.summaryService.getAllWorkFroms().subscribe((result) => {
+      console.log('⚡ ~ getAllWorkFromItems ~ result', result);
+      this.workFromItems = result['response'][0]['totalData'];
+    });
+  }
   showSuccessToaster() {
     this.toastr.success('Success');
   }
@@ -78,7 +88,12 @@ export class ProfileComponent implements OnInit {
   showErrorToaster() {
     this.toastr.error('Something went wrong.');
   }
-
+  getAllLevels() {
+    this.summaryService.getAllLevels().subscribe((result) => {
+      console.log('⚡ ~ getAllWorkFromItems ~ result', result);
+      this.levels = result['response'][0]['totalData'];
+    });
+  }
   updateEmployee(file) {
     this.summaryService
       .updateProfile(file)
@@ -101,10 +116,8 @@ export class ProfileComponent implements OnInit {
   }
   getEmployeeActiveContract() {
     let today = new Date();
-    return this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.employeeContract = result['response'].filter(
-        (c) => new Date(c.endDate) >= new Date(today)
-      )[0];
+    return this.summaryService.getActiveContract().subscribe((result) => {
+      this.employeeContract = result['response'];
       console.log(this.employeeContract);
     });
   }

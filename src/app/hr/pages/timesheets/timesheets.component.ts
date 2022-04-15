@@ -72,10 +72,8 @@ export class TimesheetsComponent implements OnInit {
 
   getEmployeeActiveContract() {
     let today = new Date();
-    return this.employeeService.getContractsWithSalary().subscribe((result) => {
-      this.contract = result['response'].filter(
-        (c) => new Date(c.endDate) >= new Date(today)
-      )[0];
+    return this.employeeService.getActiveContract().subscribe((result) => {
+      this.contract = result['response']
 
       this.monthlyHoursLimit = this.contract?.hoursNumber;
     });

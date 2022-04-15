@@ -12,20 +12,100 @@
             id="add-button"
             class="btn button"
             type="submit"
-            (click)="savefeeshcedule()"
+            (click)="openModal2()"
           >
-            SAVE
+            Add fee schedule
           </button>
         </div>
       </div>
     </div>
-    <form [formGroup]="form">
-      <div class="row d-flex cadre">
-        <div class="left modal-body">
-          <div class="modalRow resize-input position-top">
-            <strong>Fee structure: </strong>
+    
+  </div>
+  <!-------------------------------TAble----------------------------------------------------------------------------------->
 
-            <select  #feestructure class="text-area modalcol " formControlName="feestructure" (change)="setinput(feestructure.value)">
+
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="dataSource1">
+
+      <ng-container matColumnDef="#">
+        <th mat-header-cell *matHeaderCellDef> # </th>
+        <td mat-cell *matCellDef="let element">
+          <mat-icon *ngIf="element.enabled == true" style="color: green">
+            check_circle</mat-icon>
+          <mat-icon
+            *ngIf="element.enabled == false"
+            style="color: rgb(201, 18, 18)"
+            >block</mat-icon
+          >
+        </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Fee structure Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+       <!-- Program Column -->
+       <ng-container matColumnDef="duedate">
+        <th mat-header-cell *matHeaderCellDef> Due date </th>
+        <td mat-cell *matCellDef="let element"> {{element.duedate  | date:'mediumDate'}} </td>
+      </ng-container>
+
+       
+
+
+    
+
+      
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+          <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deletefeeschedule(element._id)">
+            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          </button>
+        
+          
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns1;"></tr>
+    </table>
+  </div>
+
+    
+</div>    
+
+
+
+  
+
+
+
+<!-- pop up add fee shcedule -->
+
+
+<clr-modal class="zindex2" [(clrModalOpen)]="clrModalOpen2" [clrModalSize]="'xl'">
+
+  <ng-container >
+    <h3 class="modal-title">Add Group student</h3>
+  </ng-container>
+  
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form" >
+        <div class="add-overlay">
+          
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Fee Structure:</strong>
+            <select  #feestructure class="text-area modalcol " formControlName="feestructure" >
               <option
                 *ngFor="let feeStructre of  feeStructures"
                 value="{{feeStructre._id}}"
@@ -35,8 +115,10 @@
               </option>
             </select>
           </div>
-          <div class="modalRow  resize-input position-top">
-            <strong>Due  Date:</strong>
+
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Due Date:</strong>
             <input
               matInput
               class="text-area modalcol"
@@ -44,142 +126,153 @@
               type="date"
               formControlName="duedate"
             />
-           
-          </div>
-        </div>
-        <div class="right modal-body">
-          <div class="modalRow resize-input">
-            <strong>studentcategory</strong>
-            <input
-              matInput
-              class="text-area modalcol "
-              placeholder="studentcategory"
-              [(ngModel)]="feestruct.studentcat"
-              formControlName="studentcategory"
-            />
-          </div>
-          <div class="modalRow resize-input">
-            <strong>Program :</strong>
-            <input
-              matInput
-              class="text-area modalcol mlprogram"
-              placeholder="program"
-              [(ngModel)]="feestruct.program"
-              formControlName="program"
-            />
-          </div>
-          <div class="modalRow resize-input  ">
-            <strong>academic year</strong>
-            
-            <input
-              matInput
-              class="text-area modalcol"
-              placeholder="academic year "
-              [(ngModel)]="feestruct.academicyear"
-              formControlName="academicyear"
-            />
-          </div>
-          <div class="modalRow position-top resize-input">
-            <strong>academic term</strong>
-            <input
-              matInput
-              class="text-area modalcol"
-              placeholder="academic term"
-              [(ngModel)]="feestruct.academicterm"
-              formControlName="academicterm"
-            />
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
-
-  <!-------------------------------TAble----------------------------------------------------------------------------------->
-
-  <div class="column d-flex dates">
-    <div class="edit-button" style="float: left">
-      <button id="add-button" class="btn button" (click)="openModal()">
-        add student group
-      </button>
-    </div>
-    <table mat-table [dataSource]="dataSource">
-      
-
-     
-
-      <!-- studentgroup Column -->
-      <ng-container matColumnDef="studentgroup">
-        <th mat-header-cell *matHeaderCellDef>student group</th>
-        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
-      </ng-container>
-
-      <!-- totale student Column -->
-      <ng-container matColumnDef="totalestudent">
-        <th mat-header-cell *matHeaderCellDef>totale student</th>
-        <td mat-cell *matCellDef="let element">{{ element.numtot }}</td>
-      </ng-container>
-      
-
-    
-
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
-  </div>
-</div>
-
-
-
-<!-- ADD Student group -->
-
-
-
-<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
-
-  <ng-container >
-    <h3 class="modal-title">Add student group</h3>
-  </ng-container>
- 
-
-  <div class="modal-body">
-    <div>
-      <form [formGroup]="form1" >
-        <div class="add-overlay">
-
-         
-          <div class="position-top modalRow">
-            <strong class="modalcol3">Student group</strong>
-            <select  #feestructure class="text-area modalcol " formControlName="studentgroup" >
-              <option
-                *ngFor="let studentgroup of  studentgroups"
-                value="{{studentgroup.name}}"
-                
-              >
-                {{ studentgroup.name}}
-              </option>
-            </select>
-           
-          </div>
-
-          <div class="position-top modalRow">
-            <strong class="modalcol3">Totale student</strong>
-            <input matInput class="text-area modalcol" placeholder="totalestudent.." formControlName="totalestudent" >
           </div>
 
          
 
-         
+          
 
         </div>
       </form>
+      <div class="column d-flex dates">
+        <div class="edit-button" style="float: left">
+          <button id="add-button" class="btn button" (click)="addstudentgrouptotable()">
+            add student group
+          </button>
+        </div>
+        <form [formGroup]="form1" >
+          <div class="add-overlay">
+  
+           
+            <div class="position-top modalRow">
+              <strong class="modalcol3">Student group</strong>
+              <select  #feestructure class="text-area modalcol " formControlName="studentgroup" >
+                <option
+                  *ngFor="let studentgroup of  studentgroups"
+                  value="{{studentgroup.name}}"
+                  
+                >
+                  {{ studentgroup.name}}
+                </option>
+              </select>
+             
+            </div>
+  
+            <div class="position-top modalRow">
+              <strong class="modalcol3">Totale student</strong>
+              <input matInput class="text-area modalcol" placeholder="totalestudent.." formControlName="totalestudent" >
+            </div>
+  
+           
+  
+           
+  
+          </div>
+        </form>
+        <table mat-table [dataSource]="dataSource">
+          
+    
+         
+    
+          <!-- studentgroup Column -->
+          <ng-container matColumnDef="studentgroup">
+            <th mat-header-cell *matHeaderCellDef>student group</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+    
+          <!-- totale student Column -->
+          <ng-container matColumnDef="totalestudent">
+            <th mat-header-cell *matHeaderCellDef>totale student</th>
+            <td mat-cell *matCellDef="let element">{{ element.numtot }}</td>
+          </ng-container>
+          
+    
+        
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
     </div>
+  
+ 
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal2()">
       Fermer
     </button>
-    <button class="btn btn-ok btn-outline"  (click)="addstudentgrouptotable()" >
+    <button class="btn btn-ok btn-outline" type="submit" (click)="savefeeshcedule()" >
       Valider
     </button>
   </div>
 </clr-modal>
+
+
+
+
+
+<!-- pop up edit -->
+
+
+
+<clr-modal [(clrModalOpen)]="clrModalOpenEdit" [clrModalSize]="'xl'">
+  
+  <ng-template >
+    <h3 class="modal-title">Edit Student</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form" >
+        <div class="add-overlay">
+          
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Fee Structure:</strong>
+            <select  #feestructure class="text-area modalcol " formControlName="feestructure" >
+              <option
+                *ngFor="let feeStructre of  feeStructures"
+                value="{{feeStructre._id}}"
+                
+              >
+                {{ feeStructre.name }}
+              </option>
+            </select>
+          </div>
+
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Due Date:</strong>
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="Due date"
+              type="date"
+              formControlName="duedate"
+            />
+          </div>
+
+         
+
+          
+
+        </div>
+      </form>
+    </div>
+    
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-ok btn-outline btn-cancel"
+      (click)="closeModaledit()"
+    >
+      Fermer
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" (click)="editfeeschedule()" >
+      Valider
+    </button>
+    
+  </div>
+</clr-modal>
+
+
