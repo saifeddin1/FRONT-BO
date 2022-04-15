@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { UsersService } from '../../services/users.service';
+import { UserService } from 'src/app/lms/services/user.service';
+import { ResetpwdService } from '../../services/resetpwd.service';
 
 @Component({
   selector: 'app-users',
@@ -11,9 +13,12 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
-
+  newpass: string;
+  emailchange:string;
+  displayniv = false;
   studentnivs : object[] = [];
   clrModalOpen: boolean = false;
+  clrModalOpen2: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
     '#',
@@ -26,7 +31,7 @@ export class UsersComponent implements OnInit {
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService ) 
+  constructor(private pwdService: ResetpwdService,private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService,private userServicelms:UserService ) 
   {
     this.getallUsers();
     this.getstudentniv();
@@ -112,8 +117,8 @@ export class UsersComponent implements OnInit {
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
-
-     
+      
+      
       const user={
         username : this.form.value.username,
         firstname : this.form.value.firstname,
@@ -125,8 +130,26 @@ export class UsersComponent implements OnInit {
         birthday:this.form.value.birthday
 
       }
+      if (user.username.length < 5) {
+        this.toasterService.success(`${this.displayniv} hey hey`)
+        this.toasterService.error("username doit contenir au moins 5 caractères");
+        return;
+      }
+      if (user.firstname.length < 3) {
+        this.toasterService.error("firstname doit contenir au moins 3 caractères");
+        return;
+      }
+      if (user.lastname.length < 3) {
+        this.toasterService.error("lastname doit contenir au moins 3 caractères");
+        return;
+      }
+      
+     
       
       if(this.modalType === 'add'){
+        
+
+        
         this.usersService.createUser(user).subscribe(
           (result)=>{
             
@@ -191,4 +214,26 @@ export class UsersComponent implements OnInit {
     )
   }
 
+  activatestudentniv(checked:any){
+    checked ? this.displayniv = true : this.displayniv = false
+  }
+
+  openchangepwdmodal(email:string){
+    this.emailchange=email;
+    this.clrModalOpen2 = true;
+    
+  }
+  changepwd(){
+    
+    this.pwdService.changepwdbyadmin(this.emailchange,{newpassword:this.newpass}).subscribe(
+      (res)=>{
+        this.toasterService.success("Changed successfully")
+        
+      },
+      (err)=>{
+        this.toasterService.error('Something wrong')
+        
+      }
+    )
+  }
 }

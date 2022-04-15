@@ -583,3 +583,11 @@
         flex-direction: column;
 
     }
+    
+    .zindex2{
+      z-index: 99;
+    }
+
+    .zindex1{
+      z-index: 9999;
+    }

@@ -19,7 +19,7 @@ export class ProgramComponent implements OnInit {
     'name',
     'abreviation',
     'departement',
-    'action' 
+    
   ];
 
   displayedOptionColumns: string[] = ['name', 'action'];

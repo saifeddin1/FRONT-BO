@@ -10,8 +10,8 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatIconModule } from '@angular/material/icon';
 import { UsersComponent } from './pages/users/users.component';
-
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatButtonModule} from '@angular/material/button';
 @NgModule({
   declarations: [IdentityComponent, UsersComponent],
   imports: [
@@ -25,6 +25,8 @@ import { UsersComponent } from './pages/users/users.component';
     MatTableModule,
     MatSortModule,
     MatIconModule,
+    MatCheckboxModule,
+    MatButtonModule
   ],
   exports:[
     IdentityComponent,UsersComponent

@@ -22,6 +22,7 @@ export class UserService {
 
   decodeToken = (token: string): User | any =>
     token ? jwt_decode(token) : null;
+    
 
   getDecodedToken = (): User | any => this.decodeToken(this.getToken());
   // save username and password into local storage, so they can stay logged in
