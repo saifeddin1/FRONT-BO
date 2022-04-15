@@ -37,7 +37,7 @@ export class AddEmployeeDialogComponent implements OnInit {
         image: '',
         position: '',
         proEmail: '',
-        fullname: '',
+        
         phone: '',
         address: '',
         jobType: '',
@@ -87,6 +87,7 @@ export class AddEmployeeDialogComponent implements OnInit {
   }
   getAllWorkFromItems() {
     this.employeeService.getAllWorkFroms().subscribe((result) => {
+
       console.log('⚡ ~ getAllWorkFromItems ~ result', result);
       this.workFromItems = result['response'][0]['totalData'];
     });
