@@ -3,7 +3,8 @@
 <mat-dialog-content>
   <div class="inputs-row">
     <div>
-      <select
+      <!-- <select
+        [disabled]="contract?.userId !== ''"
         [(ngModel)]="contract.userId"
         class="text-area"
         *ngIf="!isViewOperation"
@@ -12,13 +13,34 @@
         <option value="{{ user?._id }}" *ngFor="let user of data['users']">
           {{ user?.username }}
         </option>
-      </select>
+      </select> -->
+
+      <input
+        type="text"
+        matInput
+        *ngIf="!isViewOperation"
+        class="text-area"
+        [formControl]="myControl"
+        [matAutocomplete]="auto"
+        [(ngModel)]="contract.userId"
+      />
+      <mat-autocomplete
+        #auto="matAutocomplete"
+        [displayWith]="displayFn.bind(this)"
+      >
+        <mat-option
+          *ngFor="let user of filteredOptions | async"
+          [value]="user._id"
+        >
+          {{ user.username }}
+        </mat-option>
+      </mat-autocomplete>
     </div>
     <div>
       <select
         [(ngModel)]="contract.status"
         class="text-area"
-        *ngIf="!isViewOperation"
+        *ngIf="data['dialogOperation'] === 'edit'"
       >
         <option value="active">active</option>
         <option value="inactive">inactive</option>
@@ -29,14 +51,19 @@
     <div class="inputs-row">
       <div>
         <label>Contract Type</label>
-        <input
+        <select
           [disabled]="isViewOperation"
           class="text-area"
-          type="text"
-          placeholder="CDD, CDI, SIVP..."
-          value="{{ contract?.contractType }}"
           [(ngModel)]="contract.contractType"
-        />
+        >
+          <option selected="selected" disabled="disabled">Pick Type</option>
+          <option
+            value="{{ typeItem?.title }}"
+            *ngFor="let typeItem of typeItems"
+          >
+            {{ typeItem?.title }}
+          </option>
+        </select>
       </div>
 
       <div>
@@ -200,7 +227,6 @@
   <button
     mat-button
     *ngIf="data['dialogOperation'] === 'add'"
-    [mat-dialog-close]="'close'"
     (click)="addContract(contract)"
   >
     Add

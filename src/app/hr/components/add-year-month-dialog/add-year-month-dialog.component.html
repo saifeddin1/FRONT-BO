@@ -6,11 +6,24 @@
   [(ngModel)]="newYearMonthItem.title"
 />
 <br />
-<select class="text-area" [(ngModel)]="userId">
+<!-- <select class="text-area" [(ngModel)]="userId">
   <option value="{{ user._id }}" *ngFor="let user of data['users']">
     {{ user.username }}
   </option>
-</select>
+</select> -->
+<input
+  type="text"
+  matInput
+  class="text-area"
+  [formControl]="myControl"
+  [matAutocomplete]="auto"
+  [(ngModel)]="userId"
+/>
+<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
+  <mat-option *ngFor="let user of filteredOptions | async" [value]="user._id">
+    {{ user.username }}
+  </mat-option>
+</mat-autocomplete>
 <div class="dialog-actions" [mat-dialog-close]="'close'">
   <button (click)="createYearMonthItem()">Add</button>
 </div>

@@ -1,70 +1,3 @@
-<!-- <div>
-  <div class="interviews-header">
-    <span class="heading">Timeoff Requests</span>
-    <mat-icon (click)="openCreateDialog($event)" *ngIf="!isAdmin">{{
-      isOpen ? "remove_circle" : "add_circle"
-    }}</mat-icon>
-  </div>
-
-  <table class="fl-table">
-    <thead>
-      <tr>
-        <th *ngIf="isAdmin">USER</th>
-        <th>Start Date</th>
-        <th>{{ isAdmin ? "Off Days" : "End Date" }}</th>
-        <th>Status</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let toff of timeoffHistory">
-        <td *ngIf="isAdmin || isHR">
-          <span>{{ toff.userId }}</span>
-        </td>
-        <td>
-          <span>{{ formatedDate(toff.startDate) }}</span>
-        </td>
-
-        <td *ngIf="!isAdmin">
-          <span>{{
-            formatedDate(getEndDate(toff.startDate, toff.offDays))
-          }}</span>
-        </td>
-
-        <td *ngIf="isAdmin">
-          <input
-            type="number"
-            [(ngModel)]="toff.offDays"
-            value="{{ toff.offDays }}"
-          />
-        </td>
-        <td>
-          <div class=" " *ngIf="shouldDisplay">
-            <select [(ngModel)]="toff.status">
-              <option value="Approved">Approved</option>
-              <option value="Rejected">Rejected</option>
-            </select>
-
-            <mat-icon
-              (click)="
-                isAdmin ? updateTimeoffRequest(toff) : updateStatus(toff)
-              "
-              >edit</mat-icon
-            >
-
-            <mat-icon *ngIf="isAdmin" (click)="deleteRequest(toff)"
-              >delete</mat-icon
-            >
-          </div>
-
-          <span *ngIf="!shouldDisplay">
-            {{ toff.status }}
-          </span>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
 <div class="dashboard">
   <div class="events-container">
     <div
@@ -95,7 +28,20 @@
       <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
       </mat-progress-spinner>
     </div>
-    <table mat-table [dataSource]="timeoffHistory" *ngIf="!isLoading">
+    <table
+      mat-table
+      [dataSource]="
+        timeoffHistory
+          | paginate
+            : {
+                itemsPerPage: limit,
+                currentPage: page,
+                id: 'timeoffs',
+                totalItems: total
+              }
+      "
+      *ngIf="!isLoading"
+    >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let element">
@@ -111,14 +57,16 @@
       <ng-container matColumnDef="user" *ngIf="isAdmin || isHR">
         <th mat-header-cell *matHeaderCellDef>User</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.userId | username }}
+          {{ element.user.userRef }}
         </td>
       </ng-container>
 
       <!-- startdate Column -->
       <ng-container matColumnDef="startdate">
         <th mat-header-cell *matHeaderCellDef>Start Date</th>
-        <td mat-cell *matCellDef="let element">{{ element.startDate }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ element.startDate | date }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="endDate" *ngIf="!isAdmin">
@@ -165,9 +113,11 @@
           </button>
 
           <button
+            *ngIf="isAdmin"
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteRequest(element)"
+            matTooltip="Delete"
           >
             <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
@@ -177,5 +127,13 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <pagination-controls
+      *ngIf="!isLoading"
+      (pageChange)="changePage($event)"
+      previousLabel="Prev."
+      directionLinks="true"
+      nextLabel="Next"
+      id="timeoffs"
+    ></pagination-controls>
   </div>
 </div>

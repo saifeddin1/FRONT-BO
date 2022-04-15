@@ -2,7 +2,9 @@
 <div class="d-flex collab-popup">
   <img
     id="{{ data['collaborator']._id }}"
-    src="../../../../assets/img/{{ data['collaborator'].profile['image'] }}"
+    src="../../../../assets/img/{{
+      data['collaborator']?.profile.image || 'user-placeholder.png'
+    }}"
     class="card-img-top"
     alt="Card image cap"
   />

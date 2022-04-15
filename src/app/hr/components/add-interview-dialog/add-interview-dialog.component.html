@@ -19,11 +19,35 @@
     />
   </div>
   <div class="inputs-row">
-    <select [(ngModel)]="newInterview.userId" class="text-area">
+    <input
+      type="text"
+      matInput
+      class="text-area"
+      [formControl]="myControl"
+      [matAutocomplete]="auto"
+      [(ngModel)]="newInterview.userId"
+    />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      [displayWith]="displayFn.bind(this)"
+    >
+      <mat-option
+        *ngFor="let user of filteredOptions | async"
+        [value]="user._id"
+      >
+        {{ user.username }}
+      </mat-option>
+    </mat-autocomplete>
+
+    <!-- <select
+      [(ngModel)]="newInterview.userId"
+      class="text-area"
+      [disabled]="newInterview.userId !== ''"
+    >
       <option *ngFor="let user of users" value="{{ user._id }}">
         {{ user.username }}
       </option>
-    </select>
+    </select> -->
 
     <input class="text-area" type="file" [(ngModel)]="newInterview.files" />
   </div>
@@ -49,6 +73,11 @@
     placeholder="Test description"
   ></textarea>
 </mat-dialog-content>
-<div [mat-dialog-close]="'close'">
-  <button (click)="createInterview(newInterview)">Add</button>
-</div>
+<mat-dialog-actions align="end">
+  <div>
+    <button (click)="createInterview(newInterview)">Add</button>
+  </div>
+  <div [mat-dialog-close]="'close'">
+    <button>Close</button>
+  </div>
+</mat-dialog-actions>

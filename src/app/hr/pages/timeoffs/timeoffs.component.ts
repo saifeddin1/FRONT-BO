@@ -26,7 +26,9 @@ export class TimeoffsComponent implements OnInit {
   isHR: boolean;
   shouldDisplay: boolean;
   displayedColumns: string[] = ['#', 'startdate', 'status'];
-
+  page: number = 1;
+  limit: number = 7;
+  total: number = 7;
   displayedOptionColumns: string[] = ['name', 'action'];
   notificationItems: any;
 
@@ -85,26 +87,37 @@ export class TimeoffsComponent implements OnInit {
   }
   getEmlpoyeeTimeoffs() {
     return this.isAdmin || this.isHR
-      ? this.employeeService.getAllTimeoffs().subscribe((result) => {
-          this.timeoffHistory = result['response'][0]['totalData'];
-          this.timeoffs = result['response'][0]['totalData'];
-          this.isLoading = false;
-          console.log(
-            '⚡ TimeoffsComponent  this.timeoffHistory',
-            this.timeoffHistory
-          );
-        })
-      : this.employeeService.getEmployeeTimeoffHistory().subscribe((result) => {
-          this.timeoffHistory = result['response'][0]['totalData'];
-          this.timeoffs = result['response'][0]['totalData'];
-          this.isLoading = false;
-          console.log(
-            '⚡ TimeoffsComponent  this.timeoffHistory',
-            this.timeoffHistory
-          );
-        });
+      ? this.employeeService
+          .getAllTimeoffs(this.page, this.limit)
+          .subscribe((result) => {
+            this.timeoffHistory = result['response'][0]['totalData'];
+            this.timeoffs = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]['count'];
+            this.isLoading = false;
+            console.log(
+              '⚡ TimeoffsComponent  this.timeoffHistory',
+              this.timeoffHistory
+            );
+          })
+      : this.employeeService
+          .getEmployeeTimeoffHistory(this.page, this.limit)
+          .subscribe((result) => {
+            this.timeoffHistory = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]['count'];
+            this.timeoffs = result['response'][0]['totalData'];
+            this.isLoading = false;
+            console.log(
+              '⚡ TimeoffsComponent  this.timeoffHistory',
+              this.timeoffHistory
+            );
+          });
   }
 
+  changePage(event) {
+    console.log(event);
+    this.page = event;
+    this.getEmlpoyeeTimeoffs();
+  }
   // for hr agent
 
   updateStatus(timeoff) {
@@ -176,7 +189,6 @@ export class TimeoffsComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       this.isOpen = false;
-
       this.getEmlpoyeeTimeoffs();
     });
   }

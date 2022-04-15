@@ -1,62 +1,3 @@
-<!-- <div class="interviews-header">
-  <span class="heading">Interviews</span>
-  <mat-icon (click)="openCreateDialog($event)" *ngIf="isAdmin">{{
-    isOpen ? "remove_circle" : "add_circle"
-  }}</mat-icon>
-</div>
-<div class="interviews-wrapper">
-  <div class="candidate" *ngIf="!isAdmin">
-    <span>Interviews of candidate: </span> &nbsp; &nbsp;
-    <div class="headshot">
-      <img src="../../../../assets/img/{{ employeeImgPath }}" />&nbsp;
-      <span>{{ currentUser["username"] }}</span>
-    </div>
-  </div>
-
-  <table class="fl-table">
-    <thead>
-      <tr>
-        <th *ngIf="isAdmin">User</th>
-        <th scope="col">Date</th>
-        <th scope="col">Details</th>
-        <th></th>
-        <th *ngIf="isAdmin"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let interview of interviews">
-        <td *ngIf="isAdmin">
-          <span>{{ interview.userId }}</span>
-        </td>
-        <td>
-          <label
-            ><img src="../../../../assets/icons/141.png" />&nbsp;
-            {{ formatDate(interview?.date) }}</label
-          >
-          <br /><br />
-        </td>
-        <td>
-          <span>
-            {{ interview?.title }}
-          </span>
-          <br /><br />
-          <div *ngFor="let test of interview.test">
-            Test : <span>{{ test.title }}</span> @ <span>{{ test.url }}</span>
-          </div>
-        </td>
-        <td id="{{ interview._id }}" class="id-saver">
-          <mat-icon (click)="openDialog($event)">remove_red_eye</mat-icon>
-        </td>
-        <td *ngIf="isAdmin" id="{{ interview._id }}" class="id-saver">
-          <mat-icon (click)="openDialog($event)">edit</mat-icon>
-
-          <mat-icon (click)="deleteRecord(interview)">delete</mat-icon>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
-
 <div class="dashboard">
   <div class="events-container">
     <div
@@ -65,7 +6,7 @@
     >
       <h1>Interviews Table</h1>
 
-      <div class="profile-card">
+      <div class="profile-card" *ngIf="isAdmin">
         <div class="edit-button">
           <button
             id="add-button"
@@ -87,7 +28,19 @@
       <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
       </mat-progress-spinner>
     </div>
-    <table mat-table [dataSource]="dataSource" *ngIf="!isLoading">
+    <table
+      mat-table
+      [dataSource]="
+        dataSource
+          | paginate
+            : {
+                itemsPerPage: limit,
+                currentPage: page,
+                totalItems: total
+              }
+      "
+      *ngIf="!isLoading"
+    >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let element">
@@ -100,17 +53,21 @@
         </td>
       </ng-container>
       <!-- user Column -->
-      <ng-container matColumnDef="user">
+      <ng-container matColumnDef="user" *ngIf="isAdmin">
         <th mat-header-cell *matHeaderCellDef>User</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.userId | username }}
+          {{ element.user?.userRef }}
         </td>
       </ng-container>
 
-      <!-- startdate Column -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>Title</th>
         <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
       </ng-container>
 
       <ng-container matColumnDef="action">
@@ -130,21 +87,21 @@
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteRecord(element)"
+            matTooltip="Delete"
           >
             <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
         </td>
       </ng-container>
-      <!-- type Column -->
-      <!-- <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>type</th>
-        <td mat-cell *matCellDef="let element">{{ element.contractType }}</td>
-      </ng-container> -->
-
-      <!-- action Column -->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <pagination-controls
+      (pageChange)="changePage($event)"
+      previousLabel="Prev."
+      nextLabel="Next"
+      *ngIf="!isLoading"
+    ></pagination-controls>
   </div>
 </div>
