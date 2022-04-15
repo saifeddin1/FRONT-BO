@@ -61,7 +61,7 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.getEmployeeFileDetails();
-    this.getEmployeeActiveContract();
+    // this.getEmployeeActiveContract();
     this.getAllWorkFromItems();
     this.getAllLevels();
   }
@@ -115,10 +115,8 @@ export class ProfileComponent implements OnInit {
   }
   getEmployeeActiveContract() {
     let today = new Date();
-    return this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.employeeContract = result['response'].filter(
-        (c) => new Date(c.endDate) >= new Date(today)
-      )[0];
+    return this.summaryService.getActiveContract().subscribe((result) => {
+      this.employeeContract = result['response'];
       console.log(this.employeeContract);
     });
   }

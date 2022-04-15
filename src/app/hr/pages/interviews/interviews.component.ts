@@ -29,7 +29,7 @@ export class InterviewsComponent implements OnInit {
   isAdmin: boolean;
   users: User[];
 
-  displayedColumns: string[] = ['#', 'user', 'title', 'action'];
+  displayedColumns: string[] = ['#', 'title', 'date', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -37,7 +37,9 @@ export class InterviewsComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
   isLoading: boolean = true;
-
+  page: number = 1;
+  limit: number = 7;
+  total: number = 7;
   dataSource: MatTableDataSource<Interview> =
     new MatTableDataSource<Interview>();
   constructor(
@@ -49,12 +51,10 @@ export class InterviewsComponent implements OnInit {
     this.currentUser = this.summaryService.getUser();
     this.isAdmin = this.currentUser['type'] === ADMIN;
     this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
+    this.isAdmin && this.displayedColumns.splice(1, 0, 'user');
   }
 
-  ngOnInit(): void {
-    this.getUsers();
-    // !this.isAdmin && this.getEmployeFile();
-  }
+  ngOnInit(): void {}
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
       this.users = result['response'];
@@ -62,22 +62,12 @@ export class InterviewsComponent implements OnInit {
     });
   }
 
-  getEmployeFile() {
-    this.summaryService.getFileDetails().subscribe((result) => {
-      console.log(result);
+  // getEmployeFile() {
+  //   this.summaryService.getFileDetails().subscribe((result) => {
+  //     console.log(result);
 
-      this.employeeImgPath = result['response'][0]['profile']['image'];
-    });
-  }
-
-  // updateRecord(interview: Interview) {
-  //   this.summaryService.updateInterview(interview._id, interview).subscribe(
-  //     (result) => {
-  //       console.log('✅ ~  updated interview: ', result);
-  //       this.toaster.success('Updated Successfuly');
-  //     },
-  //     (error) => this.toaster.error(error.message)
-  //   );
+  //     this.employeeImgPath = result['response'][0]['profile']['image'];
+  //   });
   // }
 
   deleteRecord(interview: Interview) {
@@ -97,26 +87,47 @@ export class InterviewsComponent implements OnInit {
   }
 
   getAllnterviews() {
-    this.summaryService.getAllInterviews().subscribe((result) => {
-      this.interviews = result['response'][0]['totalData'];
-      this.dataSource = new MatTableDataSource(
-        result['response'][0]['totalData']
-      );
-      this.isLoading = false;
-      console.log('⚡ this.interviews', this.interviews);
-    });
+    this.summaryService
+      .getAllInterviews(this.page, this.limit)
+      .subscribe((result) => {
+        this.interviews = result['response'][0]['totalData'];
+        this.total = result['response'][0]['totalCount'][0]['count'];
+        this.dataSource = new MatTableDataSource(
+          result['response'][0]['totalData']
+        );
+        this.isLoading = false;
+        console.log(
+          '⚡ this.interviews and totel',
+          this.interviews,
+          this.total
+        );
+      });
   }
   getEmployeeInterview() {
-    this.summaryService.getInterviews().subscribe((result) => {
-      this.interviews = result['response'][0]['totalData'];
-      this.dataSource = new MatTableDataSource(
-        result['response'][0]['totalData']
-      );
-      this.isLoading = false;
-      console.log('⚡ this.interviews', this.interviews);
-    });
+    this.summaryService
+      .getInterviews(this.page, this.limit)
+      .subscribe((result) => {
+        this.interviews = result['response'][0]['totalData'];
+        this.total = result['response'][0]['totalCount'][0]['count'];
+        this.dataSource = new MatTableDataSource(
+          result['response'][0]['totalData']
+        );
+        this.isLoading = false;
+        console.log(
+          '⚡ this.interviews and totel',
+          this.interviews,
+          this.total
+        );
+      });
+  }
+
+  changePage(page: number) {
+    console.log(page);
+    this.page = page;
+    this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
   }
   openDialog(event, _interview_id) {
+    this.getUsers();
     const dialogRef = this.dialog.open(InterviewDialog, {
       height: 'auto',
       width: '700px',

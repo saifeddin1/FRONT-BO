@@ -8,6 +8,7 @@ interface Route {
   icon: string;
   status: string;
   label: string;
+  hidden: boolean;
 }
 const ROUTES: Array<Route> = [
   {
@@ -16,6 +17,7 @@ const ROUTES: Array<Route> = [
     icon: 'book',
     status: 'active',
     label: 'Summary',
+    hidden: false,
   },
   {
     roles: [INSTRUCTOR, HR, ADMIN],
@@ -23,6 +25,7 @@ const ROUTES: Array<Route> = [
     icon: 'user',
     status: 'active',
     label: 'Profile',
+    hidden: false,
   },
   {
     roles: [INSTRUCTOR, HR],
@@ -30,6 +33,7 @@ const ROUTES: Array<Route> = [
     icon: 'users',
     status: 'active',
     label: 'Collaborators',
+    hidden: false,
   },
   {
     roles: [ADMIN],
@@ -37,20 +41,16 @@ const ROUTES: Array<Route> = [
     icon: 'users',
     status: 'active',
     label: 'Employees',
+    hidden: false,
   },
-  // {
-  //   roles: [INSTRUCTOR, HR],
-  //   link: './contracts',
-  //   icon: 'copy',
-  //   status: 'active',
-  //   label: 'Contracts',
-  // },
+
   {
     roles: [ADMIN, INSTRUCTOR, HR],
     link: './manage-contracts',
     icon: 'copy',
     status: 'active',
     label: 'Contracts',
+    hidden: false,
   },
 
   {
@@ -59,6 +59,7 @@ const ROUTES: Array<Route> = [
     icon: 'form',
     status: 'active',
     label: 'Interviews',
+    hidden: false,
   },
 
   {
@@ -67,6 +68,7 @@ const ROUTES: Array<Route> = [
     icon: 'clock',
     status: 'active',
     label: 'Timetable',
+    hidden: false,
   },
   {
     roles: [INSTRUCTOR, HR],
@@ -74,6 +76,7 @@ const ROUTES: Array<Route> = [
     icon: 'calendar',
     status: 'active',
     label: 'Timesheets',
+    hidden: false,
   },
   {
     roles: [ADMIN],
@@ -81,6 +84,7 @@ const ROUTES: Array<Route> = [
     icon: 'calendar',
     status: 'active',
     label: 'T-heet Management',
+    hidden: false,
   },
   {
     roles: [INSTRUCTOR, HR, ADMIN],
@@ -88,6 +92,7 @@ const ROUTES: Array<Route> = [
     icon: 'on-holiday',
     status: 'active',
     label: 'Timeoffs',
+    hidden: false,
   },
 ];
 
@@ -102,6 +107,7 @@ export class HrdashboardComponent implements OnInit {
   routes: Array<Route> = ROUTES;
   user: User;
   isHr: boolean = false;
+  doesEmployeeHaveContract: boolean = true;
   isInstructor: boolean;
   constructor(public userService: UserService) {}
 
@@ -113,9 +119,16 @@ export class HrdashboardComponent implements OnInit {
   }
   ngDoCheck() {
     this.user = this.userService.getCurrentUser();
+
+    // this.routes.forEach((route) => {
+    //   this.isAdmin
+    //     ? (route.hidden = false)
+    //     : (route.hidden = this.doesEmployeeHaveContract);
+    // });
+
     if (this.user && this.user.type) {
-      this.routes = ROUTES.filter((route) =>
-        route.roles.includes(this.user.type)
+      this.routes = ROUTES.filter(
+        (route) => route.roles.includes(this.user.type) && !route.hidden
       );
     }
   }

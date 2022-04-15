@@ -23,7 +23,9 @@ export class ManageContractsComponent implements OnInit {
   dialogOperation: string;
   currentUser: any;
   form: FormGroup;
-
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
   displayedColumns: string[] = ['#', 'startdate', 'status', 'type', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
@@ -73,25 +75,38 @@ export class ManageContractsComponent implements OnInit {
   }
 
   getAllContractsWithSalary() {
-    this.employeeService.getAllContractsWithSalaries().subscribe((result) => {
-      console.log('⚡ ~  getContractsWithSalary ~ result', result);
-      this.contracts = result['response'][0]['totalData'];
-      this.allContracts = result['response'][0]['totalData'];
-      this.isLoading = false;
-    });
+    this.employeeService
+      .getAllContractsWithSalaries(this.p, this.limit)
+      .subscribe((result) => {
+        console.log('⚡ ~  getContractsWithSalary ~ result', result);
+        this.contracts = result['response'][0]['totalData'];
+        this.allContracts = result['response'][0]['totalData'];
+        this.total = result['response'][0]['totalCount'][0]['count'];
+        this.isLoading = false;
+      });
   }
 
   getEmployeeContracts() {
-    this.employeeService.getContractsWithSalary().subscribe((result) => {
-      this.contracts = result['response'];
-      this.allContracts = result['response'];
-      this.isLoading = false;
+    this.employeeService
+      .getContractsWithSalary(this.p, this.limit)
+      .subscribe((result) => {
+        this.contracts = result['response'][0]['totalData'];
+        this.allContracts = result['response'][0]['totalData'];
+        this.total = result['response'][0]['totalCount'][0]['count'];
+        this.isLoading = false;
 
-      console.log(
-        '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
-        this.contracts
-      );
-    });
+        console.log(
+          '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
+          this.contracts
+        );
+      });
+  }
+  changePage(event) {
+    console.log(event);
+    this.p = event;
+    this.isAdmin
+      ? this.getAllContractsWithSalary()
+      : this.getEmployeeContracts();
   }
 
   openDialog(event, operation, _contract_id) {

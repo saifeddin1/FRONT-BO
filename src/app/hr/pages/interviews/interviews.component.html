@@ -6,7 +6,7 @@
     >
       <h1>Interviews Table</h1>
 
-      <div class="profile-card">
+      <div class="profile-card" *ngIf="isAdmin">
         <div class="edit-button">
           <button
             id="add-button"
@@ -28,7 +28,19 @@
       <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
       </mat-progress-spinner>
     </div>
-    <table mat-table [dataSource]="dataSource" *ngIf="!isLoading">
+    <table
+      mat-table
+      [dataSource]="
+        dataSource
+          | paginate
+            : {
+                itemsPerPage: limit,
+                currentPage: page,
+                totalItems: total
+              }
+      "
+      *ngIf="!isLoading"
+    >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let element">
@@ -41,17 +53,21 @@
         </td>
       </ng-container>
       <!-- user Column -->
-      <ng-container matColumnDef="user">
+      <ng-container matColumnDef="user" *ngIf="isAdmin">
         <th mat-header-cell *matHeaderCellDef>User</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.userId | username }}
+          {{ element.user?.userRef }}
         </td>
       </ng-container>
 
-      <!-- startdate Column -->
       <ng-container matColumnDef="title">
         <th mat-header-cell *matHeaderCellDef>Title</th>
         <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef>Date</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
       </ng-container>
 
       <ng-container matColumnDef="action">
@@ -71,21 +87,21 @@
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteRecord(element)"
+            matTooltip="Delete"
           >
             <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
         </td>
       </ng-container>
-      <!-- type Column -->
-      <!-- <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef>type</th>
-        <td mat-cell *matCellDef="let element">{{ element.contractType }}</td>
-      </ng-container> -->
-
-      <!-- action Column -->
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
+    <pagination-controls
+      (pageChange)="changePage($event)"
+      previousLabel="Prev."
+      nextLabel="Next"
+      *ngIf="!isLoading"
+    ></pagination-controls>
   </div>
 </div>

@@ -101,12 +101,12 @@
   }
 }
 
-td input,
+/* td input,
 select {
   padding: 5px;
   border-radius: 5px;
   border-color: #ccc;
-}
+} */
 .interview-add {
   transition: all 2s ease-in-out;
 }
@@ -145,9 +145,9 @@ select {
   height: 20px;
 }
 
-td span {
+/* td span {
   line-height: 5rem;
-}
+} */
 td input {
   margin-top: 1rem;
 }
@@ -177,7 +177,7 @@ select {
   border: 1px solid #f1f1f1;
   box-shadow: 5px 5px 30px #f1f1f1;
 }
-
+/*
 @media (max-width: 767px) {
   .fl-table {
     display: block;
@@ -244,7 +244,8 @@ select {
     text-align: center;
   }
 }
-*/ .dashboard {
+*/
+.dashboard {
   padding-inline: 2rem;
   height: 100%;
 }

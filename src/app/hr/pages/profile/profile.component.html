@@ -86,20 +86,6 @@
               {{ userFile?.profile.seniorityLevel }}
             </label>
           </div>
-          <!-- <div [class]="!isDisabled ? 'input-row' : 'labels-row'">
-            <label class="">Job Type</label
-            ><input
-              matInput
-              class="text-area"
-              type="text"
-              *ngIf="!isDisabled"
-              placeholder="additional details"
-              value="{{ userFile?.profile.jobType }}"
-            />
-            <label style="width: 2vw" *ngIf="isDisabled">{{
-              userFile?.profile.jobType
-            }}</label>
-          </div> -->
 
           <div [class]="!isDisabled ? 'input-row' : 'labels-row'">
             <label class="">Work From</label>
@@ -119,7 +105,7 @@
               </option>
             </select>
             <label style="width: 2vw" *ngIf="isDisabled">{{
-              userFile?.profile.jobType
+              userFile?.profile.workFrom
             }}</label>
           </div>
           <div

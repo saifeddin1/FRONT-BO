@@ -18,20 +18,20 @@ export class ContractsComponent implements OnInit {
     this.summaryService.getUser()['type'] !== 'ADMIN';
 
   ngOnInit(): void {
-    this.getContracts();
+    // this.getContracts();
   }
 
   formatedDate(date) {
     return formatDate(date);
   }
 
-  getContracts() {
-    this.summaryService.getContractsWithSalary().subscribe((result) => {
-      this.contracts = result['response'];
-      console.log(
-        '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
-        this.contracts
-      );
-    });
-  }
+  // getContracts() {
+  //   this.summaryService.getContractsWithSalary().subscribe((result) => {
+  //     this.contracts = result['response'];
+  //     console.log(
+  //       '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
+  //       this.contracts
+  //     );
+  //   });
+  // }
 }

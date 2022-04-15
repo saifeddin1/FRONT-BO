@@ -55,15 +55,22 @@ export class EmployeeSummaryService {
     return this.http.get<Contract[]>(`${this.BASE_URL}/contracts`);
   }
 
-  getAllContractsWithSalaries(): Observable<Contract[]> {
+  getAllContractsWithSalaries(
+    p: number,
+    limit: number
+  ): Observable<Contract[]> {
     return this.http.get<Contract[]>(
-      `${this.BASE_URL}/contracts/getAllContractsWithSalaries`
+      `${this.BASE_URL}/contracts/getAllContractsWithSalaries?page=${
+        p - 1
+      }&limit=${limit}`
     );
   }
 
-  getContractsWithSalary(): Observable<Contract[]> {
+  getContractsWithSalary(p: number, limit: number): Observable<Contract[]> {
     return this.http.get<Contract[]>(
-      `${this.BASE_URL}/contracts/employeeContractsWithSalary`
+      `${this.BASE_URL}/contracts/employeeContractsWithSalary?page=${
+        p - 1
+      }&limit=${limit}`
     );
   }
 
@@ -81,14 +88,24 @@ export class EmployeeSummaryService {
   }
 
   // ---------------------------- INTERVIEW -----------------------
-  getInterviews(): Observable<Interview[]> {
+  getInterviews(p: number, limit: number): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/employeeInterviews?limit=99`
+      `${this.BASE_URL}/interviews/employeeInterviews?page=${
+        p - 1
+      }&limit=${limit}`
     );
   }
 
-  getAllInterviews(): Observable<Interview[]> {
-    return this.http.get<Interview[]>(`${this.BASE_URL}/interviews`);
+  getEmployeeUpcomingInterviews() {
+    return this.http.get<Interview[]>(
+      `${this.BASE_URL}/interviews/upcomingInterviews`
+    );
+  }
+
+  getAllInterviews(p: number, limit: number): Observable<Interview[]> {
+    return this.http.get<Interview[]>(
+      `${this.BASE_URL}/interviews?page=${p - 1}&limit=${limit}`
+    );
   }
 
   createInterview(body: any): Observable<Interview> {
@@ -246,9 +263,11 @@ export class EmployeeSummaryService {
   }
 
   // ------------------------------- TIMEOFFS 😴 -----------------------------
-  getEmployeeTimeoffHistory(): Observable<Timeoff> {
+  getEmployeeTimeoffHistory(p: number, limit: number): Observable<Timeoff> {
     return this.http.get<Timeoff>(
-      `${this.BASE_URL}/timeoffs/employeeTimeoffHistory`
+      `${this.BASE_URL}/timeoffs/employeeTimeoffHistory?page=${
+        p - 1
+      }&limit=${limit}`
     );
   }
   createTimeoffRequest(body: Timeoff): Observable<Timeoff> {
@@ -269,8 +288,10 @@ export class EmployeeSummaryService {
   updateTimeoff(id: string, body: Timeoff): Observable<Timeoff> {
     return this.http.put<Timeoff>(`${this.BASE_URL}/timeOffs/${id}`, body);
   }
-  getAllTimeoffs(): Observable<Timeoff> {
-    return this.http.get<Timeoff>(`${this.BASE_URL}/timeoffs`);
+  getAllTimeoffs(p: number, limit: number): Observable<Timeoff> {
+    return this.http.get<Timeoff>(
+      `${this.BASE_URL}/timeoffs?page=${p - 1}&limit=${limit}`
+    );
   }
 
   deleteTimeoff(id: string): Observable<Timeoff> {
