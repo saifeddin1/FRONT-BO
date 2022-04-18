@@ -5,8 +5,6 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { VcRoutingModule } from './vc-routing.module';
-import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
-import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
@@ -34,21 +32,22 @@ import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from './constants/notifEnv';
 import { CantineComponent } from './pages/cantine/cantine.component'
+import { ChatClassComponent } from './pages/chat-class/chat-class.component';
+
 @NgModule({
 
   declarations: [
-    
+      ChatClassComponent,
       VcProfileComponent,
       VcCalendarComponent,
       VcDashboardComponent,
-      VcLiveSessionsComponent,
-      VcChatComponent,
       VcSettingsComponent,
       VcDevoirsComponent,
       VcRecordsComponent,
       VcEventsComponent,
       VcNotificationComponent,
       CantineComponent,
+      
   ],
   imports: [
     AngularFireModule.initializeApp(firebaseConfig),

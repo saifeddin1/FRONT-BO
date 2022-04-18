@@ -1,12 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { VcChatService } from 'src/app/vc/services/vc-chat.service';
+import { VcChatService } from '../../services/vc-chat.service';
+import { formatDate } from '../../constants/formatDate';
 
 @Component({
-  selector: 'app-vc-live-sessions',
-  templateUrl: './vc-live-sessions.component.html',
-  styleUrls: ['./vc-live-sessions.component.css']
+  selector: 'app-chat-class',
+  templateUrl: './chat-class.component.html',
+  styleUrls: ['./chat-class.component.css']
 })
-export class VcLiveSessionsComponent implements OnInit {
+export class ChatClassComponent implements OnInit {
+
   message: string;
   messages: string[] = [];
   
@@ -27,7 +29,7 @@ export class VcLiveSessionsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getAll();
+    this.getByNidId()
     this.chatService.listen('test event').subscribe((data)=>{
       console.log(data)
     })
@@ -35,7 +37,7 @@ export class VcLiveSessionsComponent implements OnInit {
       .getMessages()
       .subscribe(() => {
 
-            this.getAll();
+        this.getByNidId()
            
       });
       
@@ -55,6 +57,22 @@ export class VcLiveSessionsComponent implements OnInit {
       
    
   }
+  
+  getByNidId(){
+    this.chatService.getByNidId('dsi31').subscribe(res=>{
+      this.msgs = res['response'].map((body: any) => ({
+        message:body?.message,
+        userId:body?.userId ,
+        createdAt: formatDate(body?.createdAt)
+        
+      }
+      ),
+      console.log(this.msgs),
+      console.log(res['response'])
+      );
+    })
+  }
+
   getAll() {
     this.chatService.getAll().subscribe(
       res=>{

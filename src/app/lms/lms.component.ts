@@ -48,6 +48,18 @@ const ROUTES: Array<Route> = [
     label: 'Types Media',
   },
   {
+    roles: [ADMIN,],
+    link: './notification',
+    icon: 'notification',
+    label: 'Notifications',
+  },
+  {
+    roles: [ADMIN],
+    link: './cantine',
+    icon: 'fish',
+    label: 'Cantine',
+  },
+  {
     roles: [INSTRUCTOR, ADMIN],
     link: './media/list',
     icon: 'image-gallery',

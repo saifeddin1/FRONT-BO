@@ -50,6 +50,8 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from '../shared/shared.module';
+import { CantineComponent } from './pages/cantine/cantine.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 
 @NgModule({
@@ -80,6 +82,8 @@ import { SharedModule } from '../shared/shared.module';
     WorkProcessComponent,
     PricingComponent,
     TestimonialsComponent,
+    CantineComponent,
+    NotificationsComponent,
   
   ],
   imports: [

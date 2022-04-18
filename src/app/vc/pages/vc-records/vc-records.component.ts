@@ -1,11 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import { RecordsService } from '../../services/records.service';
 import { MatDialog } from '@angular/material/dialog';
 import {
   ChangeDetectionStrategy,
-  ViewChild,
   TemplateRef,
 } from '@angular/core';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-vc-records',
@@ -13,12 +16,18 @@ import {
   styleUrls: ['./vc-records.component.scss']
 })
 export class VcRecordsComponent implements OnInit {
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
+  clrModalOpen: boolean = false;
+  displayedColumns: string[] = ['course','class','subject','url','action'];
+
+
   courseName:any
-  constructor(private recordsService:RecordsService,public MatDialog:MatDialog) { }
+  constructor(private recordsService:RecordsService,public MatDialog:MatDialog,private toast:ToastrService) { }
   records:any={};
   id:any;
   newRecord:any={
-    updateRecord:"",
+    courseName:"",
     url:"",
     class:"",
     subject:"",
@@ -29,7 +38,7 @@ export class VcRecordsComponent implements OnInit {
       console.log(this.records);
     })
     this.newRecord={
-      updateRecord:"",
+      courseName:"",
       url:"",
       class:"",
       subject:"",
@@ -49,9 +58,11 @@ export class VcRecordsComponent implements OnInit {
 
   deleteRecord(){
       this.recordsService.deleteRecord(this.id).subscribe(res=>{
+        this.toast.success("","Deleted successfully")
+        this.ngOnInit()
       })
         
-        this.closeModal()
+        
       
   }
   updateRecord(){
@@ -74,9 +85,12 @@ export class VcRecordsComponent implements OnInit {
   addNewRec(){
     
       this.recordsService.addRecord(this.newRecord).subscribe(rese=>{
+        this.toast.success("","Added successfully")
         this.closeModal()
       })
+      console.log(this.newRecord)
   }
+  
 
 
 }

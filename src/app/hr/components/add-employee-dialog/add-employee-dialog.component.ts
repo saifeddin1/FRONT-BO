@@ -27,6 +27,7 @@ export class AddEmployeeDialogComponent implements OnInit {
       profile: {
         image: '',
         position: '',
+        fullname:'',
         proEmail: '',
         phone: '',
         address: '',

@@ -3,6 +3,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as firebase from 'firebase'
+import { env } from "../constants/env";
 
 @Injectable()
 export class NotificationService{
@@ -14,8 +15,9 @@ export class NotificationService{
     requestPerm(userName){
         this.angularFirebaseMessaging.requestToken.subscribe((token)=>{
    
-            console.log(token);
-            console.log(token.length)
+            
+                console.log(token)
+            
             
         },
         (err)=>
@@ -31,7 +33,7 @@ export class NotificationService{
     //     });
     //   }
 
-    notifier(data:any){
-        this.http.post("https://fcm.googleapis.com/fcm/send",data);
+    notifier(){
+        return  this.http.post(env.VCURL + "/notif",'');
     }
 }

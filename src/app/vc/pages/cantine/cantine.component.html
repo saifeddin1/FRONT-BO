@@ -1,29 +1,42 @@
 <ng-template #addCantine>
     <h2 class="mat-dialog-title">Add new meal</h2>
-<mat-dialog-content>
-  <div class="inputs-row">
-    <div>
-      <input
-        class="text-area"
-        type="text"
-        placeholder="Meal"
-      />
-    </div>
-    <div>
-        <select class="text-area" >
-        <option value="" *ngFor="let day of week">{{day}}</option>
+    <input
+    class="text-area"
+    type="text"
+    [(ngModel)]="meal.menu"
+    placeholder="Meal"
+  />
+  <select class="text-area" [(ngModel)]="meal.day">
+    <option value="">Select date</option>
+    <option *ngFor="let day of week">{{day}}</option>
 
-      </select>
-    </div>
-  </div>
-</mat-dialog-content>
-<mat-dialog-actions align="end">
+  </select>
   <div class="btn-update-file">
-    <button mat-button [mat-dialog-close]="true" >
+    <button (click)="addNewMeal()">
       Add
-    </button>
+    </button >
   </div>
-</mat-dialog-actions>
+
+</ng-template>
+
+<ng-template #editCantine>
+  <h2 class="mat-dialog-title">Edit meal</h2>
+  <input
+  class="text-area"
+  type="text"
+  [(ngModel)]="meal.menu"
+  placeholder="Meal"
+/>
+<select class="text-area" [(ngModel)]="meal.day">
+  <option value="">Select date</option>
+  <option *ngFor="let day of week">{{day}}</option>
+
+</select>
+<div class="btn-update-file">
+  <button (click)="updateMeal()">
+    Update
+  </button >
+</div>
 
 </ng-template>
 
@@ -33,7 +46,7 @@
         <h6>Daily Menu</h6>
         <div class="profile-card">
           <div class="edit-button">
-            <button id="add-button" class="btn button" (click)="openModal(addCantine)">
+            <button id="add-button" class="btn button" (click)="openModal(addCantine,'')">
               Add new meal
             </button>
           </div>
@@ -58,7 +71,7 @@
           <ng-container matColumnDef="action">
             <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
             <td class="px-3" mat-cell *matCellDef="let element; let i = index">
-              <button
+              <button (click)="openModal(editCantine,element._id)"
                 mat-icon-button
                 class="btn btn-info"              >
                 <clr-icon shape="pencil"></clr-icon>

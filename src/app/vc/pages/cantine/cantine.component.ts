@@ -7,6 +7,10 @@ import { CantineService } from '../../services/cantine.service';
 import { FormGroup } from '@angular/forms';
 import {Cantine} from '../../models/cantine'
 import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import {HttpClientModule} from '@angular/common/http';
+import { getToken } from '../../constants/getToken';
+import jwt_decode from 'jwt-decode';
 
 @Component({
   selector: 'app-cantine',
@@ -15,10 +19,17 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class CantineComponent implements OnInit {
   cantines:any;
+  id:any
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   clrModalOpen: boolean = false;
   displayedColumns: string[] = ['day','menu','action'];
+  meal={
+    day:"",
+    menu:""
+  }
+  user:any;
+
 
   paginatorOptions = {
     length: 10,
@@ -29,15 +40,18 @@ export class CantineComponent implements OnInit {
   tt=['zaeaze']
   
   dataSource: MatTableDataSource<Cantine> = new MatTableDataSource<Cantine>();
-  constructor(private cantineService:CantineService,public MatDialog:MatDialog) { }
+  constructor(private cantineService:CantineService,public MatDialog:MatDialog,private Toast:ToastrService) { }
   
-  openModal(templateRef){
+  openModal(templateRef,id){
     this.MatDialog.open(templateRef)
+    this.id=id
 
   }
   
   ngOnInit() {
     this.getAll()
+    this.user=jwt_decode(getToken())
+    console.log(this.user)
   }
 
   getAll(){
@@ -53,16 +67,35 @@ export class CantineComponent implements OnInit {
         for (let i=0; i<this.week.length; i++){
             if (this.week[i].includes(this.cantines[index].day)){
               console.log('yes exist')
-              this.week.splice(1,1)
-              break;
+              this.week.splice(i,1)
             }
             else{
               console.log("nooo")
             }
         }
-        index=+1
+        index=index+1
       }
     })
+  }
+
+  addNewMeal(){
+    if (this.meal.day=="" || this.meal.menu=="" ){
+      this.Toast.warning("","Verify your infos")
+    }
+    else {
+         this.cantineService.addCantine(this.meal).subscribe(res=>{
+        this.Toast.success("","Added successfully")
+        this.MatDialog.ngOnDestroy()
+        this.ngOnInit()
+        this.meal={
+          day:"",
+          menu:""
+        }
+    })
+    }
+ 
+    
+    
   }
 
   deleleCantine(id:any){
@@ -72,5 +105,20 @@ export class CantineComponent implements OnInit {
     }) 
     this.ngOnInit();
   }
-
+  updateMeal(){
+    if (this.meal.day=="" || this.meal.menu=="" ){
+      this.Toast.warning("","Verify your infos")
+    }else {
+          this.cantineService.update(this.id,this.meal).subscribe(res=>{
+            this.Toast.success("","Updated successfully")
+            this.MatDialog.ngOnDestroy()
+            this.ngOnInit()
+            this.meal={
+              day:"",
+              menu:""
+            }
+        })
+      }
+    }
+    
 }
