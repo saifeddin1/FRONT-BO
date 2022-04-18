@@ -52,6 +52,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from '../shared/shared.module';
 import { CantineComponent } from './pages/cantine/cantine.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { NotificationService } from './services/notification.service';
 
 
 @NgModule({
@@ -142,9 +143,11 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
     TestimonialsComponent,
   ],
   providers: [
+    { provide: NotificationService },
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    
   ],
 })
 export class LMSModule {}

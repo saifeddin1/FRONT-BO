@@ -38,11 +38,6 @@ const ROUTES: Array<Route> = [
     label: 'Cantine',
   },
   {
-    link: './notification',
-    icon: 'notification',
-    label: 'Notifications',
-  },
-  {
     link: './settings',
     icon: 'form',
     label: 'settings',

@@ -5,7 +5,6 @@ import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
 import { VcEventsComponent } from './pages/vc-events/vc-events.component';
-import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
 import { VcProfileComponent } from './pages/vc-profile/vc-profile.component';
 import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
@@ -24,7 +23,6 @@ const routes: Routes = [
     { path:'chatClass',component:ChatClassComponent },
     { path:'devoirs',component:VcDevoirsComponent },
     { path:'events',component:VcEventsComponent },
-    {path:'notification',component:VcNotificationComponent},
     {path:'cantine',component:CantineComponent}
 ]}
 ];

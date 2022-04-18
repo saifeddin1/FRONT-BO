@@ -26,8 +26,6 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
 import { Ng2SearchPipeModule } from 'ng2-search-filter';
 import { ToastrModule } from 'ngx-toastr';
 import { VcEventsComponent } from './pages/vc-events/vc-events.component';
-import { VcNotificationComponent } from './pages/vc-notification/vc-notification.component';
-import { NotificationService } from './services/notification.service';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from './constants/notifEnv';
@@ -45,7 +43,6 @@ import { ChatClassComponent } from './pages/chat-class/chat-class.component';
       VcDevoirsComponent,
       VcRecordsComponent,
       VcEventsComponent,
-      VcNotificationComponent,
       CantineComponent,
       
   ],
@@ -80,8 +77,6 @@ import { ChatClassComponent } from './pages/chat-class/chat-class.component';
     NgxMatTimepickerModule,
 
   ],
-  providers:[NotificationService]
-
 
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
 
