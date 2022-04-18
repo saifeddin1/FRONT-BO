@@ -106,22 +106,11 @@ export class SummaryComponent implements OnInit {
 
       this.contract = result['response'];
     });
-
-    // let today = new Date();
-    // return this.summaryService.getContractsWithSalary().subscribe((result) => {
-    //   this.contract = result['response'].filter(
-    //     (c) => new Date(c.endDate) >= new Date(today)
-    //   )[0];
-    //   console.log(this.contract);
-    // });
   }
 
   getEmployeeInterviews() {
-    let today = new Date();
-    this.summaryService.getInterviews().subscribe((result) => {
-      this.interviews = result['response'][0]['totalData'].filter(
-        (intr) => new Date(intr.date) >= new Date(today)
-      );
+    this.summaryService.getEmployeeUpcomingInterviews().subscribe((result) => {
+      this.interviews = result['response'][0]['totalData'];
 
       console.log('⚡ this.interview', this.interviews);
     });

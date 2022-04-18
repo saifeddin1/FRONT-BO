@@ -23,16 +23,16 @@
       <option value="Rejected">Rejected</option>
     </select>
   </div>
-  <div>
-    <button
-      mat-dialog-close="close"
-      (click)="
-        isAddOperation
-          ? requestTimeoff()
-          : updateTimeoffRequest(data['timeoffRequest'])
-      "
-    >
-      {{ isAddOperation ? "Add" : "Edit" }}
-    </button>
-  </div>
 </div>
+<mat-dialog-actions>
+  <button
+    (click)="
+      isAddOperation
+        ? requestTimeoff()
+        : updateTimeoffRequest(data['timeoffRequest'])
+    "
+  >
+    {{ isAddOperation ? "Add" : "Edit" }}
+  </button>
+  <button mat-dialog-close="close">Close</button>
+</mat-dialog-actions>

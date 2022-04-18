@@ -6,8 +6,8 @@
         class="text-area"
         type="text"
         placeholder="user REF"
-        value="{{ employee?.userRef }}"
-        [(ngModel)]="employee.userRef"
+        value="{{ employee?.profile.fullname }}"
+        [(ngModel)]="employee.profile.fullname"
       />
     </div>
     <div>
@@ -63,7 +63,7 @@
   </div>
 
   <div class="inputs-row">
-    <div>
+    <!-- <div>
       <select class="text-area" [(ngModel)]="employee?.profile.jobType">
         <option value="">Pick jobType</option>
         <option value="Full-Time">Full-Time</option>
@@ -71,24 +71,25 @@
         <option value="Contract">Contract</option>
         <option value="Internship">Internship</option>
       </select>
+    </div> -->
+    <div>
+      <select class="text-area" [(ngModel)]="employee?.profile.seniorityLevel">
+        <option selected="selected" disabled="disabled">Pick Level</option>
+        <option value="{{ level?.title }}" *ngFor="let level of levels">
+          {{ level?.title }}
+        </option>
+      </select>
     </div>
-
     <div>
       <select class="text-area" [(ngModel)]="employee?.profile.workFrom">
-        <option value="">Pick workFrom</option>
-        <option value="On-Site">On-Site</option>
-        <option value="Remote">Remote</option>
-        <option value="Hybrid">Hybrid</option>
+        <option selected="selected" disabled="disabled">Pick workFrom</option>
+        <option value="{{ item?.title }}" *ngFor="let item of workFromItems">
+          {{ item?.title }}
+        </option>
       </select>
     </div>
   </div>
   <div class="inputs-row last">
-    <select class="text-area" [(ngModel)]="employee?.profile.seniorityLevel">
-      <option value="">Pick Level</option>
-      <option value="Junior">Junior</option>
-      <option value="Senior">Senior</option>
-      <option value="Consultant">Consultant</option>
-    </select>
     <textarea
       class="text-area"
       value="{{ employee?.profile?.description }}"

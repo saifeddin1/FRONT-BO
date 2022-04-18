@@ -24,4 +24,9 @@ export class ResetpwdService {
     return this.http.post<any>(`${this.BASE_URL}/api/v1/auth/resetpassword/${email}`,newpass,{'headers':headers})
 
   }
+  changepwdbyadmin(email:string, newpass: object) {
+    const headers = { 'content-type': 'application/json'}  
+    console.log("email change pwd",email);
+    return this.http.post<any>(`${this.BASE_URL}/api/v1/auth/changepassbyadmin/${email}`,newpass,{'headers':headers})
+  }
 }

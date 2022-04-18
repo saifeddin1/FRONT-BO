@@ -157,6 +157,7 @@ export class LoginSignupComponent implements OnInit {
         if (res === false) {
           this.toasterService.error(
             DEFAULT_MESSAGES.confirmation.password.invalid
+            
           );
           console.log('incorrect password');
           this.error = 'Error: Invalid Password';
@@ -164,6 +165,8 @@ export class LoginSignupComponent implements OnInit {
           // console.log('***** aCESS TOKEN ****', res.accessToken);
           this.userService.setUser(
             this.userService.decodeToken(res.accessToken)
+            
+
           );
           this.userService.setToken(res.accessToken);
           console.log(this.userService.user);
@@ -211,9 +214,11 @@ export class LoginSignupComponent implements OnInit {
     }
 
     if (!this.userService.validateEmail(user.email)) {
+
+
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.email.invalid);
       return;
-    }
+    } 
 
     if (user.password.length < 8) {
       this.toasterService.error(DEFAULT_MESSAGES.confirmation.password.short);
@@ -242,7 +247,7 @@ export class LoginSignupComponent implements OnInit {
         }
         return;
       }
-    );
+    ); 
   }
 
   onSubmit() {

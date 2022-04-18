@@ -4,8 +4,8 @@
         <h6>Programs Table</h6>
         <div class="profile-card">
           <div class="edit-button">
-            <button id="add-button" class="btn button" (click)="openModal('add')" >
-              Add Program
+            <button id="add-button" class="btn button" (click)="getallprograms()" >
+              sync Program
             </button>
           </div>
   
@@ -52,19 +52,7 @@
     
 
       
-      <!-- action Column -->
-      <ng-container matColumnDef="action">
-        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-          <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
-            <clr-icon shape="pencil"></clr-icon>
-          </button>
-
-          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteProgram(element._id)">
-            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
-          </button>
-        </td>
-      </ng-container>
+    
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
