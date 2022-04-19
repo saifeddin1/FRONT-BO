@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { NotificationService } from '../../services/notification.service';
+import { getToken } from '../../constants/getToken';
+import jwtDecode from 'jwt-decode';
+
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
@@ -9,12 +12,20 @@ import { NotificationService } from '../../services/notification.service';
 export class NotificationsComponent implements OnInit {
 
   constructor(private MatDialog:MatDialog, private NotificationService:NotificationService) { }
+  user:any
   notif:any={
     title:"",
     body:"",
-    token:"cp5ks42cfkAZ4CdTaGbfq9:APA91bFcQiH1EZLcJN8DB7av8hpzebgZFDGDmbChszmB2LiR_Z5wH8yilcweJjv5K_cuHjiRoKGPKnYZQiye77ftK0_DXBz84GONRml-ufRn4N_Szg-xT8c1w0X_eBF-YZfBDbO-PaS7"
+    niveau:"",
+    currentUserNiv:""
   }
   ngOnInit(): void {
+    this.user=jwtDecode(getToken())
+    this.notif.currentUserNiv=this.user.username
+    console.log(this.notif)
+    
+    console.log(this.user)
+    this.NotificationService.requestPerm("aaa")
   }
   openModal(templateRef){
       this.MatDialog.open(templateRef)
@@ -22,6 +33,8 @@ export class NotificationsComponent implements OnInit {
 
 
   sendNotification(){
+    
+    console.log(this.notif)
     console.log(this.notif)
       this.NotificationService.notifier(this.notif).subscribe(res=>{
 

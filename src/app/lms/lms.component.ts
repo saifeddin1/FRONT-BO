@@ -48,7 +48,7 @@ const ROUTES: Array<Route> = [
     label: 'Types Media',
   },
   {
-    roles: [ADMIN,],
+    roles: [ADMIN,STUDENT],
     link: './notification',
     icon: 'notification',
     label: 'Notifications',

@@ -12,11 +12,11 @@ export class NotificationService{
     constructor(private angularFirebaseMessaging: AngularFireMessaging, private http:HttpClient){
     }
 
-    requestPerm(userName){
-        this.angularFirebaseMessaging.requestToken.subscribe((token)=>{
-   
-            
+    async requestPerm(userName){
+        await this.angularFirebaseMessaging.requestToken.subscribe((token)=>{
                 console.log(token)
+                window.localStorage.setItem("notif_token", token);
+
             
             
         },

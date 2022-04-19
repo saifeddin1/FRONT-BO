@@ -1,6 +1,4 @@
 <link rel="manifest" href="../../../../manifest.json">
-<button (click)="sendNotification()" >notification</button>
-<link rel="manifest" href="../../../../manifest.json">
 <ng-template #deleteTemp> 
     <img src="../../../../assets/img/danger.png" class="danger"alt="">
       <h3>
@@ -22,13 +20,19 @@
             class="text-area"
             type="text"
             [(ngModel)]="notif.title"
-            placeholder="Course name"
+            placeholder="title"
           />
               <input
               class="text-area"
               type="text"
               [(ngModel)]="notif.body"
-              placeholder="Class"
+              placeholder="Description"
+              />
+              <input
+              class="text-area"
+              type="text"
+              [(ngModel)]="notif.niveau"
+              placeholder="Niveau"
               />
   <div class="btn-update-file">
     <button (click)="sendNotification()">
