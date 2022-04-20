@@ -7,7 +7,7 @@
       <input
         type="text"
         matInput
-        *ngIf="!isViewOperation"
+        [disabled]="!isViewOperation"
         class="text-area"
         [formControl]="myControl"
         [matAutocomplete]="auto"
