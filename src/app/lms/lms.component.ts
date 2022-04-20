@@ -48,18 +48,6 @@ const ROUTES: Array<Route> = [
     label: 'Types Media',
   },
   {
-    roles: [ADMIN,STUDENT],
-    link: './notification',
-    icon: 'notification',
-    label: 'Notifications',
-  },
-  {
-    roles: [ADMIN],
-    link: './cantine',
-    icon: 'fish',
-    label: 'Cantine',
-  },
-  {
     roles: [INSTRUCTOR, ADMIN],
     link: './media/list',
     icon: 'image-gallery',
@@ -70,6 +58,18 @@ const ROUTES: Array<Route> = [
     link: './instructors',
     icon: 'users',
     label: 'Instructeurs',
+  },
+  {
+    roles: [ADMIN,STUDENT],
+    link: './notification',
+    icon: 'notification',
+    label: 'Notifications',
+  },
+  {
+    roles: [ADMIN,STUDENT],
+    link: './cantine',
+    icon: 'fish',
+    label: 'Cantine',
   },
   { roles: [ADMIN], link: './students', icon: 'users', label: 'Apprenants' },
   {

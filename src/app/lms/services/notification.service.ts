@@ -34,6 +34,17 @@ export class NotificationService{
     //   }
 
     notifier(data:any){
-        return  this.http.post(env.VCURL + "/notif", data);
+        return  this.http.post(env.VCURL + "/VC/sendNotification", data);
+    }
+    saveNotification(data:any){
+        return  this.http.post(env.VCURL + "/VC/addNotification", data);
+    }
+    
+    getSavedNotifications(){
+        return this.http.get(env.VCURL + "/VC/getNotifications")
+    }
+
+    deleteNotification(id:any){
+        return this.http.delete(env.VCURL + "/VC/deleteNotification/" + id)
     }
 }
