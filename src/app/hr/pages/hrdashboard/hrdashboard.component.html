@@ -20,17 +20,25 @@
           />
           <p class="title pl-5">HR Management</p>
         </div>
+        <div
+          *ngIf="isLoading"
+          style="display: flex; justify-content: center; align-items: center"
+        >
+          <mat-spinner> </mat-spinner>
+        </div>
         <ng-container *ngFor="let route of routes">
-          <a
-            class="navitem"
-            clrVerticalNavLink
-            [routerLink]="route.link"
-            routerLinkActive="active"
-            [routerLinkActiveOptions]="{ exact: true }"
-          >
-            <clr-icon [attr.shape]="route.icon"></clr-icon>
-            <span>{{ route.label }}</span>
-          </a>
+          <div *ngIf="(employeeContract && !isLoading) || isAdmin">
+            <a
+              class="navitem"
+              clrVerticalNavLink
+              [routerLink]="route.link"
+              routerLinkActive="active"
+              [routerLinkActiveOptions]="{ exact: true }"
+            >
+              <clr-icon [attr.shape]="route.icon"></clr-icon>
+              <span>{{ route.label }}</span>
+            </a>
+          </div>
         </ng-container>
 
         <a class="navitem" clrVerticalNavLink (click)="logout()">

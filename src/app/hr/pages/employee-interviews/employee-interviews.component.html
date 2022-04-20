@@ -1,39 +1,44 @@
 <div class="dashboard">
   <div class="events-container">
     <div
-      class="d-flex dates"
+      class="row d-flex dates"
       style="justify-content: space-between; align-items: center"
     >
-      <h1>Interviews Table</h1>
-
-      <div class="edit-button" *ngIf="isAdmin">
-        <button
-          id="add-button"
-          class="btn button"
-          matTooltip="Add Interview"
-          (click)="openCreateDialog($event)"
-        >
-          Add Interview
-        </button>
+      <div class="profile-card">
+        <div class="edit-button">
+          <div>
+            <mat-icon
+              (click)="goBack()"
+              style="cursor: pointer; font-size: 3rem"
+              >chevron_left</mat-icon
+            >
+            <br />
+            <h1>Interviews Table</h1>
+          </div>
+          <button
+            id="add-button"
+            class="btn button"
+            matTooltip="Add Interview"
+            (click)="addInterview($event)"
+          >
+            Add Interview
+          </button>
+        </div>
       </div>
     </div>
   </div>
 
-  <div class="row d-flex dates" style="position: relative">
-    <div class="example-loading-shade" *ngIf="isLoading">
-      <mat-spinner> </mat-spinner>
+  <div class="row d-flex dates">
+    <div
+      *ngIf="isLoading"
+      style="display: flex; justify-content: center; align-items: center"
+    >
+      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
+      </mat-progress-spinner>
     </div>
     <ng-container *ngIf="!isLoading && !interviews.length"
       >No Interviews</ng-container
-    ><mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
-      <input
-        matInput
-        (keyup)="applyFilter($event)"
-        placeholder="Ex. ium"
-        #input
-      />
-    </mat-form-field>
+    >
     <table
       mat-table
       [dataSource]="
@@ -45,6 +50,7 @@
                 totalItems: total
               }
       "
+      *ngIf="!isLoading && interviews.length"
     >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
@@ -55,13 +61,6 @@
           <mat-icon *ngIf="!element.enabled" style="color: rgb(201, 18, 18)"
             >block</mat-icon
           >
-        </td>
-      </ng-container>
-      <!-- user Column -->
-      <ng-container matColumnDef="user" *ngIf="isAdmin">
-        <th mat-header-cell *matHeaderCellDef>User</th>
-        <td mat-cell *matCellDef="let element">
-          {{ element.user?.userRef }}
         </td>
       </ng-container>
 
@@ -82,14 +81,13 @@
             mat-icon-button
             class="btn btn-info"
             [matTooltip]="isAdmin ? 'Edit Interview' : 'View Interview'"
-            (click)="openDialog($event, element)"
+            (click)="openDialog($event, element?._id)"
           >
-            <clr-icon *ngIf="isAdmin" shape="pencil"></clr-icon>
+            <clr-icon shape="pencil"></clr-icon>
             <clr-icon *ngIf="!isAdmin" shape="eye"></clr-icon>
           </button>
 
           <button
-            *ngIf="isAdmin"
             mat-icon-button
             matTooltip="Delete Interview"
             class="btn btn-outline-danger"
@@ -103,23 +101,11 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator
-      *ngIf="!isLoading"
-      #paginator
-      [length]="total"
-      [pageIndex]="p"
-      [pageSize]="limit"
-      [pageSizeOptions]="[7, 14, 21, 28, 42]"
-      showFirstLastButtons
-      (page)="changePage($event)"
-      aria-label="Select page of periodic elements"
-    >
-    </mat-paginator>
-    <!-- <pagination-controls
+    <pagination-controls
       (pageChange)="changePage($event)"
       previousLabel="Prev."
       nextLabel="Next"
       *ngIf="!isLoading && interviews.length > 7"
-    ></pagination-controls> -->
+    ></pagination-controls>
   </div>
 </div>

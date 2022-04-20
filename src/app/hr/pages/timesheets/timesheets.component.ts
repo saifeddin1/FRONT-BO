@@ -24,12 +24,12 @@ export class TimesheetsComponent implements OnInit {
   monthlyWorkingHours: number;
   monthlyHoursLimit: number;
   totalHours: number;
-  currentTimesheet: Timesheet = {
-    userId: this.employeeService.getUser()['_id'],
-    date: null,
-    note: '',
-    workingHours: 0,
-  };
+  // currentTimesheet: Timesheet = {
+  //   userId: this.employeeService.getUser()['_id'],
+  //   date: null,
+  //   note: '',
+  //   workingHours: 0,
+  // };
   timesheet: Timesheet;
   isDeclared: boolean;
   isApproved: boolean;
@@ -73,7 +73,7 @@ export class TimesheetsComponent implements OnInit {
   getEmployeeActiveContract() {
     let today = new Date();
     return this.employeeService.getActiveContract().subscribe((result) => {
-      this.contract = result['response']
+      this.contract = result['response'];
 
       this.monthlyHoursLimit = this.contract?.hoursNumber;
     });
@@ -109,8 +109,8 @@ export class TimesheetsComponent implements OnInit {
   }
 
   checkHours(timesheet) {
-    this.getExtraHours();
     if (timesheet.workingHours > 8) {
+      this.getExtraHours();
       timesheet.extraHours = timesheet.workingHours - 8;
     } else {
       timesheet.extraHours = 0;
@@ -202,17 +202,17 @@ export class TimesheetsComponent implements OnInit {
       );
   }
 
-  insertRecord() {
-    this.employeeService
-      .createEmployeeTimeSheet(this.currentTimesheet)
-      .subscribe((result) => {
-        console.log(
-          '⚡ ~ file: timesheets.component.ts ~ line 85 ~ TimesheetsComponent ~ insertRecord ~ result',
-          result
-        );
-        this.getEmployeeTimeSheets();
-      });
-  }
+  // insertRecord() {
+  //   this.employeeService
+  //     .createEmployeeTimeSheet(this.currentTimesheet)
+  //     .subscribe((result) => {
+  //       console.log(
+  //         '⚡ ~ file: timesheets.component.ts ~ line 85 ~ TimesheetsComponent ~ insertRecord ~ result',
+  //         result
+  //       );
+  //       this.getEmployeeTimeSheets();
+  //     });
+  // }
 
   createDeclaration() {
     return this.employeeService

@@ -2,18 +2,7 @@
   padding-inline: 2rem;
   height: 100%;
 }
-.example-loading-shade {
-  position: absolute;
-  top: 45px;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background: rgba(177, 177, 177, 0.15);
-  z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+
 .events-container {
   margin-bottom: 1rem;
 }
@@ -48,5 +37,16 @@ button {
 
 .edit-button {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
+}
+
+.edit-button div {
+  display: flex;
+  width: 215px;
+  flex-direction: column;
+}
+
+.edit-button .mat-icon {
+  cursor: pointer;
+  font-size: 3rem;
 }
