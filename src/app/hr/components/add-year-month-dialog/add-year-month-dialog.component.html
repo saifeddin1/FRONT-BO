@@ -1,29 +1,46 @@
-<h2 mat-dialog-title>Add Year Month Item (YYYY-MM) :</h2>
-<input
-  class="text-area"
-  type="text"
-  placeholder="yyyy-mm"
-  [(ngModel)]="newYearMonthItem.title"
-/>
-<br />
-<!-- <select class="text-area" [(ngModel)]="userId">
-  <option value="{{ user._id }}" *ngFor="let user of data['users']">
-    {{ user.username }}
-  </option>
-</select> -->
-<input
-  type="text"
-  matInput
-  class="text-area"
-  [formControl]="myControl"
-  [matAutocomplete]="auto"
-  [(ngModel)]="userId"
-/>
-<mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn.bind(this)">
-  <mat-option *ngFor="let user of filteredOptions | async" [value]="user._id">
-    {{ user.username }}
-  </mat-option>
-</mat-autocomplete>
-<div class="dialog-actions" [mat-dialog-close]="'close'">
-  <button (click)="createYearMonthItem()">Add</button>
+<h2 mat-dialog-title>
+  {{ isEditOperation ? "Edit" : "Add" }} Year Month Item (YYYY-MM) :
+</h2>
+<div mat-dialog-content *ngIf="!isEditOperation">
+  <input
+    class="text-area"
+    *ngIf="!isEditOperation"
+    type="text"
+    placeholder="yyyy-mm"
+    [(ngModel)]="newYearMonthItem.title"
+  />
+  <br />
+  <input
+    type="text"
+    matInput
+    class="text-area"
+    [formControl]="myControl"
+    [matAutocomplete]="auto"
+    [(ngModel)]="userId"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    [displayWith]="displayFn.bind(this)"
+  >
+    <mat-option *ngFor="let user of filteredOptions | async" [value]="user._id">
+      {{ user.username }}
+    </mat-option>
+  </mat-autocomplete>
+  <div class="adding-note">
+    Note: Adding an item will result in adding timesheets to corresponding month
+    and year.
+  </div>
+</div>
+<div mat-dialog-content *ngIf="isEditOperation">
+  <input
+    class="text-area"
+    type="text"
+    placeholder="yyyy-mm"
+    [(ngModel)]="yearMonthItem.title"
+  />
+</div>
+<div class="dialog-actions" id="dialog-actions">
+  <button (click)="createYearMonthItem()" *ngIf="!isEditOperation">Add</button>
+  <button *ngIf="isEditOperation" (click)="editYearMonth()">Edit</button>
+  <button [mat-dialog-close]="'close'">Close</button>
 </div>

@@ -2,6 +2,7 @@
 <mat-dialog-content>
   <div class="inputs-row">
     <div>
+      <label>Full Name</label>
       <input
         class="text-area"
         type="text"
@@ -11,6 +12,7 @@
       />
     </div>
     <div>
+      <label>TimeOff Balance</label>
       <input
         class="text-area"
         type="text"
@@ -22,6 +24,7 @@
   </div>
   <div class="inputs-row">
     <div>
+      <label>Professional Email</label>
       <input
         class="text-area"
         type="text"
@@ -31,6 +34,7 @@
       />
     </div>
     <div>
+      <label>Phone</label>
       <input
         class="text-area"
         type="text"
@@ -43,6 +47,7 @@
 
   <div class="inputs-row">
     <div>
+      <label>Address</label>
       <input
         class="text-area"
         type="text"
@@ -52,6 +57,7 @@
       />
     </div>
     <div>
+      <label>Position</label>
       <input
         class="text-area"
         type="text"
@@ -63,29 +69,20 @@
   </div>
 
   <div class="inputs-row">
-    <!-- <div>
-      <select class="text-area" [(ngModel)]="newEmployee?.profile.jobType">
-        <option selected disabled>Pick Jobtype</option>
-        <option value="Full-Time">Full-Time</option>
-        <option value="Part-Time">Part-Time</option>
-        <option value="Contract">Contract</option>
-        <option value="Internship">Internship</option>
-      </select>
-    </div> -->
     <div>
+      <label>Seniority Level</label>
       <select
         class="text-area"
         [(ngModel)]="newEmployee?.profile.seniorityLevel"
       >
-        <option selected="selected" disabled="disabled">Pick level</option>
         <option value="{{ level?.title }}" *ngFor="let level of levels">
           {{ level?.title }}
         </option>
       </select>
     </div>
     <div>
+      <label>Work From</label>
       <select class="text-area" [(ngModel)]="newEmployee?.profile.workFrom">
-        <option selected="selected" disabled="disabled">Pick workFrom</option>
         <option value="{{ item?.title }}" *ngFor="let item of workFromItems">
           {{ item?.title }}
         </option>
@@ -93,22 +90,19 @@
     </div>
   </div>
   <div class="inputs-row">
-    <textarea
-      class="text-area"
-      value="{{ newEmployee?.profile?.description }}"
-      [(ngModel)]="newEmployee.profile.description"
-      placeholder="Description.."
-      cols="30"
-      rows="5"
-    ></textarea>
     <div>
-      <!-- <select [(ngModel)]="newEmployee.userId" class="text-area">
-        <option selected disabled>Pick user</option>
-        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
-          {{ user?.username }}
-        </option>
-      </select> -->
-
+      <label>Description</label>
+      <textarea
+        class="text-area"
+        value="{{ newEmployee?.profile?.description }}"
+        [(ngModel)]="newEmployee.profile.description"
+        placeholder="Description.."
+        cols="30"
+        rows="5"
+      ></textarea>
+    </div>
+    <div>
+      <label>User</label>
       <input
         type="text"
         matInput

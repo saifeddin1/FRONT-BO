@@ -15,9 +15,12 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class AddYearMonthDialogComponent implements OnInit {
   newYearMonthItem: YearMonth;
+  yearMonthItem: YearMonth;
   userId: string;
   myControl = new FormControl();
   filteredOptions: Observable<User[]>;
+  operation: string;
+  isEditOperation: boolean;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private employeeService: EmployeeSummaryService,
@@ -27,6 +30,9 @@ export class AddYearMonthDialogComponent implements OnInit {
       title: '',
     };
     if (this.userId && this.userId !== '') this.myControl.disable();
+    this.operation = data['operation'];
+    this.yearMonthItem = data['item'];
+    this.isEditOperation = this.operation === 'edit';
   }
 
   ngOnInit(): void {
@@ -60,6 +66,15 @@ export class AddYearMonthDialogComponent implements OnInit {
         this.toaster.success(
           `Timesheets for ${this.newYearMonthItem.title} created`
         );
+      });
+  }
+
+  editYearMonth() {
+    this.employeeService
+      .editYearMonthItem(this.yearMonthItem._id, this.yearMonthItem)
+      .subscribe((result) => {
+        console.log('⚡ .edit ym ~ result', result);
+        this.toaster.success('Successfuly updated');
       });
   }
 }

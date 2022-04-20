@@ -21,7 +21,6 @@ import { InterviewDialog } from './components/interviewDialog/interview-dialog-c
 import { ToastrModule } from 'ngx-toastr';
 import { JsonFormComponent } from './components/json-form/json-form.component';
 import { CalendarModule } from 'angular-calendar';
-import { ContractsComponent } from './pages/contracts/contracts.component';
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
@@ -44,6 +43,11 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { UsernamePipe } from './helpers/username.pipe';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { EmployeeContractsComponent } from './pages/employee-contracts/employee-contracts.component';
+import { EmployeeInterviewsComponent } from './pages/employee-interviews/employee-interviews.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -54,7 +58,7 @@ import { UsernamePipe } from './helpers/username.pipe';
     ProfileComponent,
     InterviewDialog,
     JsonFormComponent,
-    ContractsComponent,
+
     TimetableComponent,
     TimesheetsComponent,
     TimeoffsComponent,
@@ -70,6 +74,8 @@ import { UsernamePipe } from './helpers/username.pipe';
     AddYearMonthDialogComponent,
     TimeoffAddDialogComponent,
     UsernamePipe,
+    EmployeeContractsComponent,
+    EmployeeInterviewsComponent,
   ],
   imports: [
     HRRoutingModule,
@@ -93,6 +99,11 @@ import { UsernamePipe } from './helpers/username.pipe';
     MatFormFieldModule,
     MatInputModule,
     MatProgressSpinnerModule,
+    BrowserAnimationsModule,
+    MatTooltipModule,
+    MatSortModule,
+    MatTableModule,
+    MatPaginatorModule,
   ],
   exports: [
     SummaryComponent,

@@ -3,7 +3,7 @@
   <mat-menu #belowMenu="matMenu" yPosition="below">
     <button
       mat-menu-item
-      (click)="navigateTo('hr/administration', 'HR Management')"
+      (click)="navigateTo('hr-administration', 'HR Management')"
       [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
     >
       HR Management
@@ -24,7 +24,7 @@
     >
       ACCOUNTING SYSTEM
     </button>
-    
+
     <button
       mat-menu-item
       routerLink="identity"

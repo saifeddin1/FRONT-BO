@@ -33,10 +33,15 @@
       >
         Approved
       </button>
-      <button *ngIf="!isDeclared && !isApproved" (click)="createDeclaration()">
+      <button
+        matTooltip="Declare Timesheet"
+        *ngIf="!isDeclared && !isApproved"
+        (click)="createDeclaration()"
+      >
         Declare
       </button>
       <button
+        matTooltip="Cancel Declaration"
         class="declared"
         *ngIf="isDeclared && !isApproved"
         (click)="cancelDeclaration()"

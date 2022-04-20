@@ -3,18 +3,7 @@
 <mat-dialog-content>
   <div class="inputs-row">
     <div>
-      <!-- <select
-        [disabled]="contract?.userId !== ''"
-        [(ngModel)]="contract.userId"
-        class="text-area"
-        *ngIf="!isViewOperation"
-      >
-        <option value="">Pick a user</option>
-        <option value="{{ user?._id }}" *ngFor="let user of data['users']">
-          {{ user?.username }}
-        </option>
-      </select> -->
-
+      <label>User</label>
       <input
         type="text"
         matInput
@@ -56,7 +45,6 @@
           class="text-area"
           [(ngModel)]="contract.contractType"
         >
-          <option selected="selected" disabled="disabled">Pick Type</option>
           <option
             value="{{ typeItem?.title }}"
             *ngFor="let typeItem of typeItems"
@@ -111,6 +99,19 @@
             {{ contract?.endDate | date }}
           </strong>
         </div>
+      </div>
+    </div>
+    <div class="inputs-row">
+      <div>
+        <label>Timesheet Type</label>
+        <select
+          [(ngModel)]="contract.timesheetType"
+          [disabled]="isViewOperation"
+          class="text-area"
+        >
+          <option value="ADMINISTRATIVE">ADMINISTRATIVE</option>
+          <option value="NON ADMINISTRATIVE">NON ADMINISTRATIVE</option>
+        </select>
       </div>
     </div>
   </div>
@@ -219,7 +220,6 @@
   <button
     mat-button
     *ngIf="data['dialogOperation'] === 'edit'"
-    [mat-dialog-close]="'close'"
     (click)="updateContractWithSalary(contract)"
   >
     Edit
