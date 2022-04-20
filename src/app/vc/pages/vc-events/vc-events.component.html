@@ -1,0 +1,28 @@
+
+  <div class="container">
+    <div class="card" *ngFor="let event of events">
+      <div class="card-header" >
+        <img src="../../../../assets/Angular_full_color_logo.svg.png" alt="rover" />
+      </div>
+      <div class="card-body">
+        <span class="tag tag-teal">{{event.type}}</span>
+        <h4>
+          {{event.name}}
+        </h4>
+        <p>
+          {{event.description}}
+        </p>
+        <div class="user">
+          <img src="" alt="user" />
+          <div class="user-info">
+            <h5>{{event.responsable}}</h5>
+            <small>{{event.date}}</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>   
+
+
+
+

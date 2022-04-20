@@ -4,10 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-
 import { VcRoutingModule } from './vc-routing.module';
-import { VcLiveSessionsComponent } from './pages/vc-live-sessions/vc-live-sessions.component';
-import { VcChatComponent } from './pages/vc-chat/vc-chat.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
@@ -22,22 +19,40 @@ import { ClarityModule, ClrIconModule } from '@clr/angular';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
 import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-
-
-
+import { MatTableModule } from '@angular/material/table';
+import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
+import { BrowserModule } from '@angular/platform-browser';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { Ng2SearchPipeModule } from 'ng2-search-filter';
+import { ToastrModule } from 'ngx-toastr';
+import { VcEventsComponent } from './pages/vc-events/vc-events.component';
+import { AngularFireMessagingModule } from '@angular/fire/messaging';
+import { AngularFireModule } from '@angular/fire';
+import { firebaseConfig } from './constants/notifEnv';
+import { CantineComponent } from './pages/cantine/cantine.component'
+import { ChatClassComponent } from './pages/chat-class/chat-class.component';
 
 @NgModule({
 
   declarations: [
+      ChatClassComponent,
       VcProfileComponent,
       VcCalendarComponent,
       VcDashboardComponent,
-      VcLiveSessionsComponent,
-      VcChatComponent,
       VcSettingsComponent,
-      VcDevoirsComponent
+      VcDevoirsComponent,
+      VcRecordsComponent,
+      VcEventsComponent,
+      CantineComponent,
+      
   ],
   imports: [
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFireMessagingModule,
+    ScrollingModule,
+    ToastrModule,
+    Ng2SearchPipeModule,
+    BrowserModule,
     ClarityModule, 
     ClrIconModule,
     MatInputModule,
@@ -49,10 +64,8 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     CommonModule,
     VcRoutingModule,
     FormsModule,
-   
     BrowserAnimationsModule,
-
-
+    MatTableModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
@@ -64,8 +77,6 @@ import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateMod
     NgxMatTimepickerModule,
 
   ],
-
-
 
   // providers: [DayService,WeekService,WorkWeekService,MonthService,MonthAgendaService],
 

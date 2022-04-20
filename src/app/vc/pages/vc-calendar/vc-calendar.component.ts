@@ -11,8 +11,9 @@ import {
   CalendarView,
 } from 'angular-calendar';
 import { MatPaginator } from '@angular/material/paginator';
-import { VcCalenderService } from 'src/app/services/vc-calender.service';
 import { MatDialog } from '@angular/material/dialog';
+import { VcCalenderService } from '../../services/vc-calender.service';
+import { ToastrService } from 'ngx-toastr';
 
 const colors: any = {
   red: {
@@ -24,26 +25,41 @@ const colors: any = {
   selector: 'app-vc-calendar',
   templateUrl: './vc-calendar.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  styleUrls: ['./vc-calendar.component.css']
+  styleUrls: ['./vc-calendar.component.scss']
 })
 
 export class VcCalendarComponent implements OnInit {
   formElemet = document.getElementById('123');
-
-  conratsEchec:any;
+  seanceId:any;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   view: CalendarView = CalendarView.Week;
   CalendarView = CalendarView;
   viewDate: Date = new Date();
   clrModalOpen: boolean = false;
   today = new Date();
-  meet={
+  oneSeance:any={
     name:"",
     description:"",
     url:"",
+    urlInstructor:"",
+    urlAuthInstructor:"464",
     startDate:new Date(),
     endDate:new Date(),
-    classId:""
+    userId:"",
+    niveauId:"",
+    seanceId:""
+  }
+  seance={
+    name:"",
+    description:"",
+    url:"",
+    urlInstructor:"564",
+    urlAuthInstructor:"4564",
+    startDate:new Date(),
+    endDate:new Date(),
+    userId:"456",
+    niveauId:"dsi",
+    seanceId:"123"
   }
   mt:any;
   date = this.today.getFullYear()+'-'+( this.today.getMonth()+1)+'-'+ this.today.getDate()
@@ -51,12 +67,12 @@ export class VcCalendarComponent implements OnInit {
     this.clrModalOpen = true;
   }
   closeModal() {
-    this.clrModalOpen = false;
+    this.dialog.ngOnDestroy;
   }
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
   mobileMode: boolean = false;
-  constructor(private calendarService:VcCalenderService, public dialog:MatDialog) {
+  constructor(private calendarService:VcCalenderService, public dialog:MatDialog,private toastr: ToastrService) {
     if (window.innerWidth < 768) {
       console.log('mobileMode');
       this.mobileMode = true;
@@ -69,7 +85,6 @@ export class VcCalendarComponent implements OnInit {
   ngOnInit(): void {
     this.getAll();
     console.log(this.events)
-    this.formElemet.hidden=true;
   }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
@@ -84,9 +99,9 @@ export class VcCalendarComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
     //Add '${implements OnChanges}' to the class.
-    if (changes.viewDate) {
+    // if (changes.viewDate) {
       this.getAll();
-    }
+    // }
   }
   eventTimesChanged({
     event,
@@ -130,43 +145,116 @@ export class VcCalendarComponent implements OnInit {
       return seanceNivs.map((x) => x.name);
     }
   }
+  seances:any
   getAll() {
     this.calendarService.getAll().subscribe(
       res=>{
-
-        this.events = res['response'].map((body: any) => ({
+          this.seances=res['response']
+          console.log(this.seances)
+          console.log(res['response'])
+          this.events = res['response'].map((body: any) => ({
           start: new Date(body?.startDate),
           end:new Date(body?.endDate) ,
-          title: body?.description,
+          title: body?.name,
           color: colors.primary,
         }
         ),
         console.log(this.events),
-        console.log(res['response'])
+        console.log(res)
         );
       }
     )
   }
-  openDialog(templateRef) {
-
+  openMainModal(templateRef){
     this.dialog.open(templateRef);
   }
-  // *****add new meet*****
-  addNewMeet(templateRef1,tmpref2){
-    console.log(this.meet)
-    if (this.meet.startDate>this.meet.endDate){
-      this.conratsEchec="check your data"
-      this.dialog.open(tmpref2);
+  openDialog(templateRef,id) {
+    
+    this.dialog.open(templateRef);
+    this.seanceId=id
+    console.log(this.seanceId)
+    this.getoneSeance()
   }
-  else{
-      this.calendarService.addVC(this.meet).subscribe(res=>{
+  // *****add new meet*****
+  addNewseance(){
+    console.log(this.seance)
+    if (this.seance.startDate>this.seance.endDate){
+      this.toastr.warning("Warning","Verify your dates");
+        }
+    else if(this.seance.description=="" || this.seance.name==""|| this.seance.url==""){
+    this.toastr.warning("Warning","Verify your data");
+       }
+    else{
+      this.calendarService.addSeance(this.seance).subscribe(res=>{
+        
+        this.toastr.success("Success","added successfully");
+        this.seance={
+          name:"",
+          description:"",
+          url:"",
+          urlInstructor:"564",
+          urlAuthInstructor:"4564",
+          startDate:new Date(),
+          endDate:new Date(),
+          userId:"456",
+          niveauId:"dsi",
+          seanceId:"123"
+        }
+        this.dialog.ngOnDestroy()
+        this.ngOnInit()
     });
-    this.conratsEchec="added successfully"
-    this.dialog.open(tmpref2);
+    
   }
   }
   closeeeModal(){
-    this.dialog.closeAll()
+    this.dialog.ngOnDestroy()
   }
+
+  deleteSeance(){
+    this.calendarService.deleteOne(this.seanceId).subscribe(res=>{
+      this.toastr.success("Success","deleted successfully")
+      this.ngOnInit()
+     
+    })
+    this.dialog.ngOnDestroy()
+  }
+  updateSeance(){
+    if (this.oneSeance.startDate>this.oneSeance.endDate){
+      this.toastr.warning("Warning","Verify your dates");
+        }
+    else if(this.oneSeance.description=="" || this.oneSeance.name==""|| this.oneSeance.url==""){
+    this.toastr.warning("Warning","Verify your data");
+       }
+    else{
+      this.calendarService.updateSeance(this.seanceId,this.oneSeance).subscribe(res=>{
+        
+        this.toastr.success("Success","updated successfully");
+        this.oneSeance={
+          name:"",
+          description:"",
+          url:"",
+          urlInstructor:"",
+          urlAuthInstructor:"",
+          startDate:new Date(),
+          endDate:new Date(),
+          userId:"",
+          niveauId:"",
+          seanceId:""
+        }
+        this.dialog.ngOnDestroy()
+        this.ngOnInit()
+    });
+    
+  }
+   
+  }
+
+  getoneSeance(){
+    this.calendarService.getOneSeance(this.seanceId).subscribe(res=>{
+          this.oneSeance=res
+          console.log(this.oneSeance)
+    })
+  }
+
 
 }
