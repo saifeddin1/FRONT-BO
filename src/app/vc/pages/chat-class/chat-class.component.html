@@ -1,5 +1,4 @@
 <body>
-	<div class="rightt"></div>
     <section id="main-right" class="main-right">
       <!-- header -->
       <div id="header-right" class="header-right">
@@ -9,7 +8,7 @@
         </div>
 
         <!-- name -->
-        <h4 class="name friend-name">Math</h4>
+        <h4 class="name friend-name">{{msgToSend.niveau}}</h4>
 
         <!-- some btn -->
         <div class="some-btn">
@@ -26,7 +25,7 @@
         <!-- FRIENDS CHAT TEMPLATE -->
         <div id="friends-chat" class="friends-chat" *ngFor="let msg of msgs">
           <div class="profile friends-chat-photo">
-            <img src="images/ava2.jpg" alt="">
+            <img src="../../../../assets/eunoia-logo.png" alt="">
           </div>
           <div class="friends-chat-content">
             <p class="friends-chat-name">{{msg.nom}}</p>
@@ -37,16 +36,17 @@
 
         
         <!-- YOUR CHAT TEMPLATE -->
-        <div id="your-chat" class="your-chat"*ngFor="let msg of msgs">
+        <!-- <div id="your-chat" class="your-chat"*ngFor="let msg of msgs">
           <p class="your-chat-balloon">{{msg.message}}</p>
-          <p class="chat-datetime"><span class="glyphicon glyphicon-ok"></span> Sun, Aug 30 | 15:45</p>
-        </div>
+          <h5 class="chat-datetime">{{msg.createdAt}}</h5>
+          
+        </div> -->
       </div>
 
       <!-- typing area -->
       <div id="typing-area" class="typing-area" >
         <!-- input form -->
-        <input id="type-area" class="type-area" placeholder="Type something..." [(ngModel)]="msgs.message">
+        <input id="type-area" class="type-area" placeholder="Type something..." [(ngModel)]="msgToSend.message" (keyup)="$event.keyCode == 13 && sendMsg()">
         <!-- attachment btn -->
         <div class="attach-btn">
           <span class="glyphicon glyphicon-paperclip file-btn"></span>

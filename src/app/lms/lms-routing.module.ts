@@ -16,6 +16,8 @@ import { StudentMatiereComponent } from './pages/student-matiere/student-matiere
 import { MatiereDetailsComponent } from './pages/student-matiere/matiere-details/matiere-details.component';
 import { LmsComponent } from './lms.component';
 import { PreventStudentGuard } from '../hr/helpers/prevent-student.guard';
+import { CantineComponent } from './pages/cantine/cantine.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
@@ -127,6 +129,18 @@ const routes: Routes = [
         component: StudentAssistanceComponent,
         canActivate: [AuthGuard],
       },
+      {
+        path:'cantine',
+        component:CantineComponent,
+        canActivate: [AuthGuard],
+      },
+      {
+        path:'notification',
+        component:NotificationsComponent,
+        canActivate: [AuthGuard],
+      }
+
+
     ],
   },
   // { path: 'solutions', component: SolutionsComponent },

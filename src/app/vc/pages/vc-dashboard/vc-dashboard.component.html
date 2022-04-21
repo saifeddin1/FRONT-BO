@@ -12,7 +12,7 @@
         class="nav-trigger--bottom">
         <div>
           <img
-            src="../assets/eunoia-logo.png"
+            src="../assets/logo"
             id="logo"
             routerLink="./about"
             routerLinkActive="active"
@@ -31,7 +31,7 @@
           </a>
         </ng-container>
 
-        <a class="navitem" clrVerticalNavLink >
+        <a class="navitem" clrVerticalNavLink (click)="logOut()">
           <clr-icon shape="power"></clr-icon> <span>Logout</span>
         </a>
       </clr-vertical-nav>

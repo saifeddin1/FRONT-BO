@@ -1,16 +1,28 @@
 .main-wrapper {
   padding: 1rem;
 }
-.employee-list {
+.employees-list {
   display: flex;
   flex-direction: column;
 }
 .btn-add-employee {
   display: flex;
-  justify-content: end;
+  justify-content: space-between;
   padding-left: 1rem;
   margin-bottom: 2rem;
   align-items: center;
+}
+.example-loading-shade {
+  position: absolute;
+  top: 45px;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: rgba(177, 177, 177, 0.15);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 .employee-card-header {
   display: flex;
@@ -39,7 +51,7 @@
   padding: 1.25rem;
 }
 
-.btn-add-employee .mat-icon {
+.btn-add-employee .mat-icon:not("#sync") {
   cursor: pointer;
   font-size: 2rem;
   margin-inline: 15px;
@@ -67,6 +79,13 @@
   justify-content: start;
   align-items: center;
   width: 200px;
+}
+
+.employee-card .employee-basic img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 1rem;
 }
 
 .employee-card
@@ -134,9 +153,4 @@ button {
   /* White Base */
   background-color: #000;
   color: #ffffff;
-}
-
-.edit-button {
-  display: flex;
-  justify-content: end;
 }

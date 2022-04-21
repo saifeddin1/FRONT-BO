@@ -16,6 +16,7 @@ export class AppComponent implements OnInit {
   solutions: string = 'LMS SYSTEM 🔻';
   dropDownActive: boolean;
   unreadNotifications: number;
+  user: User;
   constructor(
     private router: Router,
     private userService: UserService,
@@ -26,6 +27,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this.userService.user;
     this.getNotifications();
     this.unreadCount();
   }

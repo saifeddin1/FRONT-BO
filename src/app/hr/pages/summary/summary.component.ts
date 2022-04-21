@@ -22,12 +22,7 @@ export class SummaryComponent implements OnInit {
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
-  timesheet: Timesheet = {
-    userId: this.currUser['_id'],
-    note: '',
-    date: null,
-    workingHours: 0,
-  };
+
   ngOnInit(): void {
     // this.getFiles();
     this.getEmployeeFileDetails();
@@ -36,45 +31,7 @@ export class SummaryComponent implements OnInit {
     this.getEmployeeInterviews();
     console.log('🤦 EmplyeeProfileComponent ~ currUser', this.currUser);
   }
-  // getCurrentTimesheet() {
-  //   let today = new Date().toISOString().split('T')[0];
-  //   console.log(
-  //     '⚡ ~ file: timesheets.component.ts ~ line 45 ~ TimesheetsComponent ~ getCurrentTimesheet ~ today',
-  //     today
-  //   );
-  //   return this.summaryService
-  //     .getEmployeeCurrentTimeSheet(today)
-  //     .subscribe((result) => {
-  //       this.timesheet = result['response'];
-  //       console.log(
-  //         '⚡  TimesheetsComponent ~ getCurrentTimesheet ~ result',
-  //         result['response']
-  //       );
-  //     });
-  // }
-  updateRecord(timesheet) {
-    console.log(timesheet);
 
-    return this.summaryService
-      .updateEmployeeTimeSheet(timesheet._id, {
-        note: timesheet.note,
-        workingHours: timesheet.workingHours,
-        date: timesheet.date,
-      })
-      .pipe(
-        catchError((err) => {
-          return throwError(err['error']);
-        })
-      )
-      .subscribe(
-        (result) => {
-          console.log(result);
-        },
-        (err) => {
-          console.log(err);
-        }
-      );
-  }
   formatDate(date) {
     let newDate = moment.utc(date)?.format('MMMM Do YYYY');
     return newDate;

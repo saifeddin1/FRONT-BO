@@ -7,6 +7,12 @@
   align-items: flex-start;
 }
 
+.inputs-row div {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
 /* .inputs-row input {
   padding: 12px;
   border-radius: 3px;

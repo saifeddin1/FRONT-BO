@@ -37,7 +37,6 @@ export class AddEmployeeDialogComponent implements OnInit {
         image: '',
         position: '',
         proEmail: '',
-        
         phone: '',
         address: '',
         jobType: '',

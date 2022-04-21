@@ -9,6 +9,7 @@
       <div class="profile-card">
         <div class="edit-button" *ngIf="!isAdmin">
           <button
+            matTooltip="Create Request"
             id="add-button"
             class="btn button"
             (click)="openDialog($event, 'add', undefined)"
@@ -20,14 +21,22 @@
     </div>
   </div>
 
-  <div class="row d-flex dates">
-    <div
-      *ngIf="isLoading"
-      style="display: flex; justify-content: center; align-items: center"
-    >
-      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
-      </mat-progress-spinner>
+  <div class="row d-flex dates" style="position: relative">
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner> </mat-spinner>
     </div>
+    <ng-container *ngIf="!isLoading && !timeoffs.length"
+      >No Interviews</ng-container
+    >
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. ium"
+        #input
+      />
+    </mat-form-field>
     <table
       mat-table
       [dataSource]="
@@ -40,7 +49,6 @@
                 totalItems: total
               }
       "
-      *ngIf="!isLoading"
     >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
@@ -101,6 +109,7 @@
         <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
         <td class="px-3" mat-cell *matCellDef="let element; let i = index">
           <button
+            matTooltip="Update Request"
             mat-icon-button
             class="btn btn-info"
             (click)="
@@ -114,6 +123,7 @@
 
           <button
             *ngIf="isAdmin"
+            matTooltip="Delete Request"
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteRequest(element)"
@@ -127,13 +137,25 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <pagination-controls
+    <mat-paginator
       *ngIf="!isLoading"
+      #paginator
+      [length]="total"
+      [pageIndex]="p"
+      [pageSize]="limit"
+      [pageSizeOptions]="[7, 14, 21, 28, 42]"
+      showFirstLastButtons
+      (page)="changePage($event)"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+    <!-- <pagination-controls
+      *ngIf="!isLoading && timeoffs.length > 7"
       (pageChange)="changePage($event)"
       previousLabel="Prev."
       directionLinks="true"
       nextLabel="Next"
       id="timeoffs"
-    ></pagination-controls>
+    ></pagination-controls> -->
   </div>
 </div>

@@ -1,40 +1,47 @@
 <div class="dashboard">
   <div class="events-container">
     <div
-      class="row d-flex dates"
+      class="d-flex dates"
       style="justify-content: space-between; align-items: center"
     >
       <h1>Contracts Table</h1>
 
-      <div class="profile-card">
-        <div class="edit-button" *ngIf="isAdmin">
-          <button
-            id="add-button"
-            class="btn button"
-            (click)="openDialog($event, 'add', undefined)"
-          >
-            Add Contract
-          </button>
-        </div>
+      <div class="edit-button" *ngIf="isAdmin">
+        <button
+          matTooltip="Add Contract"
+          id="add-button"
+          class="btn button"
+          (click)="openDialog($event, 'add', undefined)"
+        >
+          Add Contract
+        </button>
       </div>
     </div>
   </div>
 
-  <div class="row d-flex dates">
-    <div
-      *ngIf="isLoading"
-      style="display: flex; justify-content: center; align-items: center"
-    >
-      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
-      </mat-progress-spinner>
+  <div class="row d-flex dates" style="position: relative">
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner> </mat-spinner>
     </div>
+    <ng-container *ngIf="!isLoading && !allContracts.length"
+      >No Interviews</ng-container
+    >
+
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. ium"
+        #input
+      />
+    </mat-form-field>
     <table
       mat-table
       [dataSource]="
         contracts
           | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }
       "
-      *ngIf="!isLoading"
     >
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
@@ -48,10 +55,16 @@
         </td>
       </ng-container>
       <!-- user Column -->
-      <ng-container matColumnDef="user" *ngIf="isAdmin">
-        <th mat-header-cell *matHeaderCellDef>User</th>
+      <ng-container matColumnDef="ref" *ngIf="isAdmin">
+        <th mat-header-cell *matHeaderCellDef>Ref</th>
         <td mat-cell *matCellDef="let element">
           {{ element.user.userRef }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="employee" *ngIf="isAdmin">
+        <th mat-header-cell *matHeaderCellDef>Employee</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user.profile.fullname }}
         </td>
       </ng-container>
 
@@ -85,8 +98,9 @@
           <button
             *ngIf="isAdmin"
             mat-icon-button
+            matTooltip="Edit Contract"
             class="btn btn-info"
-            (click)="openDialog($event, 'edit', element?._id)"
+            (click)="openDialog($event, 'edit', element)"
           >
             <clr-icon shape="pencil"></clr-icon>
           </button>
@@ -96,7 +110,7 @@
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteContract(element?._id)"
-            matTooltip="Delete"
+            matTooltip="Delete Contract"
           >
             <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
@@ -105,6 +119,7 @@
             mat-icon-button
             class="btn btn-outline-primary"
             (click)="openDialog($event, 'view', element?._id)"
+            matTooltip="View Contract"
           >
             <clr-icon shape="eye"></clr-icon>
           </button>
@@ -114,11 +129,23 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <pagination-controls
+    <mat-paginator
       *ngIf="!isLoading"
+      #paginator
+      [length]="total"
+      [pageIndex]="p"
+      [pageSize]="limit"
+      [pageSizeOptions]="[7, 14, 21, 28, 42]"
+      showFirstLastButtons
+      (page)="changePage($event)"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+    <!-- <pagination-controls
+      *ngIf="!isLoading && allContracts.length > 7"
       (pageChange)="changePage($event)"
       previousLabel="Prev."
       nextLabel="Next"
-    ></pagination-controls>
+    ></pagination-controls> -->
   </div>
 </div>

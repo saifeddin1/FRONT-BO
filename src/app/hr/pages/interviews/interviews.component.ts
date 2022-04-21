@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
@@ -32,12 +33,12 @@ export class InterviewsComponent implements OnInit {
   displayedColumns: string[] = ['#', 'title', 'date', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   color: ThemePalette = 'accent';
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
   isLoading: boolean = true;
-  page: number = 1;
+  page: number = 0;
   limit: number = 7;
   total: number = 7;
   dataSource: MatTableDataSource<Interview> =
@@ -54,21 +55,15 @@ export class InterviewsComponent implements OnInit {
     this.isAdmin && this.displayedColumns.splice(1, 0, 'user');
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getUsers();
+  }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
       this.users = result['response'];
       console.log('result', this.users);
     });
   }
-
-  // getEmployeFile() {
-  //   this.summaryService.getFileDetails().subscribe((result) => {
-  //     console.log(result);
-
-  //     this.employeeImgPath = result['response'][0]['profile']['image'];
-  //   });
-  // }
 
   deleteRecord(interview: Interview) {
     this.summaryService.deleteInterview(interview._id).subscribe(
@@ -87,54 +82,82 @@ export class InterviewsComponent implements OnInit {
   }
 
   getAllnterviews() {
+    this.isLoading = true;
     this.summaryService
       .getAllInterviews(this.page, this.limit)
       .subscribe((result) => {
-        this.interviews = result['response'][0]['totalData'];
-        this.total = result['response'][0]['totalCount'][0]['count'];
-        this.dataSource = new MatTableDataSource(
-          result['response'][0]['totalData']
-        );
-        this.isLoading = false;
-        console.log(
-          '⚡ this.interviews and totel',
-          this.interviews,
-          this.total
-        );
+        if (
+          result['response'][0]['totalData'] &&
+          result['response'][0]['totalData'].length
+        ) {
+          this.interviews = result['response'][0]['totalData'];
+          this.total = result['response'][0]['totalCount'][0]?.count;
+          this.dataSource = new MatTableDataSource(
+            result['response'][0]['totalData']
+          );
+          this.dataSource.paginator = this.paginator;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.page;
+            this.paginator.length =
+              result['response'][0]['totalCount'][0]['count'] || 0;
+          });
+          this.isLoading = false;
+          console.log(
+            '⚡ this.interviews and totel',
+            this.interviews,
+            this.total
+          );
+        } else {
+          this.dataSource = new MatTableDataSource();
+          this.isLoading = false;
+        }
       });
   }
   getEmployeeInterview() {
+    this.isLoading = true;
     this.summaryService
       .getInterviews(this.page, this.limit)
       .subscribe((result) => {
-        this.interviews = result['response'][0]['totalData'];
-        this.total = result['response'][0]['totalCount'][0]['count'];
-        this.dataSource = new MatTableDataSource(
-          result['response'][0]['totalData']
-        );
-        this.isLoading = false;
-        console.log(
-          '⚡ this.interviews and totel',
-          this.interviews,
-          this.total
-        );
+        if (
+          result['response'][0]['totalData'] &&
+          result['response'][0]['totalData'].length
+        ) {
+          this.interviews = result['response'][0]['totalData'];
+          this.total = result['response'][0]['totalCount'][0]?.count;
+          this.dataSource = new MatTableDataSource(
+            result['response'][0]['totalData']
+          );
+          this.dataSource.paginator = this.paginator;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.page;
+            this.paginator.length =
+              result['response'][0]['totalCount'][0]['count'] || 0;
+          });
+          this.isLoading = false;
+          console.log(
+            '⚡ this.interviews and totel',
+            this.interviews,
+            this.total
+          );
+        } else {
+          this.dataSource = new MatTableDataSource();
+          this.isLoading = false;
+        }
       });
   }
 
-  changePage(page: number) {
-    console.log(page);
-    this.page = page;
+  changePage(event) {
+    console.log(event);
+    this.page = event.pageIndex;
+    this.limit = event.pageSize;
     this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
   }
-  openDialog(event, _interview_id) {
-    this.getUsers();
+  openDialog(event, _interview) {
     const dialogRef = this.dialog.open(InterviewDialog, {
       height: 'auto',
       width: '700px',
       data: {
-        interview: this.interviews.filter(
-          (interview) => interview._id === _interview_id
-        )[0],
+        interview: _interview,
         user: this.currentUser,
       },
     });
@@ -160,12 +183,10 @@ export class InterviewsComponent implements OnInit {
       this.getAllnterviews();
     });
   }
-
-  // initializeForm() {
-  //   this.http
-  //     .get('/assets/form-data.json')
-  //     .subscribe((formData: JsonFormData) => {
-  //       this.jsonFormData = formData;
-  //     });
-  // }
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (this.dataSource) {
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
+  }
 }
