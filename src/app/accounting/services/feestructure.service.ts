@@ -13,7 +13,7 @@ export class FeestructureService {
 
   private BASE_URL: string = environment.Accounting;
 
-  createFeestructure(Feestructure:FeeStructure){
+  createFeestructure(Feestructure:Object){
   
     return this.http.post<any>(`${this.BASE_URL}/api/feeStructure/`,Feestructure)
   }
@@ -21,6 +21,12 @@ export class FeestructureService {
   getFeestructures():Observable<any>{
    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/`); 
   }
+
+  
+
+  getFeestructureswithname():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/byname`); 
+   }
 
   deleteFeestructure(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/feeStructure/${id}`)

@@ -42,31 +42,22 @@
       <!-- program Column -->
       <ng-container matColumnDef="program">
         <th mat-header-cell *matHeaderCellDef> Program </th>
-        <td mat-cell *matCellDef="let element"> {{element.program}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.programname.name}} </td>
       </ng-container>
 
       <!-- academic year Column -->
       <ng-container matColumnDef="academicyear">
         <th mat-header-cell *matHeaderCellDef> Acadmicyear </th>
-        <td mat-cell *matCellDef="let element"> {{element.academicyear}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.academicyear.name}} </td>
       </ng-container>
       <!-- academicterm Column -->
       <ng-container matColumnDef="academicterm">
         <th mat-header-cell *matHeaderCellDef> academicterm</th>
-        <td mat-cell *matCellDef="let element"> {{element.academicterm }} </td>
+        <td mat-cell *matCellDef="let element"> {{element.academicterm.name }} </td>
       </ng-container>
 
-      <!-- studentcatgory Column -->
-      <ng-container matColumnDef="studentCategory">
-        <th mat-header-cell *matHeaderCellDef> StudentCategory</th>
-        <td mat-cell *matCellDef="let element"> {{element.studentCategory }} </td>
-      </ng-container>
-
-      <!-- studentcatgory Column -->
-      <ng-container matColumnDef="feeCategory">
-        <th mat-header-cell *matHeaderCellDef> FeeCategory</th>
-        <td mat-cell *matCellDef="let element"> {{element.feeCategory }} </td>
-      </ng-container>
+      
+   
 
     
 
@@ -168,22 +159,8 @@
             </select>
           </div>
 
-          <div class="position-top modalRow">
-            <strong class="modalcol3">StudentCategory</strong>
-            <input matInput class="text-area modalcol" placeholder="studentCategory" formControlName="studentCategory" >
-          </div>
-
-          <div class="position-top modalRow">
-            <strong class="modalcol3">FeeCategory</strong>
-            <select class="text-area modalcol" formControlName="feeCategory">
-              <option
-                *ngFor="let feeCategory of feeCtaegories"
-                value="{{feeCategory._id}}"
-              >
-                {{ feeCategory.name }}
-              </option>
-            </select>
-          </div>
+          
+          
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Description</strong>
@@ -198,6 +175,61 @@
 
         </div>
       </form>
+
+      <div class="column d-flex dates">
+        <div class="edit-button" style="float: left">
+          <button id="add-button" class="btn button" (click)="addfeecategorytotable()">
+            add Fee Category
+          </button>
+        </div>
+        <form [formGroup]="form1" >
+          <div class="add-overlay">
+  
+           
+          
+  
+            <div class="position-top modalRow">
+              <strong class="modalcol3">FeeCategory</strong>
+              <select class="text-area modalcol" formControlName="feeCategory">
+                <option
+                  *ngFor="let feeCategory of feeCtaegories"
+                  value="{{feeCategory._id}}"
+                >
+                  {{ feeCategory.name }}
+                </option>
+              </select>
+            </div>
+  
+           
+  
+           
+  
+          </div>
+        </form>
+        <table mat-table [dataSource]="dataSource1">
+          
+    
+         
+    
+          <!-- studentgroup Column -->
+          <ng-container matColumnDef="feeCategory">
+            <th mat-header-cell *matHeaderCellDef>feeCategory</th>
+            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+          </ng-container>
+    
+         
+          
+    
+        
+    
+          <tr mat-header-row *matHeaderRowDef="displayedColumns1"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns1"></tr>
+        </table>
+      </div>
+
+
+
+
     </div>
   </div>
   <div class="modal-footer">

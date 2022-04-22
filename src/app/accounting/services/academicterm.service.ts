@@ -19,7 +19,7 @@ export class AcademictermService {
   }
 
   getAcademicterms():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/academicyear/terms`); 
+   return this.http.get<any>(`${this.BASE_URL}/api/academicterm/`); 
   }
 
   getOneAcademicterm(id:string):Observable<any>{

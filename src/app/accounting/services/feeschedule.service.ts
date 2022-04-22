@@ -19,6 +19,9 @@ export class FeescheduleService {
   getFeesschedule():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeschedule/`); 
    }
+   getFeesschedulebyname():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeschedule/byname`); 
+   }
 
    getOneFeestructures(id:string):Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/${id}`); 

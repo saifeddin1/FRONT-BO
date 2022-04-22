@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { Academicyear } from '../../models/acadmicyear.model';
 import { AcademicyearService } from '../../services/academicyear.service';
@@ -60,8 +61,8 @@ export class AcademicyearComponent implements OnInit {
     this.form.patchValue({
       _id: body._id,
       name: body.name,
-     startyear: body.startyear,
-     endyear:body.endyear
+     startyear: moment(body.startyear).format('YYYY-MM-DD'),
+     endyear:moment(body.endyear).format('YYYY-MM-DD')
      
     });
   }

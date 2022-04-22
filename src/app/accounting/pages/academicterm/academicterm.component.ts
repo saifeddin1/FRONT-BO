@@ -28,7 +28,7 @@ export class AcademictermComponent implements OnInit {
   displayedColumns : string[]=[
     
     'name',
-    'termname',
+   
     'description',
    
      'action'
@@ -51,34 +51,14 @@ export class AcademictermComponent implements OnInit {
   getallAcademicterm(){
     this.academictermService.getAcademicterms().subscribe(
       (res)=>{
-       for(let i=0;i<res.response.length ;i++){
-        this.filtredata.name = res.response[i].name ;
-
-         for(let j =0; j<res.response[i].terms.length;j++){
-
-            var x = {
-              
-              _id :res.response[i].terms[j]._id,
-              name: res.response[i].name ,
-              termname:res.response[i].terms[j].name,
-              description:res.response[i].terms[j].description
-
-            }
-            
-            
-
        
-            this.academicterm.push(x);
-         }
-         
-       }
-      
-       this.dataSource = new MatTableDataSource(this.academicterm);
+       console.log("academic term response", res.response)
+       this.dataSource = new MatTableDataSource(res.response);
 
 
       },
       (error)=>{
-        console.error(error)
+        console.error("get academic term error:",error)
       }
     )
   }
@@ -113,9 +93,9 @@ export class AcademictermComponent implements OnInit {
   fillFormModel(body) {
     this.form.patchValue({
       _id: body._id,
-      name: body.termname,
+      name: body.name,
       description: body.description,
-      academicyearid: body.academicyearid,
+      academicyearid: body.academicyear,
     });
   }
 

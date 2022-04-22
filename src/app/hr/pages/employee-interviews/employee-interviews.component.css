@@ -1,0 +1,52 @@
+.dashboard {
+  padding-inline: 2rem;
+  height: 100%;
+}
+
+.events-container {
+  margin-bottom: 1rem;
+}
+.modalRow {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+h2 {
+  line-height: initial;
+  font-size: 2rem;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  /* Shadow Dark · 16dp */
+  box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  /* width: 5rem; */
+  height: 2.5rem;
+  /* White Base */
+  background-color: #000;
+  color: #ffffff;
+}
+
+.edit-button {
+  display: flex;
+  justify-content: space-between;
+}
+
+.edit-button div {
+  display: flex;
+  width: 215px;
+  flex-direction: column;
+}
+
+.edit-button .mat-icon {
+  cursor: pointer;
+  font-size: 3rem;
+}

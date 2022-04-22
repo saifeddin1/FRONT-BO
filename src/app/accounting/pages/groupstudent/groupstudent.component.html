@@ -48,19 +48,19 @@
        <!-- Program Column -->
        <ng-container matColumnDef="program">
         <th mat-header-cell *matHeaderCellDef> program </th>
-        <td mat-cell *matCellDef="let element"> {{element.program}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.programname.name}} </td>
       </ng-container>
 
        <!-- academic year Column -->
        <ng-container matColumnDef="academicyear">
         <th mat-header-cell *matHeaderCellDef> Academic year </th>
-        <td mat-cell *matCellDef="let element"> {{element.academicyear}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.academicyear.name}} </td>
       </ng-container>
 
        <!-- academic term Column -->
        <ng-container matColumnDef="academicterm">
         <th mat-header-cell *matHeaderCellDef> Academic term </th>
-        <td mat-cell *matCellDef="let element"> {{element.academicterm}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.academicterm.name}} </td>
       </ng-container>
 
        <!-- max size Column -->

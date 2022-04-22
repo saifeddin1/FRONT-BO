@@ -34,6 +34,9 @@ export class GroupstudentService {
   getStudents():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/student/`);
   }
+  getGroupStudentsbyname():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/byname`);
+  }
 
   createStudentGroup(studgroup:any){
   

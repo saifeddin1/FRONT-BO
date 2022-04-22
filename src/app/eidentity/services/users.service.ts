@@ -23,8 +23,7 @@ export class UsersService {
   }
 
   createUser(user: any): Observable<any> {
-    const body = JSON.stringify(user)
-    
+    console.log("user for create", user)    
 
     return this.http.post<any>(`${this.BASE_URL}/api/v1/users/`, user);
   }
@@ -47,6 +46,6 @@ export class UsersService {
 
   getStudetNiv():Observable<any>{
 
-    return this.http.get<any>('http://localhost:5000/api/niveau/getAllForUsers');
+    return this.http.get<any>('http://localhost:5000/api/niveau/');
   }
 }
