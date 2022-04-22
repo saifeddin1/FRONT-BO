@@ -12,8 +12,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersComponent } from './pages/users/users.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import { CompanyComponent } from './pages/company/company.component';
+import { DepartementComponent } from './pages/departement/departement.component';
 @NgModule({
-  declarations: [IdentityComponent, UsersComponent],
+  declarations: [IdentityComponent, UsersComponent, CompanyComponent, DepartementComponent],
   imports: [
     CommonModule,
     EidentityRoutingModule,

@@ -6,6 +6,7 @@ import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { UsersService } from '../../services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
 import { ResetpwdService } from '../../services/resetpwd.service';
+import { CompanyService } from '../../services/company.service';
 
 @Component({
   selector: 'app-users',
@@ -16,6 +17,7 @@ export class UsersComponent implements OnInit {
   newpass: string;
   emailchange:string;
   displayniv = false;
+  displayOrganisationOwner = false;
   studentnivs : object[] = [];
   clrModalOpen: boolean = false;
   clrModalOpen2: boolean = false;
@@ -29,9 +31,13 @@ export class UsersComponent implements OnInit {
     'action' 
   ];
 
+  companies:any;
+
   displayedOptionColumns: string[] = ['name', 'action'];
 
-  constructor(private pwdService: ResetpwdService,private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService,private userServicelms:UserService ) 
+  constructor(private pwdService: ResetpwdService,private formBuilder: FormBuilder,private toasterService: ToasterService, 
+              private usersService:UsersService,private userServicelms:UserService,
+              private companyService:CompanyService ) 
   {
     this.getallUsers();
     this.getstudentniv();
@@ -78,6 +84,7 @@ export class UsersComponent implements OnInit {
       type: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
       studentNiveauId: ['', [Validators.required]],
+      company: ['', [Validators.required]],
       
      
     }) as FormGroup & User; 
@@ -94,6 +101,7 @@ export class UsersComponent implements OnInit {
       type: body.type,
       birthday: body.birthday,
       studentNiveauId: body.studentNiveauId,
+      company:body.company,
     });
   }
 
@@ -218,6 +226,12 @@ export class UsersComponent implements OnInit {
     checked ? this.displayniv = true : this.displayniv = false
   }
 
+  activateOrganisationOwner(checked:any){
+    checked ? this.displayOrganisationOwner = true : this.displayOrganisationOwner = false 
+    this.getCompanies()
+   
+  }
+
   openchangepwdmodal(email:string){
     this.emailchange=email;
     this.clrModalOpen2 = true;
@@ -235,5 +249,12 @@ export class UsersComponent implements OnInit {
         
       }
     )
+  }
+
+  getCompanies(){
+    this.companyService.getCompanies().subscribe(res=>{
+      this.companies=res['response']
+      console.log(this.companies)
+    })
   }
 }

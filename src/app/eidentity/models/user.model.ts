@@ -9,4 +9,5 @@ export interface User {
   firstname: string;
   lastname: string;
   studentNiveauId: string;
+  company: string;
 }
