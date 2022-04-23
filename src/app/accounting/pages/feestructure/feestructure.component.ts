@@ -26,7 +26,7 @@ export class FeestructureComponent implements OnInit {
   feecategorytotable:any []=[];
   programs:Program []=[];
   feeCtaegories:FeeCategory[]=[];
-  feeCatId:string[]=[];
+  feeCatId:any[]=[];
   feestructures : any[]=[];
  
   clrModalOpen: boolean = false;
@@ -58,9 +58,10 @@ export class FeestructureComponent implements OnInit {
     'feeCategory',
     
     'amount',
+    'description'
    
   ];
-
+  totalamount:number;
   displayedOptionColumns: string[] = ['name', 'action'];
 
 
@@ -292,8 +293,12 @@ addfeecategorytotable() {
       feecat.name = res.response.name
     }
   )
-  
-  this.feeCatId.push(this.form1.value.feeCategory);
+  const feecategory={
+    feecatid: this.form1.value.feeCategory,
+    amount:'',
+    description:''
+  }
+  this.feeCatId.push(feecategory);
   this.feecategorytotable.push(feecat);
   this.dataSource1 = new MatTableDataSource(this.feecategorytotable);
 }
@@ -314,5 +319,29 @@ restore(id:string){
     }
   )
 }
+
+
+ addamount(event, id) {
+
+  for(let i=0; i<this.feeCatId.length; i++ ){
+    if(this.feeCatId[i].feecatid== id){
+      this.feeCatId[i].amount = event.target.value;
+      this.totalamount = this.totalamount+ parseInt( event.target.value, 10) ;
+    }
+    
+  }
+
+ }
+ adddescription(event, id) {
+
+  for(let i=0; i<this.feeCatId.length; i++ ){
+    if(this.feeCatId[i].feecatid== id){
+      this.feeCatId[i].description = event.target.value;
+     
+    }
+    
+  }
+
+ }
 
 }

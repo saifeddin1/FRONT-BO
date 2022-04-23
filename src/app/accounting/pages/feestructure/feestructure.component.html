@@ -157,12 +157,12 @@
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Description</strong>
-            <input matInput class="text-area modalcol" placeholder="description" formControlName="description" >
+            <input  matInput class="text-area modalcol" placeholder="description" formControlName="description" >
           </div>
 
           <div class="position-top modalRow">
-            <strong class="modalcol3">Amount</strong>
-            <input matInput class="text-area modalcol" placeholder="amount" formControlName="amount" >
+            <strong class="modalcol3">Amount totale</strong>
+            <input [(ngModel)]="totalamount" type="number" matInput class="text-area modalcol" placeholder="amount" formControlName="amount" >
           </div>
          
 
@@ -213,8 +213,13 @@
 
           <ng-container matColumnDef="amount">
             <th mat-header-cell *matHeaderCellDef>Amount</th>
-            <td mat-cell *matCellDef="let element">{{ element.name }}</td>
+            <td mat-cell *matCellDef="let element"> <input type="number" (change)="addamount($event,element.feeCategory)" matInput class="text-area modalcol" placeholder="1234.."  ></td>
           </ng-container>
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let element"> <input (change)="adddescription($event,element.feeCategory)" matInput class="text-area modalcol" placeholder="description.."  ></td>
+          </ng-container>
+    
     
     
          
