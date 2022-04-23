@@ -30,11 +30,12 @@ export class FeestructureComponent implements OnInit {
   feestructures : any[]=[];
  
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   form1: FormGroup;
 
   displayedColumns : string[]=[
-    '#',
+ 
     'name',
     'program',
     'academicyear',
@@ -44,9 +45,19 @@ export class FeestructureComponent implements OnInit {
     'amount',
     'action' 
   ];
+  displayedColumns3 : string[]=[
+   
+    'name',
+    'program',
+    'academicyear',
+    'academicterm',
+    'action' 
+  ];
   displayedColumns1 : string[]=[
     
     'feeCategory',
+    
+    'amount',
    
   ];
 
@@ -58,6 +69,7 @@ export class FeestructureComponent implements OnInit {
   constructor( private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,
     private programService: ProgramService,private academicyearService:AcademicyearService,private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
     this.getallfeestructures();
+    this.getdisabledallfeestructures()
     this.getallacademicyears();
     this.getallprograms();
     this.getallfeeCategory();
@@ -76,6 +88,21 @@ export class FeestructureComponent implements OnInit {
         
         console.log("get fee structures", res.response)
         this.dataSource = new MatTableDataSource(res.response);
+        
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+  }
+
+  dataSource3: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
+  getdisabledallfeestructures(){
+    this.feeStructureService.getDisabledFeestructures().subscribe(
+      (res)=>{
+        
+        console.log("get disabled fee structures", res.response)
+        this.dataSource3 = new MatTableDataSource(res.response);
         
       },
       (error)=>{
@@ -139,7 +166,14 @@ export class FeestructureComponent implements OnInit {
     this.createForm();
     this.clrModalOpen = false;
   }
-
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
+  }
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+  }
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
@@ -193,11 +227,12 @@ export class FeestructureComponent implements OnInit {
     this.openModal('edit');
   }
 
-  deleteProgram(id:string){
+  deletefeestructure(id:string){
     this.feeStructureService.deleteFeestructure(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
         this.getallfeestructures();
+        this.getdisabledallfeestructures();
 
       },
       (err)=>{
@@ -257,10 +292,27 @@ addfeecategorytotable() {
       feecat.name = res.response.name
     }
   )
+  
   this.feeCatId.push(this.form1.value.feeCategory);
   this.feecategorytotable.push(feecat);
   this.dataSource1 = new MatTableDataSource(this.feecategorytotable);
 }
 
+
+restore(id:string){
+  this.feeStructureService.restore(id).subscribe(
+    (res)=>{
+      this.getallfeestructures();
+      this.getdisabledallfeestructures()
+    this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
+    }
+  )
+}
 
 }

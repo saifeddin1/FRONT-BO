@@ -45,9 +45,10 @@ export class FeescheduleComponent implements OnInit {
   form1: FormGroup;
   form2: FormGroup;
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns: string[] = ['studentgroup', 'totalestudent'];
-  displayedColumns1: string[] = ['#', 'name', 'duedate', 'action'];
+  displayedColumns1: string[] = [ 'name', 'duedate', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -65,6 +66,8 @@ export class FeescheduleComponent implements OnInit {
     this.getfeeStructure();
     this.getfeeSchedule();
     this.getstudentgroup();
+    this.getDisabledfeeSchedule() 
+
   }
 
   ngOnInit(): void {
@@ -79,6 +82,19 @@ export class FeescheduleComponent implements OnInit {
       (res) => {
         console.log("get fee schedule:",res.response)
         this.dataSource1 = new MatTableDataSource(res.response);
+      },
+      (error) => {
+        console.error('get feeshcedule error :', error);
+      }
+    );
+  }
+
+  dataSource3: MatTableDataSource<any> = new MatTableDataSource<any>();
+  getDisabledfeeSchedule() {
+    this.feescheduleService.getDisabledFeesschedule().subscribe(
+      (res) => {
+        console.log("get fee schedule:",res.response)
+        this.dataSource3 = new MatTableDataSource(res.response);
       },
       (error) => {
         console.error('get feeshcedule error :', error);
@@ -146,9 +162,18 @@ export class FeescheduleComponent implements OnInit {
     this.clrModalOpen = true;
     this.modalType = 'add';
   }
+
   closeModal() {
     this.createForm1();
     this.clrModalOpen = false;
+  }
+  openModal1() {
+    this.clrModalOpen1 = true;
+    
+  }
+  closeModal1() {
+    this.clrModalOpen1 = false;
+   
   }
   openModal2() {
     this.clrModalOpen2 = true;
@@ -273,12 +298,30 @@ deletefeeschedule(id:string){
   this.feescheduleService.deletefeeschedule(id).subscribe(
     (res)=>{
       this.toasterService.success("Deleted successfully")
+      this.getDisabledfeeSchedule();
       this.getfeeSchedule();
    
 
     },
     (err)=>{
       this.toasterService.error('Something wrong ')
+    }
+  )
+}
+
+
+restore(id:string){
+  this.feescheduleService.restore(id).subscribe(
+    (res)=>{
+      this.getDisabledfeeSchedule();
+      this.getfeeSchedule();
+    this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
     }
   )
 }

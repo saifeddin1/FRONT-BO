@@ -14,9 +14,10 @@ import { AcademicyearService } from '../../services/academicyear.service';
 export class AcademicyearComponent implements OnInit {
 
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
-    '#',
+ 
     'name',
     'startyear',
     'endyear' ,
@@ -27,6 +28,7 @@ export class AcademicyearComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private academicyearService:AcademicyearService) { 
     this.getallAcademicyear()
+    this.getallDisabledAcademicyear();
   }
 
   ngOnInit(): void {
@@ -38,6 +40,17 @@ export class AcademicyearComponent implements OnInit {
     this.academicyearService.getAcademicyears().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+  }
+  dataSource1: MatTableDataSource<Academicyear> = new MatTableDataSource<Academicyear>();
+  getallDisabledAcademicyear(){
+    this.academicyearService.getDisabledAcademicyears().subscribe(
+      (res)=>{
+        this.dataSource1 = new MatTableDataSource(res.response);
       },
       (error)=>{
         console.error(error)
@@ -82,6 +95,15 @@ export class AcademicyearComponent implements OnInit {
     this.createForm();
     this.clrModalOpen = false;
   }
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
+  }
+  openModal1() {
+   
+    this.clrModalOpen1 = true;
+  }
+
 
   onSubmit(){
     if(this.form.value){
@@ -137,6 +159,7 @@ export class AcademicyearComponent implements OnInit {
       (res)=>{
         this.toasterService.success("Deleted successfully")
         this.getallAcademicyear()
+        this.getallDisabledAcademicyear();
       },
       (err)=>{
         this.toasterService.error('Something wrong ')
@@ -144,6 +167,20 @@ export class AcademicyearComponent implements OnInit {
     )
   }
 
+
+  restore(id:string){
+    this.academicyearService.restore(id).subscribe(
+      (res)=>{
+      this.toasterService.success("restored successfully")
+      this.getallAcademicyear()
+      this.getallDisabledAcademicyear();
+      },
+      (err)=>{
+        console.log("restore errror", err)
+        this.toasterService.error('restore error');
+      }
+    )
+  }
 
 
 }

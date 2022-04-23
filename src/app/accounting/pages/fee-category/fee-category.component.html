@@ -2,7 +2,10 @@
     <div class="events-container">
       <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
         <h6>fee Categories Table</h6>
-        <div class="profile-card">
+        <div class="profile-card behindbtn">
+          <button mat-icon-button class="btn btn-outline-danger" (click)="openModal1()">
+            <clr-icon shape="backup-restore" style="color:rgb(5, 146, 52)!important;"></clr-icon>
+          </button>
           <div class="edit-button">
             <button id="add-button" class="btn button" (click)="openModal('add')" >
               Add fee Category
@@ -19,18 +22,7 @@
   <div class="row d-flex dates">
     <table mat-table [dataSource]="dataSource">
 
-      <ng-container matColumnDef="#">
-        <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon *ngIf="element.enabled == true" style="color: green">
-            check_circle</mat-icon>
-          <mat-icon
-            *ngIf="element.enabled == false"
-            style="color: rgb(201, 18, 18)"
-            >block</mat-icon
-          >
-        </td>
-      </ng-container>
+    
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -111,5 +103,60 @@
     <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" >
       Valider
     </button>
+  </div>
+</clr-modal>
+
+
+
+
+<!-- Trash-->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen1" [clrModalSize]="'xl'">
+
+ 
+  <ng-template >
+    <h3 class="modal-title">Trash</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <table mat-table [dataSource]="dataSource1">
+
+     
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
+
+      <!-- description Column -->
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let element"> {{element.description}} </td>
+      </ng-container>
+     
+    
+
+      
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+
+          <button mat-icon-button class="btn btn-outline-danger" (click)="restore(element._id)">
+            <clr-icon shape="backup-restore" badge="info" style="color:rgb(0, 85, 255)!important;"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal1()">
+      Fermer
+    </button>
+ 
   </div>
 </clr-modal>

@@ -10,6 +10,10 @@
   background-color: rgb(255, 255, 255);
 
 }
+.behindbtn{
+  display: flex;
+  flex-direction: row-reverse;
+}
 .section-search p{
 
   box-shadow: #5e6366;

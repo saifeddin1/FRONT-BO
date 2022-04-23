@@ -24,6 +24,7 @@ export class AcademictermComponent implements OnInit {
 
   }
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
     
@@ -39,13 +40,13 @@ export class AcademictermComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private academictermService:AcademictermService, private academicyearService:AcademicyearService) { 
     this.getallAcademicterm()
+    this.getallDisabledAcademicterm();
     this.getallacademicyear()
   }
 
   ngOnInit(): void {
     this.createForm();
   }
-
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
   getallAcademicterm(){
@@ -54,6 +55,23 @@ export class AcademictermComponent implements OnInit {
        
        console.log("academic term response", res.response)
        this.dataSource = new MatTableDataSource(res.response);
+
+
+      },
+      (error)=>{
+        console.error("get academic term error:",error)
+      }
+    )
+  }
+
+  dataSource1: MatTableDataSource<any> = new MatTableDataSource<any>();
+
+  getallDisabledAcademicterm(){
+    this.academictermService.getDisabledAcademicterms().subscribe(
+      (res)=>{
+       
+       console.log("academic term response", res.response)
+       this.dataSource1 = new MatTableDataSource(res.response);
 
 
       },
@@ -114,6 +132,15 @@ export class AcademictermComponent implements OnInit {
     this.createForm();
     this.clrModalOpen = false;
   }
+  closeModal1() {
+    
+    this.clrModalOpen1 = false;
+  }
+  
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+  }
 
   onSubmit(){
     if(this.form.value){
@@ -170,7 +197,8 @@ export class AcademictermComponent implements OnInit {
       (res)=>{
         this.toasterService.success("Deleted successfully");
         this.academicterm= [];
-        this.getallAcademicterm();
+        this.getallAcademicterm()
+        this.getallDisabledAcademicterm();
       },
       (err)=>{
         this.toasterService.error('Something wrong ')
@@ -178,6 +206,21 @@ export class AcademictermComponent implements OnInit {
     )
   }
 
+  restore(id:string){
+    this.academictermService.restore(id).subscribe(
+      (res)=>{
+      this.getallDisabledAcademicterm();
+      this.getallAcademicterm();  
+      this.toasterService.success("restored successfully")
+      
+      
+      },
+      (err)=>{
+        console.log("restore errror", err)
+        this.toasterService.error('restore error');
+      }
+    )
+  }
 
 
 }

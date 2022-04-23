@@ -18,9 +18,13 @@ export class AcademicyearService {
     return this.http.post<any>(`${this.BASE_URL}/api/academicyear/`,academicyear)
   }
 
+
   getAcademicyears():Observable<any>{
    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/`); 
   }
+  getDisabledAcademicyears():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/academicyear/disabledacademicyear`); 
+   }
 
   getOneAcademicyear(id:string):Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/academicyear/${id}`); 
@@ -37,4 +41,7 @@ export class AcademicyearService {
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/academicyear/${id}`,element);
   }
+  restore(id:string):Observable<any>{
+    return this.http.put<any>(`${this.BASE_URL}/api/academicyear/restore/${id}`,{});
+   }
 }

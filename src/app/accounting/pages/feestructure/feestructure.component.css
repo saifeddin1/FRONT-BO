@@ -3,6 +3,10 @@
     padding-left: 2rem;
     height: 100%;
   }
+  .behindbtn{
+    display: flex;
+    flex-direction: row-reverse;
+  }
   
   .modalRow{
     margin-bottom: 2rem;

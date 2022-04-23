@@ -24,7 +24,10 @@
  text-decoration: underline;
 }
 
-
+.behindbtn{
+  display: flex;
+  flex-direction: row-reverse;
+}
 
 
 

@@ -29,6 +29,7 @@ export class GroupstudentComponent implements OnInit{
   programs :any []=[];
   form1:FormGroup;
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   clrModalOpen3: boolean = false;
   clrModalOpenEdit: boolean = false;
   form: FormGroup;
@@ -42,7 +43,7 @@ export class GroupstudentComponent implements OnInit{
   ];
   displayedColumns1 : string[]=[
     
-    '#',
+    
     'name',
     'program',
     'academicyear',
@@ -51,6 +52,7 @@ export class GroupstudentComponent implements OnInit{
     
     'action' 
   ];
+ 
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -62,6 +64,7 @@ export class GroupstudentComponent implements OnInit{
       this.getallacademicyears();
       this.getallprograms();
       this.getStudentsGroup();
+      this.getDisabledStudentsGroup();
    }
 
   ngOnInit(): void {
@@ -76,6 +79,19 @@ export class GroupstudentComponent implements OnInit{
       (res)=>{
        console.log(" get all student group", res.response)
       this.dataSource1 = new MatTableDataSource(res.response);
+    },
+      (error)=>{
+        console.error("get studentgroup error :",error)
+      }
+
+    )
+  }
+  dataSource4: MatTableDataSource<any> = new MatTableDataSource<any>();
+  getDisabledStudentsGroup(){
+    this.groupstudentService.getDisabledGroupStudents().subscribe(
+      (res)=>{
+       console.log(" get disabled all student group", res.response)
+      this.dataSource4 = new MatTableDataSource(res.response);
     },
       (error)=>{
         console.error("get studentgroup error :",error)
@@ -205,6 +221,15 @@ export class GroupstudentComponent implements OnInit{
   closeModaledit(){
     this.createForm2();
     this.clrModalOpenEdit = false;
+  }
+
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+  }
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
   }
 
   onSubmit(){
@@ -358,6 +383,7 @@ saveStudentGroup(){
      (res)=> {
        this.toasterService.success("deleted successfully")
        this.getStudentsGroup();
+      this.getDisabledStudentsGroup();
      },
      (error)=>{
        this.toasterService.error('something wrong')
@@ -374,6 +400,24 @@ saveStudentGroup(){
   this.programService.getPrograms().subscribe(
     (res) =>{
       this.programs = res.response;
+    }
+  )
+}
+
+
+restore(id:string){
+  this.groupstudentService.restore(id).subscribe(
+    (res)=>{
+      this.getStudentsGroup();
+      this.getDisabledStudentsGroup();
+      
+      this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
     }
   )
 }

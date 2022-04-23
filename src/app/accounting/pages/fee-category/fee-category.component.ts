@@ -13,9 +13,10 @@ import { MatTableDataSource } from '@angular/material/table';
 export class FeeCategoryComponent implements OnInit {
 
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
-    '#',
+   
     'name',
     'description',
     'action' 
@@ -25,6 +26,7 @@ export class FeeCategoryComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private feeCategoryService:FeeCategoryService) {
     this.getallFeeCategory();
+    this.getallDisabledFeeCategory()
    }
 
   ngOnInit(): void {
@@ -36,6 +38,18 @@ export class FeeCategoryComponent implements OnInit {
     this.feeCategoryService.getFeeCatgories().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+  }
+
+  dataSource1: MatTableDataSource<FeeCategory> = new MatTableDataSource<FeeCategory>();
+  getallDisabledFeeCategory(){
+    this.feeCategoryService.getDisabledFeeCatgories().subscribe(
+      (res)=>{
+        this.dataSource1 = new MatTableDataSource(res.response);
       },
       (error)=>{
         console.error(error)
@@ -77,6 +91,16 @@ export class FeeCategoryComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
+    
+  }
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+    
+  }
+  closeModal1() {
+    
+    this.clrModalOpen1 = false;
     
   }
 
@@ -130,6 +154,7 @@ export class FeeCategoryComponent implements OnInit {
       (res)=>{
         this.toasterService.success("Deleted successfully")
         this.getallFeeCategory();
+        this.getallDisabledFeeCategory();
       },
       (err)=>{
         this.toasterService.error('Something wrong ')
@@ -137,5 +162,17 @@ export class FeeCategoryComponent implements OnInit {
     )
   }
 
-
+ restore(id:string){
+   this.feeCategoryService.restore(id).subscribe(
+     (res)=>{
+     this.toasterService.success("restored successfully")
+     this.getallFeeCategory();
+     this.getallDisabledFeeCategory();
+     },
+     (err)=>{
+       console.log("restore errror", err)
+       this.toasterService.error('restore error');
+     }
+   )
+ }
 }

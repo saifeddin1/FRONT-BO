@@ -22,6 +22,9 @@ export class FeestructureService {
    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/`); 
   }
 
+  getDisabledFeestructures():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/disabledfeeStruct`); 
+   }
   
 
   getFeestructureswithname():Observable<any>{
@@ -35,4 +38,7 @@ export class FeestructureService {
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/feeStructure/${id}`,element);
   }
+  restore(id:string ):Observable<any>{
+    return this.http.put<any>(`${this.BASE_URL}/api/feeStructure/restore/${id}`,{});
+   }
 }
