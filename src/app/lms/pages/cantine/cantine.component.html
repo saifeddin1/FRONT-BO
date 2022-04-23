@@ -1,0 +1,94 @@
+<ng-template #addCantine>
+    <h2 class="mat-dialog-title">Add new meal</h2>
+    <input
+    class="text-area"
+    type="text"
+    [(ngModel)]="meal.menu"
+    placeholder="Meal"
+  />
+  <select class="text-area" [(ngModel)]="meal.day">
+    <option value="">Select date</option>
+    <option *ngFor="let day of week">{{day}}</option>
+
+  </select>
+  <div class="btn-update-file">
+    <button (click)="addNewMeal()">
+      Add
+    </button >
+  </div>
+
+</ng-template>
+
+<ng-template #editCantine>
+  <h2 class="mat-dialog-title">Edit meal</h2>
+  <input
+  class="text-area"
+  type="text"
+  [(ngModel)]="meal.menu"
+  placeholder="Meal"
+/>
+<select class="text-area" [(ngModel)]="meal.day">
+  <option value="">Select date</option>
+  <option *ngFor="let day of week">{{day}}</option>
+
+</select>
+<div class="btn-update-file">
+  <button (click)="updateMeal()">
+    Update
+  </button >
+</div>
+
+</ng-template>
+
+<div class="dashboard ">
+    <div class="events-container">
+      <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+        <h6>Daily Menu</h6>
+        <div class="profile-card">
+          <div class="edit-button">
+            <button id="add-button" class="btn button" (click)="openModal(addCantine,'')">
+              Add new meal
+            </button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <table mat-table [dataSource]="cantines" >
+        <ng-container matColumnDef="day">
+            <th mat-header-cell *matHeaderCellDef>Day</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.day}}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="menu">
+            <th mat-header-cell *matHeaderCellDef>Menu</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.menu}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+              <button (click)="openModal(editCantine,element._id)"
+                mat-icon-button
+                class="btn btn-info"              >
+                <clr-icon shape="pencil"></clr-icon>
+              </button>
+    
+              <button
+                mat-icon-button (click)="deleleCantine(element._id)"
+                class="btn btn-outline-danger">
+                <clr-icon shape="trash" style="color: red !important"></clr-icon>
+              </button>
+            </td>
+          </ng-container>
+
+
+
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  </div>

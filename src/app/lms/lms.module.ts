@@ -50,6 +50,9 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { SharedModule } from '../shared/shared.module';
+import { CantineComponent } from './pages/cantine/cantine.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { NotificationService } from './services/notification.service';
 
 
 @NgModule({
@@ -80,6 +83,8 @@ import { SharedModule } from '../shared/shared.module';
     WorkProcessComponent,
     PricingComponent,
     TestimonialsComponent,
+    CantineComponent,
+    NotificationsComponent,
   
   ],
   imports: [
@@ -138,9 +143,11 @@ import { SharedModule } from '../shared/shared.module';
     TestimonialsComponent,
   ],
   providers: [
+    { provide: NotificationService },
     { provide: LOCALE_ID, useValue: 'fr' },
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+    
   ],
 })
 export class LMSModule {}

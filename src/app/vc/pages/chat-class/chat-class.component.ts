@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { VcChatService } from 'src/app/services/vc-chat.service';
+import { VcChatService } from '../../services/vc-chat.service';
+import { formatDate } from '../../constants/formatDate';
 
 @Component({
-  selector: 'app-vc-live-sessions',
-  templateUrl: './vc-live-sessions.component.html',
-  styleUrls: ['./vc-live-sessions.component.css']
+  selector: 'app-chat-class',
+  templateUrl: './chat-class.component.html',
+  styleUrls: ['./chat-class.component.css']
 })
-export class VcLiveSessionsComponent implements OnInit {
-  appppppp=document.getElementById('friends-chat')
-  p = document.createElement("p");
+export class ChatClassComponent implements OnInit {
+
+  message: string;
+  messages: string[] = [];
   
   today = new Date();
   date = this.today.getFullYear()+'-'+( this.today.getMonth()+1)+'-'+ this.today.getDate()
@@ -20,33 +22,57 @@ export class VcLiveSessionsComponent implements OnInit {
   }]
 
   msgToSend:any={
-    message:"sdd",
+    niveau:"dsi31",
+    message:"",
     userId:"aziz",
     createdAt:new Date(this.date)
   }
 
   ngOnInit(): void {
+    this.getByNidId()
     this.chatService.listen('test event').subscribe((data)=>{
       console.log(data)
     })
-    this.getAll()
+    this.chatService
+      .getMessages()
+      .subscribe(() => {
+
+        this.getByNidId()
+           
+      });
+      
   }
   ngOnDestroy() {
     this.chatService.disconnect();
   }
 
   sendMsg(){
-    
+    this.chatService.addMsg(this.msgToSend).subscribe(res=>{
+
+    });
     const socketChannel:String="VCChatMsg"
     console.log(this.msgToSend)  
-    this.chatService.emit(socketChannel,this.msgToSend.message)  
-    this.p.textContent="hi"
-    this.appppppp.appendChild(this.p)
-
+    this.chatService.emit(socketChannel,this.msgToSend.message)
    
       
    
   }
+  
+  getByNidId(){
+    this.chatService.getByNidId('dsi31').subscribe(res=>{
+      this.msgs = res['response'].map((body: any) => ({
+        message:body?.message,
+        userId:body?.userId ,
+        createdAt: formatDate(body?.createdAt)
+        
+      }
+      ),
+      console.log(this.msgs),
+      console.log(res['response'])
+      );
+    })
+  }
+
   getAll() {
     this.chatService.getAll().subscribe(
       res=>{
