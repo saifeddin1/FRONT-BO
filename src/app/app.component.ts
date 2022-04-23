@@ -89,13 +89,11 @@ export class AppComponent implements OnInit {
       .subscribe((event: any) => {
         this.currentRoute = event.url;
         console.log('⚡  ~ event.url', event.url);
+        this.getCurrentSolution();
       });
     this.user = this.userService.user;
     this.getNotifications();
     this.unreadCount();
-    setTimeout(() => {
-      this.getCurrentSolution();
-    });
   }
   getCurrentSolution() {
     this.currentSolution = this.routes.filter(
