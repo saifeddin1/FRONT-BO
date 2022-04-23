@@ -12,6 +12,7 @@ import { UsersService } from 'src/app/eidentity/services/users.service';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatPaginator } from '@angular/material/paginator';
+import { UserService } from 'src/app/lms/services/user.service';
 @Component({
   selector: 'app-manage-contracts',
   templateUrl: './manage-contracts.component.html',
@@ -33,25 +34,23 @@ export class ManageContractsComponent implements OnInit {
 
   isLoading: boolean = true;
   constructor(
-    private userService: UsersService,
+    private userService: UserService,
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
     private toaster: ToasterService
   ) {
-    this.isOpen = false;
-    this.isAdmin
-      ? this.getAllContractsWithSalary()
-      : this.getEmployeeContracts();
-    this.getUsers();
-    this.currentUser = employeeService.getUser();
+    this.currentUser = this.userService.user;
     this.isAdmin = this.currentUser?.type === ADMIN;
+    this.isOpen = false;
   }
 
   contracts: MatTableDataSource<Contract>;
   allContracts: Contract[];
 
   ngOnInit(): void {
-    this.isAdmin ? this.getAllContractsWithSalary() : this.getEmployeeContracts;
+    this.isAdmin
+      ? this.getAllContractsWithSalary()
+      : this.getEmployeeContracts();
     this.getUsers();
     if (this.isAdmin) {
       this.displayedColumns.splice(1, 0, 'ref');

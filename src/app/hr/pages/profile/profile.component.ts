@@ -43,9 +43,9 @@ export class ProfileComponent implements OnInit {
   constructor(
     private summaryService: EmployeeSummaryService,
     private toastr: ToastrService,
-    private userService: UsersService
+    private userService: UserService
   ) {
-    (this.currentUser = this.userService.getCurrentUser()),
+    (this.currentUser = this.userService.user),
       (this.userFile = {
         userId: this.currentUser?._id,
         userRef: '',

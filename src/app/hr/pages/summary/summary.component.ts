@@ -9,6 +9,7 @@ import { ProfileComponent } from '../profile/profile.component';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UsersService } from 'src/app/eidentity/services/users.service';
+import { UserService } from 'src/app/lms/services/user.service';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -25,9 +26,9 @@ export class SummaryComponent implements OnInit {
 
   constructor(
     private summaryService: EmployeeSummaryService,
-    private userService: UsersService
+    private userService: UserService
   ) {
-    this.currUser = this.userService.getCurrentUser();
+    this.currUser = this.userService.user;
     console.log(this.currUser);
   }
   ngOnInit(): void {

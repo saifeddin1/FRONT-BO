@@ -3,6 +3,7 @@ import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ADMIN } from 'src/app/lms/constants/roles.constant';
+import { UserService } from 'src/app/lms/services/user.service';
 import { CollaboratorDialogComponent } from '../../components/collaborator-dialog/collaborator-dialog.component';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
@@ -24,10 +25,11 @@ export class CollaboratorsComponent implements OnInit {
 
   constructor(
     private summaryService: EmployeeSummaryService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private userService: UserService
   ) {
-    this.user = this.summaryService.getUser();
-    this.isAdmin = this.user['type'] === ADMIN;
+    this.user = this.userService.user;
+    this.isAdmin = this.user?.type === ADMIN;
   }
 
   ngOnInit(): void {

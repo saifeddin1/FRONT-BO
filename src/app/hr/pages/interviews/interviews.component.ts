@@ -6,9 +6,11 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { UserService } from 'src/app/lms/services/user.service';
 import { AddInterviewDialogComponent } from '../../components/add-interview-dialog/add-interview-dialog.component';
 import { InterviewDialog } from '../../components/interviewDialog/interview-dialog-componenet';
 import { Interview } from '../../models/interview.model';
@@ -45,12 +47,13 @@ export class InterviewsComponent implements OnInit {
     new MatTableDataSource<Interview>();
   constructor(
     private summaryService: EmployeeSummaryService,
+    private userService: UserService,
     public dialog: MatDialog,
     private http: HttpClient,
     private toaster: ToasterService
   ) {
-    this.currentUser = this.summaryService.getUser();
-    this.isAdmin = this.currentUser['type'] === ADMIN;
+    this.currentUser = this.userService.user;
+    this.isAdmin = this.currentUser?.type === ADMIN;
     this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
     this.isAdmin && this.displayedColumns.splice(1, 0, 'user');
   }

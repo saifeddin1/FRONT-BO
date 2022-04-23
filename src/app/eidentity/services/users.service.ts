@@ -26,7 +26,13 @@ export class UsersService {
   getCurrentUser(): User {
     return this.user;
   }
+  setUser(user: User): void {
+    this.user = user;
+  }
 
+  setToken(token: string) {
+    localStorage.setItem('token', token);
+  }
   private BASE_URL: string = environment.IdentityApi;
 
   getUsers(): Observable<any> {
