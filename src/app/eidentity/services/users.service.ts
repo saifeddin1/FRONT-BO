@@ -4,13 +4,28 @@ import { RequestOptions } from 'karma-jasmine-html-reporter';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/eidentity/models/user.model';
 import { environment } from 'src/environments/environment';
-
+import jwt_decode from 'jwt-decode';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsersService {
- 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
+
+  getToken = () => localStorage.getItem('token');
+
+  decodeToken = (token: string): User | any =>
+    token ? jwt_decode(token) : null;
+
+  getDecodedToken = (): User | any => this.decodeToken(this.getToken());
+  // save username and password into local storage, so they can stay logged in
+  user: User | any = this.getDecodedToken() || null;
+
+  /**
+   * Gets the current user stored in the service
+   */
+  getCurrentUser(): User {
+    return this.user;
+  }
 
   private BASE_URL: string = environment.IdentityApi;
 
@@ -23,8 +38,7 @@ export class UsersService {
   }
 
   createUser(user: any): Observable<any> {
-    const body = JSON.stringify(user)
-    
+    const body = JSON.stringify(user);
 
     return this.http.post<any>(`${this.BASE_URL}/api/v1/users/`, user);
   }
@@ -43,10 +57,9 @@ export class UsersService {
     return this.http.delete(`${this.BASE_URL}/api/v1/users/activate/${userId}`);
   }
 
-  
-
-  getStudetNiv():Observable<any>{
-
-    return this.http.get<any>('http://localhost:5000/api/niveau/getAllForUsers');
+  getStudetNiv(): Observable<any> {
+    return this.http.get<any>(
+      'http://localhost:5000/api/niveau/getAllForUsers'
+    );
   }
 }

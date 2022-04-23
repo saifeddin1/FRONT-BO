@@ -8,6 +8,7 @@ import { Timesheet } from '../../models/timesheet.model';
 import { ProfileComponent } from '../profile/profile.component';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -15,14 +16,20 @@ import { throwError } from 'rxjs';
   styleUrls: ['./summary.component.css'],
 })
 export class SummaryComponent implements OnInit {
-  constructor(private summaryService: EmployeeSummaryService) {}
-  public currUser = this?.summaryService?.getUser();
+  public currUser;
 
   public files: File[];
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
 
+  constructor(
+    private summaryService: EmployeeSummaryService,
+    private userService: UsersService
+  ) {
+    this.currUser = this.userService.getCurrentUser();
+    console.log(this.currUser);
+  }
   ngOnInit(): void {
     // this.getFiles();
     this.getEmployeeFileDetails();
