@@ -88,10 +88,11 @@ export class GroupstudentComponent implements OnInit{
   }
   dataSource4: MatTableDataSource<any> = new MatTableDataSource<any>();
   getDisabledStudentsGroup(){
+    this.dataSource4 = new MatTableDataSource([]);
     this.groupstudentService.getDisabledGroupStudents().subscribe(
       (res)=>{
        console.log(" get disabled all student group", res.response)
-      this.dataSource4 = new MatTableDataSource(res.response);
+       this.dataSource4 = new MatTableDataSource(res.response);
     },
       (error)=>{
         console.error("get studentgroup error :",error)
@@ -408,8 +409,9 @@ saveStudentGroup(){
 restore(id:string){
   this.groupstudentService.restore(id).subscribe(
     (res)=>{
-      this.getStudentsGroup();
       this.getDisabledStudentsGroup();
+      this.getStudentsGroup();
+      
       
       this.toasterService.success("restored successfully")
     
