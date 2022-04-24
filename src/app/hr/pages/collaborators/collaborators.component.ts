@@ -20,12 +20,14 @@ export class CollaboratorsComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
   isLoading: boolean = true;
+  user: any;
 
   constructor(
     private summaryService: EmployeeSummaryService,
     public dialog: MatDialog
   ) {
-    this.isAdmin = this.summaryService.getUser()['type'] === ADMIN;
+    this.user = this.summaryService.getUser();
+    this.isAdmin = this.user['type'] === ADMIN;
   }
 
   ngOnInit(): void {

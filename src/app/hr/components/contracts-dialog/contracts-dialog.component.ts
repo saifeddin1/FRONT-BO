@@ -56,7 +56,7 @@ export class ContractsDialogComponent implements OnInit {
     formatDate(date);
   }
   updateContractWithSalary(contract) {
-    console.log(contract['salaries']);
+    console.log(contract);
 
     this.summaryService
       .updateContractWithSalary(contract._id, contract)

@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ThemePalette } from '@angular/material/core';
+import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ADMIN, HR, INSTRUCTOR } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { UserService } from 'src/app/lms/services/user.service';
+import { Contract } from '../../models/contract.model';
+import { EmployeeSummaryService } from '../../services/employee-summary.service';
 interface Route {
   roles: string[];
   link: string;
@@ -107,25 +111,81 @@ export class HrdashboardComponent implements OnInit {
   routes: Array<Route> = ROUTES;
   user: User;
   isHr: boolean = false;
-  doesEmployeeHaveContract: boolean = true;
+  employeeContract: Contract;
+  doesEmployeeHaveContract: boolean = false;
   isInstructor: boolean;
-  constructor(public userService: UserService) {}
-
-  ngOnInit(): void {
+  isLoading: boolean = true;
+  // color: ThemePalette = 'primary';
+  // mode: ProgressSpinnerMode = 'indeterminate';
+  // value = 50;
+  isEmployeeAdministrative: boolean;
+  constructor(
+    public userService: UserService,
+    private employeeService: EmployeeSummaryService
+  ) {
     this.checkRoles();
   }
+
+  ngOnInit(): void {
+    this.getEmployeeContract();
+    if (this.isAdmin) this.isLoading = false;
+  }
+
+  getEmployeeContract() {
+    this.isLoading = true;
+    this.employeeService.getActiveContract().subscribe(
+      (result) => {
+        this.employeeContract = result['response'];
+        this.doesEmployeeHaveContract = true;
+        this.employeeContract.timesheetType === 'ADMINISTRATIVE'
+          ? (this.isEmployeeAdministrative = true)
+          : (this.isEmployeeAdministrative = false);
+        setTimeout(() => {
+          this.toggleRoutes();
+        });
+        this.isLoading = false;
+      },
+      (error) => {
+        this.doesEmployeeHaveContract = false;
+
+        console.log(error);
+        this.toggleRoutes();
+      }
+    );
+  }
+
+  toggleRoutes() {
+    this.routes.forEach((route) => {
+      if (this.isAdmin) {
+        route.hidden = false;
+        this.isLoading = false;
+      } else {
+        if (route.label === 'Timetable') {
+          route.hidden =
+            !this.doesEmployeeHaveContract || this.isEmployeeAdministrative;
+          this.isLoading = false;
+          console.log('heere');
+        } else if (route.label === 'Timesheets') {
+          route.hidden =
+            !this.doesEmployeeHaveContract || !this.isEmployeeAdministrative;
+          this.isLoading = false;
+        } else if (route.label === 'Summary' || route.label === 'Profile') {
+          route.hidden = false;
+          this.isLoading = false;
+        } else {
+          route.hidden = !this.doesEmployeeHaveContract;
+          this.isLoading = false;
+        }
+      }
+    });
+  }
+
   logout() {
     this.userService.logOut();
   }
   ngDoCheck() {
     this.user = this.userService.getCurrentUser();
-
-    // this.routes.forEach((route) => {
-    //   this.isAdmin
-    //     ? (route.hidden = false)
-    //     : (route.hidden = this.doesEmployeeHaveContract);
-    // });
-
+    // this.toggleRoutes();
     if (this.user && this.user.type) {
       this.routes = ROUTES.filter(
         (route) => route.roles.includes(this.user.type) && !route.hidden

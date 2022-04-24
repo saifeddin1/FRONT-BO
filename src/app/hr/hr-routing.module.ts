@@ -5,7 +5,6 @@ import { HrdashboardComponent } from './pages/hrdashboard/hrdashboard.component'
 import { InterviewsComponent } from './pages/interviews/interviews.component';
 import { CollaboratorsComponent } from './pages/collaborators/collaborators.component';
 import { ProfileComponent } from './pages/profile/profile.component';
-import { ContractsComponent } from './pages/contracts/contracts.component';
 import { TimetableComponent } from './pages/timetable/timetable.component';
 import { TimesheetsComponent } from './pages/timesheets/timesheets.component';
 import { TimeoffsComponent } from './pages/timeoffs/timeoffs.component';
@@ -15,10 +14,12 @@ import { PreventStudentGuard } from './helpers/prevent-student.guard';
 import { ManageEmployeesComponent } from './pages/manage-employees/manage-employees.component';
 import { ManageContractsComponent } from './pages/manage-contracts/manage-contracts.component';
 import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
+import { EmployeeContractsComponent } from './pages/employee-contracts/employee-contracts.component';
+import { EmployeeInterviewsComponent } from './pages/employee-interviews/employee-interviews.component';
 
 const routes: Routes = [
   {
-    path: 'hr/administration',
+    path: 'hr-administration',
     component: HrdashboardComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
@@ -30,6 +31,10 @@ const routes: Routes = [
       {
         path: 'interviews',
         component: InterviewsComponent,
+      },
+      {
+        path: 'manage-employees/interviews/:userId',
+        component: EmployeeInterviewsComponent,
       },
       {
         path: 'collaborators',
@@ -47,13 +52,14 @@ const routes: Routes = [
         path: 'profile',
         component: ProfileComponent,
       },
-      // {
-      //   path: 'contracts',
-      //   component: ContractsComponent,
-      // },
+
       {
         path: 'manage-contracts',
         component: ManageContractsComponent,
+      },
+      {
+        path: 'manage-employees/contracts/:userId',
+        component: EmployeeContractsComponent,
       },
       {
         path: 'timetable',

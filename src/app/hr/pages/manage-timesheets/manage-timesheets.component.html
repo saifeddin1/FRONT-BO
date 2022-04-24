@@ -1,84 +1,164 @@
 <div class="main-wrapper">
-  <div class="list-header">
-    <div><h1>Timesheets Management</h1></div>
+  <h1>User Timesheets Management</h1>
 
-    <div>
-      <mat-icon
-        style="
-          font-size: 2rem;
-          background-color: black;
-          color: aliceblue;
-          border-radius: 50%;
-          width: 30px;
-          height: 30px;
-          cursor: pointer;
+  <!-- Table view -->
+
+  <div class="dashboard">
+    <div class="row d-flex dates">
+      <div class="example-loading-shade" *ngIf="isLoading">
+        >
+
+        <mat-spinner> </mat-spinner>
+      </div>
+      <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input
+          matInput
+          (keyup)="applyFilter($event)"
+          placeholder="Ex. ium"
+          #input
+        />
+      </mat-form-field>
+      <table
+        mat-table
+        matSort
+        (matSortChange)="announceSortChange($event)"
+        [dataSource]="
+          dataSource
+            | paginate
+              : {
+                  itemsPerPage: 7,
+                  currentPage: p,
+                  totalItems: users.length,
+                  id: 'users'
+                }
         "
-        (click)="openCreateDialog($event)"
-        >add</mat-icon
+        *ngIf="!isLoading"
       >
-    </div>
-  </div>
-  <div
-    *ngIf="isLoading"
-    style="display: flex; justify-content: center; align-items: center"
-  >
-    <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
-    </mat-progress-spinner>
-  </div>
-  <div class="employees-list" *ngIf="!isLoading">
-    <div class="employee-card-header">
-      <div>USERNAME</div>
-      <div>EMAIL</div>
-      <div>Type</div>
-      <div style="width: 5%"></div>
-    </div>
-    <ng-container *ngIf="!users || !users.length"> No users. </ng-container>
-    <div
-      (click)="viewTimesheets(employee)"
-      class="employee-card"
-      *ngFor="let employee of users"
-    >
-      <div>
-        <div class="test-info">
-          <h5>{{ employee?.username }}</h5>
-        </div>
-      </div>
-      <div class="employee-email">
-        {{ employee.email }}
-      </div>
-      <div class="employee-jobType">
-        {{ employee.type }}
-      </div>
-    </div>
-  </div>
+        <ng-container matColumnDef="#">
+          <th mat-header-cell *matHeaderCellDef>#</th>
+          <td mat-cell *matCellDef="let element">
+            <mat-icon *ngIf="element.enabled" style="color: green">
+              check_circle
+            </mat-icon>
+            <mat-icon *ngIf="!element.enabled" style="color: rgb(201, 18, 18)"
+              >block</mat-icon
+            >
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="USERNAME">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by username"
+          >
+            EMPLOYEE
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.username }}
+          </td>
+        </ng-container>
 
-  <div class="year-month-list mrg-t-2">
-    <h1>Year Months list</h1>
-    <div
-      *ngIf="isLoading"
-      style="display: flex; justify-content: center; align-items: center"
-    >
-      <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
-      </mat-progress-spinner>
+        <ng-container matColumnDef="EMAIL">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by email"
+          >
+            EMAIL
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.email }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ROLE">
+          <th
+            mat-header-cell
+            *matHeaderCellDef
+            mat-sort-header
+            sortActionDescription="Sort by role"
+          >
+            ROLE
+          </th>
+          <td mat-cell *matCellDef="let element">
+            {{ element?.type }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ACTION">
+          <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+          <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+            <button
+              mat-icon-button
+              class="btn btn-info"
+              (click)="viewTimesheets(element)"
+              matTooltip="View Timesheets"
+            >
+              <clr-icon shape="eye"></clr-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20]"
+        showFirstLastButtons
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+      <!-- <pagination-controls
+        *ngIf="!isLoading && users.length > 7"
+        (pageChange)="changePage($event)"
+        previousLabel="Prev."
+        nextLabel="Next"
+        id="users"
+      ></pagination-controls> -->
     </div>
-    <div
-      style="background-color: white; padding: 1rem; border-radius: 15px"
-      *ngIf="!isLoading"
-    >
-      <ng-container *ngIf="!yearMonthItems || !yearMonthItems.length">
-        No year Month items.
+  </div>
+  <!-- ---------------------------------Year month ------------------------------------------- -->
+  <div class="year-month-list">
+    <div class="btn-add-employee">
+      <h1>Year Months list</h1>
+      <button (click)="openCreateDialog($event)" matTooltip="Add timesheets">
+        <span> Add Year Month </span>
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="yearMonths">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
       </ng-container>
-      <ul>
-        <li *ngFor="let item of yearMonthItems" class="mrg-t-2">
-          <div>
-            {{ item?.title }}
-          </div>
-          <div>
-            <mat-icon (click)="editYearMonth(item)">edit</mat-icon>
-            <mat-icon (click)="deleteYearMonth(item)">delete</mat-icon>
-          </div>
-        </li>
-      </ul>
-    </div>
+
+      <ng-container matColumnDef="ACTION">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="openUpdateDialog($event, 'edit', element)"
+            matTooltip="Edit YearMonth Item"
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="deleteYearMonth(element)"
+            matTooltip="Delete YearMonth Item"
+          >
+            <clr-icon shape="trash"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="yearMonthdisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: yearMonthdisplayedColumns"></tr>
+    </table>
   </div>
 </div>

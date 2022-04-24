@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
@@ -18,20 +19,19 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class TimeoffsComponent implements OnInit {
   timeoffs: Timeoff[]; // to be used in dialog
-  timeoffHistory: MatTableDataSource<Timeoff> =
-    new MatTableDataSource<Timeoff>();
+  timeoffHistory: MatTableDataSource<Timeoff>;
   isOpen: boolean = false;
   newNotification: Notification;
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
   displayedColumns: string[] = ['#', 'startdate', 'status'];
-  page: number = 1;
+  page: number = 0;
   limit: number = 7;
   total: number = 7;
   displayedOptionColumns: string[] = ['name', 'action'];
   notificationItems: any;
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   color: ThemePalette = 'accent';
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
@@ -86,36 +86,72 @@ export class TimeoffsComponent implements OnInit {
     });
   }
   getEmlpoyeeTimeoffs() {
+    this.isLoading = true;
     return this.isAdmin || this.isHR
       ? this.employeeService
           .getAllTimeoffs(this.page, this.limit)
           .subscribe((result) => {
-            this.timeoffHistory = result['response'][0]['totalData'];
-            this.timeoffs = result['response'][0]['totalData'];
-            this.total = result['response'][0]['totalCount'][0]['count'];
-            this.isLoading = false;
-            console.log(
-              '⚡ TimeoffsComponent  this.timeoffHistory',
-              this.timeoffHistory
-            );
+            if (
+              result['response'][0]['totalData'] &&
+              result['response'][0]['totalData'].length
+            ) {
+              this.timeoffs = result['response'][0]['totalData'];
+              this.timeoffHistory = new MatTableDataSource<Timeoff>(
+                result['response'][0]['totalData']
+              );
+              this.timeoffHistory.paginator = this.paginator;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.page;
+                this.paginator.length =
+                  result['response'][0]['totalCount'][0]['count'] || 0;
+              });
+              this.total = result['response'][0]['totalCount'][0]['count'];
+              this.isLoading = false;
+              console.log('⚡ TimeoffsComponent  this.timeoffHistory', result);
+            } else {
+              this.timeoffHistory = new MatTableDataSource<Timeoff>();
+              this.isLoading = false;
+            }
           })
       : this.employeeService
           .getEmployeeTimeoffHistory(this.page, this.limit)
           .subscribe((result) => {
-            this.timeoffHistory = result['response'][0]['totalData'];
-            this.total = result['response'][0]['totalCount'][0]['count'];
-            this.timeoffs = result['response'][0]['totalData'];
-            this.isLoading = false;
-            console.log(
-              '⚡ TimeoffsComponent  this.timeoffHistory',
-              this.timeoffHistory
-            );
+            if (
+              result['response'][0]['totalData'] &&
+              result['response'][0]['totalData'].length
+            ) {
+              this.timeoffs = result['response'][0]['totalData'];
+              this.timeoffHistory = new MatTableDataSource<Timeoff>(
+                result['response'][0]['totalData']
+              );
+              this.timeoffHistory.paginator = this.paginator;
+              setTimeout(() => {
+                this.paginator.pageIndex = this.page;
+                this.paginator.length =
+                  result['response'][0]['totalCount'][0]['count'] || 0;
+              });
+              this.total = result['response'][0]['totalCount'][0]['count'];
+              this.isLoading = false;
+              console.log(
+                '⚡ TimeoffsComponent  this.timeoffHistory',
+                result['response'][0]['totalData']
+              );
+            } else {
+              this.timeoffHistory = new MatTableDataSource<Timeoff>();
+              this.isLoading = false;
+            }
           });
   }
-
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    if (this.timeoffHistory) {
+      this.timeoffHistory.filter = filterValue.trim().toLowerCase();
+    }
+  }
   changePage(event) {
     console.log(event);
-    this.page = event;
+    this.page = event.pageIndex;
+    this.limit = event.pageSize;
     this.getEmlpoyeeTimeoffs();
   }
   // for hr agent

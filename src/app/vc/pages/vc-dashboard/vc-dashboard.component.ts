@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from './../../../lms/services/user.service';
 interface Route {
   link: string;
   icon: string;
@@ -17,14 +18,24 @@ const ROUTES: Array<Route> = [
     label: 'Calendar',
   },
   {
-    link: './liveSession',
-    icon: 'video-gallery',
-    label: 'Live class',
+    link: './chatClass',
+    icon: 'chat-bubble',
+    label: 'Class chat',
   },
   {
     link: './records',
     icon: 'replay-all',
     label: 'Records',
+  },
+  {
+    link: './events',
+    icon: 'event',
+    label: 'Events',
+  },
+  {
+    link: './cantine',
+    icon: 'fish',
+    label: 'Cantine',
   },
   {
     link: './settings',
@@ -42,9 +53,11 @@ const ROUTES: Array<Route> = [
 
 export class VcDashboardComponent implements OnInit {
   routes: Array<Route> = ROUTES;
-  constructor() { }
+  constructor(private userService:UserService) { }
 
   ngOnInit(): void {
   }
-
+  logOut() {
+    this.userService.logOut();
+  }
 }
