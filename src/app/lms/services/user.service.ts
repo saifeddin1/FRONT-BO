@@ -5,6 +5,7 @@ import jwt_decode from 'jwt-decode';
 import { User } from '../models/user.model';
 import { environment } from 'src/environments/environment';
 import { Router } from '@angular/router';
+import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
 
 export const ROLES = {
   ADMIN: 'EADMIN',
@@ -22,7 +23,6 @@ export class UserService {
 
   decodeToken = (token: string): User | any =>
     token ? jwt_decode(token) : null;
-    
 
   getDecodedToken = (): User | any => this.decodeToken(this.getToken());
   // save username and password into local storage, so they can stay logged in
@@ -36,7 +36,11 @@ export class UserService {
   }
 
   goToProfile(): void {
-    this.router.navigate([`lms/user/${this.getCurrentUser().username}`]);
+    var route =
+      this.getCurrentUser()?.type === ADMIN || this.getCurrentUser()?.type == HR
+        ? 'hr-administration/profile'
+        : `lms/user/${this.getCurrentUser().username}`;
+    this.router.navigate([route]);
   }
 
   logOut(): void {
@@ -59,7 +63,7 @@ export class UserService {
       studentNiveauId,
       // studentOffreId,
       // profile,
-      phone, 
+      phone,
       // permissions,
     } = newUser;
     return this.http.post<{ token: string }>(

@@ -17,6 +17,7 @@ import {
   STUDENT,
 } from '../../lms/constants/roles.constant';
 import { ResetpwdService } from 'src/app/eidentity/services/resetpwd.service';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -35,7 +36,7 @@ export class LoginSignupComponent implements OnInit {
     private niveauService: NiveauService,
     private router: Router,
     private toasterService: ToasterService,
-    private activatedRouter: ActivatedRoute
+    private activatedRouter: ActivatedRoute // private identityUserService: UsersService
   ) {
     this.getNiveaux();
     this.pagetype = this.activatedRouter.snapshot.params['type'];
@@ -166,6 +167,10 @@ export class LoginSignupComponent implements OnInit {
             this.userService.decodeToken(res.accessToken)
           );
           this.userService.setToken(res.accessToken);
+          // this.identityUserService.setUser(
+          //   this.userService.decodeToken(res.accessToken)
+          // );
+          // this.identityUserService.setToken(res.token);
           console.log(this.userService.user);
 
           if (
@@ -226,6 +231,10 @@ export class LoginSignupComponent implements OnInit {
       (res: { token: string }) => {
         this.userService.setUser(this.userService.decodeToken(res.token));
         this.userService.setToken(res.token);
+        // this.identityUserService.setUser(
+        //   this.userService.decodeToken(res.token)
+        // );
+        // this.identityUserService.setToken(res.token);
         this.toasterService.success(DEFAULT_MESSAGES.success.register);
         if (this.userService.user.type === STUDENT) {
           this.router.navigate(['lms']);
