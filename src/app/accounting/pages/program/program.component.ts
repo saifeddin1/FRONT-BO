@@ -15,10 +15,10 @@ export class ProgramComponent implements OnInit {
   clrModalOpen: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
-    '#',
+   
     'name',
     'abreviation',
-    'departement',
+    
     
   ];
 

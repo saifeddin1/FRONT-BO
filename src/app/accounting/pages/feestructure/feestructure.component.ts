@@ -257,6 +257,7 @@ getallprograms(){
   this.programService.getPrograms().subscribe(
     (res) =>{
       this.programs = res.response;
+      
     }
   )
 }

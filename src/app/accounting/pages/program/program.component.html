@@ -19,18 +19,7 @@
   <div class="row d-flex dates">
     <table mat-table [dataSource]="dataSource">
 
-      <ng-container matColumnDef="#">
-        <th mat-header-cell *matHeaderCellDef> # </th>
-        <td mat-cell *matCellDef="let element">
-          <mat-icon *ngIf="element.enabled == true" style="color: green">
-            check_circle</mat-icon>
-          <mat-icon
-            *ngIf="element.enabled == false"
-            style="color: rgb(201, 18, 18)"
-            >block</mat-icon
-          >
-        </td>
-      </ng-container>
+     
 
       <!-- Name Column -->
       <ng-container matColumnDef="name">
@@ -38,11 +27,7 @@
         <td mat-cell *matCellDef="let element"> {{element.name}} </td>
       </ng-container>
 
-      <!-- departement Column -->
-      <ng-container matColumnDef="departement">
-        <th mat-header-cell *matHeaderCellDef> Departement </th>
-        <td mat-cell *matCellDef="let element"> {{element.departement}} </td>
-      </ng-container>
+    
       <!-- abreviation Column -->
       <ng-container matColumnDef="abreviation">
         <th mat-header-cell *matHeaderCellDef> Designation </th>
