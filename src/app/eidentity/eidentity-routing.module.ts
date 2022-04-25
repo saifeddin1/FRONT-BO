@@ -16,7 +16,6 @@ const routes: Routes = [
     component:  IdentityComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
-      
       { path: 'users', component:UsersComponent, pathMatch: 'full' },
       { path: 'companies', component:CompanyComponent, pathMatch: 'full' },
       { path: 'departements', component:DepartementComponent, pathMatch: 'full' },

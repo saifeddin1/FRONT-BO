@@ -27,6 +27,9 @@ export class DepartementComponent implements OnInit {
     // this.id=id
     this.MatDialog.open(templateRef)
 }
+closeModal(){
+  this.MatDialog.ngOnDestroy()
+}
 
   addDepartement(){
     

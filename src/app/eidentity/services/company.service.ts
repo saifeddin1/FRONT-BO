@@ -13,5 +13,8 @@ export class CompanyService {
         return this.http.get(environment.IdentityApi + '/api/v1/company/getCompanies')
     }
 
+  addCompant(data:any){
+      return this.http.post(environment.IdentityApi +"/api/v1/company/addCompany" ,data)
+  }
 
 }
