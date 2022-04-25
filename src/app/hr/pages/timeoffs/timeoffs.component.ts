@@ -28,7 +28,14 @@ export class TimeoffsComponent implements OnInit {
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
-  displayedColumns: string[] = ['#', 'startdate', 'endDate', 'status'];
+  displayedColumns: string[] = [
+    '#',
+    'startdate',
+    'from',
+    'endDate',
+    'to',
+    'status',
+  ];
   page: number = 0;
   limit: number = 7;
   total: number = 7;
@@ -224,8 +231,14 @@ export class TimeoffsComponent implements OnInit {
         timeoffRequest:
           operation === 'add'
             ? {
-                startDate: null,
-                offDays: 0,
+                startDateSpecs: {
+                  date: null,
+                  from: '',
+                },
+                endDateSpecs: {
+                  date: null,
+                  to: '',
+                },
               }
             : this.timeoffs.filter((toff) => toff._id === toff_id)[0],
         operation: operation,

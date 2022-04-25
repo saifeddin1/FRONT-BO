@@ -1,7 +1,15 @@
 export interface Timeoff {
   _id?: string;
   status?: string;
-  startDate: Date;
-  offDays: number;
+  startDateSpecs: {
+    date: Date;
+    from: string;
+  };
+  endDateSpecs: {
+    date: Date;
+    to: string;
+  };
+  // startDate: Date;
+  // offDays: number;
   userId?: string;
 }
