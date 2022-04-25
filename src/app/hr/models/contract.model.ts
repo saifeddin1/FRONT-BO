@@ -7,4 +7,5 @@ export interface Contract {
   userId: string;
   timesheetType: string;
   salary: any;
+  status: string;
 }

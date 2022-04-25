@@ -28,7 +28,14 @@ export class ManageContractsComponent implements OnInit {
   p: number = 0;
   limit: number = 7;
   total: number = 7;
-  displayedColumns: string[] = ['#', 'startdate', 'status', 'type', 'action'];
+  displayedColumns: string[] = [
+    '#',
+    'startdate',
+    'endDate',
+    'status',
+    'type',
+    'action',
+  ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -144,6 +151,8 @@ export class ManageContractsComponent implements OnInit {
   }
 
   openDialog(event, operation, _contract) {
+    console.log(_contract);
+
     const dialogRef = this.dialog.open(ContractsDialogComponent, {
       height: 'auto',
       width: '700px',
@@ -158,6 +167,7 @@ export class ManageContractsComponent implements OnInit {
                 endDate: null,
                 userId: '',
                 timesheetType: '',
+                status: '',
                 salary: {
                   seniority: '',
                   annualCompensation: {

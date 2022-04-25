@@ -34,18 +34,7 @@
         #input
       />
     </mat-form-field>
-    <table
-      mat-table
-      [dataSource]="
-        dataSource
-          | paginate
-            : {
-                itemsPerPage: limit,
-                currentPage: page,
-                totalItems: total
-              }
-      "
-    >
+    <table mat-table [dataSource]="dataSource">
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let element">

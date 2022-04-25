@@ -1,8 +1,9 @@
 import { Location } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +11,7 @@ import moment from 'moment';
 import { User } from 'src/app/eidentity/models/user.model';
 import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { UserService } from 'src/app/lms/services/user.service';
 import { AddInterviewDialogComponent } from '../../components/add-interview-dialog/add-interview-dialog.component';
 import { InterviewDialog } from '../../components/interviewDialog/interview-dialog-componenet';
 import { Interview } from '../../models/interview.model';
@@ -30,7 +32,7 @@ export class EmployeeInterviewsComponent implements OnInit {
   isAdmin: boolean;
   users: User[];
 
-  displayedColumns: string[] = ['#', 'title', 'date', 'action'];
+  displayedColumns: string[] = ['#', 'user', 'title', 'date', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -44,15 +46,17 @@ export class EmployeeInterviewsComponent implements OnInit {
   dataSource: MatTableDataSource<Interview> =
     new MatTableDataSource<Interview>();
   userId: string;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private summaryService: EmployeeSummaryService,
     public dialog: MatDialog,
     private toaster: ToasterService,
     private activatedRoute: ActivatedRoute,
-    private location: Location
+    private location: Location,
+    private userService: UserService
   ) {
-    this.currentUser = this.summaryService.getUser();
-    this.isAdmin = this.currentUser['type'] === ADMIN;
+    this.currentUser = this.userService.user;
+    this.isAdmin = this.currentUser?.type === ADMIN;
     this.getAllnterviews();
   }
 
@@ -62,6 +66,7 @@ export class EmployeeInterviewsComponent implements OnInit {
       console.log('⚡ ~ .params.subscribe ~ userid', this.userId);
     });
     this.getAllnterviews();
+    this.getUsers();
   }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
@@ -90,17 +95,26 @@ export class EmployeeInterviewsComponent implements OnInit {
     this.summaryService
       .getInterviewsByUserId(this.userId)
       .subscribe((result) => {
-        this.interviews = result['response'][0]['totalData'];
-        this.total = result['response'][0]['totalCount'][0]?.count;
-        this.dataSource = new MatTableDataSource(
-          result['response'][0]['totalData']
-        );
-        this.isLoading = false;
-        console.log(
-          '⚡ this.interviews and totel',
-          this.interviews,
-          this.total
-        );
+        if (
+          result['response'][0]['totalData'] &&
+          result['response'][0]['totalData'].length
+        ) {
+          this.dataSource = new MatTableDataSource(
+            result['response'][0]['totalData']
+          );
+          this.dataSource.paginator = this.paginator;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.page;
+            this.paginator.length =
+              result['response'][0]['totalCount'][0]['count'] || 0;
+          });
+          this.interviews = result['response'][0]['totalData'];
+          this.total = result['response'][0]['totalCount'][0]['count'] || 0;
+          this.isLoading = false;
+        } else {
+          this.dataSource = new MatTableDataSource();
+          this.isLoading = false;
+        }
       });
   }
   goBack() {
@@ -108,20 +122,19 @@ export class EmployeeInterviewsComponent implements OnInit {
 
     this.location.back();
   }
-  changePage(page: number) {
-    console.log(page);
-    this.page = page;
+  changePage(event) {
+    console.log(event);
+    this.page = event.pageIndex;
+    this.limit = event.pageSize;
     this.getAllnterviews();
   }
-  openDialog(event, _interview_id) {
+  openDialog(event, _interview) {
     this.getUsers();
     const dialogRef = this.dialog.open(InterviewDialog, {
       height: 'auto',
       width: '700px',
       data: {
-        interview: this.interviews.filter(
-          (interview) => interview._id === _interview_id
-        )[0],
+        interview: _interview,
         user: this.currentUser,
       },
     });
@@ -131,13 +144,23 @@ export class EmployeeInterviewsComponent implements OnInit {
     });
   }
 
-  addInterview(event) {
+  addInterview(event, userid) {
     const dialogRef = this.dialog.open(AddInterviewDialogComponent, {
       height: 'auto',
       width: '700px',
       data: {
         users: this.users,
-        userId: this.userId,
+        interview: {
+          userId: this.userId || '',
+          title: '',
+          date: null,
+          files: null,
+          test: {
+            title: '',
+            description: '',
+            url: '',
+          },
+        },
       },
     });
 

@@ -23,16 +23,7 @@
         mat-table
         matSort
         (matSortChange)="announceSortChange($event)"
-        [dataSource]="
-          dataSource
-            | paginate
-              : {
-                  itemsPerPage: 7,
-                  currentPage: p,
-                  totalItems: users.length,
-                  id: 'users'
-                }
-        "
+        [dataSource]="dataSource"
         *ngIf="!isLoading"
       >
         <ng-container matColumnDef="#">
