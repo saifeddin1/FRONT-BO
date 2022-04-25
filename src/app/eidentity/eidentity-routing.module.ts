@@ -5,6 +5,8 @@ import { AboutComponent } from '../lms/pages/home-pages/about/about.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { PreventStudentGuard } from '../hr/helpers/prevent-student.guard';
 import { UsersComponent } from './pages/users/users.component';
+import { HrusersComponent } from './pages/hrusers/hrusers.component';
+import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -16,6 +18,8 @@ const routes: Routes = [
     children: [
       { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: 'users', component: UsersComponent, pathMatch: 'full' },
+      { path: 'hrusers', component: HrusersComponent, pathMatch: 'full' },
+      { path: 'hrinstructor', component: InstructorusersComponent, pathMatch: 'full' },
     ],
   },
 ];

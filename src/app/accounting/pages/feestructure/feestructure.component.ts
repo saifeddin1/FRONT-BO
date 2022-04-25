@@ -1,7 +1,7 @@
 import { Academicyear } from './../../models/acadmicyear.model';
 import { FeeStructure } from './../../models/feeStructure.model';
 import { FeestructureService } from './../../services/feestructure.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { FeeCategoryService } from '../../services/fee-category.service';
 import { FeeCategory } from '../../models/feeCatgory.model';
 import { AcademictermService } from '../../services/academicterm.service';
 import { validateVerticalPosition } from '@angular/cdk/overlay';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-feestructure',
@@ -28,7 +29,10 @@ export class FeestructureComponent implements OnInit {
   feeCtaegories:FeeCategory[]=[];
   feeCatId:any[]=[];
   feestructures : any[]=[];
- 
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
@@ -81,6 +85,13 @@ export class FeestructureComponent implements OnInit {
     this.createForm1();
   }
 
+  changePage(event) {
+    console.log(event);
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
+    this.getallfeestructures();
+
+  }
  
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getallfeestructures(){
@@ -89,7 +100,14 @@ export class FeestructureComponent implements OnInit {
         
         console.log("get fee structures", res.response)
         this.dataSource = new MatTableDataSource(res.response);
-        
+        this.dataSource.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length =
+            res.response.length || 0;
+        });
+      
+        this.total = res.response.length || 0;
       },
       (error)=>{
         console.error(error)

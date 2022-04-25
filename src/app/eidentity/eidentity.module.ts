@@ -12,8 +12,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersComponent } from './pages/users/users.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import { HrusersComponent } from './pages/hrusers/hrusers.component';
+import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
-  declarations: [IdentityComponent, UsersComponent],
+  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent],
   imports: [
     CommonModule,
     EidentityRoutingModule,
@@ -26,10 +29,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatSortModule,
     MatIconModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatPaginatorModule,
   ],
   exports:[
-    IdentityComponent,UsersComponent
+    IdentityComponent,UsersComponent,HrusersComponent, InstructorusersComponent
   ]
 })
 export class EidentityModule { }

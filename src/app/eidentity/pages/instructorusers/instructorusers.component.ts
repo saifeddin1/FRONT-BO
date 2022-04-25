@@ -1,32 +1,26 @@
-import { User } from 'src/app/eidentity/models/user.model';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTableDataSource } from '@angular/material/table';
-import { ToasterService } from 'src/app/lms/services/toaster.service';
-import { UsersService } from '../../services/users.service';
-import { UserService } from 'src/app/lms/services/user.service';
-import { ResetpwdService } from '../../services/resetpwd.service';
-import moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
+import moment from 'moment';
+import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { User } from '../../models/user.model';
+import { UsersService } from '../../services/users.service';
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: 'app-instructorusers',
+  templateUrl: './instructorusers.component.html',
+  styleUrls: ['./instructorusers.component.css']
 })
-export class UsersComponent implements OnInit {
-  newpass: string;
-  emailchange:string;
-  displayniv = false;
-  studentnivs : object[] = [];
+export class InstructorusersComponent implements OnInit {
+
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
-  clrModalOpen2: boolean = false;
+  form: FormGroup;
   p: number = 1;
   limit: number = 7;
   total: number = 7;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  form: FormGroup;
   now = new Date();
   year = this.now.getFullYear();
   month = this.now.getMonth();
@@ -44,13 +38,11 @@ export class UsersComponent implements OnInit {
   ];
 
   displayedOptionColumns: string[] = ['name', 'action'];
-
-  constructor(private pwdService: ResetpwdService,private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService,private userServicelms:UserService ) 
-  {
-    this.getallUsers();
-    this.getstudentniv();
-   }
-
+  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
+    this.getallInstructorUsers()
+    this.getallDisabledInstructorUsers()
+  }
+// 
   ngOnInit(): void {
     this.createForm()
   }
@@ -59,29 +51,15 @@ export class UsersComponent implements OnInit {
     console.log(event);
     this.p = event.pageIndex;
     this.limit = event.pageSize;
-    this.getallUsers();
+    this.getallInstructorUsers();
 
   }
 
+  
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
-  dataSource1: MatTableDataSource<User> = new MatTableDataSource<User>();
 
-  getstudentniv(){
-    this.usersService.getStudetNiv().subscribe(
-      (res)=>{
-        console.log("get all studentnivs",res)
-        this.studentnivs = res;
-      },
-      (error)=>{
-        console.error(error)
-      }
-    )
-
-    
-
-  }
-  getallUsers(){
-    this.usersService.getUsers().subscribe(
+  getallInstructorUsers(){
+    this.usersService.getallInstructor().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;
@@ -98,11 +76,12 @@ export class UsersComponent implements OnInit {
       }
     )
   }
-  getallDisableStudents(){
-    this.usersService.getDisableStudents().subscribe(
+  dataSource1: MatTableDataSource<User> = new MatTableDataSource<User>();
+
+  getallDisabledInstructorUsers(){
+    this.usersService.getalldisabledInstructor().subscribe(
       (res)=>{
         this.dataSource1 = new MatTableDataSource(res.response);
-       
       },
       (error)=>{
         console.error(error)
@@ -110,6 +89,37 @@ export class UsersComponent implements OnInit {
     )
   }
 
+  activateUser(id:string){
+
+    this.usersService.activateUser(id).subscribe(
+      (result)=>{
+        console.log('Activated successfully:',result);
+        this.toasterService.success('Activated Successfully');
+        this.getallInstructorUsers();
+
+      },(err)=>{
+        console.log(err)
+        this.toasterService.error('Something wrong')
+      }
+
+    )
+  }
+
+  deleteUser(id:string){
+    this.usersService.deleteUser(id).subscribe(
+      (res)=>{
+        this.toasterService.success("Deleted successfully")
+        this.getallInstructorUsers();
+        this.getallDisabledInstructorUsers();
+
+      },
+      (err)=>{
+        this.toasterService.error('Something wrong ')
+      }
+    )
+  }
+
+ 
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -163,13 +173,8 @@ export class UsersComponent implements OnInit {
     
   }
   openModal1() {
-    
+  
     this.clrModalOpen1 = true;
-    
-  }
-  closeModal2() {
-    this.createForm();
-    this.clrModalOpen2 = false;
     
   }
 
@@ -230,7 +235,7 @@ export class UsersComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
-            this.getallUsers();
+            this.getallInstructorUsers();
 
           },
           (err)=>{
@@ -242,7 +247,7 @@ export class UsersComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
-            this.getallUsers();
+            this.getallInstructorUsers();
 
           },(err)=>{
             console.log(err)
@@ -255,70 +260,18 @@ export class UsersComponent implements OnInit {
     }
   }
 
-  activateUser(id:string){
-
-    this.usersService.activateUser(id).subscribe(
-      (result)=>{
-        console.log('Activated successfully:',result);
-        this.toasterService.success('Activated Successfully');
-        this.getallUsers();
-
-      },(err)=>{
-        console.log(err)
-        this.toasterService.error('Something wrong')
-      }
-
-    )
-  }
-
   editById(body: Partial<User>) {
     this.fillFormModel(body);
     this.openModal('edit');
   }
 
-  deleteProgram(id:string){
-    this.usersService.deleteUser(id).subscribe(
-      (res)=>{
-        this.toasterService.success("Deleted successfully")
-        this.getallUsers();
-        this.getallDisableStudents();
-
-      },
-      (err)=>{
-        this.toasterService.error('Something wrong ')
-      }
-    )
-  }
-
-  activatestudentniv(){
-    this.form.value.type == 'ESTUDENT' ? this.displayniv = true : this.displayniv = false
-  }
-
-  openchangepwdmodal(email:string){
-    this.emailchange=email;
-    this.clrModalOpen2 = true;
-    
-  }
-  changepwd(){
-    
-    this.pwdService.changepwdbyadmin(this.emailchange,{newpassword:this.newpass}).subscribe(
-      (res)=>{
-        this.toasterService.success("Changed successfully")
-        
-      },
-      (err)=>{
-        this.toasterService.error('Something wrong')
-        
-      }
-    )
-  }
 
   restore(id:string){
     this.usersService.restore(id).subscribe(
       (res)=>{
       this.toasterService.success("restored successfully")
-      this.getallDisableStudents()
-      this.getallUsers();
+      this.getallInstructorUsers();
+      this.getallDisabledInstructorUsers();
       },
       (err)=>{
         console.log("restore errror", err)
@@ -326,5 +279,6 @@ export class UsersComponent implements OnInit {
       }
     )
   }
+
 
 }
