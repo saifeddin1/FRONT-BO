@@ -29,6 +29,7 @@ export class GroupstudentComponent implements OnInit{
   programs :any []=[];
   form1:FormGroup;
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   clrModalOpen3: boolean = false;
   clrModalOpenEdit: boolean = false;
   form: FormGroup;
@@ -42,7 +43,7 @@ export class GroupstudentComponent implements OnInit{
   ];
   displayedColumns1 : string[]=[
     
-    '#',
+    
     'name',
     'program',
     'academicyear',
@@ -51,6 +52,7 @@ export class GroupstudentComponent implements OnInit{
     
     'action' 
   ];
+ 
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -62,6 +64,7 @@ export class GroupstudentComponent implements OnInit{
       this.getallacademicyears();
       this.getallprograms();
       this.getStudentsGroup();
+      this.getDisabledStudentsGroup();
    }
 
   ngOnInit(): void {
@@ -72,53 +75,24 @@ export class GroupstudentComponent implements OnInit{
  
   dataSource1: MatTableDataSource<any> = new MatTableDataSource<any>();
   getStudentsGroup(){
-    this.groupstudentService.getStudentgroup().subscribe(
+    this.groupstudentService.getGroupStudentsbyname().subscribe(
       (res)=>{
-        for(var i=0; i< res.response.length;i++){
-          
-          const studentgroup=  {
-            _id:'',
-            name:'',
-            program:'',
-            academicyear:'',
-            academicterm:'',
-            maxsize:'',
-            enabled:''
-         };
-          studentgroup._id= res.response[i]._id;
-          studentgroup.name= res.response[i].name;
-          studentgroup.maxsize= res.response[i].maxsize;
-          studentgroup.enabled= res.response[i].enabled;
-
-          this.programService.getOneProgram(res.response[i].program).subscribe(
-            (res)=>{
-              
-              studentgroup.program= res.response.name;
-             
-              
-              
-            }
-          )
-
-          this.academicyearService.getOneAcademicyear(res.response[i].academicyear).subscribe(
-            (res)=>{
-              studentgroup.academicyear= res.response.name;
-             
-              
-            }
-          )
-          this.academictermService.getOneAcademicterm(res.response[i].academicterm).subscribe(
-            (res)=>{
-              studentgroup.academicterm= res.response.name;
-              
-            }
-          )
-
-          this.studentgroup.push(studentgroup);
-        
-
+       console.log(" get all student group", res.response)
+      this.dataSource1 = new MatTableDataSource(res.response);
+    },
+      (error)=>{
+        console.error("get studentgroup error :",error)
       }
-      this.dataSource1 = new MatTableDataSource(this.studentgroup);
+
+    )
+  }
+  dataSource4: MatTableDataSource<any> = new MatTableDataSource<any>();
+  getDisabledStudentsGroup(){
+    this.dataSource4 = new MatTableDataSource([]);
+    this.groupstudentService.getDisabledGroupStudents().subscribe(
+      (res)=>{
+       console.log(" get disabled all student group", res.response)
+       this.dataSource4 = new MatTableDataSource(res.response);
     },
       (error)=>{
         console.error("get studentgroup error :",error)
@@ -203,8 +177,8 @@ export class GroupstudentComponent implements OnInit{
       _id: body._id,
       name: body.name,
       program: body.program,
-      academicyear: body.academicyear,
-      academicterm: body.academicterm,
+      academicyear: body.academicyear._id,
+      academicterm: body.academicterm._id,
       maxsize : body.maxsize
      
     });
@@ -250,6 +224,15 @@ export class GroupstudentComponent implements OnInit{
     this.clrModalOpenEdit = false;
   }
 
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+  }
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
+  }
+
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
@@ -282,7 +265,7 @@ export class GroupstudentComponent implements OnInit{
   editById(body: Partial<Student>) {
     console.log("edit by id element",body)
     this.fillFormModel(body);
-    
+    this.getallacademicterms();
     this.clrModalOpenEdit = true
     
   }
@@ -401,6 +384,7 @@ saveStudentGroup(){
      (res)=> {
        this.toasterService.success("deleted successfully")
        this.getStudentsGroup();
+      this.getDisabledStudentsGroup();
      },
      (error)=>{
        this.toasterService.error('something wrong')
@@ -417,6 +401,25 @@ saveStudentGroup(){
   this.programService.getPrograms().subscribe(
     (res) =>{
       this.programs = res.response;
+    }
+  )
+}
+
+
+restore(id:string){
+  this.groupstudentService.restore(id).subscribe(
+    (res)=>{
+      this.getDisabledStudentsGroup();
+      this.getStudentsGroup();
+      
+      
+      this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
     }
   )
 }

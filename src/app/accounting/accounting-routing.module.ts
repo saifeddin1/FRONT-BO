@@ -12,25 +12,46 @@ import { AcademictermComponent } from './pages/academicterm/academicterm.compone
 import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
 import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
 
-
-
-
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
   { path: 'about', component: AboutComponent },
   {
     path: 'accounting',
-    component:  AccountingComponent,
+    component: AccountingComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
-      {path: 'program', component:ProgramComponent, pathMatch: 'full' },
-      {path:'feeCategory',component:FeeCategoryComponent, pathMatch:'full'},
-      {path:'academicyear',component:AcademicyearComponent, pathMatch:'full'},
-      {path:'feestructure',component: FeestructureComponent, pathMatch:'full'},
-      {path:'academicterm',component: AcademictermComponent, pathMatch:'full'},
-      {path:'groupstudent',component:GroupstudentComponent, pathMatch:'full'},
-      {path:'feeSchedule',component:FeescheduleComponent, pathMatch:'full'}
-        
+      { path: '', redirectTo: 'program', pathMatch: 'full' },
+      { path: 'program', component: ProgramComponent, pathMatch: 'full' },
+      {
+        path: 'feeCategory',
+        component: FeeCategoryComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'academicyear',
+        component: AcademicyearComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'feestructure',
+        component: FeestructureComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'academicterm',
+        component: AcademictermComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'groupstudent',
+        component: GroupstudentComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'feeSchedule',
+        component: FeescheduleComponent,
+        pathMatch: 'full',
+      },
     ],
   },
   // { path: 'solutions', component: SolutionsComponent },
@@ -38,6 +59,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AccountingRoutingModule { }
+export class AccountingRoutingModule {}

@@ -132,7 +132,7 @@
 
           <div class="position-top">
             <strong class="modalcol3">Type</strong>
-            <select class="text-area modalcol" formControlName="type" >
+            <select class="text-area modalcol" formControlName="type" (change)="activatestudentniv()" >
               <option value="EHR">HR</option>
               <option value="EINSTRUCTOR">INSCTRUCTOR</option>
               <option value="EADMIN">ADMIN</option>
@@ -140,10 +140,7 @@
               <option value="ORGANISATION_OWNER">Organisation owner</option>
             </select>
           </div>
-          <div class="position-top">
-            <strong class="modalcol3"> </strong>
-            <mat-checkbox class="example-margin" #checkbox (change)='activatestudentniv(checkbox.checked)' >Check student level</mat-checkbox>
-          </div>
+        
           
           <div class="position-top modalRow" *ngIf="displayniv">
             <strong class="modalcol3">studentNiv</strong>
@@ -195,7 +192,7 @@
             <input matInput class="text-area modalcol" placeholder="password.." [(ngModel)] ="newpass">
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal2()">
               Fermer
             </button>
             <button class="btn btn-ok btn-outline" type="submit" (click)="changepwd()" >

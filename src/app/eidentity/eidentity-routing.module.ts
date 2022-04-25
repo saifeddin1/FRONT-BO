@@ -13,7 +13,7 @@ const routes: Routes = [
   { path: 'about', component: AboutComponent },
   {
     path: 'identity',
-    component:  IdentityComponent,
+    component: IdentityComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
       { path: 'users', component:UsersComponent, pathMatch: 'full' },
@@ -25,6 +25,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class EidentityRoutingModule { }
+export class EidentityRoutingModule {}

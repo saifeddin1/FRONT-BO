@@ -19,6 +19,12 @@ export class FeescheduleService {
   getFeesschedule():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeschedule/`); 
    }
+   getDisabledFeesschedule():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeschedule/disabledfeeschedule`); 
+   }
+   getFeesschedulebyname():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeschedule/byname`); 
+   }
 
    getOneFeestructures(id:string):Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/${id}`); 
@@ -31,6 +37,11 @@ export class FeescheduleService {
 
   deletefeeschedule(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/feeschedule/${id}`)
+  }
+
+  restore(id:string):Observable<any>{
+   
+    return this.http.put<any>(`${this.BASE_URL}/api/feeschedule/restore/${id}`,{});
   }
 
 }

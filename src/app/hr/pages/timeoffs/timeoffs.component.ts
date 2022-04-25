@@ -4,6 +4,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
+import { User } from 'src/app/eidentity/models/user.model';
+import { UsersService } from 'src/app/eidentity/services/users.service';
+import { UserService } from 'src/app/lms/services/user.service';
 import { ADMIN, HR } from '../../../lms/constants/roles.constant';
 import { ToasterService } from '../../../lms/services/toaster.service';
 import { TimeoffAddDialogComponent } from '../../components/timeoff-add-dialog/timeoff-add-dialog.component';
@@ -25,7 +28,7 @@ export class TimeoffsComponent implements OnInit {
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
-  displayedColumns: string[] = ['#', 'startdate', 'status'];
+  displayedColumns: string[] = ['#', 'startdate', 'endDate', 'status'];
   page: number = 0;
   limit: number = 7;
   total: number = 7;
@@ -36,39 +39,46 @@ export class TimeoffsComponent implements OnInit {
   mode: ProgressSpinnerMode = 'indeterminate';
   value = 50;
   isLoading: boolean = true;
-
+  currUser: User;
   constructor(
     private toaster: ToasterService,
     private employeeService: EmployeeSummaryService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private usersService: UserService
   ) {
-    this.isAdmin = this.currUser['type'] === ADMIN;
-    this.isHR = this.currUser['type'] === HR;
+    this.currUser = this.usersService.user;
+    this.isAdmin = this.currUser?.type === ADMIN;
+    this.isHR = this.currUser?.type === HR;
     this.shouldDisplay = this.isHR || this.isAdmin;
-
     this.newNotification = {
       userId: '',
       content: '',
     };
 
-    if (this.isAdmin) {
-      this.displayedColumns.splice(2, 0, 'offDays');
+    if (this.shouldDisplay) {
+      // this.displayedColumns.splice(2, 0, 'offDays');
       this.displayedColumns.splice(1, 0, 'user');
-    } else {
-      this.displayedColumns.splice(2, 0, 'endDate');
     }
+    // else {
+    //   this.displayedColumns.splice(2, 0, 'endDate');
+    // }
 
     if (this.shouldDisplay) {
       this.displayedColumns.splice(this.displayedColumns.length, 0, 'action');
     }
   }
   ngOnInit(): void {
+    this.currUser = this.usersService.user;
+    console.log(this.currUser);
+
+    this.isAdmin = this.currUser?.type === ADMIN;
+    this.isHR = this.currUser?.type === HR;
+    console.log('is he an admin? => ', this.isAdmin);
+    console.log('is he an HR? => ', this.isHR);
+
     this.getEmlpoyeeTimeoffs();
-    console.log(this.isAdmin, this.isHR, this.shouldDisplay);
-  }
-  currUser = this.employeeService.getUser();
-  formatedDate(date) {
-    return formatDate(date);
+    this.shouldDisplay = this.isHR || this.isAdmin;
+    console.log('should we display ? => ', this.shouldDisplay);
   }
 
   getEndDate(date: Date, days: number) {

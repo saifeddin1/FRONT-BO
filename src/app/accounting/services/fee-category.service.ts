@@ -20,6 +20,9 @@ export class FeeCategoryService {
   getFeeCatgories():Observable<any>{
    return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/`); 
   }
+  getDisabledFeeCatgories():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/disabledfeecat`); 
+   }
   getOneFeeCatgory(id:string):Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/${id}`); 
    }
@@ -31,4 +34,7 @@ export class FeeCategoryService {
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/feeCategory/${id}`,element);
   }
+  restore(id:string):Observable<any>{
+    return this.http.put<any>(`${this.BASE_URL}/api/feeCategory/restore/${id}`,{});
+   }
 }

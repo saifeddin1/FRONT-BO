@@ -22,6 +22,13 @@ export class UsersComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen2: boolean = false;
   form: FormGroup;
+  now = new Date();
+  year = this.now.getFullYear();
+  month = this.now.getMonth();
+  day = this.now.getDay();
+  minDate = moment({year: this.year - 100, month: this.month, day: this.day}).format('YYYY-MM-DD');
+
+  maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
   displayedColumns : string[]=[
     '#',
     'username',
@@ -52,6 +59,7 @@ export class UsersComponent implements OnInit {
   getstudentniv(){
     this.usersService.getStudetNiv().subscribe(
       (res)=>{
+        console.log("get all studentnivs",res)
         this.studentnivs = res;
       },
       (error)=>{
@@ -99,7 +107,7 @@ export class UsersComponent implements OnInit {
       password: body.password,
       email: body.email,
       type: body.type,
-      birthday: body.birthday,
+      birthday:moment(body.birthday).format('YYYY-MM-DD'),
       studentNiveauId: body.studentNiveauId,
       company:body.company,
     });
@@ -121,35 +129,56 @@ export class UsersComponent implements OnInit {
     this.clrModalOpen = false;
     
   }
+  closeModal2() {
+    this.createForm();
+    this.clrModalOpen2 = false;
+    
+  }
 
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
       
-      
-      const user={
-        username : this.form.value.username,
-        firstname : this.form.value.firstname,
-        lastname: this.form.value.lastname,
-        type: this.form.value.type,
-        password: this.form.value.password,
-        email: this.form.value.email,
-        studentNiveauId:this.form.value.studentNiveauId,
-        birthday:this.form.value.birthday
-
-      }
-      if (user.username.length < 5) {
-        this.toasterService.success(`${this.displayniv} hey hey`)
+      let user ;
+     
+      if (this.form.value.username.length < 5) {
+    
         this.toasterService.error("username doit contenir au moins 5 caractères");
         return;
       }
-      if (user.firstname.length < 3) {
+      if (this.form.value.firstname.length < 3) {
         this.toasterService.error("firstname doit contenir au moins 3 caractères");
         return;
       }
-      if (user.lastname.length < 3) {
+      if (this.form.value.lastname.length < 3) {
         this.toasterService.error("lastname doit contenir au moins 3 caractères");
         return;
+      }
+      if( this.form.value.type =='ESTUDENT'){
+        user={
+          username : this.form.value.username,
+          firstname : this.form.value.firstname,
+          lastname: this.form.value.lastname,
+          type: this.form.value.type,
+        
+          email: this.form.value.email,
+          studentNiveauId:this.form.value.studentNiveauId,
+          birthday:this.form.value.birthday
+  
+        }
+
+      }else{
+        user={
+          username : this.form.value.username,
+          firstname : this.form.value.firstname,
+          lastname: this.form.value.lastname,
+          type: this.form.value.type,
+        
+          email: this.form.value.email,
+         
+          birthday:this.form.value.birthday
+  
+        }
       }
       
      
@@ -222,8 +251,8 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  activatestudentniv(checked:any){
-    checked ? this.displayniv = true : this.displayniv = false
+  activatestudentniv(){
+    this.form.value.type == 'ESTUDENT' ? this.displayniv = true : this.displayniv = false
   }
 
   activateOrganisationOwner(checked:any){

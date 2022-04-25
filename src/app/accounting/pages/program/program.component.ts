@@ -15,10 +15,10 @@ export class ProgramComponent implements OnInit {
   clrModalOpen: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
-    '#',
+   
     'name',
     'abreviation',
-    'departement',
+    
     
   ];
 
@@ -36,6 +36,7 @@ export class ProgramComponent implements OnInit {
   getallprograms(){
     this.programService.getPrograms().subscribe(
       (res)=>{
+        console.log("get all programs", res.response)
         this.dataSource = new MatTableDataSource(res.response);
       },
       (error)=>{

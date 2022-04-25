@@ -24,7 +24,10 @@
  text-decoration: underline;
 }
 
-
+.behindbtn{
+  display: flex;
+  flex-direction: row-reverse;
+}
 
 
 
@@ -582,4 +585,7 @@
         justify-content: flex-start;
         flex-direction: column;
 
+    }
+    .btn-trash{
+      color: #5e6366;
     }
