@@ -1,13 +1,11 @@
 <div class="">
+  <div *ngIf="contractEnded" class="contract-alert">
+    <span> Your contract has been ended. Please Contact your manager.</span>
+    <mat-icon>error</mat-icon>
+  </div>
   <div class="summary-wrapper">
     <div class="hr-card profile">
-      <!-- <span>👨‍🎓 Profile</span> -->
       <div class="headshot">
-        <!-- <img
-          src="../../../../assets/img/user-placeholder.png"
-          alt=""
-          *ngIf="!userFile"
-        /> -->
         <img
           src="../../../../assets/img/{{
             userFile?.profile.image || 'user-placeholder.png'
@@ -41,10 +39,6 @@
           {{ userFile?.profile.proEmail || "John@doe.com" }}
         </div>
       </div>
-
-      <!-- <div><span>TimeOff Balance </span> {{ userFile?.timeOffBalance }}</div>
-      <div><span>Position </span> {{ userFile?.profile["position"] }}</div>
-      <div><span>Email </span> {{ userFile?.profile["proEmail"] }}</div> -->
     </div>
     <div class="timeoff-balance">
       <span class="title"> TimeOff Balance</span>
@@ -79,7 +73,15 @@
             <span class="bold-text">Start Date :</span>
           </div>
           <div class="col">
-            {{ formatDate(contract?.startDate) }}
+            {{ contract?.startDate | date }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <span class="bold-text">End Date :</span>
+          </div>
+          <div class="col">
+            {{ contract?.endDate | date }}
           </div>
         </div>
       </div>
@@ -89,9 +91,6 @@
     </div>
     <div class="interviews">
       <h4 class="heading">Upcoming Interviews</h4>
-      <!-- ID : {{ userFile?._id }} <br /> -->
-      <!-- Name : <b>{{ userFile?.userRef }}</b> <br /> -->
-      <!-- userId : <b>{{ userFile?.userId }}</b> <br /> -->
       <div *ngIf="interviews && interviews.length">
         <div *ngFor="let interview of interviews" class="hr-card">
           <div class="row lh-lg">
@@ -116,43 +115,3 @@
     </div>
   </div>
 </div>
-<!-- <div class="p-3 border">
-  <h2>Current TimeSheet</h2>
-  <table class="table table-striped">
-    <thead>
-      <th>date</th>
-      <th>Note</th>
-      <th>working hours</th>
-    </thead>
-    <tbody>
-      <tr>
-        <td>
-          {{ formatDate(timesheet?.date) }}
-        </td>
-        <td>
-          <input
-            class="form-control"
-            type="text"
-            value="{{ timesheet?.note }}"
-            [(ngModel)]="timesheet.note"
-          />
-        </td>
-        <td>
-          <input
-            class="form-control"
-            type="number"
-            value="{{ timesheet?.workingHours }}"
-            [(ngModel)]="timesheet.workingHours"
-          />
-        </td>
-        <td>
-          <app-button-outline
-            (onClick)="updateRecord(timesheet)"
-            [title]="'add'"
-          >
-          </app-button-outline>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->

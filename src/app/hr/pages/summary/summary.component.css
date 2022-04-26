@@ -4,6 +4,20 @@ th {
   padding: 1rem !important;
 }
 
+.contract-alert {
+  height: 65px;
+  background-color: red;
+  margin-inline: 1rem;
+  margin-bottom: 1rem;
+  padding: 1.5rem;
+  color: #fff;
+  font-weight: 500;
+  font-size: 17px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .line-height-lg {
   line-height: 30px;
 }

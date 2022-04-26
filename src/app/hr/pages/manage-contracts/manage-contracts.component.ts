@@ -13,6 +13,8 @@ import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatPaginator } from '@angular/material/paginator';
 import { UserService } from 'src/app/lms/services/user.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-manage-contracts',
   templateUrl: './manage-contracts.component.html',
@@ -22,6 +24,7 @@ export class ManageContractsComponent implements OnInit {
   users: User[];
   isOpen: boolean;
   isAdmin: boolean;
+  filterVal: string;
   dialogOperation: string;
   currentUser: any;
   form: FormGroup;
@@ -38,7 +41,7 @@ export class ManageContractsComponent implements OnInit {
   ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedOptionColumns: string[] = ['name', 'action'];
-
+  searchNotifier = new Subject();
   isLoading: boolean = true;
   constructor(
     private userService: UserService,
@@ -49,6 +52,7 @@ export class ManageContractsComponent implements OnInit {
     this.currentUser = this.userService.user;
     this.isAdmin = this.currentUser?.type === ADMIN;
     this.isOpen = false;
+    this.filterVal = '';
   }
 
   contracts: MatTableDataSource<Contract>;
@@ -63,6 +67,10 @@ export class ManageContractsComponent implements OnInit {
       this.displayedColumns.splice(1, 0, 'ref');
       this.displayedColumns.splice(2, 0, 'employee');
     }
+
+    this.searchNotifier
+      .pipe(debounceTime(500))
+      .subscribe((data) => this.getAllContractsWithSalary());
   }
 
   getUsers() {
@@ -83,7 +91,7 @@ export class ManageContractsComponent implements OnInit {
   getAllContractsWithSalary() {
     this.isLoading = true;
     this.employeeService
-      .getAllContractsWithSalaries(this.p, this.limit)
+      .getAllContractsWithSalaries(this.p, this.limit, this.filterVal)
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
@@ -135,12 +143,17 @@ export class ManageContractsComponent implements OnInit {
         }
       });
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    if (this.contracts) {
-      this.contracts.filter = filterValue.trim().toLowerCase();
-    }
+
+  debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
   }
+
   changePage(event) {
     console.log(event);
     this.p = event.pageIndex;

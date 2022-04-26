@@ -29,7 +29,7 @@ export class TimeoffsComponent implements OnInit {
   isHR: boolean;
   shouldDisplay: boolean;
   displayedColumns: string[] = [
-    '#',
+    'ref',
     'startdate',
     'from',
     'endDate',
@@ -64,7 +64,7 @@ export class TimeoffsComponent implements OnInit {
 
     if (this.shouldDisplay) {
       // this.displayedColumns.splice(2, 0, 'offDays');
-      this.displayedColumns.splice(1, 0, 'user');
+      this.displayedColumns.splice(0, 0, 'user');
     }
     // else {
     //   this.displayedColumns.splice(2, 0, 'endDate');
@@ -186,13 +186,13 @@ export class TimeoffsComponent implements OnInit {
           this.toaster.success(result['message']);
           this.createNotification({
             userId: result['response']['userId'],
-            content: `Timeoff #${timeoff._id} has been ${timeoff.status}`,
+            content: `${timeoff.ref} has been ${timeoff.status}`,
           });
           this.getNotifications();
           // this.newNotification.userId = result['response']['userId'];
           // this.newNotification.content = result['response']['content'];
         },
-        (error) => this.toaster.error(error['error']['message'])
+        (error) => this.toaster.error('error')
       );
   }
 
@@ -212,15 +212,15 @@ export class TimeoffsComponent implements OnInit {
     });
   }
   // for admin
-  updateTimeoffRequest(timeoff) {
-    return this.employeeService.updateTimeoff(timeoff._id, timeoff).subscribe(
-      (result) => {
-        console.log(result);
-        this.toaster.success(result['message']);
-      },
-      (error) => this.toaster.error(error['error']['message'])
-    );
-  }
+  // updateTimeoffRequest(timeoff) {
+  //   return this.employeeService.updateTimeoff(timeoff._id, timeoff).subscribe(
+  //     (result) => {
+  //       console.log(result);
+  //       this.toaster.success(result['message']);
+  //     },
+  //     (error) => this.toaster.error('error')
+  //   );
+  // }
 
   openDialog(event, operation, toff_id) {
     this.isOpen = true;

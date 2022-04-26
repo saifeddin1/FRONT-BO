@@ -25,11 +25,19 @@ export class TimeoffAddDialogComponent implements OnInit {
   ngOnInit(): void {
     console.log(this.timeoffRequest);
   }
-
+  createNotification(body) {
+    return this.summaryService.createNotification(body).subscribe((result) => {
+      console.log('🔕  ~ result', result);
+    });
+  }
   updateTimeoffRequest(timeoff) {
     return this.summaryService.updateTimeoff(timeoff._id, timeoff).subscribe(
       (result) => {
         console.log(result);
+        this.createNotification({
+          userId: result['response']['userId'],
+          content: `${timeoff.ref} has been ${timeoff.status}`,
+        });
         this.toaster.success(result['message']);
       },
       (error) => this.toaster.error(error['error']['message'])

@@ -23,12 +23,13 @@ export class SummaryComponent implements OnInit {
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
-
+  contractEnded: boolean;
   constructor(
     private summaryService: EmployeeSummaryService,
     private userService: UserService
   ) {
     this.currUser = this.userService.user;
+    this.contractEnded = false;
     console.log(this.currUser);
   }
   ngOnInit(): void {
@@ -70,6 +71,9 @@ export class SummaryComponent implements OnInit {
       );
 
       this.contract = result['response'];
+      new Date(this.contract?.endDate) <= new Date()
+        ? (this.contractEnded = true)
+        : (this.contractEnded = false);
     });
   }
 

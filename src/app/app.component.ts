@@ -84,6 +84,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.user = this.userService.user;
+    this.getNotifications();
+    this.unreadCount();
     this.router.events
       .pipe(filter((event: any) => event instanceof NavigationEnd))
       .subscribe((event: any) => {
@@ -91,9 +94,6 @@ export class AppComponent implements OnInit {
         console.log('⚡  ~ event.url', event.url);
         this.getCurrentSolution();
       });
-    this.user = this.userService.user;
-    this.getNotifications();
-    this.unreadCount();
   }
   getCurrentSolution() {
     this.currentSolution = this.routes.filter(
@@ -129,6 +129,9 @@ export class AppComponent implements OnInit {
   }
   toggleDropdown() {
     this.dropDownActive = !this.dropDownActive;
+  }
+  closeDropdown() {
+    this.dropDownActive = false;
   }
   getNotifications() {
     this.employeeService.getUserNotifications().subscribe((result) => {

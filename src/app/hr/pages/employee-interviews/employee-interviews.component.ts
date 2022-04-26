@@ -32,7 +32,14 @@ export class EmployeeInterviewsComponent implements OnInit {
   isAdmin: boolean;
   users: User[];
 
-  displayedColumns: string[] = ['#', 'user', 'title', 'date', 'action'];
+  displayedColumns: string[] = [
+    '#',
+    'user',
+    'title',
+    'date',
+    'status',
+    'action',
+  ];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
