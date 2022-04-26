@@ -13,8 +13,16 @@ export class CompanyService {
         return this.http.get(environment.IdentityApi + '/api/v1/company/getCompanies')
     }
 
-  addCompant(data:any){
+  addCompany(data:any){
       return this.http.post(environment.IdentityApi +"/api/v1/company/addCompany" ,data)
+  }
+
+  deleteCompany(id:any){
+    return this.http.delete(environment.IdentityApi + "/api/v1/company/deleteCampany/" + id)
+  }
+
+  getOneById(id:any){
+    return this.http.get(environment.IdentityApi +"/api/v1/company/getCompanybyId/" + id)
   }
 
 }

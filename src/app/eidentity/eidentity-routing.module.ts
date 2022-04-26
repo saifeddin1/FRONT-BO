@@ -18,6 +18,7 @@ const routes: Routes = [
     children: [
       { path: 'users', component:UsersComponent, pathMatch: 'full' },
       { path: 'companies', component:CompanyComponent, pathMatch: 'full' },
+      { path: 'departements/:id', component:DepartementComponent, pathMatch: 'full' },
       { path: 'departements', component:DepartementComponent, pathMatch: 'full' },
     ],
   },

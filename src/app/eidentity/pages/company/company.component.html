@@ -8,7 +8,7 @@
         <button id="add-button" class="btn button" style="background-color: #28a745" (click)="closeModal()">
           no
         </button>
-        <button [mat-dialog-close]="true"id="add-button" class="btn button" style="background-color: #ffc107;" (click)="deleteDepartement()">
+        <button [mat-dialog-close]="true"id="add-button" class="btn button" style="background-color: #ffc107;" (click)="deleteCompany()">
           yes
         </button>
      
@@ -83,7 +83,7 @@
                             />
                             <input
                             class="text-area"
-                            type="file"
+                            type="text"
                             [(ngModel)]="company.imageUrl"
                             placeholder="imageUrl"
                             />
@@ -103,7 +103,7 @@
                        
             
   <div class="btn-update-file">
-    <button (click)="addDepartement()">
+    <button (click)="addNewCompany()">
       Send
     </button >
     <button (click)="closeModal()">
@@ -112,15 +112,34 @@
   </div>
   
   </ng-template>
+
+  <ng-template #addDep>
+    <h2 class="mat-dialog-title">Add new departement</h2>
+                    <input
+                    class="text-area"
+                    type="text"
+                    [(ngModel)]="departement.name"
+                    placeholder="Name"
+                     />   
+<div class="btn-update-file">
+<button (click)="addDepartement()">
+Send
+</button >
+<button (click)="closeModal()">
+cancel
+</button >
+</div>
+
+</ng-template>
   
   <div class="dashboard ">
     <div class="events-container">
       <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
-        <h6>Notifications</h6>
+        <h6>Companies</h6>
         <div class="profile-card">
           <div class="edit-button">
             <button id="add-button" class="btn button" (click)="openModal(addCompany,'')">
-              Send new notifications
+              Add new company
             </button>
           </div>
   
@@ -150,7 +169,15 @@
                 class="btn btn-outline-danger">
                 <clr-icon shape="trash" style="color: red !important"></clr-icon>
               </button>
-            </td>
+              <!-- <button
+                mat-icon-button (click)="openModal(addDep,element._id)"
+                class="btn btn-outline-danger">
+                <clr-icon shape="organization" style="color: rgb(72, 131, 240) !important"></clr-icon>
+              </button> -->
+              <button mat-icon-button class="btn btn-info" [routerLink]="['/identity/departements',element._id]">
+                <span>departements</span>
+              </button>
+              </td>
           </ng-container>
   
   

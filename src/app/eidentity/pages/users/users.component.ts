@@ -7,6 +7,7 @@ import { UsersService } from '../../services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
 import { ResetpwdService } from '../../services/resetpwd.service';
 import { CompanyService } from '../../services/company.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-users',

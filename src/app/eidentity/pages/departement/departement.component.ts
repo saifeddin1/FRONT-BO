@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { DepartementService } from '../../services/departement.service';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CompanyService } from '../../services/company.service';
+import { ToasterService } from 'src/app/lms/services/toaster.service';
+
 
 @Component({
   selector: 'app-departement',
@@ -8,12 +12,30 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./departement.component.css']
 })
 export class DepartementComponent implements OnInit {
+
+  AddDep:any={
+    name:"",
+    company:""
+  }
+  pageName="Departements"
   displayedColumns: string[] = ['name','company','action'];
   departements:any
-  constructor(private DepartementService:DepartementService,private MatDialog:MatDialog) { }
+  company:any;
+  constructor(private DepartementService:DepartementService,private MatDialog:MatDialog,private route: ActivatedRoute,private companyService:CompanyService,private ToasterService:ToasterService) { }
+  id:any=this.route.snapshot.paramMap.get("id");    
 
   ngOnInit(): void {
-    this.getAlldeps()
+    console.log(this.id);
+    if(this.id===null){
+      this.getAlldeps()
+    }
+    else{
+      this.getDepByCompanyId() 
+      this.getCompanyName()
+      
+    }
+     
+     
   }
 
   getAlldeps(){
@@ -24,7 +46,9 @@ export class DepartementComponent implements OnInit {
   }
 
   openModal(templateRef,id){
-    // this.id=id
+    if(this.id===null){
+      this.getCompanies()
+    }
     this.MatDialog.open(templateRef)
 }
 closeModal(){
@@ -32,11 +56,39 @@ closeModal(){
 }
 
   addDepartement(){
-    
+    if(this.id!=null){
+      this.AddDep.company=this.company._id;
+    }
+        
+        this.DepartementService.addDepartement(this.AddDep).subscribe(res=>{
+                          console.log(this.AddDep)
+                          this.MatDialog.closeAll()
+                          this.ngOnInit()
+                   })
+         
   }
   
   deleteDepartement(){
     
   }
+  getDepByCompanyId(){
+    this.DepartementService.getByCompanyId(this.id).subscribe(res=>{
+      this.departements=res['response']
+      console.log(this.departements)
+    })
+  }
 
+  getCompanyName(){
+    this.companyService.getOneById(this.id).subscribe(res=>{
+      this.company=res['response']
+      this.pageName=res['response'].name
+    })
+  }
+
+  getCompanies(){
+    this.companyService.getCompanies().subscribe(res=>{
+      this.company=res['response']
+      console.log(this.company);
+    })
+  }
 }

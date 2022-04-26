@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { Notification } from './hr/models/notification.model';
 import { EmployeeSummaryService } from './hr/services/employee-summary.service';
-import { ADMIN, HR, INSTRUCTOR, STUDENT } from './lms/constants/roles.constant';
+import { ADMIN, HR, INSTRUCTOR, STUDENT,ORGANISATION8_OWNER } from './lms/constants/roles.constant';
 import { User } from './lms/models/user.model';
 import { UserService } from './lms/services/user.service';
 import { NotificationsService } from './services/notifications.service';
@@ -24,14 +24,14 @@ const ROUTES: Array<Route> = [
     hidden: false,
   },
   {
-    roles: [INSTRUCTOR, HR, ADMIN],
+    roles: [INSTRUCTOR, HR, ADMIN,ORGANISATION8_OWNER],
     link: 'hr-administration',
     label: 'HR Management',
     icon: 'hr',
     hidden: false,
   },
   {
-    roles: [ADMIN, INSTRUCTOR, STUDENT],
+    roles: [ADMIN, INSTRUCTOR, STUDENT,ORGANISATION8_OWNER],
     link: 'lms',
     label: 'LMS',
     icon: 'lms',
@@ -39,7 +39,7 @@ const ROUTES: Array<Route> = [
   },
 
   {
-    roles: [ADMIN],
+    roles: [ADMIN,ORGANISATION8_OWNER],
     link: 'identity',
     label: 'Identity',
     icon: 'identity',
@@ -47,7 +47,7 @@ const ROUTES: Array<Route> = [
   },
 
   {
-    roles: [ADMIN, INSTRUCTOR, HR, STUDENT],
+    roles: [ADMIN, INSTRUCTOR, HR, STUDENT,ORGANISATION8_OWNER],
     link: 'VCDASHBOARD',
     label: 'Video Conference',
     icon: 'vc',

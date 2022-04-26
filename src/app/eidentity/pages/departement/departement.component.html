@@ -15,26 +15,19 @@
       </div>
   </ng-template>
   <ng-template #addDep>
-            <h2 class="mat-dialog-title">Send new notifications</h2>
+            <h2 class="mat-dialog-title">Add departement </h2>
             <input
             class="text-area"
             type="text"
-            [(ngModel)]="notification.title"
-            placeholder="title"
+            [(ngModel)]="AddDep.name"
+            placeholder="Departement name"
           />
-              <input
-              class="text-area"
-              type="text"
-              [(ngModel)]="notification.body"
-              placeholder="Description"
-              />
-              <select name="" id="" class="text-area" [(ngModel)]="notification.niveau">
-                <option value="">Select class</option>
-                <option value="All">All</option>
-                <option value="Bac IT">Bac IT</option>
-                <option value="bac lettre">Bac lettre</option>
-                <option value="bac gestion">Bac gestion</option>
-              </select>
+          <select *ngIf="pageName=='Departements'" name="" id="" class="text-area" [(ngModel)]="AddDep.company">
+            <option value="">Select company</option>
+            <option *ngFor="let company of company" value="{{company._id}}">{{company.name}}</option>
+          </select>
+      
+          
   <div class="btn-update-file">
     <button (click)="addDepartement()">
       Send
@@ -46,14 +39,19 @@
   
   </ng-template>
   
-  <div class="dashboard ">
+  <div class="dashboard">
     <div class="events-container">
       <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
-        <h6>Notifications</h6>
+     <div>
+      <button mat-icon-button *ngIf="pageName!='Departements'" [routerLink]="['/identity/companies']" class="btn btn-outline-danger" shap style="float: left;"><clr-icon shape="undo" style="color: hsl(236, 100%, 65%) !important"></clr-icon></button>
+        <h6>&nbsp;&nbsp;{{pageName}}</h6>
+     </div>
+       
+        
         <div class="profile-card">
           <div class="edit-button">
             <button id="add-button" class="btn button" (click)="openModal(addDep,'')">
-              Send new notifications
+              Add new departement
             </button>
           </div>
   
@@ -67,14 +65,13 @@
             <td mat-cell *matCellDef="let element">
               {{element.name}}
             </td>
-          </ng-container>
-          <ng-container matColumnDef="company">
-            <th mat-header-cell *matHeaderCellDef>Company</th>
+          </ng-container> 
+          <ng-container  matColumnDef="company" *ngIf="pageName=='Departements'">
+            <th mat-header-cell *matHeaderCellDef >Company</th>
             <td mat-cell *matCellDef="let element">
-              {{element.company}}
+              {{element.name}}
             </td>
-            </ng-container>
-          
+          </ng-container>              
           <ng-container matColumnDef="action">
             <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
             <td class="px-3" mat-cell *matCellDef="let element; let i = index">    

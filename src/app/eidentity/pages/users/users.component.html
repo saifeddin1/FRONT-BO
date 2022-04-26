@@ -137,7 +137,7 @@
               <option value="EINSTRUCTOR">INSCTRUCTOR</option>
               <option value="EADMIN">ADMIN</option>
               <option value="ESTUDENT">STUDENT</option>
-              <option value="ORGANISATION_OWNER">Organisation owner</option>
+              <option value="EOO">Organisation owner</option>
             </select>
           </div>
         
@@ -159,9 +159,12 @@
             <strong class="modalcol3">Company</strong>
             <select class="text-area modalcol" formControlName="company" >
               <option  *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
-             
             </select>
-          
+            <select class="text-area modalcol" formControlName="company" multiple>
+              <option  *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
+              <option  *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
+              <option  *ngFor="let company of companies" value="{{ company._id }}">{{company.name}}</option>
+            </select>
           </div>
 
          
