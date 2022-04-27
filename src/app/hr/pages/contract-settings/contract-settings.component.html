@@ -1,0 +1,143 @@
+<!-- ---------------------------------Year month ------------------------------------------- -->
+<div class="row-wrapper">
+  <div class="contract-types-list">
+    <div class="btn-add-employee">
+      <h1>Contract Types</h1>
+      <button
+        (click)="contractTypeDialog($event, 'add', undefined)"
+        matTooltip="Add Contract Type"
+      >
+        <span> Add Contract Type</span>
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="contractTypes">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ACTION">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="contractTypeDialog($event, 'edit', element)"
+            matTooltip="Edit Contract Type"
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="deleteContractType(element)"
+            matTooltip="Delete Contract Type"
+          >
+            <clr-icon shape="trash" style="color: red"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="contractTypesdisplayedColumns"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: contractTypesdisplayedColumns"
+      ></tr>
+    </table>
+  </div>
+
+  <div class="levels-list">
+    <div class="btn-add-employee">
+      <h1>Seniority Levels</h1>
+      <button
+        (click)="levelsDialog($event, 'add', undefined)"
+        matTooltip="Add Level"
+      >
+        <span> Add Level</span>
+      </button>
+    </div>
+
+    <table mat-table [dataSource]="seniorityLevels">
+      <ng-container matColumnDef="title">
+        <th mat-header-cell *matHeaderCellDef>Title</th>
+        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="ACTION">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="levelsDialog($event, 'edit', element)"
+            matTooltip="Edit Seniority Level"
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="deleteLevel(element)"
+            matTooltip="Delete Seniority Level"
+          >
+            <clr-icon shape="trash" style="color: red"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="seniorityLevelsdisplayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: seniorityLevelsdisplayedColumns"
+      ></tr>
+    </table>
+  </div>
+</div>
+
+<div class="workfroms-list">
+  <div class="btn-add-employee">
+    <h1>Work-From Items</h1>
+    <button
+      (click)="workFromsDialog($event, 'add', undefined)"
+      matTooltip="Add Work-From"
+    >
+      <span> Add Work-From</span>
+    </button>
+  </div>
+
+  <table mat-table [dataSource]="workfroms">
+    <ng-container matColumnDef="title">
+      <th mat-header-cell *matHeaderCellDef>Title</th>
+      <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="ACTION">
+      <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+      <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+        <button
+          mat-icon-button
+          class="btn btn-info"
+          (click)="workFromsDialog($event, 'edit', element)"
+          matTooltip="Edit Work-From"
+        >
+          <clr-icon shape="pencil"></clr-icon>
+        </button>
+        <button
+          mat-icon-button
+          class="btn btn-info"
+          (click)="deleteWorkFrom(element)"
+          matTooltip="Delete Work-From"
+        >
+          <clr-icon shape="trash" style="color: red"></clr-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="workfromsdisplayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: workfromsdisplayedColumns"></tr>
+  </table>
+</div>

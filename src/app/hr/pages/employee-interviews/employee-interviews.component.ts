@@ -100,7 +100,7 @@ export class EmployeeInterviewsComponent implements OnInit {
 
   getAllnterviews() {
     this.summaryService
-      .getInterviewsByUserId(this.userId)
+      .getInterviewsByUserId(this.userId, '')
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
