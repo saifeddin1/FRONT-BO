@@ -28,7 +28,14 @@ export class TimeoffsComponent implements OnInit {
   isAdmin: boolean;
   isHR: boolean;
   shouldDisplay: boolean;
-  displayedColumns: string[] = ['#', 'startdate', 'endDate', 'status'];
+  displayedColumns: string[] = [
+    'ref',
+    'startdate',
+    'from',
+    'endDate',
+    'to',
+    'status',
+  ];
   page: number = 0;
   limit: number = 7;
   total: number = 7;
@@ -57,7 +64,7 @@ export class TimeoffsComponent implements OnInit {
 
     if (this.shouldDisplay) {
       // this.displayedColumns.splice(2, 0, 'offDays');
-      this.displayedColumns.splice(1, 0, 'user');
+      this.displayedColumns.splice(0, 0, 'user');
     }
     // else {
     //   this.displayedColumns.splice(2, 0, 'endDate');
@@ -179,13 +186,13 @@ export class TimeoffsComponent implements OnInit {
           this.toaster.success(result['message']);
           this.createNotification({
             userId: result['response']['userId'],
-            content: `Timeoff #${timeoff._id} has been ${timeoff.status}`,
+            content: `${timeoff.ref} has been ${timeoff.status}`,
           });
           this.getNotifications();
           // this.newNotification.userId = result['response']['userId'];
           // this.newNotification.content = result['response']['content'];
         },
-        (error) => this.toaster.error(error['error']['message'])
+        (error) => this.toaster.error('error')
       );
   }
 
@@ -205,15 +212,15 @@ export class TimeoffsComponent implements OnInit {
     });
   }
   // for admin
-  updateTimeoffRequest(timeoff) {
-    return this.employeeService.updateTimeoff(timeoff._id, timeoff).subscribe(
-      (result) => {
-        console.log(result);
-        this.toaster.success(result['message']);
-      },
-      (error) => this.toaster.error(error['error']['message'])
-    );
-  }
+  // updateTimeoffRequest(timeoff) {
+  //   return this.employeeService.updateTimeoff(timeoff._id, timeoff).subscribe(
+  //     (result) => {
+  //       console.log(result);
+  //       this.toaster.success(result['message']);
+  //     },
+  //     (error) => this.toaster.error('error')
+  //   );
+  // }
 
   openDialog(event, operation, toff_id) {
     this.isOpen = true;
@@ -224,8 +231,14 @@ export class TimeoffsComponent implements OnInit {
         timeoffRequest:
           operation === 'add'
             ? {
-                startDate: null,
-                offDays: 0,
+                startDateSpecs: {
+                  date: null,
+                  from: '',
+                },
+                endDateSpecs: {
+                  date: null,
+                  to: '',
+                },
               }
             : this.timeoffs.filter((toff) => toff._id === toff_id)[0],
         operation: operation,

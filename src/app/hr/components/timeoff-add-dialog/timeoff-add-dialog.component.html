@@ -2,23 +2,32 @@
   <div>
     <input
       class="text-area"
-      [(ngModel)]="data['timeoffRequest'].startDate"
-      value="{{ data['timeoffRequest'].startDate }}"
+      [(ngModel)]="timeoffRequest.startDateSpecs.date"
+      value="{{ timeoffRequest.startDateSpecs.date | date: 'yyyy-MM-dd' }}"
       type="date"
     />
-    &nbsp; <strong>{{ data["timeoffRequest"].startDate | date }}</strong>
+    From :
+    <select [(ngModel)]="timeoffRequest.startDateSpecs.from">
+      <option value="morning">Morning</option>
+      <option value="afternoon">Afternoon</option>
+    </select>
   </div>
   <div>
     <input
       class="text-area"
-      [(ngModel)]="data['timeoffRequest'].offDays"
-      value="{{ data['timeoffRequest'].offDays }}"
-      type="number"
+      [(ngModel)]="timeoffRequest.endDateSpecs.date"
+      value="{{ timeoffRequest.endDateSpecs.date | date: 'yyyy-MM-dd' }}"
+      type="date"
     />
+    To :
+    <select [(ngModel)]="timeoffRequest.endDateSpecs.to">
+      <option value="morning">Morning</option>
+      <option value="afternoon">Afternoon</option>
+    </select>
   </div>
 
   <div *ngIf="!isAddOperation">
-    <select [(ngModel)]="data['timeoffRequest'].status" class="text-area">
+    <select [(ngModel)]="timeoffRequest.status" class="text-area">
       <option value="Approved">Approved</option>
       <option value="Rejected">Rejected</option>
     </select>
@@ -27,9 +36,7 @@
 <mat-dialog-actions>
   <button
     (click)="
-      isAddOperation
-        ? requestTimeoff()
-        : updateTimeoffRequest(data['timeoffRequest'])
+      isAddOperation ? requestTimeoff() : updateTimeoffRequest(timeoffRequest)
     "
   >
     {{ isAddOperation ? "Add" : "Edit" }}

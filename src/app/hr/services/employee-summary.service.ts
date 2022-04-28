@@ -61,10 +61,11 @@ export class EmployeeSummaryService {
 
   getAllContractsWithSalaries(
     p: number,
-    limit: number
+    limit: number,
+    term: string
   ): Observable<Contract[]> {
     return this.http.get<Contract[]>(
-      `${this.BASE_URL}/contracts/getAllContractsWithSalaries?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/contracts/getAllContractsWithSalaries?page=${p}&limit=${limit}&filter=${term}`
     );
   }
 
@@ -88,14 +89,18 @@ export class EmployeeSummaryService {
   }
 
   // ---------------------------- INTERVIEW -----------------------
-  getInterviews(p: number, limit: number): Observable<Interview[]> {
+  getInterviews(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/employeeInterviews?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/interviews/employeeInterviews?page=${p}&limit=${limit}&filter=${term}`
     );
   }
-  getInterviewsByUserId(userId: string): Observable<Interview[]> {
+  getInterviewsByUserId(userId: string, term: string): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}`
+      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}&filter=${term}`
     );
   }
   getEmployeeUpcomingInterviews() {
@@ -104,9 +109,13 @@ export class EmployeeSummaryService {
     );
   }
 
-  getAllInterviews(p: number, limit: number): Observable<Interview[]> {
+  getAllInterviews(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/interviews?page=${p}&limit=${limit}&filter=${term}`
     );
   }
 
