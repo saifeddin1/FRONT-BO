@@ -638,3 +638,42 @@
     width: 250px;
     height: 250px;
   }
+
+
+
+/* cards */
+  .card-info{
+    
+    width: 300px;
+    height: 120px;
+    
+    
+    /* White */
+    
+    background: #fdfbfb;
+    /* White */
+    
+    border: 2px solid #FFFFFF;
+    box-sizing: border-box;
+    box-shadow: 0px 15px 30px rgba(241, 224, 224, 0.2);
+    border-radius: 5px;
+    padding: 10px;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;  
+   
+  }
+  
+  .card-container{
+    margin-left: 40px;
+    width: fit-content;
+    
+  }
+  .card-type{
+    padding-left: 65px;
+    padding-top: 5px;
+
+  }
+
+  .card-icon{
+      padding-top: 20px;
+      float: left;
+  }

@@ -15,6 +15,8 @@ import moment from 'moment';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
+  checkboxtest:any;
   newpass: string;
   emailchange:string;
   displayniv = false;
@@ -30,6 +32,14 @@ export class UsersComponent implements OnInit {
   minDate = moment({year: this.year - 100, month: this.month, day: this.day}).format('YYYY-MM-DD');
 
   maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
+
+//   EOOACCESSRIGHTS=[
+//   { id:1, select:"false", name:"HR" },
+//   { id:2, select:"false", name:"LMS" },
+//   { id:3, select:"false", name:"IDENTITY" },
+//   { id:4, select:"false", name:"ACCOUNTING" }
+// ]
+
   displayedColumns : string[]=[
     '#',
     'username',
@@ -50,9 +60,12 @@ export class UsersComponent implements OnInit {
     this.getallUsers();
     this.getstudentniv();
    }
-
+   test(){
+     console.log(this.checkboxtest);
+   }
   ngOnInit(): void {
     this.createForm()
+    console.log(this.checkboxtest);
   }
 
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
@@ -111,6 +124,7 @@ export class UsersComponent implements OnInit {
       birthday:moment(body.birthday).format('YYYY-MM-DD'),
       studentNiveauId: body.studentNiveauId,
       company:body.company,
+      eooaccessrights:body.eooaccessrights
     });
   }
 
@@ -168,7 +182,20 @@ export class UsersComponent implements OnInit {
   
         }
 
-      }else{
+      }
+      else if( this.form.value.type =='EOO'){
+        user={
+          username : this.form.value.username,
+          firstname : this.form.value.firstname,
+          lastname: this.form.value.lastname,
+          type: this.form.value.type,        
+          email: this.form.value.email,         
+          birthday:this.form.value.birthday,
+          company:this.form.value.company,
+          eooaccessrights:this.form.value.eooaccessrights
+        }
+  
+        }else{
         user={
           username : this.form.value.username,
           firstname : this.form.value.firstname,
@@ -252,8 +279,8 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  activatestudentniv(){
-    this.form.value.type == 'ESTUDENT' ? this.displayniv = true : this.displayniv = false
+  activatestudentniv(checked:any){
+    checked ? this.displayniv = true : this.displayniv = false
   }
 
   activateOrganisationOwner(checked:any){
@@ -280,7 +307,11 @@ export class UsersComponent implements OnInit {
       }
     )
   }
-
+  // selectEOOAllRights(){
+  //     for(let i=0;i<this.EOOACCESSRIGHTS.length;i++){
+  //       this.EOOACCESSRIGHTS[i].select=true
+  //     }
+  // }
   getCompanies(){
     this.companyService.getCompanies().subscribe(res=>{
       this.companies=res['response']

@@ -42,9 +42,18 @@ export class CompanyComponent implements OnInit {
   companies:any;
 
   ngOnInit(): void {
-    this.getAll()
+    // this.getAll()
     this.user=jwt_decode(getToken())
-    console.log(this.user.company);
+
+    // if(this.user.type==="EOO"){
+    //   console.log(this.user.company);
+    //   this.getByOnwer(this.user.company)
+    // }
+    // else{
+      console.log(this.user.company);
+      this.getAll()
+    // }
+    
   }
 
   getAll(){
@@ -83,6 +92,13 @@ export class CompanyComponent implements OnInit {
       this.ngOnInit()
       this.matDialog.ngOnDestroy()
     })   
+  }
+
+  getByOnwer(id:any){
+    this.companyService.geByowner(id).subscribe(res=>{
+      this.companies=res['response']
+      console.log(this.companies);
+    })
   }
 
  

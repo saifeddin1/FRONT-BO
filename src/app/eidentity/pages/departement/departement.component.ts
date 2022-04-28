@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CompanyService } from '../../services/company.service';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { getToken } from 'src/app/hr/helpers/getToken';
+import jwt_decode from 'jwt-decode';
 
 
 @Component({
@@ -21,10 +23,12 @@ export class DepartementComponent implements OnInit {
   displayedColumns: string[] = ['name','company','action'];
   departements:any
   company:any;
+  user: any;
   constructor(private DepartementService:DepartementService,private MatDialog:MatDialog,private route: ActivatedRoute,private companyService:CompanyService,private ToasterService:ToasterService) { }
   id:any=this.route.snapshot.paramMap.get("id");    
 
   ngOnInit(): void {
+    this.user=jwt_decode(getToken())
     console.log(this.id);
     if(this.id===null){
       this.getAlldeps()
@@ -92,3 +96,5 @@ closeModal(){
     })
   }
 }
+
+

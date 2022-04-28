@@ -24,5 +24,8 @@ export class CompanyService {
   getOneById(id:any){
     return this.http.get(environment.IdentityApi +"/api/v1/company/getCompanybyId/" + id)
   }
+  geByowner(id:any){
+    return this.http.get(environment.IdentityApi +"/api/v1/company/companybyowner/" + id)
+  }
 
 }
