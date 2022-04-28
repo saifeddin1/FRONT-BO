@@ -341,14 +341,17 @@ restore(id:string){
 
 
  addamount(event, id) {
+   this.totalamount = 0;
 
   for(let i=0; i<this.feeCatId.length; i++ ){
     if(this.feeCatId[i].feecatid== id){
       this.feeCatId[i].amount = event.target.value;
-      this.totalamount = this.totalamount+ parseInt( event.target.value, 10) ;
+      
     }
+    this.totalamount = this.totalamount+ parseInt( this.feeCatId[i].amount, 10) ;
     
   }
+ 
 
  }
  adddescription(event, id) {
