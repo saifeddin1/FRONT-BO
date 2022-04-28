@@ -1,0 +1,15 @@
+<h2 mat-dialog-title>{{ isEditOperation ? "Edit" : "Add" }} Contract Type :</h2>
+<div mat-dialog-content>
+  <input
+    class="text-area"
+    type="text"
+    placeholder="CDD, CDI, ...."
+    [(ngModel)]="contractType.title"
+  />
+</div>
+
+<div class="dialog-actions" id="dialog-actions">
+  <button (click)="createContractType()" *ngIf="!isEditOperation">Add</button>
+  <button *ngIf="isEditOperation" (click)="editContractType()">Edit</button>
+  <button [mat-dialog-close]="'close'">Close</button>
+</div>

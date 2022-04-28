@@ -48,6 +48,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { EmployeeContractsComponent } from './pages/employee-contracts/employee-contracts.component';
 import { EmployeeInterviewsComponent } from './pages/employee-interviews/employee-interviews.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { YearMonthsComponent } from './pages/year-months/year-months.component';
+import { ContractSettingsComponent } from './pages/contract-settings/contract-settings.component';
+import { ContractTypesDialogComponent } from './components/contract-types-dialog/contract-types-dialog.component';
+import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
+import { WorkfromsDialogComponent } from './components/workfroms-dialog/workfroms-dialog.component';
 
 @NgModule({
   declarations: [
@@ -76,6 +81,11 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     UsernamePipe,
     EmployeeContractsComponent,
     EmployeeInterviewsComponent,
+    YearMonthsComponent,
+    ContractSettingsComponent,
+    ContractTypesDialogComponent,
+    LevelsDialogComponent,
+    WorkfromsDialogComponent,
   ],
   imports: [
     HRRoutingModule,

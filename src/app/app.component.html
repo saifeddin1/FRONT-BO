@@ -1,51 +1,34 @@
-<div class="global-nav" [style.display]="shoudNavShow() ? 'flex' : 'none'">
-  <button mat-button [matMenuTriggerFor]="belowMenu">{{ solutions }}</button>
-  <mat-menu #belowMenu="matMenu" yPosition="below">
-    <button
-      mat-menu-item
-      (click)="navigateTo('hr-administration', 'HR Management')"
-      [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
-    >
-      HR Management
-    </button>
-    <button
-      mat-menu-item
-      routerLink="lms"
-      [style.display]="shouldButtonHide('EHR') ? 'none' : 'block'"
-      (click)="navigateTo('lms', 'LMS SYSTEM')"
-    >
-      LMS SYSTEM
-    </button>
-    <button
-      mat-menu-item
-      routerLink="accouting"
-      [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
-      (click)="navigateTo('accounting', ' ACCOUNTING SYSTEM')"
-    >
-      ACCOUNTING SYSTEM
-    </button>
-
-    <button
-      mat-menu-item
-      routerLink="identity"
-      [style.display]="shouldButtonHide('EADMIN') ? 'block' : 'none'"
-      (click)="navigateTo('identity', 'IDENTITY')"
-    >
-      IDENTITY
-    </button>
-    <button
-    mat-menu-item
-    routerLink="VCDASHBOARD"
-    (click)="navigateTo('VCDASHBOARD', 'Visio-conference')"
-  >
-    VC
+<div class="global-nav" *ngIf="shoudNavShow()">
+  <button mat-button [matMenuTriggerFor]="belowMenu">
+    <div>
+      <img src="..//assets/img/{{ solutionIcon }}.png" class="menu-item-icon" />
+      <span> {{ solutions }}</span>
+      <!-- <mat-icon>{{ "expand_more" || "" }}</mat-icon> -->
+    </div>
   </button>
+
+  <mat-menu #belowMenu="matMenu" yPosition="below">
+    <a
+      routerLinkActive="active"
+      [routerLinkActiveOptions]="{ exact: true }"
+      *ngFor="let route of routes"
+      mat-menu-item
+      (click)="navigateTo(route.link, route.label, route.icon)"
+    >
+      <button>
+        <div class="solution-item">
+          <img
+            *ngIf="route.icon"
+            src="..//assets/img/{{ route.icon }}.png"
+            class="menu-item-icon"
+          />
+          {{ route.label }}
+        </div>
+      </button>
+    </a>
   </mat-menu>
 
-  <div
-    class="notif-bell"
-    [style.display]="shouldButtonHide('ESTUDENT') ? 'none' : 'block'"
-  >
+  <div class="notif-bell" *ngIf="!shouldButtonHide('ESTUDENT')">
     <span class="notif-count">{{
       unreadNotifications ? unreadNotifications : 0
     }}</span>
@@ -53,10 +36,11 @@
       <mat-icon>notifications</mat-icon>
     </button>
 
-    <div
-      class="notif-content"
-      [style.display]="dropDownActive ? 'block' : 'none'"
-    >
+    <div class="notif-content" *ngIf="dropDownActive">
+      <mat-icon (click)="closeDropdown()" style="cursor: pointer"
+        >close</mat-icon
+      >
+
       <span *ngIf="!notificationItems || !notificationItems.length"
         >No notifications</span
       >
@@ -66,9 +50,7 @@
           [ngClass]="!item.isRead ? 'not-read' : ''"
           (click)="toggleIsRead(item)"
         >
-          <span [style.display]="item.isRead ? 'none' : 'inline-block'"
-            >⚫</span
-          >
+          <span *ngIf="!item.isRead">⚫</span>
           {{ item.content }}
           <br />
           <hr />

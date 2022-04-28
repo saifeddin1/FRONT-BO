@@ -39,14 +39,7 @@
     <ng-container *ngIf="!isLoading && !allContracts.length"
       >No Interviews</ng-container
     >
-    <table
-      mat-table
-      [dataSource]="
-        contracts
-          | paginate: { itemsPerPage: limit, currentPage: p, totalItems: total }
-      "
-      *ngIf="!isLoading"
-    >
+    <table mat-table [dataSource]="contracts" *ngIf="!isLoading">
       <ng-container matColumnDef="#">
         <th mat-header-cell *matHeaderCellDef>#</th>
         <td mat-cell *matCellDef="let element">
@@ -58,7 +51,12 @@
           >
         </td>
       </ng-container>
-
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user?.userRef }}
+        </td>
+      </ng-container>
       <!-- startdate Column -->
       <ng-container matColumnDef="startdate">
         <th mat-header-cell *matHeaderCellDef>Start Date</th>
@@ -118,11 +116,17 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <pagination-controls
-      *ngIf="!isLoading && allContracts.length > 7"
-      (pageChange)="changePage($event)"
-      previousLabel="Prev."
-      nextLabel="Next"
-    ></pagination-controls>
+    <mat-paginator
+      *ngIf="!isLoading"
+      #paginator
+      [length]="total"
+      [pageIndex]="p"
+      [pageSize]="limit"
+      [pageSizeOptions]="[7, 14, 21, 28, 42]"
+      showFirstLastButtons
+      (page)="changePage($event)"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
   </div>
 </div>

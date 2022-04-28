@@ -27,9 +27,9 @@
     </div>
     <div>
       <select
+        [disabled]="isViewOperation"
         [(ngModel)]="contract.status"
         class="text-area"
-        *ngIf="data['dialogOperation'] === 'edit'"
       >
         <option value="active">active</option>
         <option value="inactive">inactive</option>
@@ -69,14 +69,18 @@
     <div class="inputs-row">
       <div [style]="isViewOperation ? 'width: 50%' : ''">
         <label>Start Date</label>
-
+        <span
+          *ngIf="!isViewOperation"
+          style="margin-block: 10px; margin-left: 10px; font-style: italic"
+          >{{ contract?.startDate | date: "MM/dd/yyyy" }}</span
+        >
         <input
           *ngIf="!isViewOperation"
           class="text-area"
           [type]="isViewOperation ? 'text' : 'date'"
           placeholder="yyyy-mm-dd"
           [(ngModel)]="contract.startDate"
-          value="{{ contract?.startDate }}"
+          [value]="contract?.startDate"
         />
         <div *ngIf="isViewOperation" style="margin-block: 1rem">
           <strong>
@@ -86,13 +90,18 @@
       </div>
       <div [style]="isViewOperation ? 'width: 50%' : ''">
         <label>End Date</label>
+        <span
+          *ngIf="!isViewOperation"
+          style="margin-block: 10px; margin-left: 10px; font-style: italic"
+          >{{ contract?.endDate | date }}</span
+        >
         <input
           *ngIf="!isViewOperation"
           class="text-area"
           [type]="isViewOperation ? 'text' : 'date'"
           placeholder="yyyy-mm-dd"
           [(ngModel)]="contract.endDate"
-          value="{{ contract?.endDate }}"
+          [value]="contract?.endDate"
         />
         <div *ngIf="isViewOperation" style="margin-block: 1rem">
           <strong>

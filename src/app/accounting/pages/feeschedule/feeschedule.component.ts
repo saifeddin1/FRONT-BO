@@ -17,6 +17,7 @@ import { StudentGroup } from '../../models/studentgroup.model';
 import { AcademictermService } from '../../services/academicterm.service';
 import { FeeCategoryService } from '../../services/fee-category.service';
 import { ProgramService } from '../../services/program.service';
+import moment from 'moment';
 
 @Component({
   selector: 'app-feeschedule',
@@ -44,9 +45,10 @@ export class FeescheduleComponent implements OnInit {
   form1: FormGroup;
   form2: FormGroup;
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns: string[] = ['studentgroup', 'totalestudent'];
-  displayedColumns1: string[] = ['#', 'name', 'duedate', 'action'];
+  displayedColumns1: string[] = [ 'name', 'duedate', 'action'];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -64,6 +66,8 @@ export class FeescheduleComponent implements OnInit {
     this.getfeeStructure();
     this.getfeeSchedule();
     this.getstudentgroup();
+    this.getDisabledfeeSchedule() 
+
   }
 
   ngOnInit(): void {
@@ -74,37 +78,23 @@ export class FeescheduleComponent implements OnInit {
 
   dataSource1: MatTableDataSource<any> = new MatTableDataSource<any>();
   getfeeSchedule() {
-    this.feescheduleService.getFeesschedule().subscribe(
+    this.feescheduleService.getFeesschedulebyname().subscribe(
       (res) => {
-        this.feeschedule = []
-        for (var i = 0; i < res.response.length; i++) {
-          const schedulefee = {
-            _id: '',
-            name: '',
-            duedate: '',
-            enabled:''
-          };
+        console.log("get fee schedule:",res.response)
+        this.dataSource1 = new MatTableDataSource(res.response);
+      },
+      (error) => {
+        console.error('get feeshcedule error :', error);
+      }
+    );
+  }
 
-          schedulefee.duedate = res.response[i].dueDate;
-          schedulefee._id = res.response[i]._id;
-          schedulefee.enabled = res.response[i].enabled;
-
-          this.feescheduleService
-            .getOneFeestructures(res.response[i].feeStructureId)
-            .subscribe((res) => {
-              
-              schedulefee.name = res.response.name;
-            },
-           (error)=>{
-             console.log("error get fee schedule",error)
-           }  )
-          
-          this.feeschedule.push(schedulefee);
-
-
-        }
-        console.log('feeschedule', this.feeschedule)
-        this.dataSource1 = new MatTableDataSource(this.feeschedule);
+  dataSource3: MatTableDataSource<any> = new MatTableDataSource<any>();
+  getDisabledfeeSchedule() {
+    this.feescheduleService.getDisabledFeesschedule().subscribe(
+      (res) => {
+        console.log("get fee schedule:",res.response)
+        this.dataSource3 = new MatTableDataSource(res.response);
       },
       (error) => {
         console.error('get feeshcedule error :', error);
@@ -159,8 +149,8 @@ export class FeescheduleComponent implements OnInit {
   fillFormModel(body) {
     this.form.patchValue({
       _id: body._id,
-      name: body.name,
-      duedate: body.duedate,
+      feestructure: body.feeStructureId,
+      duedate: moment(body.duedate).format('YYYY-MM-DD'),
       
      
     });
@@ -172,9 +162,18 @@ export class FeescheduleComponent implements OnInit {
     this.clrModalOpen = true;
     this.modalType = 'add';
   }
+
   closeModal() {
     this.createForm1();
     this.clrModalOpen = false;
+  }
+  openModal1() {
+    this.clrModalOpen1 = true;
+    
+  }
+  closeModal1() {
+    this.clrModalOpen1 = false;
+   
   }
   openModal2() {
     this.clrModalOpen2 = true;
@@ -277,11 +276,11 @@ export class FeescheduleComponent implements OnInit {
 
   editfeeschedule(){
     const feeschedule={
-      name:this.form.value.name,
-      duedate : this.form.value.duedate,
+      feeStructureId:this.form.value.feestructure,
+      dueDate : this.form.value.duedate,
     
   }
-  
+  console.log("id for edit :", this.form.value._id)
   this.feescheduleService.editfeeschedule(this.form.value._id,feeschedule).subscribe(
     (result)=>{
       console.log('edited successfully:',result);
@@ -299,12 +298,30 @@ deletefeeschedule(id:string){
   this.feescheduleService.deletefeeschedule(id).subscribe(
     (res)=>{
       this.toasterService.success("Deleted successfully")
+      this.getDisabledfeeSchedule();
       this.getfeeSchedule();
    
 
     },
     (err)=>{
       this.toasterService.error('Something wrong ')
+    }
+  )
+}
+
+
+restore(id:string){
+  this.feescheduleService.restore(id).subscribe(
+    (res)=>{
+      this.getDisabledfeeSchedule();
+      this.getfeeSchedule();
+    this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
     }
   )
 }

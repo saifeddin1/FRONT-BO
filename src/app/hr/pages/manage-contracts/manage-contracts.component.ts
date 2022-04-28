@@ -12,6 +12,9 @@ import { UsersService } from 'src/app/eidentity/services/users.service';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatPaginator } from '@angular/material/paginator';
+import { UserService } from 'src/app/lms/services/user.service';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 @Component({
   selector: 'app-manage-contracts',
   templateUrl: './manage-contracts.component.html',
@@ -21,42 +24,53 @@ export class ManageContractsComponent implements OnInit {
   users: User[];
   isOpen: boolean;
   isAdmin: boolean;
+  filterVal: string;
   dialogOperation: string;
   currentUser: any;
   form: FormGroup;
   p: number = 0;
   limit: number = 7;
   total: number = 7;
-  displayedColumns: string[] = ['#', 'startdate', 'status', 'type', 'action'];
+  displayedColumns: string[] = [
+    '#',
+    'startdate',
+    'endDate',
+    'status',
+    'type',
+    'action',
+  ];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedOptionColumns: string[] = ['name', 'action'];
-
+  searchNotifier = new Subject();
   isLoading: boolean = true;
   constructor(
-    private userService: UsersService,
+    private userService: UserService,
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
     private toaster: ToasterService
   ) {
-    this.isOpen = false;
-    this.isAdmin
-      ? this.getAllContractsWithSalary()
-      : this.getEmployeeContracts();
-    this.getUsers();
-    this.currentUser = employeeService.getUser();
+    this.currentUser = this.userService.user;
     this.isAdmin = this.currentUser?.type === ADMIN;
+    this.isOpen = false;
+    this.filterVal = '';
   }
 
   contracts: MatTableDataSource<Contract>;
   allContracts: Contract[];
 
   ngOnInit(): void {
-    this.isAdmin ? this.getAllContractsWithSalary() : this.getEmployeeContracts;
+    this.isAdmin
+      ? this.getAllContractsWithSalary()
+      : this.getEmployeeContracts();
     this.getUsers();
     if (this.isAdmin) {
       this.displayedColumns.splice(1, 0, 'ref');
       this.displayedColumns.splice(2, 0, 'employee');
     }
+
+    this.searchNotifier
+      .pipe(debounceTime(500))
+      .subscribe((data) => this.getAllContractsWithSalary());
   }
 
   getUsers() {
@@ -77,7 +91,7 @@ export class ManageContractsComponent implements OnInit {
   getAllContractsWithSalary() {
     this.isLoading = true;
     this.employeeService
-      .getAllContractsWithSalaries(this.p, this.limit)
+      .getAllContractsWithSalaries(this.p, this.limit, this.filterVal)
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
@@ -129,12 +143,17 @@ export class ManageContractsComponent implements OnInit {
         }
       });
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    if (this.contracts) {
-      this.contracts.filter = filterValue.trim().toLowerCase();
-    }
+
+  debounce(func, timeout = 300) {
+    let timer;
+    return (...args) => {
+      clearTimeout(timer);
+      timer = setTimeout(() => {
+        func.apply(this, args);
+      }, timeout);
+    };
   }
+
   changePage(event) {
     console.log(event);
     this.p = event.pageIndex;
@@ -145,6 +164,8 @@ export class ManageContractsComponent implements OnInit {
   }
 
   openDialog(event, operation, _contract) {
+    console.log(_contract);
+
     const dialogRef = this.dialog.open(ContractsDialogComponent, {
       height: 'auto',
       width: '700px',
@@ -159,6 +180,7 @@ export class ManageContractsComponent implements OnInit {
                 endDate: null,
                 userId: '',
                 timesheetType: '',
+                status: '',
                 salary: {
                   seniority: '',
                   annualCompensation: {

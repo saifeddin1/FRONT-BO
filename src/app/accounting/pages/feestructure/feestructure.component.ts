@@ -23,25 +23,45 @@ export class FeestructureComponent implements OnInit {
 
   academicterms:Academicterm []=[];
   academicyears:Academicyear []=[];
+  feecategorytotable:any []=[];
   programs:Program []=[];
   feeCtaegories:FeeCategory[]=[];
+  feeCatId:any[]=[];
   feestructures : any[]=[];
  
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
+  form1: FormGroup;
+
   displayedColumns : string[]=[
-    '#',
+ 
     'name',
     'program',
     'academicyear',
     'academicterm',
-    'studentCategory',
-    'feeCategory',
+   
     'description',
     'amount',
     'action' 
   ];
-
+  displayedColumns3 : string[]=[
+   
+    'name',
+    'program',
+    'academicyear',
+    'academicterm',
+    'action' 
+  ];
+  displayedColumns1 : string[]=[
+    
+    'feeCategory',
+    
+    'amount',
+    'description'
+   
+  ];
+  totalamount:number;
   displayedOptionColumns: string[] = ['name', 'action'];
 
 
@@ -50,6 +70,7 @@ export class FeestructureComponent implements OnInit {
   constructor( private academictermService : AcademictermService,private feeCategoryService:FeeCategoryService,
     private programService: ProgramService,private academicyearService:AcademicyearService,private formBuilder: FormBuilder,private toasterService: ToasterService, private feeStructureService: FeestructureService) {
     this.getallfeestructures();
+    this.getdisabledallfeestructures()
     this.getallacademicyears();
     this.getallprograms();
     this.getallfeeCategory();
@@ -57,77 +78,32 @@ export class FeestructureComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.createForm1();
   }
 
  
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getallfeestructures(){
-    this.feeStructureService.getFeestructures().subscribe(
+    this.feeStructureService.getFeestructureswithname().subscribe(
       (res)=>{
         
-        for(var i=0; i< res.response.length;i++){
-          
-          const feestruct =  {
-            name:'',
-            program:'',
-            academicyear:'',
-            academicterm:'',
-            studentCategory:'',
-            feeCategory:'',
-            description:'',
-            amount:'',
+        console.log("get fee structures", res.response)
+        this.dataSource = new MatTableDataSource(res.response);
         
-          };
-          
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+  }
 
-          feestruct.name= res.response[i].name;
-          feestruct.studentCategory= res.response[i].studentCategory;
-          feestruct.description= res.response[i].description;
-          feestruct.amount= res.response[i].amount;
-          
-          this.programService.getOneProgram(res.response[i].program).subscribe(
-            (res)=>{
-              
-              feestruct.program= res.response.name;
-             
-              
-              
-            }
-          )
-
-          this.academicyearService.getOneAcademicyear(res.response[i].academicyear).subscribe(
-            (res)=>{
-              feestruct.academicyear= res.response.name;
-             
-              
-            }
-          )
-          
-
-
-          
-          this.academictermService.getOneAcademicterm(res.response[i].academicterm).subscribe(
-            (res)=>{
-              feestruct.academicterm= res.response.name;
-              
-            }
-          )
-
-          this.feeCategoryService.getOneFeeCatgory(res.response[i].feeCategory).subscribe(
-            (res)=>{
-              feestruct.feeCategory= res.response.name;
-              
-            }
-          )
-          
+  dataSource3: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
+  getdisabledallfeestructures(){
+    this.feeStructureService.getDisabledFeestructures().subscribe(
+      (res)=>{
         
-        
-        this.feestructures.push(feestruct);
-        
-
-        
-        } 
-        this.dataSource = new MatTableDataSource(this.feestructures);
+        console.log("get disabled fee structures", res.response)
+        this.dataSource3 = new MatTableDataSource(res.response);
         
       },
       (error)=>{
@@ -143,7 +119,6 @@ export class FeestructureComponent implements OnInit {
       program: ['', [Validators.required]],
       academicyear: ['', [Validators.required]],
       academicterm: ['', [Validators.required]],
-      studentCategory: ['', [Validators.required]],
       feeCategory: ['', [Validators.required]],
       description: ['', [Validators.required]],
       amount: ['', [Validators.required]],
@@ -151,16 +126,27 @@ export class FeestructureComponent implements OnInit {
      
     }) as FormGroup & FeeStructure; 
   }
+  createForm1() {
+    this.form1 = this.formBuilder.group({
+     
+    
+      feeCategory: ['', [Validators.required]],
+     
+      
+     
+    }) as FormGroup ; 
+  }
+
 
   fillFormModel(body) {
     this.form.patchValue({
       _id: body._id,
       name:body.name,
       program: body.program,
-      academicyear: body.academicyear,
-      academicterm: body.academicterm,
-      studentCategory: body.studentCategory,
-      feeCategory: body.feeCategory,
+      academicyear: body.academicyear._id,
+      academicterm: body.academicterm._id,
+ 
+      feeCategory: body.feeCategory._id,
       description: body.description,
       amount: body.amount
     });
@@ -181,19 +167,25 @@ export class FeestructureComponent implements OnInit {
     this.createForm();
     this.clrModalOpen = false;
   }
-
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
+  }
+  openModal1() {
+    
+    this.clrModalOpen1 = true;
+  }
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
 
      
-      const program={
+      const feestruct={
         name:this.form.value.name,
         program : this.form.value.program,
         academicyear : this.form.value.academicyear,
         academicterm: this.form.value.academicterm,
-        studentCategory: this.form.value.studentCategory,
-        feeCategory: this.form.value.feeCategory,
+        feeCategory: this.feeCatId,
         description: this.form.value.description,
         amount: this.form.value.amount,
     }
@@ -201,12 +193,12 @@ export class FeestructureComponent implements OnInit {
       
       
       if(this.modalType === 'add'){
-        this.feeStructureService.createFeestructure(program).subscribe(
+        this.feeStructureService.createFeestructure(feestruct).subscribe(
           (result)=>{
             
             console.log(result)
             this.toasterService.success("Created successfully")
-            location.reload()
+            this.getallfeestructures();
 
           },
           (err)=>{
@@ -214,7 +206,7 @@ export class FeestructureComponent implements OnInit {
             this.toasterService.error('Something wrong ')
           })
       }else if(this.modalType === 'edit'){
-        this.feeStructureService.editById(this.form.value._id,program).subscribe(
+        this.feeStructureService.editById(this.form.value._id,feestruct).subscribe(
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
@@ -231,14 +223,17 @@ export class FeestructureComponent implements OnInit {
 
   editById(body: Partial<FeeStructure>) {
     this.fillFormModel(body);
+    this.getallacademicterms()
+
     this.openModal('edit');
   }
 
-  deleteProgram(id:string){
+  deletefeestructure(id:string){
     this.feeStructureService.deleteFeestructure(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
         this.getallfeestructures();
+        this.getdisabledallfeestructures();
 
       },
       (err)=>{
@@ -262,6 +257,7 @@ getallprograms(){
   this.programService.getPrograms().subscribe(
     (res) =>{
       this.programs = res.response;
+      
     }
   )
 }
@@ -285,6 +281,68 @@ getallacademicterms(){
     }
   )
 }
+dataSource1: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
 
+
+addfeecategorytotable() {
+  const feecat = {
+    feeCategory: this.form1.value.feeCategory,
+    name:''
+  };
+  this.feeCategoryService.getOneFeeCatgory(this.form1.value.feeCategory).subscribe(
+    (res)=> {
+      feecat.name = res.response.name
+    }
+  )
+  const feecategory={
+    feecatid: this.form1.value.feeCategory,
+    amount:'',
+    description:''
+  }
+  this.feeCatId.push(feecategory);
+  this.feecategorytotable.push(feecat);
+  this.dataSource1 = new MatTableDataSource(this.feecategorytotable);
+}
+
+
+restore(id:string){
+  this.feeStructureService.restore(id).subscribe(
+    (res)=>{
+      this.getallfeestructures();
+      this.getdisabledallfeestructures()
+    this.toasterService.success("restored successfully")
+    
+    
+    },
+    (err)=>{
+      console.log("restore errror", err)
+      this.toasterService.error('restore error');
+    }
+  )
+}
+
+
+ addamount(event, id) {
+
+  for(let i=0; i<this.feeCatId.length; i++ ){
+    if(this.feeCatId[i].feecatid== id){
+      this.feeCatId[i].amount = event.target.value;
+      this.totalamount = this.totalamount+ parseInt( event.target.value, 10) ;
+    }
+    
+  }
+
+ }
+ adddescription(event, id) {
+
+  for(let i=0; i<this.feeCatId.length; i++ ){
+    if(this.feeCatId[i].feecatid== id){
+      this.feeCatId[i].description = event.target.value;
+     
+    }
+    
+  }
+
+ }
 
 }

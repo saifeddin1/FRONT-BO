@@ -18,6 +18,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 export class InterviewDialog {
   user: User;
   isAdmin: boolean;
+  interview: any;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: Interview,
     public dialog: MatDialog,
@@ -26,6 +27,7 @@ export class InterviewDialog {
   ) {
     this.user = this.data['user'];
     this.isAdmin = this.user.type === ADMIN;
+    this.interview = data['interview'];
   }
   updateRecord(interview: Interview) {
     this.summaryService.updateInterview(interview._id, interview).subscribe(

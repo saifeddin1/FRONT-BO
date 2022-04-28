@@ -39,17 +39,11 @@
       </mat-option>
     </mat-autocomplete>
 
-    <!-- <select
-      [(ngModel)]="newInterview.userId"
-      class="text-area"
-      [disabled]="newInterview.userId !== ''"
-    >
-      <option *ngFor="let user of users" value="{{ user._id }}">
-        {{ user.username }}
-      </option>
-    </select> -->
-
-    <input class="text-area" type="file" [(ngModel)]="newInterview.files" />
+    <select [(ngModel)]="newInterview.status" class="text-area">
+      <option value="new">New</option>
+      <option value="confirmed">Confirmed</option>
+      <option value="canceled">Canceled</option>
+    </select>
   </div>
   <div class="inputs-row">
     <input
@@ -66,12 +60,15 @@
       placeholder="Test url"
     />
   </div>
+  <div class="inputs-row">
+    <input class="text-area" type="file" [(ngModel)]="newInterview.files" />
 
-  <textarea
-    class="text-area"
-    [(ngModel)]="newInterview.test['description']"
-    placeholder="Test description"
-  ></textarea>
+    <textarea
+      class="text-area"
+      [(ngModel)]="newInterview.test['description']"
+      placeholder="Test description"
+    ></textarea>
+  </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div>

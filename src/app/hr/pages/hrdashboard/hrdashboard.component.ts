@@ -98,6 +98,22 @@ const ROUTES: Array<Route> = [
     label: 'Timeoffs',
     hidden: false,
   },
+  {
+    roles: [ADMIN],
+    link: './year-months',
+    icon: 'clock',
+    status: 'active',
+    label: 'Year-Months',
+    hidden: false,
+  },
+  {
+    roles: [ADMIN],
+    link: './contract-settings',
+    icon: 'file-settings',
+    status: 'active',
+    label: 'Contract Settings',
+    hidden: false,
+  },
 ];
 
 @Component({

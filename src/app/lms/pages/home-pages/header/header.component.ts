@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
 import { User } from '../../../models/user.model';
 import { UserService } from '../../../services/user.service';
 
@@ -60,7 +61,10 @@ export class HeaderComponent implements OnInit {
     console.log('header.component.ts : ngOnInit');
     this.user = this.userService.getCurrentUser();
     if (this.user) {
-      this.navigations = this.connectedNavigations(this.user.username);
+      this.navigations = this.connectedNavigations(
+        this.user.username,
+        this.user.type
+      );
     } else {
       this.navigations = this.defaultNavigations;
     }
@@ -83,10 +87,13 @@ export class HeaderComponent implements OnInit {
     },
   ];
 
-  connectedNavigations = (username) => [
+  connectedNavigations = (username, type) => [
     {
       id: 0,
-      link: `/lms/user/${username}`,
+      link:
+        type === ADMIN || type === HR
+          ? `/hr-administration/profile`
+          : `/lms/user/${username}`,
       code: 'profile',
       linkText: 'Profile',
     },
@@ -106,7 +113,7 @@ export class HeaderComponent implements OnInit {
     if (type && type === 'login') {
       this.router.navigate(['signup', 'login']);
     } else if (type && type === 'register') {
-      this.router.navigate(['signup','register']);
+      this.router.navigate(['signup', 'register']);
     } else if (type && type === 'profile') {
       this.userService.goToProfile();
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ThemePalette } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -11,6 +11,7 @@ import { ContractsDialogComponent } from '../../components/contracts-dialog/cont
 import { Contract } from '../../models/contract.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { Location } from '@angular/common';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-employee-contracts',
@@ -23,7 +24,14 @@ export class EmployeeContractsComponent implements OnInit {
   p: number = 1;
   limit: number = 7;
   total: number = 7;
-  displayedColumns: string[] = ['#', 'startdate', 'status', 'type', 'action'];
+  displayedColumns: string[] = [
+    '#',
+    'user',
+    'startdate',
+    'status',
+    'type',
+    'action',
+  ];
   userId: string;
   displayedOptionColumns: string[] = ['name', 'action'];
   color: ThemePalette = 'accent';
@@ -31,7 +39,7 @@ export class EmployeeContractsComponent implements OnInit {
   value = 50;
   isLoading: boolean = true;
   users: any;
-
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -40,7 +48,7 @@ export class EmployeeContractsComponent implements OnInit {
     private location: Location
   ) {}
 
-  contracts: MatTableDataSource<Contract> = new MatTableDataSource<Contract>();
+  contracts: MatTableDataSource<Contract>;
   allContracts: Contract[];
 
   goBack() {
@@ -104,24 +112,34 @@ export class EmployeeContractsComponent implements OnInit {
     this.employeeService
       .getContractsByUserId(this.userId)
       .subscribe((result) => {
-        this.contracts = result['response'][0]['totalData'];
-        this.allContracts = result['response'][0]['totalData'];
-        this.total = result['response'][0]['totalCount'][0]['count'] || 0;
-        this.isLoading = false;
-
-        console.log(
-          '⚡  this.summaryService.getContractsWithSalary ~ this.contracts',
-          this.contracts
-        );
+        if (
+          result['response'][0]['totalData'] &&
+          result['response'][0]['totalData'].length
+        ) {
+          this.contracts = new MatTableDataSource(
+            result['response'][0]['totalData']
+          );
+          this.contracts.paginator = this.paginator;
+          setTimeout(() => {
+            this.paginator.pageIndex = this.p;
+            this.paginator.length =
+              result['response'][0]['totalCount'][0]['count'] || 0;
+          });
+          this.allContracts = result['response'][0]['totalData'];
+          this.total = result['response'][0]['totalCount'][0]['count'] || 0;
+          this.isLoading = false;
+        } else {
+          this.contracts = new MatTableDataSource();
+          this.isLoading = false;
+        }
       });
   }
   changePage(event) {
     console.log(event);
-    this.p = event;
-
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
     this.getContractsByUserId();
   }
-
   openDialog(event, operation, _contract_id) {
     console.log(_contract_id, 'eee', this.dialogOperation);
 

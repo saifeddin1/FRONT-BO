@@ -6,9 +6,13 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 import { ADMIN, STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { UserService } from 'src/app/lms/services/user.service';
 import { AddInterviewDialogComponent } from '../../components/add-interview-dialog/add-interview-dialog.component';
 import { InterviewDialog } from '../../components/interviewDialog/interview-dialog-componenet';
 import { Interview } from '../../models/interview.model';
@@ -30,8 +34,8 @@ export class InterviewsComponent implements OnInit {
   isAdmin: boolean;
   users: User[];
 
-  displayedColumns: string[] = ['#', 'title', 'date', 'action'];
-
+  displayedColumns: string[] = ['#', 'title', 'date', 'status', 'action'];
+  searchNotifier = new Subject();
   displayedOptionColumns: string[] = ['name', 'action'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
   color: ThemePalette = 'accent';
@@ -43,20 +47,25 @@ export class InterviewsComponent implements OnInit {
   total: number = 7;
   dataSource: MatTableDataSource<Interview> =
     new MatTableDataSource<Interview>();
+  filterValue: string = '';
   constructor(
     private summaryService: EmployeeSummaryService,
+    private userService: UserService,
     public dialog: MatDialog,
     private http: HttpClient,
     private toaster: ToasterService
   ) {
-    this.currentUser = this.summaryService.getUser();
-    this.isAdmin = this.currentUser['type'] === ADMIN;
+    this.currentUser = this.userService.user;
+    this.isAdmin = this.currentUser?.type === ADMIN;
     this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
     this.isAdmin && this.displayedColumns.splice(1, 0, 'user');
   }
 
   ngOnInit(): void {
     this.getUsers();
+    this.searchNotifier.pipe(debounceTime(500)).subscribe((data) => {
+      this.isAdmin ? this.getAllnterviews() : this.getEmployeeInterview();
+    });
   }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {
@@ -84,7 +93,7 @@ export class InterviewsComponent implements OnInit {
   getAllnterviews() {
     this.isLoading = true;
     this.summaryService
-      .getAllInterviews(this.page, this.limit)
+      .getAllInterviews(this.page, this.limit, this.filterValue)
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
@@ -116,7 +125,7 @@ export class InterviewsComponent implements OnInit {
   getEmployeeInterview() {
     this.isLoading = true;
     this.summaryService
-      .getInterviews(this.page, this.limit)
+      .getInterviews(this.page, this.limit, this.filterValue)
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
@@ -173,6 +182,20 @@ export class InterviewsComponent implements OnInit {
       height: 'auto',
       width: '700px',
       data: {
+        interview: {
+          userId: '',
+          status: '',
+          date: null,
+          title: '',
+          files: '',
+          test: [
+            {
+              title: '',
+              url: '',
+              description: '',
+            },
+          ],
+        },
         users: this.users,
       },
     });
@@ -183,10 +206,10 @@ export class InterviewsComponent implements OnInit {
       this.getAllnterviews();
     });
   }
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    if (this.dataSource) {
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-    }
-  }
+  // applyFilter(event: Event) {
+  //   const filterValue = (event.target as HTMLInputElement).value;
+  //   if (this.dataSource) {
+  //     this.dataSource.filter = filterValue.trim().toLowerCase();
+  //   }
+  // }
 }

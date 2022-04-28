@@ -19,8 +19,11 @@ export class AcademictermService {
   }
 
   getAcademicterms():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/academicyear/terms`); 
+   return this.http.get<any>(`${this.BASE_URL}/api/academicterm/`); 
   }
+  getDisabledAcademicterms():Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/academicterm/disabledacademicterm`); 
+   }
 
   getOneAcademicterm(id:string):Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/academicterm/${id}`); 
@@ -33,4 +36,7 @@ export class AcademictermService {
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/academicterm/${id}`,element);
   }
+  restore(id:string):Observable<any>{
+    return this.http.put<any>(`${this.BASE_URL}/api/academicterm/restore/${id}`,{});
+   }
 }

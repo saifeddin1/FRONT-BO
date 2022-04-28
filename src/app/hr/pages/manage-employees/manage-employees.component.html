@@ -79,14 +79,7 @@
             #input
           />
         </mat-form-field>
-        <table
-          mat-table
-          [dataSource]="
-            employees
-              | paginate
-                : { itemsPerPage: limit, currentPage: p, totalItems: total }
-          "
-        >
+        <table mat-table [dataSource]="employees">
           <ng-container matColumnDef="#">
             <th mat-header-cell *matHeaderCellDef>#</th>
             <td mat-cell *matCellDef="let element">
@@ -192,11 +185,6 @@
           aria-label="Select page of periodic elements"
         >
         </mat-paginator>
-        <!-- <pagination-controls
-          (pageChange)="changePage($event)"
-          previousLabel="Prev."
-          nextLabel="Next"
-        ></pagination-controls> -->
       </div>
     </div>
   </div>

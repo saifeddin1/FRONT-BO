@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
+import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { Academicyear } from '../../models/acadmicyear.model';
 import { AcademicyearService } from '../../services/academicyear.service';
@@ -13,9 +14,10 @@ import { AcademicyearService } from '../../services/academicyear.service';
 export class AcademicyearComponent implements OnInit {
 
   clrModalOpen: boolean = false;
+  clrModalOpen1: boolean = false;
   form: FormGroup;
   displayedColumns : string[]=[
-    '#',
+ 
     'name',
     'startyear',
     'endyear' ,
@@ -26,6 +28,7 @@ export class AcademicyearComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private academicyearService:AcademicyearService) { 
     this.getallAcademicyear()
+    this.getallDisabledAcademicyear();
   }
 
   ngOnInit(): void {
@@ -37,6 +40,17 @@ export class AcademicyearComponent implements OnInit {
     this.academicyearService.getAcademicyears().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
+      },
+      (error)=>{
+        console.error(error)
+      }
+    )
+  }
+  dataSource1: MatTableDataSource<Academicyear> = new MatTableDataSource<Academicyear>();
+  getallDisabledAcademicyear(){
+    this.academicyearService.getDisabledAcademicyears().subscribe(
+      (res)=>{
+        this.dataSource1 = new MatTableDataSource(res.response);
       },
       (error)=>{
         console.error(error)
@@ -60,8 +74,8 @@ export class AcademicyearComponent implements OnInit {
     this.form.patchValue({
       _id: body._id,
       name: body.name,
-     startyear: body.startyear,
-     endyear:body.endyear
+     startyear: moment(body.startyear).format('YYYY-MM-DD'),
+     endyear:moment(body.endyear).format('YYYY-MM-DD')
      
     });
   }
@@ -81,6 +95,15 @@ export class AcademicyearComponent implements OnInit {
     this.createForm();
     this.clrModalOpen = false;
   }
+  closeModal1() {
+   
+    this.clrModalOpen1 = false;
+  }
+  openModal1() {
+   
+    this.clrModalOpen1 = true;
+  }
+
 
   onSubmit(){
     if(this.form.value){
@@ -136,6 +159,7 @@ export class AcademicyearComponent implements OnInit {
       (res)=>{
         this.toasterService.success("Deleted successfully")
         this.getallAcademicyear()
+        this.getallDisabledAcademicyear();
       },
       (err)=>{
         this.toasterService.error('Something wrong ')
@@ -143,6 +167,20 @@ export class AcademicyearComponent implements OnInit {
     )
   }
 
+
+  restore(id:string){
+    this.academicyearService.restore(id).subscribe(
+      (res)=>{
+      this.toasterService.success("restored successfully")
+      this.getallAcademicyear()
+      this.getallDisabledAcademicyear();
+      },
+      (err)=>{
+        console.log("restore errror", err)
+        this.toasterService.error('restore error');
+      }
+    )
+  }
 
 
 }
