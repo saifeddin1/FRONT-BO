@@ -13,6 +13,10 @@ import { Student } from '../../models/student.model';
 import { AcademictermService } from '../../services/academicterm.service';
 import { ProgramService } from '../../services/program.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { UsersService } from 'src/app/eidentity/services/users.service';
+import pdfMake from "pdfmake/build/pdfmake";  
+import pdfFonts from "pdfmake/build/vfs_fonts"; 
+pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 
 @Component({
   selector: 'app-groupstudent',
@@ -22,6 +26,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class GroupstudentComponent implements OnInit{
   ismatch:boolean= false;
   students:[]=[];
+  studentsmodal3:any []=[];
   studentsId:any []=[];
   academicterms:Academicterm []=[];
   academicyears:Academicyear []=[];
@@ -63,7 +68,7 @@ export class GroupstudentComponent implements OnInit{
 
   
 
-  constructor( private programService: ProgramService,private academictermService : AcademictermService,private formBuilder: FormBuilder,private toasterService: ToasterService,
+  constructor( private programService: ProgramService, private usersService:UsersService,private academictermService : AcademictermService,private formBuilder: FormBuilder,private toasterService: ToasterService,
      private feeStructureService: FeestructureService, private groupstudentService: GroupstudentService,
      private academicyearService:AcademicyearService) {
       this.getallacademicyears();
@@ -123,15 +128,19 @@ export class GroupstudentComponent implements OnInit{
   }
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getStudents(){
-    this.groupstudentService.getStudents().subscribe(
+    this.usersService.getUsers().subscribe(
+      
       (res)=>{
         console.log("students list:",res.response)
-        console.log("academicyear:",this.form1.value.academicyear)
-        const filterStudent= (student, index, array)=>{
+        console.log("program :",this.form1.value.program)
+        
+        const filterStudent= (student)=>{
     
-  
-          if(student.academicterm == this.form1.value.academicterm && student.academicyear == this.form1.value.academicyear && Number(this.form1.value.maxsize) >0 ){
+          
+          if(  student.studentNiveauId == this.form1.value.program && Number(this.form1.value.maxsize) >0 )
+          {
               this.form1.value.maxsize--;
+              console.log("student id hani hnee",student._id)
               this.studentsId.push(student._id)
               return student;
       
@@ -217,13 +226,14 @@ export class GroupstudentComponent implements OnInit{
     }
   }
   dataSource3: MatTableDataSource<any> = new MatTableDataSource<any>();
-  openModal3(id:string){
+  openModal3 (id:string) {
     
-    this.clrModalOpen3 = true;
-    this.groupstudentService.getOneStudentgroup(id).subscribe(
+   
+     this.groupstudentService.getOneStudentgroup(id).subscribe(
 
       (res)=>{
         
+        console.log("groups students :students =>",res.response.students)
         this.dataSource3 = new MatTableDataSource(res.response.students);
       
 
@@ -232,6 +242,7 @@ export class GroupstudentComponent implements OnInit{
         console.log("get stuednts",error)
       }
     )
+    this.clrModalOpen3 = true;
   }
   closemodal3(){
     this.clrModalOpen3= false;
@@ -300,7 +311,9 @@ export class GroupstudentComponent implements OnInit{
       academicterm: this.form2.value.academicterm,
       studentCategory: this.form2.value.studentCategory,
       maxsize: this.form2.value.maxsize,
+      
   }
+  console.log()
 
   this.groupstudentService.editStudentgroup(this.form2.value._id, studentgroup).subscribe(
     (result)=>{
@@ -339,7 +352,8 @@ saveStudentGroup(){
     academicyear : this.form1.value.academicyear,
     academicterm: this.form1.value.academicterm,
     maxsize: this.form1.value.maxsize,
-    students:this.studentsId}
+    students: this.students}
+    console.log("test students id", this.studentsId)
     
   this.groupstudentService.createStudentGroup(program).subscribe
   (
@@ -444,6 +458,16 @@ restore(id:string){
     }
   )
 }
+
+//Generate pdf 
+generatePDF() {  
+  let docDefinition = {  
+    header: 'C#Corner PDF Header',  
+    content: 'Sample PDF generated with Angular and PDFMake for C#Corner Blog'  
+  };  
+ 
+  pdfMake.createPdf(docDefinition).open();  
+}  
 
 
 }

@@ -54,12 +54,13 @@ export class NiveauService {
   getAll(): Observable<Niveau[]> {
     return this.http.get<Niveau[]>(this.url);
   }
+  
 
   /**
  * GET all
  */
-  getAllForUsers(): Observable<Niveau[]> {
-    return this.http.get<Niveau[]>(`${this.url}/getAllForUsers`);
+  getAllForUsers(): Observable<any> {
+    return this.http.get<any>(`${this.url}/getAllForUsers`);
   }
 
   /**

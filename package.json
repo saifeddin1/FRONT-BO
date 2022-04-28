@@ -61,6 +61,7 @@
     "ngx-star-rating": "^2.0.3",
     "ngx-toastr": "^14.1.0",
     "ngx-wow": "^2.0.1",
+    "pdfmake": "^0.2.5",
     "plyr": "^3.6.8",
     "rxjs": "^6.6.7",
     "seedrandom": "^3.0.5",
