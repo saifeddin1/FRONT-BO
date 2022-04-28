@@ -1,4 +1,4 @@
-<div class="global-nav" [style.display]="shoudNavShow() ? 'flex' : 'none'">
+<div class="global-nav" *ngIf="shoudNavShow()">
   <button mat-button [matMenuTriggerFor]="belowMenu">
     <div>
       <img src="..//assets/img/{{ solutionIcon }}.png" class="menu-item-icon" />
@@ -36,10 +36,11 @@
       <mat-icon>notifications</mat-icon>
     </button>
 
-    <div
-      class="notif-content"
-      [style.display]="dropDownActive ? 'block' : 'none'"
-    >
+    <div class="notif-content" *ngIf="dropDownActive">
+      <mat-icon (click)="closeDropdown()" style="cursor: pointer"
+        >close</mat-icon
+      >
+
       <span *ngIf="!notificationItems || !notificationItems.length"
         >No notifications</span
       >
@@ -49,9 +50,7 @@
           [ngClass]="!item.isRead ? 'not-read' : ''"
           (click)="toggleIsRead(item)"
         >
-          <span [style.display]="item.isRead ? 'none' : 'inline-block'"
-            >⚫</span
-          >
+          <span *ngIf="!item.isRead">⚫</span>
           {{ item.content }}
           <br />
           <hr />

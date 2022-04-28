@@ -16,6 +16,8 @@ import { ManageContractsComponent } from './pages/manage-contracts/manage-contra
 import { UserTimesheetsComponent } from './pages/user-timesheets/user-timesheets.component';
 import { EmployeeContractsComponent } from './pages/employee-contracts/employee-contracts.component';
 import { EmployeeInterviewsComponent } from './pages/employee-interviews/employee-interviews.component';
+import { YearMonthsComponent } from './pages/year-months/year-months.component';
+import { ContractSettingsComponent } from './pages/contract-settings/contract-settings.component';
 
 const routes: Routes = [
   {
@@ -76,6 +78,14 @@ const routes: Routes = [
       {
         path: 'timeoffs',
         component: TimeoffsComponent,
+      },
+      {
+        path: 'year-months',
+        component: YearMonthsComponent,
+      },
+      {
+        path: 'contract-settings',
+        component: ContractSettingsComponent,
       },
     ],
   },

@@ -11,6 +11,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 })
 export class TimeoffAddDialogComponent implements OnInit {
   isAddOperation: boolean;
+  timeoffRequest: Timeoff;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialog: MatDialog,
@@ -18,14 +19,25 @@ export class TimeoffAddDialogComponent implements OnInit {
     private toaster: ToasterService
   ) {
     this.isAddOperation = this.data['operation'] === 'add';
+    this.timeoffRequest = data['timeoffRequest'];
   }
 
-  ngOnInit(): void {}
-
+  ngOnInit(): void {
+    console.log(this.timeoffRequest);
+  }
+  createNotification(body) {
+    return this.summaryService.createNotification(body).subscribe((result) => {
+      console.log('🔕  ~ result', result);
+    });
+  }
   updateTimeoffRequest(timeoff) {
     return this.summaryService.updateTimeoff(timeoff._id, timeoff).subscribe(
       (result) => {
         console.log(result);
+        this.createNotification({
+          userId: result['response']['userId'],
+          content: `${timeoff.ref} has been ${timeoff.status}`,
+        });
         this.toaster.success(result['message']);
       },
       (error) => this.toaster.error(error['error']['message'])
@@ -33,8 +45,6 @@ export class TimeoffAddDialogComponent implements OnInit {
   }
 
   requestTimeoff() {
-    console.log(this.data['timeoffRequest']);
-
     return this.summaryService
       .createTimeoffRequest(this.data['timeoffRequest'])
       .subscribe(

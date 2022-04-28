@@ -24,23 +24,14 @@ export class AddInterviewDialogComponent implements OnInit {
     private summaryService: EmployeeSummaryService,
     private toaster: ToasterService
   ) {
-    this.newInterview = {
-      userId: data['userId'] || '',
-      title: '',
-      date: null,
-      files: null,
-      test: {
-        title: '',
-        description: '',
-        url: '',
-      },
-    };
-    this.users = data['users'];
+    this.newInterview = this.data['interview'];
+    this.users = this.data['users'];
     if (this.newInterview.userId !== '') this.myControl.disable();
   }
 
   ngOnInit(): void {
     console.log(this.data);
+    this.newInterview = this.data['interview'];
 
     this.filteredOptions = this.myControl.valueChanges.pipe(
       startWith(''),

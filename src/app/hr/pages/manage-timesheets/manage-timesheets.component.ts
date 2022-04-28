@@ -67,11 +67,6 @@ export class ManageTimesheetsComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     console.log('after init');
-
-    // console.log(this.dataSource);
-
-    // // this.paginator.pageIndex = 0;
-    // this.dataSource.sort = this.sort;
   }
   changePage(event) {
     console.log(event);

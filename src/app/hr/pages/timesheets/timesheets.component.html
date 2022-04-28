@@ -60,13 +60,7 @@
       <ng-container *ngIf="!timesheets || !timesheets.length">
         No timesheets.
       </ng-container>
-      <tr
-        *ngFor="
-          let ts of timesheets
-            | paginate
-              : { itemsPerPage: limit, currentPage: p, totalItems: total }
-        "
-      >
+      <tr *ngFor="let ts of timesheets">
         <td>
           <label for="{{ ts?._id }}"> {{ formatedDate(ts?.date) }}</label>
         </td>
