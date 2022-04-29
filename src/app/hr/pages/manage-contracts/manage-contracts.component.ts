@@ -70,7 +70,11 @@ export class ManageContractsComponent implements OnInit {
 
     this.searchNotifier
       .pipe(debounceTime(500))
-      .subscribe((data) => this.getAllContractsWithSalary());
+      .subscribe((data) =>
+        this.isAdmin
+          ? this.getAllContractsWithSalary()
+          : this.getEmployeeContracts()
+      );
   }
 
   getUsers() {
@@ -119,7 +123,7 @@ export class ManageContractsComponent implements OnInit {
   getEmployeeContracts() {
     this.isLoading = true;
     this.employeeService
-      .getContractsWithSalary(this.p, this.limit)
+      .getContractsWithSalary(this.p, this.limit, this.filterVal)
       .subscribe((result) => {
         if (
           result['response'][0]['totalData'] &&
