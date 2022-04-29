@@ -72,6 +72,19 @@
     </table>
   </div>
 
+  <mat-paginator
+  
+  #paginator
+  [length]="total"
+  [pageIndex]="p"
+  [pageSize]="limit"
+  [pageSizeOptions]="[3, 14, 21, 28, 42]"
+  showFirstLastButtons
+  (page)="changePage($event)"
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>
+
     
 </div>    
 
@@ -98,7 +111,7 @@
           
           <div class="position-top modalRow">
             <strong class="modalcol3">Fee Structure:</strong>
-            <select  #feestructure class="text-area modalcol " formControlName="feestructure" >
+            <select  #feestructure class="text-area modalcol " formControlName="feeStructureId" >
               <option
                 *ngFor="let feeStructre of  feeStructures"
                 value="{{feeStructre._id}}"

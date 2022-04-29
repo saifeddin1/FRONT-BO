@@ -1,9 +1,10 @@
 import { FeeCategory } from './../../models/feeCatgory.model';
 import { FeeCategoryService } from './../../services/fee-category.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-fee-category',
@@ -15,6 +16,10 @@ export class FeeCategoryComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns : string[]=[
    
     'name',
@@ -33,11 +38,27 @@ export class FeeCategoryComponent implements OnInit {
     this.createForm();
   }
 
+  changePage(event) {
+    console.log(event);
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
+    this.getallFeeCategory();
+
+  }
+
   dataSource: MatTableDataSource<FeeCategory> = new MatTableDataSource<FeeCategory>();
   getallFeeCategory(){
     this.feeCategoryService.getFeeCatgories().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
+        this.dataSource.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length =
+            res.response.length || 0;
+        });
+      
+        this.total = res.response.length || 0;
       },
       (error)=>{
         console.error(error)

@@ -1,11 +1,12 @@
 import { Academicyear } from './../../models/acadmicyear.model';
 import { Academicterm } from './../../models/academicterm.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { AcademictermService } from '../../services/academicterm.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AcademicyearService } from '../../services/academicyear.service';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-academicterm',
@@ -14,6 +15,10 @@ import { AcademicyearService } from '../../services/academicyear.service';
 })
 export class AcademictermComponent implements OnInit {
   academicterm:  object[] = [];
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   academicyears: object[]= [];
   filtredata = {
    
@@ -47,6 +52,15 @@ export class AcademictermComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
   }
+
+  changePage(event) {
+    console.log(event);
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
+    this.getallAcademicterm()
+
+  }
+
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
   getallAcademicterm(){
@@ -55,7 +69,14 @@ export class AcademictermComponent implements OnInit {
        
        console.log("academic term response", res.response)
        this.dataSource = new MatTableDataSource(res.response);
-
+       this.dataSource.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length =
+            res.response.length || 0;
+        });
+      
+        this.total = res.response.length || 0;
 
       },
       (error)=>{

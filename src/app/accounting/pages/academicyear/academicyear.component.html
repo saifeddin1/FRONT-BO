@@ -65,6 +65,18 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
+  <mat-paginator
+  
+  #paginator
+  [length]="total"
+  [pageIndex]="p"
+  [pageSize]="limit"
+  [pageSizeOptions]="[3, 14, 21, 28, 42]"
+  showFirstLastButtons
+  (page)="changePage($event)"
+  aria-label="Select page of periodic elements"
+>
+</mat-paginator>
 
     
 </div>    

@@ -23,6 +23,7 @@ import { FeestructureComponent } from './pages/feestructure/feestructure.compone
 import { AcademictermComponent } from './pages/academicterm/academicterm.component';
 import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
 import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 @NgModule({
   declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent, FeescheduleComponent],
@@ -40,7 +41,8 @@ import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component'
     CdkTableModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatPaginatorModule,
   ],
   exports:[
     AccountingComponent,
