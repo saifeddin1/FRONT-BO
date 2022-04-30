@@ -54,6 +54,8 @@ export class TimesheetsComponent implements OnInit {
 
   currUser = this.employeeService.getUser();
   ngOnInit(): void {
+    this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
+
     this.getEmployeeTimeSheets();
     this.getCurrentDeclaration();
     this.getEmployeeActiveContract();
@@ -89,7 +91,7 @@ export class TimesheetsComponent implements OnInit {
       )
       .subscribe((result) => {
         console.log('⚡  getMonthlyWorkingHours', result);
-        this.monthlyWorkingHours = result['response'][0]['sum'];
+        this.monthlyWorkingHours = result['response'][0]['sum'] || 0;
         this.totalHours = this.monthlyWorkingHours - this.monthlyHoursLimit;
       });
   }
@@ -104,7 +106,7 @@ export class TimesheetsComponent implements OnInit {
       )
       .subscribe((result) => {
         console.log('⚡  getExtraHours', result);
-        this.monthlyExtraHours = result['response'][0]['sum'];
+        this.monthlyExtraHours = result['response'][0]['sum'] || 0;
       });
   }
 
@@ -140,7 +142,7 @@ export class TimesheetsComponent implements OnInit {
           //   }
           // });
 
-          this.total = result['response'][0]['totalCount'][0]['count'];
+          this.total = result['response'][0]['totalCount'][0]['count'] || 0;
           this.isApproved = false;
           this.isDeclared = false;
           this.employeeService

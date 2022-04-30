@@ -68,12 +68,16 @@ export class EmployeeInterviewsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.getUsers();
     this.activatedRoute.params.subscribe((param) => {
+      console.log(
+        '⚡ ~ file: employee-interviews.component.ts ~ line 76 ~ EmployeeInterviewsComponent ~ this.activatedRoute.params.subscribe ~ param',
+        param
+      );
       this.userId = param.userId;
       console.log('⚡ ~ .params.subscribe ~ userid', this.userId);
     });
     this.getAllnterviews();
-    this.getUsers();
   }
   getUsers() {
     this.summaryService.getAllUsers(STUDENT).subscribe((result) => {

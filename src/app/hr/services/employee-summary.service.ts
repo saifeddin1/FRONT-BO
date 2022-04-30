@@ -34,7 +34,7 @@ export class EmployeeSummaryService {
 
   getAllUsers(extractedRrole): Observable<any> {
     return this.http.get<any>(
-      `${environment.IdentityApi}/api/v1/users?extract=${extractedRrole}`
+      `${environment.IdentityApi}/api/v1/users/exceptType?extract=${extractedRrole}`
     );
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
@@ -104,7 +104,7 @@ export class EmployeeSummaryService {
   }
   getInterviewsByUserId(userId: string, term: string): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}&filter=${term}`
+      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}?filter=${term}`
     );
   }
   getEmployeeUpcomingInterviews() {

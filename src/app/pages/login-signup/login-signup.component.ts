@@ -41,7 +41,7 @@ export class LoginSignupComponent implements OnInit {
     private activatedRouter: ActivatedRoute // private identityUserService: UsersService
   ) {
     this.getNiveaux();
-   
+
     this.pagetype = this.activatedRouter.snapshot.params['type'];
     if (this.pagetype == 'login') {
       this.form = this.login;
@@ -52,12 +52,10 @@ export class LoginSignupComponent implements OnInit {
     }
     this.activeClass = true;
   }
- 
+
   activeClass = false;
-  niveauxList:any []=[];
-  getNiveaux()
-  
-  {
+  niveauxList: any[] = [];
+  getNiveaux() {
     this.programService.getPrograms().subscribe(
       (res) => {
         console.log('Niveaux :**** ', res.response);
@@ -160,6 +158,8 @@ export class LoginSignupComponent implements OnInit {
   loginHandler(user: any) {
     this.userService.loginUser(user.email, user.password).subscribe(
       (res: boolean | { token: string } | any) => {
+        console.log(res);
+
         if (res === false) {
           this.toasterService.error(
             DEFAULT_MESSAGES.confirmation.password.invalid
@@ -194,7 +194,7 @@ export class LoginSignupComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err.error);
+        this.toasterService.error(err.error.message);
         this.error = err.error;
       }
     );

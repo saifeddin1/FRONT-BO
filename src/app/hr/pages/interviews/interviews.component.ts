@@ -81,7 +81,7 @@ export class InterviewsComponent implements OnInit {
         this.toaster.success('Deleted Successfuly');
         this.getAllnterviews();
       },
-      (error) => this.toaster.error(error.message)
+      (error) => this.toaster.error(error.error.message)
     );
   }
 
@@ -94,65 +94,71 @@ export class InterviewsComponent implements OnInit {
     this.isLoading = true;
     this.summaryService
       .getAllInterviews(this.page, this.limit, this.filterValue)
-      .subscribe((result) => {
-        if (
-          result['response'][0]['totalData'] &&
-          result['response'][0]['totalData'].length
-        ) {
-          this.interviews = result['response'][0]['totalData'];
-          this.total = result['response'][0]['totalCount'][0]?.count;
-          this.dataSource = new MatTableDataSource(
-            result['response'][0]['totalData']
-          );
-          this.dataSource.paginator = this.paginator;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.page;
-            this.paginator.length =
-              result['response'][0]['totalCount'][0]['count'] || 0;
-          });
-          this.isLoading = false;
-          console.log(
-            '⚡ this.interviews and totel',
-            this.interviews,
-            this.total
-          );
-        } else {
-          this.dataSource = new MatTableDataSource();
-          this.isLoading = false;
-        }
-      });
+      .subscribe(
+        (result) => {
+          if (
+            result['response'][0]['totalData'] &&
+            result['response'][0]['totalData'].length
+          ) {
+            this.interviews = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]?.count;
+            this.dataSource = new MatTableDataSource(
+              result['response'][0]['totalData']
+            );
+            this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.page;
+              this.paginator.length =
+                result['response'][0]['totalCount'][0]['count'] || 0;
+            });
+            this.isLoading = false;
+            console.log(
+              '⚡ this.interviews and totel',
+              this.interviews,
+              this.total
+            );
+          } else {
+            this.dataSource = new MatTableDataSource();
+            this.isLoading = false;
+          }
+        },
+        (error) => this.toaster.error(error.error.message)
+      );
   }
   getEmployeeInterview() {
     this.isLoading = true;
     this.summaryService
       .getInterviews(this.page, this.limit, this.filterValue)
-      .subscribe((result) => {
-        if (
-          result['response'][0]['totalData'] &&
-          result['response'][0]['totalData'].length
-        ) {
-          this.interviews = result['response'][0]['totalData'];
-          this.total = result['response'][0]['totalCount'][0]?.count;
-          this.dataSource = new MatTableDataSource(
-            result['response'][0]['totalData']
-          );
-          this.dataSource.paginator = this.paginator;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.page;
-            this.paginator.length =
-              result['response'][0]['totalCount'][0]['count'] || 0;
-          });
-          this.isLoading = false;
-          console.log(
-            '⚡ this.interviews and totel',
-            this.interviews,
-            this.total
-          );
-        } else {
-          this.dataSource = new MatTableDataSource();
-          this.isLoading = false;
-        }
-      });
+      .subscribe(
+        (result) => {
+          if (
+            result['response'][0]['totalData'] &&
+            result['response'][0]['totalData'].length
+          ) {
+            this.interviews = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]?.count;
+            this.dataSource = new MatTableDataSource(
+              result['response'][0]['totalData']
+            );
+            this.dataSource.paginator = this.paginator;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.page;
+              this.paginator.length =
+                result['response'][0]['totalCount'][0]['count'] || 0;
+            });
+            this.isLoading = false;
+            console.log(
+              '⚡ this.interviews and totel',
+              this.interviews,
+              this.total
+            );
+          } else {
+            this.dataSource = new MatTableDataSource();
+            this.isLoading = false;
+          }
+        },
+        (error) => this.toaster.error(error.error.message)
+      );
   }
 
   changePage(event) {

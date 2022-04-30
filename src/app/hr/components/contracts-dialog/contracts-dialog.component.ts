@@ -20,12 +20,14 @@ export class ContractsDialogComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<User[]>;
   typeItems: contractType[];
+
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private summaryService: EmployeeSummaryService,
     private toaster: ToasterService
   ) {
     this.contract = data['contract'];
+
     this.isViewOperation = data['dialogOperation'] === 'view';
     if (this.contract.userId !== '') this.myControl.disable();
   }
@@ -60,21 +62,30 @@ export class ContractsDialogComponent implements OnInit {
 
     this.summaryService
       .updateContractWithSalary(contract._id, contract)
-      .subscribe((result) => {
-        console.log('⚡ ~  updateContractWithSalary ~ result', result);
-        this.toaster.success('Successfuly Updated');
-      });
+      .subscribe(
+        (result) => {
+          console.log('⚡ ~  updateContractWithSalary ~ result', result);
+          this.toaster.success('Successfuly Updated');
+        },
+        (error) => this.toaster.error(error.error.message)
+      );
   }
   addContract(contract) {
-    this.summaryService.createContract(contract).subscribe((result) => {
-      console.log('⚡ ~   addContract ~ result', result);
-      this.toaster.success('Successfuly Added');
-    });
+    this.summaryService.createContract(contract).subscribe(
+      (result) => {
+        console.log('⚡ ~   addContract ~ result', result);
+        this.toaster.success('Successfuly Added');
+      },
+      (error) => this.toaster.error(error.error.message)
+    );
   }
   getAllContractTypeItems() {
-    this.summaryService.getAllContractTypes().subscribe((result) => {
-      console.log('⚡ ~ getAllWorkFromItems ~ result', result);
-      this.typeItems = result['response'][0]['totalData'];
-    });
+    this.summaryService.getAllContractTypes().subscribe(
+      (result) => {
+        console.log('⚡ ~ getAllWorkFromItems ~ result', result);
+        this.typeItems = result['response'][0]['totalData'];
+      },
+      (error) => this.toaster.error(error.error.message)
+    );
   }
 }

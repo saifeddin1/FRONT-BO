@@ -35,7 +35,8 @@ export class InterviewDialog {
         console.log('✅ ~  updated interview: ', result);
         this.toaster.success('Updated Successfuly');
       },
-      (error) => this.toaster.error(error.message)
+
+      (error) => this.toaster.error(error.error.message)
     );
   }
   ngOnInit(): void {
