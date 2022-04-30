@@ -644,7 +644,7 @@
 /* cards */
   .card-info{
     
-    width: 300px;
+    width: 15%;
     height: 120px;
     
     
@@ -657,14 +657,18 @@
     box-sizing: border-box;
     box-shadow: 0px 15px 30px rgba(241, 224, 224, 0.2);
     border-radius: 5px;
-    padding: 10px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;  
+    
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;    
+    
+    
    
   }
   
-  .card-container{
+  .card-container .card-info{
     margin-left: 40px;
-    width: fit-content;
+    margin-bottom: 40px;
+    
+    display: inline-block;
     
   }
   .card-type{
