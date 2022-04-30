@@ -1,0 +1,111 @@
+<div class="dashboard">
+    <div class="events-container">
+      <div
+        class="row d-flex dates"
+        style="justify-content: space-between; align-items: center"
+      >
+        <h6>Summary </h6>
+  
+    
+      </div>
+      
+    </div>
+
+    <div class="profile-card-body behindbtn">
+        
+          <highcharts-chart
+          [Highcharts] = "highchartspie" 
+          [options] = "chartOptionspie">
+         </highcharts-chart>
+
+         <highcharts-chart
+         [Highcharts] = "highcharts" 
+         [options] = "chartOptions">
+        </highcharts-chart>
+         
+        
+    </div>
+    <div class="profile-card-body behindbtn">
+        
+      <highcharts-chart
+      [Highcharts] = "highchartspercent" 
+      [options] = "chartOptionspercent">
+     </highcharts-chart>
+
+     <highcharts-chart
+     [Highcharts] = "highcharts3D" 
+     [options] = "chartOptions3D">
+    </highcharts-chart>
+     
+    
+</div>
+
+<!-- table -->
+<div class="row d-flex dates">
+  <table mat-table [dataSource]="dataSource">
+
+    
+
+    <!-- UserName Column -->
+    <ng-container matColumnDef="username">
+      <th mat-header-cell *matHeaderCellDef> Student Name </th>
+      <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+    </ng-container>
+
+    <!-- Email Column -->
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef> Email </th>
+      <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+    </ng-container>
+    <!-- Type Column -->
+    <ng-container matColumnDef="type">
+      <th mat-header-cell *matHeaderCellDef> Type </th>
+      <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+    </ng-container>
+    <!-- Phone Column -->
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef> Phone </th>
+      <td mat-cell *matCellDef="let element"> {{element.phone }} </td>
+    </ng-container>
+
+  
+
+    
+    <!-- action Column -->
+    <ng-container matColumnDef="action">
+      <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
+      <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
+        <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+          <clr-icon shape="pencil"></clr-icon>
+        </button>
+
+        <button mat-icon-button class="btn btn-outline-danger" (click)="deleteUser(element._id)">
+          <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+        </button>
+        <button mat-icon-button class="btn btn-outline-danger" (click)="activateUser(element._id)">
+          <clr-icon shape="unlock" style="color:rgb(1, 145, 66)!important;"></clr-icon>
+        </button>
+      
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+
+<mat-paginator
+
+#paginator
+[length]="total"
+[pageIndex]="p"
+[pageSize]="limit"
+[pageSizeOptions]="[3, 14, 21, 28, 42]"
+showFirstLastButtons
+(page)="changePage($event)"
+aria-label="Select page of periodic elements"
+>
+</mat-paginator>
+
+  
+</div>    

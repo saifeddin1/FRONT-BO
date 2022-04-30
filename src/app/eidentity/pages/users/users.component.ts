@@ -45,7 +45,12 @@ export class UsersComponent implements OnInit {
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
-  constructor(private pwdService: ResetpwdService,private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService,private userServicelms:UserService ) 
+  constructor(
+    private pwdService: ResetpwdService,
+    private formBuilder: FormBuilder,
+    private toasterService: ToasterService,
+    private usersService:UsersService,
+    private userServicelms:UserService ) 
   {
     this.getallUsers();
     this.getstudentniv();

@@ -13,8 +13,8 @@ import { MatTableModule } from '@angular/material/table' ;
 import { MatSortModule } from '@angular/material/sort';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
-
-
+import { ChartModule } from 'angular-highcharts';
+import { HighchartsChartModule } from 'highcharts-angular';
 import {MatIconModule} from '@angular/material/icon';
 import { FeeCategoryComponent } from './pages/fee-category/fee-category.component';
 import { AcademicyearComponent } from './pages/academicyear/academicyear.component';
@@ -24,9 +24,11 @@ import { AcademictermComponent } from './pages/academicterm/academicterm.compone
 import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
 import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { SummaryComponent } from './pages/summary/summary.component';
+
 
 @NgModule({
-  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent, FeescheduleComponent],
+  declarations: [AccountingComponent, ProgramComponent, FeeCategoryComponent, AcademicyearComponent, FeestructureComponent, AcademictermComponent, GroupstudentComponent, FeescheduleComponent, SummaryComponent],
   imports: [
     CommonModule,
     AccountingRoutingModule,
@@ -43,6 +45,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     MatFormFieldModule,
     MatInputModule,
     MatPaginatorModule,
+    ChartModule,
+    HighchartsChartModule
+  
+    
   ],
   exports:[
     AccountingComponent,
@@ -52,6 +58,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
     AcademictermComponent,
     FeestructureComponent,
     GroupstudentComponent,
+    SummaryComponent,
     FeescheduleComponent
   ]
 })
