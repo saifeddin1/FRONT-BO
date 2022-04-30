@@ -69,9 +69,13 @@ export class EmployeeSummaryService {
     );
   }
 
-  getContractsWithSalary(p: number, limit: number): Observable<Contract[]> {
+  getContractsWithSalary(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<Contract[]> {
     return this.http.get<Contract[]>(
-      `${this.BASE_URL}/contracts/employeeContractsWithSalary?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/contracts/employeeContractsWithSalary?page=${p}&limit=${limit}&filter=${term}`
     );
   }
 
@@ -140,8 +144,8 @@ export class EmployeeSummaryService {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
 
-  getFiles(): Observable<File[]> {
-    return this.http.get<File[]>(`${this.BASE_URL}/files`);
+  getFiles(term: string): Observable<File[]> {
+    return this.http.get<File[]>(`${this.BASE_URL}/files?filter=${term}`);
   }
 
   getFileDetails(): Observable<File> {
@@ -270,9 +274,13 @@ export class EmployeeSummaryService {
   }
 
   // ------------------------------- TIMEOFFS 😴 -----------------------------
-  getEmployeeTimeoffHistory(p: number, limit: number): Observable<Timeoff> {
+  getEmployeeTimeoffHistory(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<Timeoff> {
     return this.http.get<Timeoff>(
-      `${this.BASE_URL}/timeoffs/employeeTimeoffHistory?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/timeoffs/employeeTimeoffHistory?page=${p}&limit=${limit}&filter=${term}`
     );
   }
   createTimeoffRequest(body: Timeoff): Observable<Timeoff> {
@@ -293,9 +301,9 @@ export class EmployeeSummaryService {
   updateTimeoff(id: string, body: Timeoff): Observable<Timeoff> {
     return this.http.put<Timeoff>(`${this.BASE_URL}/timeOffs/${id}`, body);
   }
-  getAllTimeoffs(p: number, limit: number): Observable<Timeoff> {
+  getAllTimeoffs(p: number, limit: number, term: string): Observable<Timeoff> {
     return this.http.get<Timeoff>(
-      `${this.BASE_URL}/timeoffs?page=${p}&limit=${limit}`
+      `${this.BASE_URL}/timeoffs?page=${p}&limit=${limit}&filter=${term}`
     );
   }
 
