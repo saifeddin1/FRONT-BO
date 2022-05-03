@@ -18,18 +18,23 @@ const ROUTES : Array<Route>=[
   },
   {
     link:'./companies',
-    icon:'layers',
+    icon:'organization',
     label:'Company',
   },
   {
     link:'./departements',
-    icon:'layers',
+    icon:'bank',
     label:'Departements',
   },
   {
     link:'./hrusers',
     icon:'layers',
     label:'Hr users',
+  },
+  {
+    link:'./eoousers',
+    icon:'administrator',
+    label:'Oranization owners',
   },
   {
     link:'./hrinstructor',

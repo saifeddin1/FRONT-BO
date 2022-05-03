@@ -46,7 +46,7 @@ export class CollaboratorsComponent implements OnInit {
 
   getAllEmployeesFiles() {
     return this.isAdmin
-      ? this.summaryService.getFiles().subscribe((result) => {
+      ? this.summaryService.getFiles('').subscribe((result) => {
           console.log('⚡ getAllEmployeesFiles ~', result);
           this.allEmployees = result['response'][0]['totalData'];
           this.isLoading = false;

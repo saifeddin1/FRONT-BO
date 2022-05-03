@@ -10,5 +10,5 @@ export interface User {
   lastname: string;
   studentNiveauId: string;
   company: string;
-  eooaccessrights:string
+  eooaccessmodules:string;
 }

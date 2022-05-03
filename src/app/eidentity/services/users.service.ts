@@ -53,6 +53,9 @@ export class UsersService {
   getalldisabledInstructor(): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/api/v1/users/alldisabledinstructor`);
   }
+  getallorganisatiowners(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allorganisationowners`);
+  }
 
 
   getOneUser(userId: String): Observable<any> {
