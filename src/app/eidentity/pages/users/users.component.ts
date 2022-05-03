@@ -34,6 +34,8 @@ export class UsersComponent implements OnInit {
   minDate = moment({year: this.year - 100, month: this.month, day: this.day}).format('YYYY-MM-DD');
 
   maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
+  
+  
   displayedColumns : string[]=[
     
     'username',
@@ -56,6 +58,8 @@ export class UsersComponent implements OnInit {
     this.getstudentniv();
    }
 
+   students :MatTableDataSource<any>;
+
   ngOnInit(): void {
     this.createForm()
   }
@@ -67,7 +71,7 @@ export class UsersComponent implements OnInit {
     this.getallUsers();
 
   }
-
+ 
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   dataSource1: MatTableDataSource<User> = new MatTableDataSource<User>();
 
