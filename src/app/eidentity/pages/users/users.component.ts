@@ -177,7 +177,7 @@ export class UsersComponent implements OnInit {
     
   }
   closeModal2() {
-    this.createForm();
+    
     this.clrModalOpen2 = false;
     
   }
