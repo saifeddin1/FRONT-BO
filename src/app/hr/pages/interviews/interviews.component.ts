@@ -194,13 +194,11 @@ export class InterviewsComponent implements OnInit {
           date: null,
           title: '',
           files: '',
-          test: [
-            {
-              title: '',
-              url: '',
-              description: '',
-            },
-          ],
+          test: {
+            title: '',
+            url: '',
+            description: '',
+          },
         },
         users: this.users,
       },
