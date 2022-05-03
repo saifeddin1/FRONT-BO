@@ -48,11 +48,11 @@ export class EoousersComponent implements OnInit {
   ];
 
   companies:any;
-  accessModules:any=[{id:0,module:'HR',isChecked:false},
-                     {id:1,module:'AC',isChecked:false},
-                     {id:2,module:'LMS',isChecked:false}]
+  accessModules:any=[{id:0,module:"HR",isChecked:false},
+                     {id:1,module:"AC",isChecked:false},
+                     {id:2,module:"LMS",isChecked:false}]
 
-  checkedAccessModules:any;
+  checkedAccessModules:any=[];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -138,7 +138,7 @@ export class EoousersComponent implements OnInit {
       type: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
       company: ['', [Validators.required]],
-      eooaccessmodules: ['', [Validators.required]],
+      eooaccessmodules:'',
       
      
     }) as FormGroup & User; 
@@ -171,6 +171,7 @@ export class EoousersComponent implements OnInit {
     if (type == 'add') {
       this.modalType = 'add';
       this.createForm();
+      this.form.controls['type'].setValue('EOO')
     } else {
       this.modalType = 'edit';
     }
@@ -330,23 +331,18 @@ export class EoousersComponent implements OnInit {
   }
 
 
-  selectEooModules(checked:any,index){
-    let checkedIndex=0
-    checked ? (this.accessModules[index].isChecked = true, 
-               this.checkedAccessModules=this.accessModules[index].module,
-               checkedIndex=this.checkedAccessModules.length,
-               console.log(this.checkedAccessModules.length),
-               console.log(this.checkedAccessModules)
+  selectEooModules(checked:any,index,module){
+    checked ? (this.accessModules[index].isChecked = true,
+               this.checkedAccessModules.push(module),              
+               console.log(this.checkedAccessModules), 
+               this.form.controls['eooaccessmodules'].setValue(this.checkedAccessModules.toString())
               )
               :
               (
-                this.accessModules[index].isChecked = false,
-                console.log(this.checkedAccessModules.length),
-                this.checkedAccessModules.splice(checkedIndex-1),
+                this.checkedAccessModules.splice(this.checkedAccessModules.indexOf(module),1),
+                this.form.controls['eooaccessmodules'].setValue(this.checkedAccessModules.toString()),
                 console.log(this.checkedAccessModules)
-              );
-    console.log(this.accessModules);
-      
+              );                   
   }
 
   openchangepwdmodal(email:string){

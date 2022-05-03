@@ -126,6 +126,11 @@
             <input matInput class="text-area modalcol" placeholder="email" formControlName="email" >
           </div>
 
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Type</strong>
+            <input matInput class="text-area modalcol" formControlName="type" disabled="">
+          </div>
+
           
           
           <div class="position-top">
@@ -143,19 +148,16 @@
             
           </div>
 
-          <div class="position-top modalRow">
-                <strong class="modalcol3">Type</strong>
-                <input matInput class="text-area modalcol" value="EOO" formControlName="type" disabled>
-          </div>
+        
               
                     
           <div class="position-top modalRow">
             <strong class="modalcol3">Access modules</strong>
-            <mat-checkbox class="example-margin" #checkModules *ngFor="let accessModule of accessModules" (change)="selectEooModules(checkModules.checked,accessModule.id)">{{accessModule.module}}</mat-checkbox>
+            <mat-checkbox class="example-margin" #checkModules *ngFor="let accessModule of accessModules" (change)="selectEooModules(checkModules.checked,accessModule.id,accessModule.module)">{{accessModule.module}}</mat-checkbox>
           </div>  
           <div class="position-top modalRow">
             <strong class="modalcol3"></strong>
-            <input matInput class="text-area modalcol" placeholder="Modules" [value]=checkedAccessModules formControlName="eooaccessmodules" >
+            <input matInput class="text-area modalcol" placeholder="Modules" formControlName="eooaccessmodules" disabled>
           </div>  
         </div>
       </form>
