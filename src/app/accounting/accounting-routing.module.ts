@@ -11,6 +11,7 @@ import { ProgramComponent } from './pages/program/program.component';
 import { AcademictermComponent } from './pages/academicterm/academicterm.component';
 import { GroupstudentComponent } from './pages/groupstudent/groupstudent.component';
 import { FeescheduleComponent } from './pages/feeschedule/feeschedule.component';
+import { SummaryComponent } from './pages/summary/summary.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -50,6 +51,11 @@ const routes: Routes = [
       {
         path: 'feeSchedule',
         component: FeescheduleComponent,
+        pathMatch: 'full',
+      },
+      {
+        path: 'summary',
+        component: SummaryComponent,
         pathMatch: 'full',
       },
     ],

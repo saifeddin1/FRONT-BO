@@ -14,6 +14,11 @@ interface Route {
 
 const ROUTES : Array<Route>=[
   {
+    link:'./summary',
+    icon:'layers',
+    label:'Summary',
+  },
+  {
     link:'./program',
     icon:'layers',
     label:'Program',
