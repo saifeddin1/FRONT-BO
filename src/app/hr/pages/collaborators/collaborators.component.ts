@@ -32,18 +32,9 @@ export class CollaboratorsComponent implements OnInit {
     this.isAdmin = this.user?.type === ADMIN;
   }
 
-  ngOnInit(): void {
-    // this.getCollaborators();
+  ngOnInit(): void { 
     this.getAllEmployeesFiles();
-  }
-  // getCollaborators() {
-  //   this.summaryService
-  //     .getCollaborators()
-  //     .subscribe(
-  //       (result) => (this.collaborators = result['response'][0]?.totalData)
-  //     );
-  // }
-
+  } 
   getAllEmployeesFiles() {
     return this.isAdmin
       ? this.summaryService.getFiles('').subscribe((result) => {
@@ -57,17 +48,12 @@ export class CollaboratorsComponent implements OnInit {
         });
   }
 
-  openDialog(event) {
-    let _cid = event?.target?.id;
-    console.log(_cid);
-
+  openDialog(event, file) {
     const dialogRef = this.dialog.open(CollaboratorDialogComponent, {
       height: 'auto',
       width: '500px',
       data: {
-        collaborator: this.allEmployees.filter(
-          (collaborator) => collaborator['_id'] === _cid
-        )[0],
+        collaborator: file,
       },
     });
 

@@ -15,7 +15,7 @@
       <div class="card rounded-lg mx-2">
         <img
           id="{{ file?._id }}"
-          (click)="openDialog($event)"
+          (click)="openDialog($event, file)"
           src="../../../../assets/img/{{
             file?.profile?.image || 'user-placeholder.png'
           }}"

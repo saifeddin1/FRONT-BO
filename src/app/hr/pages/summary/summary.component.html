@@ -91,8 +91,8 @@
     </div>
     <div class="interviews">
       <h4 class="heading">Upcoming Interviews</h4>
-      <div *ngIf="interviews && interviews.length">
-        <div *ngFor="let interview of interviews" class="hr-card">
+      <div *ngIf="interviews && interviews.length" class="hr-card">
+        <div *ngFor="let interview of interviews">
           <div class="row lh-lg">
             <div class="col-5">
               <span class="bold-text">Interview Date :</span>
@@ -108,6 +108,7 @@
             </div>
           </div>
         </div>
+        <a routerLink="./interviews" class="visit-all">All Interviews</a>
       </div>
       <div *ngIf="!interviews || !interviews.length" class="hr-card">
         No upcoming interviews

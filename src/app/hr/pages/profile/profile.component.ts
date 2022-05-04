@@ -101,7 +101,7 @@ export class ProfileComponent implements OnInit {
   }
   updateEmployee(file) {
     this.summaryService
-      .updateProfile(file)
+      .updateProfile(file, file._id)
       .pipe(
         catchError((err) => {
           console.log('Handling error locally and rethrowing it...', err);

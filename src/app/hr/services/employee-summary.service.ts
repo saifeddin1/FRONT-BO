@@ -152,9 +152,9 @@ export class EmployeeSummaryService {
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
-  updateProfile(body: any): Observable<File> {
+  updateProfile(body: any, id: string): Observable<File> {
     return this.http.put<File>(
-      `${this.BASE_URL}/files/employeeFileDetails`,
+      `${this.BASE_URL}/files/employeeFileDetails/${id}`,
       JSON.stringify(body),
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
