@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { User } from '../../models/user.model';
+import { ResetpwdService } from '../../services/resetpwd.service';
 import { UsersService } from '../../services/users.service';
 
 @Component({
@@ -15,7 +16,10 @@ import { UsersService } from '../../services/users.service';
 export class HrusersComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
+  clrModalOpen2: boolean = false;
   form: FormGroup;
+  newpass: string;
+  emailchange:string;
   p: number = 1;
   limit: number = 7;
   total: number = 7;
@@ -37,7 +41,8 @@ export class HrusersComponent implements OnInit {
   ];
 
   displayedOptionColumns: string[] = ['name', 'action'];
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
+  constructor(private pwdService: ResetpwdService,
+    private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
     this.getallHrUsers()
     this.getallDisabledHrUsers()
   }
@@ -177,6 +182,11 @@ export class HrusersComponent implements OnInit {
     
   }
 
+  closeModal2() {
+    
+    this.clrModalOpen2 = false;
+    
+  }
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
@@ -274,6 +284,25 @@ export class HrusersComponent implements OnInit {
       (err)=>{
         console.log("restore errror", err)
         this.toasterService.error('restore error');
+      }
+    )
+  }
+
+  openchangepwdmodal(email:string){
+    this.emailchange=email;
+    this.clrModalOpen2 = true;
+    
+  }
+  changepwd(){
+    
+    this.pwdService.changepwdbyadmin(this.emailchange,{newpassword:this.newpass}).subscribe(
+      (res)=>{
+        this.toasterService.success("Changed successfully")
+        
+      },
+      (err)=>{
+        this.toasterService.error('Something wrong')
+        
       }
     )
   }
