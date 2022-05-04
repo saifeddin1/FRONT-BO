@@ -53,6 +53,7 @@ import { ContractSettingsComponent } from './pages/contract-settings/contract-se
 import { ContractTypesDialogComponent } from './components/contract-types-dialog/contract-types-dialog.component';
 import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
 import { WorkfromsDialogComponent } from './components/workfroms-dialog/workfroms-dialog.component';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -114,6 +115,7 @@ import { WorkfromsDialogComponent } from './components/workfroms-dialog/workfrom
     MatSortModule,
     MatTableModule,
     MatPaginatorModule,
+    MatDatepickerModule,
   ],
   exports: [
     SummaryComponent,

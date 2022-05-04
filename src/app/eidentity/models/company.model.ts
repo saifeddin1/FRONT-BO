@@ -1,0 +1,16 @@
+export interface Company {
+    name: String,
+    address:String,
+    phone: Number,
+    type:String,
+    email:String,
+    legalStatus: String,
+    tvaic: String,
+    siret: String,
+    rcs:String,
+    codeApe: String,
+    website: String, 
+    imageUrl: String, 
+    employeesCount:Number,
+    enabled: Boolean,
+}

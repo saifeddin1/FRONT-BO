@@ -49,14 +49,14 @@
     <input
       class="text-area"
       type="text"
-      [(ngModel)]="newInterview.test['title']"
+      [(ngModel)]="newInterview.test.title"
       placeholder="Test title"
     />
 
     <input
       class="text-area"
       type="text"
-      [(ngModel)]="newInterview.test['url']"
+      [(ngModel)]="newInterview.test.url"
       placeholder="Test url"
     />
   </div>
@@ -65,14 +65,21 @@
 
     <textarea
       class="text-area"
-      [(ngModel)]="newInterview.test['description']"
+      [(ngModel)]="newInterview.test.description"
       placeholder="Test description"
     ></textarea>
   </div>
 </mat-dialog-content>
 <mat-dialog-actions align="end">
   <div>
-    <button (click)="createInterview(newInterview)">Add</button>
+    <button
+      [disabled]="
+        !newInterview?.title || !newInterview?.date || !newInterview.status
+      "
+      (click)="createInterview(newInterview)"
+    >
+      Add
+    </button>
   </div>
   <div [mat-dialog-close]="'close'">
     <button>Close</button>

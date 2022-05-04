@@ -5,6 +5,8 @@ import { AboutComponent } from '../lms/pages/home-pages/about/about.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { PreventStudentGuard } from '../hr/helpers/prevent-student.guard';
 import { UsersComponent } from './pages/users/users.component';
+import { CompanyComponent } from './pages/company/company.component';
+import { DepartementComponent } from './pages/departement/departement.component';
 import { HrusersComponent } from './pages/hrusers/hrusers.component';
 import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
 
@@ -16,6 +18,10 @@ const routes: Routes = [
     component: IdentityComponent,
     canActivate: [AuthGuard, PreventStudentGuard],
     children: [
+      { path: 'users', component:UsersComponent, pathMatch: 'full' },
+      { path: 'companies', component:CompanyComponent, pathMatch: 'full' },
+      { path: 'departements/:id', component:DepartementComponent, pathMatch: 'full' },
+      { path: 'departements', component:DepartementComponent, pathMatch: 'full' },
       { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: 'users', component: UsersComponent, pathMatch: 'full' },
       { path: 'hrusers', component: HrusersComponent, pathMatch: 'full' },

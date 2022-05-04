@@ -130,21 +130,26 @@
           
           <div class="position-top">
             <strong class="modalcol3">Birthday </strong>
-            <input matInput type="date" class="text-area modalcol" placeholder="birthday" max="maxDate" min="minDate"
+            <input matInput type="date" class="text-area modalcol" placeholder="birthday"
               formControlName="birthday">
           </div>
 
           <div class="position-top">
             <strong class="modalcol3">Type</strong>
-            <select class="text-area modalcol" formControlName="type" (change)="activatestudentniv()" >
+            <select class="text-area modalcol" formControlName="type" >
               <option value="EHR">HR</option>
               <option value="EINSTRUCTOR">INSCTRUCTOR</option>
               <option value="EADMIN">ADMIN</option>
               <option value="ESTUDENT">STUDENT</option>
+              <option value="EOO">Organisation owner</option>
             </select>
           </div>
         
-          
+          <div class="position-top">
+            <strong class="modalcol3"> </strong>
+            <mat-checkbox class="example-margin" #checkbox (change)='activatestudentniv(checkbox.checked)' >Check student level</mat-checkbox>
+          </div>
+
           <div class="position-top modalRow" *ngIf="displayniv">
             <strong class="modalcol3">studentNiv</strong>
             <select class="text-area modalcol" formControlName="studentNiveauId" >
@@ -152,6 +157,26 @@
              
             </select>
           
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3"> </strong>
+            <mat-checkbox class="example-margin" #checkboxCompany (change)='activateOrganisationOwner(checkboxCompany.checked)'>Check organisation owner</mat-checkbox>
+          </div>
+          
+          <div class="position-top modalRow" *ngIf="displayOrganisationOwner">
+            <strong class="modalcol3">Company</strong>
+            <select class="text-area modalcol" formControlName="company" >
+              <option  *ngFor="let company of companies" value="{{ company._id }}" >{{company.name}}</option>
+            </select>
+                      
+              <!-- <mat-checkbox class="example-margin" value="hr" *ngFor="let right of EOOACCESSRIGHTS" >{{right.name}}</mat-checkbox><hr> -->
+              <!-- <mat-checkbox class="example-margin" value="hr" [(ngModel)]="checkboxtest">Select All</mat-checkbox>
+              <hr> -->
+              <mat-checkbox class="example-margin" >HR</mat-checkbox>
+              <mat-checkbox class="example-margin" >LMS</mat-checkbox><br>
+              <mat-checkbox class="example-margin" >Accounting</mat-checkbox><br>
+              <mat-checkbox class="example-margin" >Identity</mat-checkbox>
+            
           </div>
 
          

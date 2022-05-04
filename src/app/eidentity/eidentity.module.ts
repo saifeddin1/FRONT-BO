@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EidentityRoutingModule } from './eidentity-routing.module';
 import { IdentityComponent } from './identity.component';
 import { ClarityModule, ClrIconModule } from '@clr/angular';
@@ -12,11 +11,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersComponent } from './pages/users/users.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import { CompanyComponent } from './pages/company/company.component';
+import { DepartementComponent } from './pages/departement/departement.component'; 
 import { HrusersComponent } from './pages/hrusers/hrusers.component';
 import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 @NgModule({
-  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent],
+  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent, CompanyComponent, DepartementComponent],
   imports: [
     CommonModule,
     EidentityRoutingModule,

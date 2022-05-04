@@ -66,7 +66,7 @@ export class AddInterviewDialogComponent implements OnInit {
         // this.getAllnterviews();
         this.toaster.success('Created Successfully');
       },
-      (error) => this.toaster.error(error.message)
+      (error) => this.toaster.error(error.error.message)
     );
   }
 }

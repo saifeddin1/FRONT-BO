@@ -70,7 +70,11 @@ export class ManageContractsComponent implements OnInit {
 
     this.searchNotifier
       .pipe(debounceTime(500))
-      .subscribe((data) => this.getAllContractsWithSalary());
+      .subscribe((data) =>
+        this.isAdmin
+          ? this.getAllContractsWithSalary()
+          : this.getEmployeeContracts()
+      );
   }
 
   getUsers() {
@@ -92,56 +96,62 @@ export class ManageContractsComponent implements OnInit {
     this.isLoading = true;
     this.employeeService
       .getAllContractsWithSalaries(this.p, this.limit, this.filterVal)
-      .subscribe((result) => {
-        if (
-          result['response'][0]['totalData'] &&
-          result['response'][0]['totalData'].length
-        ) {
-          this.contracts = new MatTableDataSource(
-            result['response'][0]['totalData']
-          );
-          this.contracts.paginator = this.paginator;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.p;
-            this.paginator.length =
-              result['response'][0]['totalCount'][0]['count'] || 0;
-          });
-          this.allContracts = result['response'][0]['totalData'];
-          this.total = result['response'][0]['totalCount'][0]['count'] || 0;
-          this.isLoading = false;
-        } else {
-          this.contracts = new MatTableDataSource();
-          this.isLoading = false;
-        }
-      });
+      .subscribe(
+        (result) => {
+          if (
+            result['response'][0]['totalData'] &&
+            result['response'][0]['totalData'].length
+          ) {
+            this.contracts = new MatTableDataSource(
+              result['response'][0]['totalData']
+            );
+            this.contracts.paginator = this.paginator;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.p;
+              this.paginator.length =
+                result['response'][0]['totalCount'][0]['count'] || 0;
+            });
+            this.allContracts = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]['count'] || 0;
+            this.isLoading = false;
+          } else {
+            this.contracts = new MatTableDataSource();
+            this.isLoading = false;
+          }
+        },
+        (error) => this.toaster.error(error.error.message)
+      );
   }
 
   getEmployeeContracts() {
     this.isLoading = true;
     this.employeeService
-      .getContractsWithSalary(this.p, this.limit)
-      .subscribe((result) => {
-        if (
-          result['response'][0]['totalData'] &&
-          result['response'][0]['totalData'].length
-        ) {
-          this.contracts = new MatTableDataSource(
-            result['response'][0]['totalData']
-          );
-          this.contracts.paginator = this.paginator;
-          setTimeout(() => {
-            this.paginator.pageIndex = this.p;
-            this.paginator.length =
-              result['response'][0]['totalCount'][0]['count'] || 0;
-          });
-          this.allContracts = result['response'][0]['totalData'];
-          this.total = result['response'][0]['totalCount'][0]['count'] || 0;
-          this.isLoading = false;
-        } else {
-          this.contracts = new MatTableDataSource();
-          this.isLoading = false;
-        }
-      });
+      .getContractsWithSalary(this.p, this.limit, this.filterVal)
+      .subscribe(
+        (result) => {
+          if (
+            result['response'][0]['totalData'] &&
+            result['response'][0]['totalData'].length
+          ) {
+            this.contracts = new MatTableDataSource(
+              result['response'][0]['totalData']
+            );
+            this.contracts.paginator = this.paginator;
+            setTimeout(() => {
+              this.paginator.pageIndex = this.p;
+              this.paginator.length =
+                result['response'][0]['totalCount'][0]['count'] || 0;
+            });
+            this.allContracts = result['response'][0]['totalData'];
+            this.total = result['response'][0]['totalCount'][0]['count'] || 0;
+            this.isLoading = false;
+          } else {
+            this.contracts = new MatTableDataSource();
+            this.isLoading = false;
+          }
+        },
+        (error) => this.toaster.error(error.error.message)
+      );
   }
 
   debounce(func, timeout = 300) {
@@ -184,9 +194,9 @@ export class ManageContractsComponent implements OnInit {
                 salary: {
                   seniority: '',
                   annualCompensation: {
-                    annual: 0,
-                    effective: 0,
-                    gross: 0,
+                    annual: '',
+                    effective: '',
+                    gross: '',
                   },
                 },
               },

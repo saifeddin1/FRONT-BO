@@ -1,39 +1,57 @@
-<div>
+<h2>Request Timeoff</h2>
+<div class="wrapper">
   <div>
-    <input
+    <!-- <input
       class="text-area"
       [(ngModel)]="timeoffRequest.startDateSpecs.date"
       value="{{ timeoffRequest.startDateSpecs.date | date: 'yyyy-MM-dd' }}"
       type="date"
-    />
-    From :
-    <select [(ngModel)]="timeoffRequest.startDateSpecs.from">
-      <option value="morning">Morning</option>
-      <option value="afternoon">Afternoon</option>
-    </select>
+    /> -->
+    <mat-form-field appearance="fill">
+      <mat-date-range-input [rangePicker]="picker">
+        <input
+          [(ngModel)]="timeoffRequest.startDateSpecs.date"
+          matStartDate
+          placeholder="Start date"
+        />
+        <input
+          [(ngModel)]="timeoffRequest.endDateSpecs.date"
+          matEndDate
+          placeholder="End date"
+        />
+      </mat-date-range-input>
+      <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
   </div>
   <div>
-    <input
+    <!-- <input
       class="text-area"
       [(ngModel)]="timeoffRequest.endDateSpecs.date"
       value="{{ timeoffRequest.endDateSpecs.date | date: 'yyyy-MM-dd' }}"
       type="date"
-    />
+    /> -->
+    From :
+    <select class="text-area" [(ngModel)]="timeoffRequest.startDateSpecs.from">
+      <option value="morning">Morning</option>
+      <option value="afternoon">Afternoon</option>
+    </select>
     To :
-    <select [(ngModel)]="timeoffRequest.endDateSpecs.to">
+    <select class="text-area" [(ngModel)]="timeoffRequest.endDateSpecs.to">
       <option value="morning">Morning</option>
       <option value="afternoon">Afternoon</option>
     </select>
   </div>
 
   <div *ngIf="!isAddOperation">
-    <select [(ngModel)]="timeoffRequest.status" class="text-area">
+    <select id="status" [(ngModel)]="timeoffRequest.status" class="text-area">
       <option value="Approved">Approved</option>
       <option value="Rejected">Rejected</option>
     </select>
   </div>
 </div>
-<mat-dialog-actions>
+<mat-dialog-actions align="end" id="actions">
   <button
     (click)="
       isAddOperation ? requestTimeoff() : updateTimeoffRequest(timeoffRequest)

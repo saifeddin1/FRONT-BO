@@ -6,19 +6,22 @@ import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { UsersService } from '../../services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
 import { ResetpwdService } from '../../services/resetpwd.service';
+import { CompanyService } from '../../services/company.service';
 import moment from 'moment';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  styleUrls: ['./users.component.css'],
 })
 export class UsersComponent implements OnInit {
+  checkboxtest: any;
   newpass: string;
-  emailchange:string;
+  emailchange: string;
   displayniv = false;
-  studentnivs : object[] = [];
+  displayOrganisationOwner = false;
+  studentnivs: object[] = [];
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   clrModalOpen2: boolean = false;
@@ -31,19 +34,21 @@ export class UsersComponent implements OnInit {
   year = this.now.getFullYear();
   month = this.now.getMonth();
   day = this.now.getDay();
-  minDate = moment({year: this.year - 100, month: this.month, day: this.day}).format('YYYY-MM-DD');
+  minDate = moment({
+    year: this.year - 100,
+    month: this.month,
+    day: this.day,
+  }).format('YYYY-MM-DD');
 
-  maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
-  
-  
-  displayedColumns : string[]=[
-    
-    'username',
-    'email',
-    'type',
-    'phone',
-    'action' 
-  ];
+  maxDate = moment({
+    year: this.year - 18,
+    month: this.month,
+    day: this.day,
+  }).format('YYYY-MM-DD');
+
+  displayedColumns: string[] = ['username', 'email', 'type', 'phone', 'action'];
+
+  companies: any;
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -51,17 +56,22 @@ export class UsersComponent implements OnInit {
     private pwdService: ResetpwdService,
     private formBuilder: FormBuilder,
     private toasterService: ToasterService,
-    private usersService:UsersService,
-    private userServicelms:UserService ) 
-  {
+    private usersService: UsersService,
+    private userServicelms: UserService,
+    private companyService: CompanyService
+  ) {
     this.getallUsers();
     this.getstudentniv();
-   }
+  }
+  test() {
+    console.log(this.checkboxtest);
+  }
 
-   students :MatTableDataSource<any>;
+  students: MatTableDataSource<any>;
 
   ngOnInit(): void {
-    this.createForm()
+    this.createForm();
+    console.log(this.checkboxtest);
   }
 
   changePage(event) {
@@ -69,56 +79,49 @@ export class UsersComponent implements OnInit {
     this.p = event.pageIndex;
     this.limit = event.pageSize;
     this.getallUsers();
-
   }
- 
+
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   dataSource1: MatTableDataSource<User> = new MatTableDataSource<User>();
 
-  getstudentniv(){
+  getstudentniv() {
     this.usersService.getStudetNiv().subscribe(
-      (res)=>{
-        console.log("get all studentnivs",res)
+      (res) => {
+        console.log('get all studentnivs', res);
         this.studentnivs = res;
       },
-      (error)=>{
-        console.error(error)
+      (error) => {
+        console.error(error);
       }
-    )
-
-    
-
+    );
   }
-  getallUsers(){
+  getallUsers() {
     this.usersService.getUsers().subscribe(
-      (res)=>{
+      (res) => {
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;
         setTimeout(() => {
           this.paginator.pageIndex = this.p;
-          this.paginator.length =
-            res.response.length || 0;
+          this.paginator.length = res.response.length || 0;
         });
-      
+
         this.total = res.response.length || 0;
       },
-      (error)=>{
-        console.error(error)
+      (error) => {
+        console.error(error);
       }
-    )
+    );
   }
-  getallDisableStudents(){
+  getallDisableStudents() {
     this.usersService.getDisableStudents().subscribe(
-      (res)=>{
+      (res) => {
         this.dataSource1 = new MatTableDataSource(res.response);
-       
       },
-      (error)=>{
-        console.error(error)
+      (error) => {
+        console.error(error);
       }
-    )
+    );
   }
-
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -131,9 +134,8 @@ export class UsersComponent implements OnInit {
       type: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
       studentNiveauId: ['', [Validators.required]],
-      
-     
-    }) as FormGroup & User; 
+      company: ['', [Validators.required]],
+    }) as FormGroup & User;
   }
 
   fillFormModel(body) {
@@ -145,13 +147,15 @@ export class UsersComponent implements OnInit {
       password: body.password,
       email: body.email,
       type: body.type,
-      birthday:moment(body.birthday).format('YYYY-MM-DD'),
+      birthday: moment(body.birthday).format('YYYY-MM-DD'),
       studentNiveauId: body.studentNiveauId,
+      company: body.company,
+      eooaccessrights: body.eooaccessrights,
     });
   }
 
   modalType: string = 'add';
-  openModal(type ='add') {
+  openModal(type = 'add') {
     this.clrModalOpen = true;
     if (type == 'add') {
       this.modalType = 'add';
@@ -164,120 +168,117 @@ export class UsersComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    
   }
   closeModal1() {
-    
     this.clrModalOpen1 = false;
-    
   }
   openModal1() {
-    
     this.clrModalOpen1 = true;
-    
   }
   closeModal2() {
     
     this.clrModalOpen2 = false;
-    
   }
 
-  onSubmit(){
-    if(this.form.value){
+  onSubmit() {
+    if (this.form.value) {
       console.log('this.formModel.value : ', this.form.value);
-      
-      let user ;
-     
+
+      let user;
+
       if (this.form.value.username.length < 5) {
-    
-        this.toasterService.error("username doit contenir au moins 5 caractères");
+        this.toasterService.error(
+          'username doit contenir au moins 5 caractères'
+        );
         return;
       }
       if (this.form.value.firstname.length < 3) {
-        this.toasterService.error("firstname doit contenir au moins 3 caractères");
+        this.toasterService.error(
+          'firstname doit contenir au moins 3 caractères'
+        );
         return;
       }
       if (this.form.value.lastname.length < 3) {
-        this.toasterService.error("lastname doit contenir au moins 3 caractères");
+        this.toasterService.error(
+          'lastname doit contenir au moins 3 caractères'
+        );
         return;
       }
-      if( this.form.value.type =='ESTUDENT'){
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
+      if (this.form.value.type == 'ESTUDENT') {
+        user = {
+          username: this.form.value.username,
+          firstname: this.form.value.firstname,
           lastname: this.form.value.lastname,
           type: this.form.value.type,
-        
-          email: this.form.value.email,
-          studentNiveauId:this.form.value.studentNiveauId,
-          birthday:this.form.value.birthday
-  
-        }
 
-      }else{
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
+          email: this.form.value.email,
+          studentNiveauId: this.form.value.studentNiveauId,
+          birthday: this.form.value.birthday,
+        };
+      } else if (this.form.value.type == 'EOO') {
+        user = {
+          username: this.form.value.username,
+          firstname: this.form.value.firstname,
           lastname: this.form.value.lastname,
           type: this.form.value.type,
-        
           email: this.form.value.email,
-         
-          birthday:this.form.value.birthday
-  
-        }
+          birthday: this.form.value.birthday,
+          company: this.form.value.company,
+          eooaccessrights: this.form.value.eooaccessrights,
+        };
+      } else {
+        user = {
+          username: this.form.value.username,
+          firstname: this.form.value.firstname,
+          lastname: this.form.value.lastname,
+          type: this.form.value.type,
+
+          email: this.form.value.email,
+
+          birthday: this.form.value.birthday,
+        };
       }
-      
-     
-      
-      if(this.modalType === 'add'){
-        
 
-        
+      if (this.modalType === 'add') {
         this.usersService.createUser(user).subscribe(
-          (result)=>{
-            
-            console.log(result)
-            this.toasterService.success("Created successfully")
+          (result) => {
+            console.log(result);
+            this.toasterService.success('Created successfully');
             this.getallUsers();
-
           },
-          (err)=>{
-            console.log(err)
-            this.toasterService.error('Something wrong ')
-          })
-      }else if(this.modalType === 'edit'){
-        this.usersService.updateUser(this.form.value._id,user).subscribe(
-          (result)=>{
-            console.log('edited successfully:',result);
+          (err) => {
+            console.log(err);
+            this.toasterService.error('Something wrong ');
+          }
+        );
+      } else if (this.modalType === 'edit') {
+        this.usersService.updateUser(this.form.value._id, user).subscribe(
+          (result) => {
+            console.log('edited successfully:', result);
             this.toasterService.success('Edited Successfully');
             this.getallUsers();
-
-          },(err)=>{
-            console.log(err)
-            this.toasterService.error('Something wrong')
+          },
+          (err) => {
+            console.log(err);
+            this.toasterService.error('Something wrong');
           }
-        )
+        );
       }
-
-      
     }
   }
 
-  activateUser(id:string){
-
+  activateUser(id: string) {
     this.usersService.activateUser(id).subscribe(
-      (result)=>{
-        console.log('Activated successfully:',result);
+      (result) => {
+        console.log('Activated successfully:', result);
         this.toasterService.success('Activated Successfully');
         this.getallUsers();
-
-      },(err)=>{
-        console.log(err)
-        this.toasterService.error('Something wrong')
+      },
+      (err) => {
+        console.log(err);
+        this.toasterService.error('Something wrong');
       }
-
-    )
+    );
   }
 
   editById(body: Partial<User>) {
@@ -285,55 +286,69 @@ export class UsersComponent implements OnInit {
     this.openModal('edit');
   }
 
-  deleteProgram(id:string){
+  deleteProgram(id: string) {
     this.usersService.deleteUser(id).subscribe(
-      (res)=>{
-        this.toasterService.success("Deleted successfully")
+      (res) => {
+        this.toasterService.success('Deleted successfully');
         this.getallUsers();
         this.getallDisableStudents();
-
       },
-      (err)=>{
-        this.toasterService.error('Something wrong ')
+      (err) => {
+        this.toasterService.error('Something wrong ');
       }
-    )
+    );
   }
 
-  activatestudentniv(){
-    this.form.value.type == 'ESTUDENT' ? this.displayniv = true : this.displayniv = false
+  activatestudentniv(checked: any) {
+    checked ? (this.displayniv = true) : (this.displayniv = false);
   }
 
-  openchangepwdmodal(email:string){
-    this.emailchange=email;
+  activateOrganisationOwner(checked: any) {
+    checked
+      ? (this.displayOrganisationOwner = true)
+      : (this.displayOrganisationOwner = false);
+    this.getCompanies();
+  }
+
+  openchangepwdmodal(email: string) {
+    this.emailchange = email;
     this.clrModalOpen2 = true;
-    
   }
-  changepwd(){
-    
-    this.pwdService.changepwdbyadmin(this.emailchange,{newpassword:this.newpass}).subscribe(
-      (res)=>{
-        this.toasterService.success("Changed successfully")
-        
-      },
-      (err)=>{
-        this.toasterService.error('Something wrong')
-        
-      }
-    )
+  changepwd() {
+    this.pwdService
+      .changepwdbyadmin(this.emailchange, { newpassword: this.newpass })
+      .subscribe(
+        (res) => {
+          this.toasterService.success('Changed successfully');
+        },
+        (err) => {
+          this.toasterService.error('Something wrong');
+        }
+      );
+  }
+  // selectEOOAllRights(){
+  //     for(let i=0;i<this.EOOACCESSRIGHTS.length;i++){
+  //       this.EOOACCESSRIGHTS[i].select=true
+  //     }
+  // }
+  getCompanies() {
+    this.companyService.getCompanies().subscribe((res) => {
+      this.companies = res['response'];
+      console.log(this.companies);
+    });
   }
 
-  restore(id:string){
+  restore(id: string) {
     this.usersService.restore(id).subscribe(
-      (res)=>{
-      this.toasterService.success("restored successfully")
-      this.getallDisableStudents()
-      this.getallUsers();
+      (res) => {
+        this.toasterService.success('restored successfully');
+        this.getallDisableStudents();
+        this.getallUsers();
       },
-      (err)=>{
-        console.log("restore errror", err)
+      (err) => {
+        console.log('restore errror', err);
         this.toasterService.error('restore error');
       }
-    )
+    );
   }
-
 }

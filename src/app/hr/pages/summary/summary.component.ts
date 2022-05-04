@@ -47,7 +47,7 @@ export class SummaryComponent implements OnInit {
   }
 
   getFiles() {
-    this.summaryService.getFiles().subscribe((result) => {
+    this.summaryService.getFiles('').subscribe((result) => {
       this.files = result['response'][0]?.totalData;
       console.log('✅ this.summaryService.getFiles ~ ', this.files);
     });

@@ -17,6 +17,16 @@ const ROUTES : Array<Route>=[
     label:'Students',
   },
   {
+    link:'./companies',
+    icon:'layers',
+    label:'Company',
+  },
+  {
+    link:'./departements',
+    icon:'layers',
+    label:'Departements',
+  },
+  {
     link:'./hrusers',
     icon:'layers',
     label:'Hr users',

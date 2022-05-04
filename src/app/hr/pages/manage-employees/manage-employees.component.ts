@@ -5,6 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
@@ -33,6 +35,8 @@ export class ManageEmployeesComponent implements OnInit {
   value = 50;
   isLoading: boolean = true;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  searchNotifier = new Subject();
+  filterVal: string;
   constructor(
     private employeeService: EmployeeSummaryService,
     public dialog: MatDialog,
@@ -40,6 +44,7 @@ export class ManageEmployeesComponent implements OnInit {
     private toaster: ToasterService
   ) {
     this.viewType = 'table';
+    this.filterVal = '';
   }
   employees: MatTableDataSource<File>;
 
@@ -48,6 +53,9 @@ export class ManageEmployeesComponent implements OnInit {
   ngOnInit(): void {
     this.getAllEmployeesFiles();
     this.getUsers();
+    this.searchNotifier
+      .pipe(debounceTime(500))
+      .subscribe((data) => this.getAllEmployeesFiles());
   }
   viewContracts(employee): void {
     console.log(this.router.url);
@@ -89,7 +97,7 @@ export class ManageEmployeesComponent implements OnInit {
   }
   getAllEmployeesFiles() {
     this.isLoading = true;
-    this.employeeService.getFiles().subscribe((result) => {
+    this.employeeService.getFiles(this.filterVal).subscribe((result) => {
       if (
         result['response'][0]['totalData'] &&
         result['response'][0]['totalData'].length

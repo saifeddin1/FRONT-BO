@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { MatTableDataSource } from '@angular/material/table';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { User } from 'src/app/eidentity/models/user.model';
 import { UsersService } from 'src/app/eidentity/services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
@@ -27,6 +29,8 @@ export class TimeoffsComponent implements OnInit {
   newNotification: Notification;
   isAdmin: boolean;
   isHR: boolean;
+  searchNotifier = new Subject();
+  filterVal: string;
   shouldDisplay: boolean;
   displayedColumns: string[] = [
     'ref',
@@ -53,6 +57,7 @@ export class TimeoffsComponent implements OnInit {
     private dialog: MatDialog,
     private usersService: UserService
   ) {
+    this.filterVal = '';
     this.currUser = this.usersService.user;
     this.isAdmin = this.currUser?.type === ADMIN;
     this.isHR = this.currUser?.type === HR;
@@ -77,7 +82,9 @@ export class TimeoffsComponent implements OnInit {
   ngOnInit(): void {
     this.currUser = this.usersService.user;
     console.log(this.currUser);
-
+    this.searchNotifier
+      .pipe(debounceTime(500))
+      .subscribe((data) => this.getEmlpoyeeTimeoffs());
     this.isAdmin = this.currUser?.type === ADMIN;
     this.isHR = this.currUser?.type === HR;
     console.log('is he an admin? => ', this.isAdmin);
@@ -106,7 +113,7 @@ export class TimeoffsComponent implements OnInit {
     this.isLoading = true;
     return this.isAdmin || this.isHR
       ? this.employeeService
-          .getAllTimeoffs(this.page, this.limit)
+          .getAllTimeoffs(this.page, this.limit, this.filterVal)
           .subscribe((result) => {
             if (
               result['response'][0]['totalData'] &&
@@ -131,7 +138,7 @@ export class TimeoffsComponent implements OnInit {
             }
           })
       : this.employeeService
-          .getEmployeeTimeoffHistory(this.page, this.limit)
+          .getEmployeeTimeoffHistory(this.page, this.limit, this.filterVal)
           .subscribe((result) => {
             if (
               result['response'][0]['totalData'] &&
@@ -225,8 +232,8 @@ export class TimeoffsComponent implements OnInit {
   openDialog(event, operation, toff_id) {
     this.isOpen = true;
     const dialogRef = this.dialog.open(TimeoffAddDialogComponent, {
-      height: 'auto',
-      width: 'auto',
+      height: '400px',
+      width: '400px',
       data: {
         timeoffRequest:
           operation === 'add'

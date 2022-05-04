@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { env } from 'src/app/vc/constants/env';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,17 +10,17 @@ export class CantineService {
   constructor(private http:HttpClient) { }
 
   getAll(){
-    return this.http.get(env.VCURL+ "/VC/getCantines")
+    return this.http.get(environment.LmsApiUrl+ "/api/cantine/getCantines")
   }
   deleteOne(id:any){
-    return this.http.delete(env.VCURL +"/VC/deleteCantine/" + id)
+    return this.http.delete(environment.LmsApiUrl +"/api/cantine/deleteCantine/" + id)
   }
 
   addCantine(data:any){
-    return this.http.post(env.VCURL + "/VC/addCantine", data)
+    return this.http.post(environment.LmsApiUrl + "/api/cantine/addCantine", data)
   }
 
   update(id:any,data:any){
-    return this.http.put(env.VCURL +"/VC/editCantine/" + id, data)
+    return this.http.put(environment.LmsApiUrl +"/api/cantine/editCantine/" + id, data)
   }
 }

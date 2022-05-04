@@ -11,7 +11,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-
+// import { MatNativeDateModule } from '@angular/material';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 // import { FrontPageHeaderComponent } from './components/front-page-header/front-page-header.component';
 // import { GlobalSearchComponent } from './components/global-search/global-search.component';
 // import { IcIlProfileComponent } from './components/profile-components/ic-il-profile/ic-il-profile.component';
@@ -124,6 +125,7 @@ import { VcModule } from './vc/vc.module';
     AccountingModule,
     EidentityModule,
     VcModule,
+    MatMomentDateModule,
   ],
   // providers: [
   //   { provide: LOCALE_ID, useValue: 'fr' },

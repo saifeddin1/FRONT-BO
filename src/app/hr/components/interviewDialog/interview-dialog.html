@@ -85,10 +85,10 @@
 </ng-container>
 
 <mat-dialog-actions align="end">
-  <div mat-div [mat-dialog-close]="true">
+  <div [mat-dialog-close]="'close'">
     <button>Close</button>
   </div>
-  <div [mat-dialog-close]="'close'">
+  <div>
     <button *ngIf="isAdmin" (click)="updateRecord(interview)">Edit</button>
   </div>
 </mat-dialog-actions>
