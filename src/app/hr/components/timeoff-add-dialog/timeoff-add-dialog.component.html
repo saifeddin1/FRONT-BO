@@ -53,6 +53,12 @@
 </div>
 <mat-dialog-actions align="end" id="actions">
   <button
+    [disabled]="
+      !timeoffRequest.startDateSpecs.date ||
+      !timeoffRequest.endDateSpecs.date ||
+      timeoffRequest.startDateSpecs.from ||
+      timeoffRequest.endDateSpecs.to
+    "
     (click)="
       isAddOperation ? requestTimeoff() : updateTimeoffRequest(timeoffRequest)
     "

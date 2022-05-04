@@ -3,14 +3,10 @@
     <img
       class="profile-headshot"
       width="150px"
-      src="../../../../assets/img/{{
-        image || 'user-placeholder.png'
-      }}"
+      src="../../../../assets/img/{{ image || 'user-placeholder.png' }}"
     />
     <div class=" ">
-      <button (click)="updateuser()" matTooltip="Save Changes">
-        Save
-      </button>
+      <button (click)="updateuser()" matTooltip="Save Changes">Save</button>
     </div>
   </div>
   <div class=" ">
@@ -25,7 +21,7 @@
                 class="text-area"
                 type="text"
                 placeholder="full name"
-                value="{{updateduser.username}}"
+                value="{{ updateduser.username }}"
                 [(ngModel)]="updateduser.username"
               />
             </div>
@@ -38,11 +34,11 @@
                 class="text-area"
                 type="text"
                 placeholder="enter phone number"
-                value="{{updateduser.phone}}"
+                value="{{ updateduser.phone }}"
                 [(ngModel)]="updateduser.phone"
               />
             </div>
-            <div class="input-row">
+            <!-- <div class="input-row">
               <label class="">Address</label
               ><input
                 matInput
@@ -52,7 +48,7 @@
                 value="{{ updateduser.address }}"
                 [(ngModel)]="updateduser.address"
               />
-            </div>
+            </div> -->
 
             <div class="input-row">
               <label class=""> Email</label
@@ -61,14 +57,14 @@
                 class="text-area"
                 type="text"
                 placeholder="enter email"
-                value="{{updateduser.email }}"
+                value="{{ updateduser.email }}"
                 [(ngModel)]="updateduser.email"
               />
             </div>
           </div>
         </div>
       </div>
-      <div class="">
+      <!-- <div class="">
         <div class="">
           
           <div
@@ -88,7 +84,7 @@
             ></textarea>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>

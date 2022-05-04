@@ -40,7 +40,19 @@
   />
 </div>
 <div class="dialog-actions" id="dialog-actions">
-  <button (click)="createYearMonthItem()" *ngIf="!isEditOperation">Add</button>
-  <button *ngIf="isEditOperation" (click)="editYearMonth()">Edit</button>
+  <button
+    [disabled]="!newYearMonthItem?.title || !userId"
+    (click)="createYearMonthItem()"
+    *ngIf="!isEditOperation"
+  >
+    Add
+  </button>
+  <button
+    [disabled]="!newYearMonthItem?.title || !userId"
+    *ngIf="isEditOperation"
+    (click)="editYearMonth()"
+  >
+    Edit
+  </button>
   <button [mat-dialog-close]="'close'">Close</button>
 </div>
