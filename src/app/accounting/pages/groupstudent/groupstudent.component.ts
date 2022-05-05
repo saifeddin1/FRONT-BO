@@ -319,7 +319,7 @@ export class GroupstudentComponent implements OnInit{
   editById(body: Partial<Student>) {
     console.log("edit by id element",body)
     this.fillFormModel(body);
-    this.getallacademicterms();
+    this.getallacademicterms('form2');
     this.clrModalOpenEdit = true
     
   }
