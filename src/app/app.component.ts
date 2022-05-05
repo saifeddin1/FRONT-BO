@@ -24,11 +24,11 @@ interface Route {
 }
 const ROUTES: Array<Route> = [
   {
-    roles: [ADMIN,ORGANISATION8_OWNER],
+    roles: [ADMIN, ORGANISATION8_OWNER],
     link: 'accounting',
     label: 'Accounting System',
     icon: 'accounting',
-    modulename:'AC',
+    modulename: 'AC',
     hidden: false,
   },
   {
@@ -36,7 +36,7 @@ const ROUTES: Array<Route> = [
     link: 'hr-administration',
     label: 'HR Management',
     icon: 'hr',
-    modulename:'HR',
+    modulename: 'HR',
     hidden: false,
   },
   {
@@ -44,7 +44,7 @@ const ROUTES: Array<Route> = [
     link: 'lms',
     label: 'LMS',
     icon: 'lms',
-    modulename:'LMS',
+    modulename: 'LMS',
     hidden: false,
   },
 
@@ -53,7 +53,7 @@ const ROUTES: Array<Route> = [
     link: 'identity',
     label: 'Identity',
     icon: 'identity',
-    modulename:'ID',
+    modulename: 'ID',
     hidden: false,
   },
 
@@ -62,7 +62,7 @@ const ROUTES: Array<Route> = [
     link: 'VCDASHBOARD',
     label: 'Video Conference',
     icon: 'vc',
-    modulename:'VC',
+    modulename: 'VC',
     hidden: false,
   },
 ];
@@ -124,22 +124,22 @@ export class AppComponent implements OnInit {
   token: string = localStorage.getItem('token');
 
   ngDoCheck() {
-    this.user = this.userService.getCurrentUser();   
+    this.user = this.userService.getCurrentUser();
     if (this.user && this.user.type) {
-      if (this.user.type===ORGANISATION8_OWNER ) {
+      if (this.user.type === ORGANISATION8_OWNER) {
         this.routes = ROUTES.filter(
-          (route) =>  this.user.eooaccessmodules.includes(route.modulename) && !route.hidden
+          (route) =>
+            this.user.eooaccessmodules.includes(route.modulename) &&
+            !route.hidden
         );
-      }  
-
-      else{
+      } else {
         this.routes = ROUTES.filter(
-        (route) => route.roles.includes(this.user.type) && !route.hidden
-      );
+          (route) => route.roles.includes(this.user.type) && !route.hidden
+        );
       }
-      
     }
   }
+
   navigateTo(here: string, name: string, icon: string) {
     this.solutions = name;
     this.solutionIcon = icon;
