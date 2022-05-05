@@ -19,12 +19,16 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
-const colors: any = {
-  red: {
-    primary: '#e1e1e1',
-    secondary: '#e8fde7',
-  },
-};
+const colors: any = [
+  '#EB5353',
+  '#36AE7C',
+  '#205375',
+  '#764AF1',
+  '#DEA057',
+  '#FF6363',
+  '#E78EA9',
+  '#8479E1',
+];
 
 @Component({
   selector: 'app-timetable',
@@ -132,7 +136,10 @@ export class TimetableComponent implements OnInit, OnChanges {
               )
             ),
             title: body.note,
-            color: colors.primary,
+            color: {
+              primary: '#000',
+              secondary: colors[Math.floor(Math.random() * colors.length)],
+            },
           }));
           this.refreshView();
         }

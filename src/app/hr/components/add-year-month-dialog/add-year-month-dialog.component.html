@@ -9,27 +9,6 @@
     placeholder="yyyy-mm"
     [(ngModel)]="newYearMonthItem.title"
   />
-  <br />
-  <input
-    type="text"
-    matInput
-    class="text-area"
-    [formControl]="myControl"
-    [matAutocomplete]="auto"
-    [(ngModel)]="userId"
-  />
-  <mat-autocomplete
-    #auto="matAutocomplete"
-    [displayWith]="displayFn.bind(this)"
-  >
-    <mat-option *ngFor="let user of filteredOptions | async" [value]="user._id">
-      {{ user.username }}
-    </mat-option>
-  </mat-autocomplete>
-  <div class="adding-note">
-    Note: Adding an item will result in adding timesheets to corresponding month
-    and year.
-  </div>
 </div>
 <div mat-dialog-content *ngIf="isEditOperation">
   <input
@@ -40,7 +19,13 @@
   />
 </div>
 <div class="dialog-actions" id="dialog-actions">
-  <button (click)="createYearMonthItem()" *ngIf="!isEditOperation">Add</button>
+  <button
+    [disabled]="!newYearMonthItem?.title"
+    (click)="createYearMonthItem()"
+    *ngIf="!isEditOperation"
+  >
+    Add
+  </button>
   <button *ngIf="isEditOperation" (click)="editYearMonth()">Edit</button>
   <button [mat-dialog-close]="'close'">Close</button>
 </div>

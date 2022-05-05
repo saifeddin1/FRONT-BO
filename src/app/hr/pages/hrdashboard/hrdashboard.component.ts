@@ -152,7 +152,9 @@ export class HrdashboardComponent implements OnInit {
     this.employeeService.getActiveContract().subscribe(
       (result) => {
         this.employeeContract = result['response'];
-        this.doesEmployeeHaveContract = true;
+        if (result['response'] && result['response'].length) {
+          this.doesEmployeeHaveContract = true;
+        }
         this.employeeContract.timesheetType === 'ADMINISTRATIVE'
           ? (this.isEmployeeAdministrative = true)
           : (this.isEmployeeAdministrative = false);

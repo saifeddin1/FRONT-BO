@@ -72,6 +72,7 @@ export class UsersComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     console.log(this.checkboxtest);
+    this.getstudentniv();
   }
 
   changePage(event) {
@@ -176,7 +177,6 @@ export class UsersComponent implements OnInit {
     this.clrModalOpen1 = true;
   }
   closeModal2() {
-    
     this.clrModalOpen2 = false;
   }
 

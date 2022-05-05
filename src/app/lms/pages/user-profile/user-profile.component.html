@@ -3,14 +3,10 @@
     <img
       class="profile-headshot"
       width="150px"
-      src="../../../../assets/img/{{
-        image || 'user-placeholder.png'
-      }}"
+      src="../../../../assets/img/{{ image || 'user-placeholder.png' }}"
     />
     <div class=" ">
-      <button (click)="updateuser()" matTooltip="Save Changes">
-        Save
-      </button>
+      <button (click)="updateuser()" matTooltip="Save Changes">Save</button>
     </div>
   </div>
   <div class=" ">
@@ -25,7 +21,7 @@
                 class="text-area"
                 type="text"
                 placeholder="full name"
-                value="{{updateduser.username}}"
+                value="{{ updateduser.username }}"
                 [(ngModel)]="updateduser.username"
               />
             </div>
@@ -38,7 +34,7 @@
                 class="text-area"
                 type="text"
                 placeholder="enter phone number"
-                value="{{updateduser.phone}}"
+                value="{{ updateduser.phone }}"
                 [(ngModel)]="updateduser.phone"
               />
             </div>
@@ -49,7 +45,7 @@
                 class="text-area"
                 type="text"
                 placeholder="enter address line 1"
-                value="{{ updateduser.address }}"
+                value="{{ updateduser?.address }}"
                 [(ngModel)]="updateduser.address"
               />
             </div>
@@ -61,7 +57,7 @@
                 class="text-area"
                 type="text"
                 placeholder="enter email"
-                value="{{updateduser.email }}"
+                value="{{ updateduser.email }}"
                 [(ngModel)]="updateduser.email"
               />
             </div>
@@ -70,7 +66,6 @@
       </div>
       <div class="">
         <div class="">
-          
           <div
             style="
               display: flex;
@@ -82,7 +77,7 @@
             <textarea
               class="text-area"
               [(ngModel)]="updateduser.description"
-              value="{{updateduser.description}}"
+              value="{{ updateduser?.description }}"
               cols="30"
               rows="10"
             ></textarea>

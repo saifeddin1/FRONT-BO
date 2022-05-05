@@ -22,30 +22,6 @@
   /* Gray · 60% */
   color: var(--gray80);
 }
-
-/* .inputs-row input,
-.inputs-row select {
-  padding: 12px;
-  border-radius: 3px;
-  border: 1px solid #ccc;
-  outline: unset;
-  margin: 5px;
-  width: 300px;
-} */
-.btn-update-file {
-  display: flex;
-  justify-content: center;
-  margin-top: 2rem;
-}
-.adding-note {
-  padding-top: 1rem;
-  color: #a19f9f;
-  font-style: italic;
-  font-weight: 500;
-  font-size: 12px;
-  max-width: 300px;
-  text-align: left;
-}
 button {
   height: 2rem;
   box-shadow: 0px 4px 12px rgb(120 98 188 / 16%);
