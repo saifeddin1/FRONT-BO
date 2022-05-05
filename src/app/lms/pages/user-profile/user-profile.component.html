@@ -38,17 +38,17 @@
                 [(ngModel)]="updateduser.phone"
               />
             </div>
-            <!-- <div class="input-row">
+            <div class="input-row">
               <label class="">Address</label
               ><input
                 matInput
                 class="text-area"
                 type="text"
                 placeholder="enter address line 1"
-                value="{{ updateduser.address }}"
+                value="{{ updateduser?.address }}"
                 [(ngModel)]="updateduser.address"
               />
-            </div> -->
+            </div>
 
             <div class="input-row">
               <label class=""> Email</label
@@ -64,9 +64,8 @@
           </div>
         </div>
       </div>
-      <!-- <div class="">
+      <div class="">
         <div class="">
-          
           <div
             style="
               display: flex;
@@ -78,13 +77,13 @@
             <textarea
               class="text-area"
               [(ngModel)]="updateduser.description"
-              value="{{updateduser.description}}"
+              value="{{ updateduser?.description }}"
               cols="30"
               rows="10"
             ></textarea>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </div>

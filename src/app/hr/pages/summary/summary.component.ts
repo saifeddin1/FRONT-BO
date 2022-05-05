@@ -69,11 +69,12 @@ export class SummaryComponent implements OnInit {
         '⚡   this.summaryService.getActiveContract ~ result',
         result
       );
-
-      this.contract = result['response'];
-      new Date(this.contract?.endDate) <= new Date()
-        ? (this.contractEnded = true)
-        : (this.contractEnded = false);
+      if (result['response'] && result['response'].length) {
+        this.contract = result['response'];
+        new Date(this.contract?.endDate) <= new Date()
+          ? (this.contractEnded = true)
+          : (this.contractEnded = false);
+      }
     });
   }
 

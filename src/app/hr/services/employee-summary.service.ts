@@ -338,12 +338,16 @@ export class EmployeeSummaryService {
   }
 
   getYearMonthItem(id: string): Observable<YearMonth> {
-    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
   }
 
-  createYearMonthItem(body: YearMonth, userId: string): Observable<YearMonth> {
-    return this.http.post<YearMonth>(
-      `${this.BASE_URL}/yearMonths/${userId}`,
+  createYearMonthItem(body: YearMonth): Observable<YearMonth> {
+    return this.http.post<YearMonth>(`${this.BASE_URL}/yearMonths`, body);
+  }
+
+  generateTimesheets(userId: string, body: any): Observable<Timesheet> {
+    return this.http.post<Timesheet>(
+      `${this.BASE_URL}/yearMonths/${userId} `,
       body
     );
   }

@@ -5,6 +5,7 @@ import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { AddYearMonthDialogComponent } from '../../components/add-year-month-dialog/add-year-month-dialog.component';
+import { GenerateTimesheetsPopupComponent } from '../../components/generate-timesheets-popup/generate-timesheets-popup.component';
 import { YearMonth } from '../../models/yearMonth.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
@@ -79,20 +80,32 @@ export class YearMonthsComponent implements OnInit {
   }
 
   openCreateDialog(event) {
-    // let employee_id = event.target.id;
-    // console.log('employee_id => ', employee_id);
     const dialogRef = this.dialog.open(AddYearMonthDialogComponent, {
       height: 'auto',
       width: '500px',
-      data: {
-        users: this.users,
-        // id: employee_id,
-      },
+      data: {},
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       console.log(`Dialog result: ${result}`);
       this.getAllYearMonthItems();
+    });
+  }
+
+  generateTimesheetsDialog(event: any, item: YearMonth) {
+    console.log(item);
+
+    const dialogRef = this.dialog.open(GenerateTimesheetsPopupComponent, {
+      height: 'auto',
+      width: '500px',
+      data: {
+        users: this.users,
+        yearMonth: item,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
     });
   }
 }

@@ -54,6 +54,8 @@ import { ContractTypesDialogComponent } from './components/contract-types-dialog
 import { LevelsDialogComponent } from './components/levels-dialog/levels-dialog.component';
 import { WorkfromsDialogComponent } from './components/workfroms-dialog/workfroms-dialog.component';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { GenerateTimesheetsPopupComponent } from './components/generate-timesheets-popup/generate-timesheets-popup.component';
+import { AddTimesheetDialogComponent } from './components/add-timesheet-dialog/add-timesheet-dialog.component';
 
 @NgModule({
   declarations: [
@@ -87,6 +89,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
     ContractTypesDialogComponent,
     LevelsDialogComponent,
     WorkfromsDialogComponent,
+    GenerateTimesheetsPopupComponent,
+    AddTimesheetDialogComponent,
   ],
   imports: [
     HRRoutingModule,

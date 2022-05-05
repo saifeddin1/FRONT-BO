@@ -16,9 +16,9 @@ export class UserProfileComponent implements OnInit {
   image: string;
   fullname: string;
   phone: string;
-  // address: string;
+  address: string;
   email: string;
-  // description: string;
+  description: string;
   err: string; // `backend/routes/user.js`
   sameUser: boolean;
   username: string;
@@ -27,8 +27,8 @@ export class UserProfileComponent implements OnInit {
     username: '',
     email: '',
     phone: '',
-    // address: '',
-    // description : ''
+    address: '',
+    description: '',
   };
 
   constructor(
@@ -62,8 +62,8 @@ export class UserProfileComponent implements OnInit {
       this.updateduser.username = res.response.username;
       this.updateduser.email = res.response.email;
       this.updateduser.phone = res.response.phone;
-      // this.updateduser.address = res.response.address;
-      // this.updateduser.description = res.response.description
+      this.updateduser.address = res.response.address;
+      this.updateduser.description = res.response.description;
     });
   }
 

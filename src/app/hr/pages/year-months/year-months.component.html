@@ -32,6 +32,17 @@
         >
           <clr-icon shape="trash" style="color: red"></clr-icon>
         </button>
+        <button
+          mat-icon-button
+          class="btn btn-secondary"
+          (click)="generateTimesheetsDialog($event, element)"
+          matTooltip="Generate Timeheets"
+        >
+          <clr-icon
+            shape="calendar"
+            style="color: rgb(112, 112, 112)"
+          ></clr-icon>
+        </button>
       </td>
     </ng-container>
 
