@@ -16,7 +16,7 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./eoousers.component.css']
 })
 export class EoousersComponent implements OnInit {
-
+  eooname:any
   checkboxtest:any;
   newpass: string;
   checked=false
@@ -25,6 +25,7 @@ export class EoousersComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   clrModalOpen2: boolean = false;
+  clrModalOpen3: boolean = false;
   p: number = 1;
   limit: number = 7;
   total: number = 7;
@@ -46,11 +47,19 @@ export class EoousersComponent implements OnInit {
     'phone',
     'action' 
   ];
+  displayedColumnscompanyowner:string[]=[
+    'name',
+    'address',
+    'action'
+
+  ]
 
   companies:any;
   accessModules:any=[{id:0,module:"HR",isChecked:false},
                      {id:1,module:"AC",isChecked:false},
-                     {id:2,module:"LMS",isChecked:false}]
+                     {id:2,module:"LMS",isChecked:false},
+                     {id:3,module:"ID",isChecked:true}
+                    ]
 
   checkedAccessModules:any=[];
 
@@ -196,6 +205,11 @@ export class EoousersComponent implements OnInit {
   closeModal2() {
     this.createForm();
     this.clrModalOpen2 = false;
+    
+  }
+
+  closeModal3() {
+    this.clrModalOpen3 = false;
     
   }
 
@@ -387,6 +401,20 @@ export class EoousersComponent implements OnInit {
         this.toasterService.error('restore error');
       }
     )
+  }
+
+  getCompaniesByOwner(id){
+        this.companyService.geByowner(id).subscribe(res=>{
+          this.companies=res['response'];
+        })
+  }
+
+  openownercompaniesmodal(id:any,firstname:any,lastname){
+    this.eooname=firstname + ' ' + ' ' + lastname
+    this.clrModalOpen3 = true;
+    this.getCompaniesByOwner(id);
+    console.log(this.eooname);
+    
   }
 
 }
