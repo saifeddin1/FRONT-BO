@@ -58,7 +58,6 @@ import { LMSModule } from './lms/lms.module';
 import { LoginSignupComponent } from './pages/login-signup/login-signup.component';
 import { VcModule } from './vc/vc.module';
 
-
 @NgModule({
   declarations: [
     AppComponent,
@@ -90,7 +89,6 @@ import { VcModule } from './vc/vc.module';
     // ImgPreloaderDirective,
 
     LoginSignupComponent,
- 
   ],
   imports: [
     BrowserModule,

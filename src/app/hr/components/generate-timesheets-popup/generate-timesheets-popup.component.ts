@@ -49,11 +49,12 @@ export class GenerateTimesheetsPopupComponent implements OnInit {
   }
 
   generateTimesheets() {
+    this.toaster.info('Working ....');
     this.employeeService
       .generateTimesheets(this.userId, this.yearMonth)
       .subscribe(
         (result) => {
-          this.toaster.success(result['message']);
+          this.toaster.success(result['message'], 3000);
         },
         (e) => this.toaster.error(e.error.message)
       );

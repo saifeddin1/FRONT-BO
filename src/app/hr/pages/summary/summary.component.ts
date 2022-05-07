@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UsersService } from 'src/app/eidentity/services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
+import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -18,19 +19,28 @@ import { UserService } from 'src/app/lms/services/user.service';
 })
 export class SummaryComponent implements OnInit {
   public currUser;
-
+  isAdmin: boolean;
+  extraHours: number;
+  WorkedHours: number;
   public files: File[];
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
   contractEnded: boolean;
+  isHr: boolean;
   constructor(
     private summaryService: EmployeeSummaryService,
     private userService: UserService
   ) {
     this.currUser = this.userService.user;
     this.contractEnded = false;
+    this.isAdmin = this.currUser.type === ADMIN;
+    this.isHr = this.currUser.type === HR;
     console.log(this.currUser);
+    this.extraHours = 0;
+    this.WorkedHours = 0;
+    this.getMonthlyHours();
+    this.isHr && this.getExtraHours();
   }
   ngOnInit(): void {
     // this.getFiles();
@@ -45,7 +55,21 @@ export class SummaryComponent implements OnInit {
     let newDate = moment.utc(date)?.format('MMMM Do YYYY');
     return newDate;
   }
+  getMonthlyHours() {
+    this.summaryService
+      .getHoursMonthly(new Date().toISOString(), 'workingHours')
+      .subscribe((result) => {
+        this.WorkedHours = result['response'][0]['sum'] || 0;
+      });
+  }
 
+  getExtraHours() {
+    this.summaryService
+      .getHoursMonthly(new Date().toISOString(), 'extraHours')
+      .subscribe((result) => {
+        this.WorkedHours = result['response'][0]['sum'] || 0;
+      });
+  }
   getFiles() {
     this.summaryService.getFiles('').subscribe((result) => {
       this.files = result['response'][0]?.totalData;
@@ -69,7 +93,7 @@ export class SummaryComponent implements OnInit {
         '⚡   this.summaryService.getActiveContract ~ result',
         result
       );
-      if (result['response'] && result['response'].length) {
+      if (result['response']) {
         this.contract = result['response'];
         new Date(this.contract?.endDate) <= new Date()
           ? (this.contractEnded = true)
