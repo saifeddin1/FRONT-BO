@@ -8,5 +8,6 @@ export interface Timesheet {
   workingHours: number;
   note: string;
   userId: string;
+  extraHours: number;
   user?: IUser;
 }

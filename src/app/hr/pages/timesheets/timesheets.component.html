@@ -48,7 +48,7 @@
       </button>
     </div>
   </div>
-  <table class="table table-striped">
+  <!-- <table class="table table-striped">
     <thead>
       <th>date</th>
       <th>Note</th>
@@ -89,8 +89,7 @@
             hidden
           />
 
-          <!-- <label for="">{{ extraHours }}</label> -->
-        </td>
+         </td>
         <td>
           <mat-icon
             (click)="updateRecord(ts)"
@@ -100,10 +99,103 @@
         </td>
       </tr>
     </tbody>
-  </table>
+  </table> -->
+
+  <div class="row d-flex dates" style="position: relative">
+    <mat-form-field appearance="standard">
+      <mat-label>Filter</mat-label>
+      <input
+        matInput
+        (keyup)="applyFilter($event)"
+        placeholder="Ex. ium"
+        #input
+      />
+    </mat-form-field>
+    <div class="example-loading-shade" *ngIf="isLoading">
+      <mat-spinner></mat-spinner>
+    </div>
+    <table mat-table [dataSource]="dataSource">
+      <ng-container *ngIf="!dataSource">No timesheets</ng-container>
+
+      <!-- user Column -->
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef>Note</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.note || "Not filled by user" }}
+        </td>
+      </ng-container>
+
+      <!-- startdate Column -->
+      <ng-container matColumnDef="start">
+        <th mat-header-cell *matHeaderCellDef>Start</th>
+        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+      </ng-container>
+
+      <!-- type Column -->
+      <ng-container matColumnDef="hours">
+        <th mat-header-cell *matHeaderCellDef>Hours</th>
+        <td mat-cell *matCellDef="let element">{{ element.workingHours }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="extra">
+        <th mat-header-cell *matHeaderCellDef>Extra</th>
+        <td mat-cell *matCellDef="let element">
+          <div class="extra-hours-count">+ {{ element.extraHours || 0 }}</div>
+          <input
+            type="text"
+            value="{{ element.extraHours }}"
+            [(ngModel)]="element.extraHours"
+            hidden
+          />
+        </td>
+      </ng-container>
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td
+          class="px-3 d-flex"
+          mat-cell
+          *matCellDef="let element; let i = index"
+        >
+          <button
+            matTooltip="Update Timesheet Record"
+            mat-icon-button
+            class="btn btn-info"
+            (click)="editTimesheetDialog(element)"
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <!-- <button
+            matTooltip="Delete Timesheet Record"
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteRecord(element)"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
+          </button> -->
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+    <mat-paginator
+      *ngIf="!isLoading"
+      #paginator
+      [length]="total"
+      [pageIndex]="p"
+      [pageSize]="limit"
+      [pageSizeOptions]="[7, 14, 21, 28, 42]"
+      showFirstLastButtons
+      (page)="changePage($event)"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
 </div>
-<pagination-controls
+<!-- <pagination-controls
   (pageChange)="changePage($event)"
   previousLabel="Prev."
   nextLabel="Next"
-></pagination-controls>
+></pagination-controls> -->

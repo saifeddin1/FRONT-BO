@@ -13,12 +13,50 @@
     </div>
     <div>
       <label for="">Working Hours</label>
-      <input
-        type="number"
-        class="text-area"
-        placeholder="Hours..."
-        [(ngModel)]="timesheet.workingHours"
-      />
+      <div
+        style="
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          width: 27rem;
+        "
+      >
+        <input
+          type="number"
+          class="text-area"
+          placeholder="Hours..."
+          (change)="checkHours(timesheet)"
+          [(ngModel)]="timesheet.workingHours"
+        />
+        <div
+          *ngIf="timesheet.workingHours > 8"
+          style="
+            display: flex;
+            align-items: center;
+            width: 85px;
+            justify-content: space-between;
+          "
+        >
+          <span class="extra-hours-count">
+            + {{ timesheet.extraHours || 0 }}
+          </span>
+          hrs
+        </div>
+        <div
+          *ngIf="timesheet.workingHours < 8"
+          style="
+            display: flex;
+            align-items: center;
+            width: 85px;
+            justify-content: space-between;
+          "
+        >
+          <span class="extra-hours-count-reversed">
+            {{ timesheet.extraHours || 0 }}
+          </span>
+          hrs
+        </div>
+      </div>
     </div>
   </div>
   <div
@@ -35,7 +73,7 @@
       >
       </textarea>
     </div>
-    <div>
+    <div *ngIf="!isUserEditOperation">
       <label for="">Timing</label>
       <input
         type="datetime-local"
@@ -56,5 +94,12 @@
     Add
   </button>
   <button *ngIf="isEditOperation" (click)="updateRecord()">Edit</button>
+  <button
+    *ngIf="isUserEditOperation"
+    [disabled]="!timesheet?.note || !timesheet?.workingHours"
+    (click)="employeeEditTimesheet(timesheet)"
+  >
+    Edit
+  </button>
   <button [mat-dialog-close]="'close'">Close</button>
 </div>

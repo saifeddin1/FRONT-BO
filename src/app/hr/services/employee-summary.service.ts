@@ -217,11 +217,7 @@ export class EmployeeSummaryService {
     yearMonth: string
   ): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
-      `${
-        this.BASE_URL
-      }/timesheets/getMonthlyEmployeeTimesheets/${yearMonth}?page=${
-        p - 1
-      }&limit=${limit}`
+      `${this.BASE_URL}/timesheets/getMonthlyEmployeeTimesheets/${yearMonth}?page=${p}&limit=${limit}`
     );
   }
 

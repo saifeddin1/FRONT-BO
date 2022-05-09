@@ -16,6 +16,7 @@ import { EmployeeSummaryService } from '../../services/employee-summary.service'
 export class AddTimesheetDialogComponent implements OnInit {
   isAddOperation: boolean;
   isEditOperation: boolean;
+  isUserEditOperation: boolean;
   timesheet: Timesheet;
   myControl = new FormControl();
 
@@ -26,6 +27,7 @@ export class AddTimesheetDialogComponent implements OnInit {
   ) {
     this.isAddOperation = this.data['operation'] === 'add';
     this.isEditOperation = this.data['operation'] === 'edit';
+    this.isUserEditOperation = this.data['operation'] === 'user-edit';
     this.timesheet = this.data['timesheet'];
   }
 
@@ -42,7 +44,14 @@ export class AddTimesheetDialogComponent implements OnInit {
       (e) => this.toaster.error(e.error.message)
     );
   }
-
+  checkHours(timesheet) {
+    // if (timesheet.workingHours > 8) {
+    // this.getExtraHours();
+    timesheet.extraHours = timesheet.workingHours - 8;
+    // } else {
+    // timesheet.extraHours = 0;
+    // }
+  }
   updateRecord() {
     this.employeeService
       .updateTimeSheet(this.timesheet._id, {
@@ -59,6 +68,28 @@ export class AddTimesheetDialogComponent implements OnInit {
         },
 
         (e) => this.toaster.error(e.error.message)
+      );
+  }
+
+  employeeEditTimesheet(timesheet) {
+    console.log(timesheet);
+
+    return this.employeeService
+      .updateEmployeeTimeSheet(timesheet._id, {
+        note: timesheet.note,
+        workingHours: timesheet.workingHours,
+        date: new Date(timesheet.date),
+        extraHours: timesheet.extraHours,
+      })
+
+      .subscribe(
+        (result) => {
+          this.toaster.success(result['message']);
+          console.log(result);
+        },
+        (err) => {
+          this.toaster.error(err?.error.message);
+        }
       );
   }
 }
