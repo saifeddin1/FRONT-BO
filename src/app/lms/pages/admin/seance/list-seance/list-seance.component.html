@@ -103,10 +103,10 @@
 
           <div class="position-top">
             <strong class="modalcol3">Instructeur</strong>
-            <mat-select class="text-area modalcol" formControlName="userId">
-              <mat-option *ngFor="let instructor of instructors" [value]="instructor?._id">{{instructor?.name}}
-              </mat-option>
-            </mat-select>
+            <select class="text-area modalcol" formControlName="userId">
+              <option *ngFor="let instructor of instructors" [value]="instructor._id">{{instructor.name}}
+              </option>
+            </select>
           </div>
 
           <!-- column description -->

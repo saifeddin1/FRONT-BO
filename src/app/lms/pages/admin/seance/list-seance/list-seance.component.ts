@@ -39,6 +39,7 @@ export class ListSeanceComponent implements OnInit {
     this.getAllInstructorsNames();
   }
   instructors: { _id: string; profile: { fullname: string } }[] = [];
+
   instructorsNames: string[] = [];
   getAllInstructorsNames() {
     this.userService.getAllInstructorsNames().subscribe(
@@ -51,6 +52,7 @@ export class ListSeanceComponent implements OnInit {
             {}
           );
         }
+      console.log("MMMMM", this.instructors)
       },
       (error) => {
         console.error('error :', error);
