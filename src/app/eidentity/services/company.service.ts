@@ -28,5 +28,8 @@ export class CompanyService {
   geByowner(id:any):Observable<any>{
     return this.http.get<any>(environment.IdentityApi +"/api/v1/company/companybyowner/" + id)
   }
+  editcompany(id:any,data:any):Observable<any>{
+    return this.http.get<any>(environment.IdentityApi +"/api/v1/company/editCompany/" + id , data)
+  }
 
 }

@@ -27,14 +27,14 @@
           </select>
       
           
-  <div class="btn-update-file">
-    <button (click)="addDepartement()">
-      Send
-    </button >
-    <button (click)="closeModal()">
-      cancel
-    </button >
-  </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+              Fermer
+            </button>
+            <button class="btn btn-ok btn-outline" type="submit" (click)="addDepartement()" >
+              Valider
+            </button>
+          </div>
   
   </ng-template>
 
