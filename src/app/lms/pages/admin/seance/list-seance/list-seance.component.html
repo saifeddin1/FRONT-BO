@@ -1,10 +1,18 @@
-<div class="dashboard ">
+<div class="dashboard">
   <div class="events-container">
-    <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
       <h6>Tableau des Séances</h6>
       <div class="profile-card">
         <div class="edit-button">
-          <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openModal()"
+            *ngIf="canManage"
+          >
             Ajouter Une Séance
           </button>
         </div>
@@ -14,77 +22,107 @@
   <!-------------------------------TAble----------------------------------------------------------------------------------->
   <div class="row d-flex dates">
     <table mat-table [dataSource]="dataSource">
-
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Titre </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <th mat-header-cell *matHeaderCellDef>Titre</th>
+        <td mat-cell *matCellDef="let element">{{ element.name }}</td>
       </ng-container>
 
       <ng-container matColumnDef="userId">
-        <th mat-header-cell *matHeaderCellDef> Instructeur </th>
-        <td mat-cell *matCellDef="let element"> {{getInstuctorName(element?.userId)}} </td>
+        <th mat-header-cell *matHeaderCellDef>Instructeur</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getInstuctorName(element?.userId) }}
+        </td>
       </ng-container>
 
       <!-- url Column -->
       <ng-container matColumnDef="url">
-        <th mat-header-cell *matHeaderCellDef> Lien </th>
-        <td mat-cell *matCellDef="let element"> <a [href]="element.url">{{(element?.url?.length>15)? (element?.url |
-            slice:0:15)+'...':(element?.url) }} </a></td>
+        <th mat-header-cell *matHeaderCellDef>Lien</th>
+        <td mat-cell *matCellDef="let element">
+          <a [href]="element.url"
+            >{{
+              element?.url?.length > 15
+                ? (element?.url | slice: 0:15) + "..."
+                : element?.url
+            }}
+          </a>
+        </td>
       </ng-container>
 
       <!-- Start Date Column -->
       <ng-container matColumnDef="startDate">
-        <th mat-header-cell *matHeaderCellDef> startDate </th>
-        <td mat-cell *matCellDef="let element"> {{element.startDate | date : 'short'}} </td>
+        <th mat-header-cell *matHeaderCellDef>startDate</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.startDate | date: "short" }}
+        </td>
       </ng-container>
 
       <!-- End Date Column -->
       <ng-container matColumnDef="endDate">
-        <th mat-header-cell *matHeaderCellDef> endDate </th>
-        <td mat-cell *matCellDef="let element"> {{element.endDate | date : 'short' }} </td>
+        <th mat-header-cell *matHeaderCellDef>endDate</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.endDate | date: "short" }}
+        </td>
       </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-
-          <button id="niv-button" mat-icon-button class="btn btn-info" (click)="goToSeanceExercices(element._id)">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            id="niv-button"
+            mat-icon-button
+            class="btn btn-info"
+            (click)="goToSeanceExercices(element._id)"
+          >
             Exercices
           </button>
 
-          <button id="niv-button" mat-icon-button class="btn btn-info" (click)="goToSeanceNiveau(element._id)">
+          <button
+            id="niv-button"
+            mat-icon-button
+            class="btn btn-info"
+            (click)="goToSeanceNiveau(element._id)"
+          >
             Niveaux
           </button>
-          <button mat-icon-button class="btn btn-info" (click)="editById(element)"
-            *ngIf="canManage && canManageHomework">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="editById(element)"
+            *ngIf="canManage && canManageHomework"
+          >
             <clr-icon shape="pencil"></clr-icon>
           </button>
 
-          <button mat-icon-button class="btn btn-info" (click)="deleteById(element._id,i)"
-            *ngIf="canManage && canManageHomework">
-            <clr-icon shape="trash" style="color: red;"></clr-icon>
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="deleteById(element._id, i)"
+            *ngIf="canManage && canManageHomework"
+          >
+            <clr-icon shape="trash" style="color: red"></clr-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-    <mat-paginator class="fullWidth" [length]="paginatorOptions.length" (page)="getNext($event)"
-      [pageSize]="paginatorOptions.pageSize">
+    <mat-paginator
+      class="fullWidth"
+      [length]="paginatorOptions.length"
+      (page)="getNext($event)"
+      [pageSize]="paginatorOptions.pageSize"
+    >
     </mat-paginator>
   </div>
 </div>
 
-
-
 <!-- ADD Offre -->
 
 <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
-
-  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+  <ng-container *ngIf="modalType == 'add'; else editModalBloc">
     <h3 class="modal-title">Ajouter Une Séance</h3>
   </ng-container>
   <ng-template #editModalBloc>
@@ -98,13 +136,22 @@
           <!-- column Titre -->
           <div class="position-top modalRow">
             <strong class="modalcol3">Titre</strong>
-            <input matInput class="text-area modalcol" placeholder="titre" formControlName="name">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="titre"
+              formControlName="name"
+            />
           </div>
 
           <div class="position-top">
             <strong class="modalcol3">Instructeur</strong>
             <select class="text-area modalcol" formControlName="userId">
-              <option *ngFor="let instructor of instructors" [value]="instructor._id">{{instructor.name}}
+              <option
+                *ngFor="let instructor of instructors"
+                [value]="instructor._id"
+              >
+                {{ instructor.username }}
               </option>
             </select>
           </div>
@@ -112,49 +159,81 @@
           <!-- column description -->
           <div class="position-top">
             <strong class="modalcol3">Description</strong>
-            <textarea matInput class="text-area modalcol" placeholder="Description" formControlName="description"
-              rows="5"></textarea>
+            <textarea
+              matInput
+              class="text-area modalcol"
+              placeholder="Description"
+              formControlName="description"
+              rows="5"
+            ></textarea>
           </div>
 
           <!-- column Url -->
           <div class="position-top">
             <strong class="modalcol3">Lien Apprenant</strong>
-            <input matInput class="text-area modalcol" placeholder="Lien Apprenant" formControlName="url">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="Lien Apprenant"
+              formControlName="url"
+            />
           </div>
 
           <!-- column Url -->
           <div class="position-top">
             <strong class="modalcol3">Lien Instructeur</strong>
-            <input matInput class="text-area modalcol" placeholder="Lien Instructeur(facultatif)"
-              formControlName="urlInstructor">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="Lien Instructeur(facultatif)"
+              formControlName="urlInstructor"
+            />
           </div>
 
           <!-- column Url -->
           <div class="position-top">
             <strong class="modalcol3">Authentification</strong>
-            <input matInput class="text-area modalcol" placeholder="Authentification"
-              formControlName="urlAuthInstructor">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="Authentification"
+              formControlName="urlAuthInstructor"
+            />
           </div>
 
           <!-- column Date Fin -->
           <div class="position-top">
             <strong class="modalcol3">Date Début</strong>
-            <input matInput type="datetime-local" class="text-area modalcol" placeholder="Date Debut"
-              formControlName="startDate">
+            <input
+              matInput
+              type="datetime-local"
+              class="text-area modalcol"
+              placeholder="Date Debut"
+              formControlName="startDate"
+            />
           </div>
 
           <!-- column Date Debut -->
           <div class="position-top">
             <strong class="modalcol3">Date Fin</strong>
-            <input matInput type="datetime-local" class="text-area modalcol" placeholder="Date Fin"
-              formControlName="endDate">
+            <input
+              matInput
+              type="datetime-local"
+              class="text-area modalcol"
+              placeholder="Date Fin"
+              formControlName="endDate"
+            />
           </div>
         </div>
       </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+    <button
+      type="button"
+      class="btn btn-ok btn-outline btn-cancel"
+      (click)="closeModal()"
+    >
       Cancel
     </button>
     <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">

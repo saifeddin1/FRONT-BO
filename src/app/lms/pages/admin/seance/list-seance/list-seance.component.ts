@@ -15,7 +15,7 @@ import {
 } from '../../../../services/toaster.service';
 import { ADMIN, INSTRUCTOR } from '../../../../constants/roles.constant';
 import { MatPaginator } from '@angular/material/paginator';
-
+import { UsersService } from 'src/app/eidentity/services/users.service';
 @Component({
   selector: 'app-list-seance',
   templateUrl: './list-seance.component.html',
@@ -24,6 +24,7 @@ import { MatPaginator } from '@angular/material/paginator';
 export class ListSeanceComponent implements OnInit {
   clrModalOpen: boolean = false;
   constructor(
+    private identityService: UsersService,
     private seanceService: SeanceService,
     private toasterService: ToasterService,
     private router: Router,
@@ -38,21 +39,20 @@ export class ListSeanceComponent implements OnInit {
     );
     this.getAllInstructorsNames();
   }
-  instructors: { _id: string; profile: { fullname: string } }[] = [];
+  instructors: User[] = [];
 
   instructorsNames: string[] = [];
   getAllInstructorsNames() {
-    this.userService.getAllInstructorsNames().subscribe(
+    this.identityService.getallInstructor().subscribe(
       (res) => {
         console.log('Users : ', res);
-        if (res && res.length) {
-          this.instructors = res;
-          this.instructorsNames = res.reduce(
-            (a, v) => ({ ...a, [v._id]: v.name }),
-            {}
+        if (res && res.response.length) {
+          this.instructors = res['response'];
+          this.instructors.forEach((el) =>
+            this.instructorsNames.unshift(el.username)
           );
         }
-      console.log("MMMMM", this.instructors)
+        console.log('MMMMM', this.instructorsNames);
       },
       (error) => {
         console.error('error :', error);
@@ -75,16 +75,9 @@ export class ListSeanceComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     var user: User = this.userService.getCurrentUser();
-    if (user.type === ADMIN) {
+    if (user.type === ADMIN || user.type === INSTRUCTOR) {
       this.canManage = true;
       this.canManageHomework = true;
-    } else {
-      if (user && user.type === INSTRUCTOR && user.permissions.seance) {
-        this.canManage = true;
-        if (user.permissions.homework) {
-          this.canManageHomework = true;
-        }
-      }
     }
   }
 
