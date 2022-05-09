@@ -11,6 +11,7 @@ import { throwError } from 'rxjs';
 import { UsersService } from 'src/app/eidentity/services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
 import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -72,14 +73,26 @@ export class SummaryComponent implements OnInit {
   }
   getFiles() {
     this.summaryService.getFiles('').subscribe((result) => {
-      this.files = result['response'][0]?.totalData;
+      let res = result['response'][0]['totalData'];
+      res.forEach((element) => {
+        if (element.profile.image) {
+          element.profile.image = `${environment.HRApi}/files/documents/${element.profile.image}`;
+        }
+      });
+      this.files = res;
       console.log('✅ this.summaryService.getFiles ~ ', this.files);
     });
   }
 
   getEmployeeFileDetails() {
     this.summaryService.getFileDetails().subscribe((result) => {
-      this.userFile = result['response'][0];
+      let res = result['response'][0];
+
+      if (res.profile.image) {
+        res.profile.image = `${environment.HRApi}/files/documents/${res.profile.image}`;
+      }
+
+      this.userFile = res;
       console.log(
         '✅ this.summaryService.getEmployeeFileDetails ~ ',
         this.userFile

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
 import { ADMIN } from 'src/app/lms/constants/roles.constant';
 import { UserService } from 'src/app/lms/services/user.service';
+import { environment } from 'src/environments/environment';
 import { CollaboratorDialogComponent } from '../../components/collaborator-dialog/collaborator-dialog.component';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 
@@ -32,18 +33,30 @@ export class CollaboratorsComponent implements OnInit {
     this.isAdmin = this.user?.type === ADMIN;
   }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getAllEmployeesFiles();
-  } 
+  }
   getAllEmployeesFiles() {
     return this.isAdmin
       ? this.summaryService.getFiles('').subscribe((result) => {
           console.log('⚡ getAllEmployeesFiles ~', result);
-          this.allEmployees = result['response'][0]['totalData'];
+          let res = result['response'][0]['totalData'];
+          res.forEach((element) => {
+            if (element.profile.image) {
+              element.profile.image = `${environment.HRApi}/files/documents/${element.profile.image}`;
+            }
+          });
+          this.allEmployees = res;
           this.isLoading = false;
         })
       : this.summaryService.getCollaborators().subscribe((result) => {
-          this.allEmployees = result['response'][0]?.totalData;
+          let res = result['response'][0]['totalData'];
+          res.forEach((element) => {
+            if (element.profile.image) {
+              element.profile.image = `${environment.HRApi}/files/documents/${element.profile.image}`;
+            }
+          });
+          this.allEmployees = res;
           this.isLoading = false;
         });
   }

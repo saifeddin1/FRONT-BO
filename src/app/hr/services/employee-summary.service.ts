@@ -139,7 +139,21 @@ export class EmployeeSummaryService {
   createEmployeeFile(body: File): Observable<File> {
     return this.http.post<File>(`${this.BASE_URL}/files`, body);
   }
+  // downLoadFile(data: any, type: string) {
+  //   let blob = new Blob([data], { type: type });
+  //   let url = window.URL.createObjectURL(blob);
+  //   console.log(url);
 
+  //   return url;
+  // }
+  getProfileImg(imgId: string): any {
+    return this.http.get(`${this.BASE_URL}/files/documents/${imgId}`, {
+      responseType: 'blob' as 'json',
+    });
+  }
+  uploadProfilePic(image) {
+    return this.http.post(`${this.BASE_URL}/files/upload`, image);
+  }
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
