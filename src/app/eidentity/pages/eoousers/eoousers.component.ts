@@ -55,7 +55,8 @@ export class EoousersComponent implements OnInit {
   ]
 
   companies:any;
-  accessModules:any=[{id:0,module:"HR",isChecked:false},
+  accessModules:any=[
+                     {id:0,module:"HR",isChecked:false},
                      {id:1,module:"AC",isChecked:false},
                      {id:2,module:"LMS",isChecked:false},
                      {id:3,module:"ID",isChecked:true}
