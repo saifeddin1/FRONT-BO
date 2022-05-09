@@ -92,11 +92,14 @@ export class ProfileComponent implements OnInit {
     console.log(e);
     const formData = new FormData();
     formData.append('file', e.target.files[0]);
+    this.toastr.info('Uploading Photo, Please Be patient');
     this.summaryService.uploadProfilePic(formData).subscribe(
       (result) => {
         console.log(result);
+        this.getEmployeeFileDetails();
+        this.toastr.success('Uploaded Successfuly!');
       },
-      (e) => console.log(e.error.message)
+      (e) => this.toastr.error(e.error.message)
     );
   }
   getAllWorkFromItems() {

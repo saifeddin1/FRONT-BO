@@ -18,6 +18,7 @@ import { EmployeeContractsComponent } from './pages/employee-contracts/employee-
 import { EmployeeInterviewsComponent } from './pages/employee-interviews/employee-interviews.component';
 import { YearMonthsComponent } from './pages/year-months/year-months.component';
 import { ContractSettingsComponent } from './pages/contract-settings/contract-settings.component';
+import { DeclarationsComponent } from './pages/declarations/declarations.component';
 
 const routes: Routes = [
   {
@@ -45,6 +46,10 @@ const routes: Routes = [
       {
         path: 'timesheetManagement/detail/:userId',
         component: UserTimesheetsComponent,
+      },
+      {
+        path: 'declarations',
+        component: DeclarationsComponent,
       },
       {
         path: 'manage-employees',

@@ -56,6 +56,7 @@ import { WorkfromsDialogComponent } from './components/workfroms-dialog/workfrom
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { GenerateTimesheetsPopupComponent } from './components/generate-timesheets-popup/generate-timesheets-popup.component';
 import { AddTimesheetDialogComponent } from './components/add-timesheet-dialog/add-timesheet-dialog.component';
+import { DeclarationsComponent } from './pages/declarations/declarations.component';
 
 @NgModule({
   declarations: [
@@ -91,6 +92,7 @@ import { AddTimesheetDialogComponent } from './components/add-timesheet-dialog/a
     WorkfromsDialogComponent,
     GenerateTimesheetsPopupComponent,
     AddTimesheetDialogComponent,
+    DeclarationsComponent,
   ],
   imports: [
     HRRoutingModule,

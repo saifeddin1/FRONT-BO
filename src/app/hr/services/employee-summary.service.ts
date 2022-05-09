@@ -18,6 +18,7 @@ import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
 import { Timeslot } from '../models/timeslot.model';
 import { WorkFrom } from '../models/WorkFrom.model';
 import { YearMonth } from '../models/yearMonth.model';
+import { DeclarationsComponent } from '../pages/declarations/declarations.component';
 
 @Injectable({
   providedIn: 'root',
@@ -270,6 +271,11 @@ export class EmployeeSummaryService {
     );
   }
 
+  getAllDeclarations(): Observable<TimesheetDeclaration> {
+    return this.http.get<TimesheetDeclaration>(
+      `${this.BASE_URL}/timesheetdeclarations`
+    );
+  }
   getHoursMonthly(date: string, field: string): Observable<Number> {
     return this.http.get<Number>(
       `${this.BASE_URL}/timesheets/getMonthlyHours/${date}?field=${field}`

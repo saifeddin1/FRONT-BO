@@ -179,8 +179,8 @@ export class LoginSignupComponent implements OnInit {
           console.log(this.userService.user);
 
           if (
-            this.userService.user.type === STUDENT ||
-            this.userService.user.type === INSTRUCTOR
+            this.userService.user.type === STUDENT
+            //  || this.userService.user.type === INSTRUCTOR
           ) {
             this.router.navigate(['lms']);
           } else if (
@@ -327,7 +327,7 @@ export class LoginSignupComponent implements OnInit {
 
   ngOnInit(): void {
     if (!!this.userService.getCurrentUser()) {
-      this.router.navigate(['lms/dashboard']);
+      this.router.navigate(['lms/calendar']);
     }
   }
 }

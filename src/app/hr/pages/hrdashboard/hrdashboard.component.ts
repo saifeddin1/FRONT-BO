@@ -15,22 +15,22 @@ interface Route {
   hidden: boolean;
 }
 const ROUTES: Array<Route> = [
-  {
-    roles: [INSTRUCTOR, HR, ADMIN],
-    link: './',
-    icon: 'book',
-    status: 'active',
-    label: 'Summary',
-    hidden: false,
-  },
-  {
-    roles: [INSTRUCTOR, HR, ADMIN],
-    link: './profile',
-    icon: 'user',
-    status: 'active',
-    label: 'Profile',
-    hidden: false,
-  },
+  // {
+  //   roles: [INSTRUCTOR, HR, ADMIN],
+  //   link: './',
+  //   icon: 'book',
+  //   status: 'active',
+  //   label: 'Summary',
+  //   hidden: false,
+  // },
+  // {
+  //   roles: [INSTRUCTOR, HR, ADMIN],
+  //   link: './profile',
+  //   icon: 'user',
+  //   status: 'active',
+  //   label: 'Profile',
+  //   hidden: false,
+  // },
   {
     roles: [INSTRUCTOR, HR],
     link: './collaborators',
@@ -80,6 +80,14 @@ const ROUTES: Array<Route> = [
     icon: 'calendar',
     status: 'active',
     label: 'Timesheets',
+    hidden: false,
+  },
+  {
+    roles: [ADMIN],
+    link: './declarations',
+    icon: 'calendar',
+    status: 'active',
+    label: 'Declarations',
     hidden: false,
   },
   {
@@ -188,10 +196,12 @@ export class HrdashboardComponent implements OnInit {
           route.hidden =
             !this.doesEmployeeHaveContract || !this.isEmployeeAdministrative;
           this.isLoading = false;
-        } else if (route.label === 'Summary' || route.label === 'Profile') {
-          route.hidden = false;
-          this.isLoading = false;
-        } else {
+        }
+        //  else if (route.label === 'Summary' || route.label === 'Profile') {
+        //   route.hidden = false;
+        //   this.isLoading = false;
+        // }
+        else {
           route.hidden = !this.doesEmployeeHaveContract;
           this.isLoading = false;
         }
