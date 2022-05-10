@@ -62,7 +62,7 @@
           type="text"
           value="{{ contract?.hoursNumber }}"
           [(ngModel)]="contract.hoursNumber"
-          placeholder="40..."
+          placeholder="Enter value between 40 and 48"
         />
       </div>
     </div>
@@ -140,8 +140,17 @@
         </div>
         &nbsp; &nbsp; &nbsp; &nbsp;
         <div>
-          <label>Annual Componsation</label
-          ><input
+          <label>Annual Componsation</label>
+          <span
+            style="color: red"
+            *ngIf="
+              this.contract.salary.annualCompensation?.annual !== '' &&
+              this.contract.salary.annualCompensation?.annual < 5
+            "
+          >
+            Must be more than 5
+          </span>
+          <input
             [disabled]="isViewOperation"
             class="text-area"
             type="text"
@@ -152,8 +161,17 @@
       </div>
       <div class="inputs-row">
         <div>
-          <label>Gross </label
-          ><input
+          <label>Gross </label>
+          <span
+            style="color: red"
+            *ngIf="
+              this.contract.salary.annualCompensation?.gross !== '' &&
+              this.contract.salary.annualCompensation?.gross < 5
+            "
+          >
+            Must be more than 5
+          </span>
+          <input
             [disabled]="isViewOperation"
             class="text-area"
             type="text"
@@ -162,7 +180,15 @@
           />
         </div>
         <div>
-          <label>Effective</label
+          <label>Effective</label>
+          <span
+            style="color: red"
+            *ngIf="
+              this.contract.salary.annualCompensation?.effective !== '' &&
+              this.contract.salary.annualCompensation?.effective < 5
+            "
+          >
+            Must be more than 5 </span
           ><input
             [disabled]="isViewOperation"
             class="text-area"
@@ -178,7 +204,8 @@
     <h3>Salary information</h3>
     <div class="inputs-row">
       <div>
-        <label>Seniority</label
+        <label>Seniority</label>
+
         ><input
           [disabled]="isViewOperation"
           class="text-area"
@@ -189,8 +216,17 @@
       </div>
 
       <div>
-        <label>Annual Componsation</label
-        ><input
+        <label>Annual Componsation</label>
+        <span
+          style="color: red"
+          *ngIf="
+            this.contract.salary.annualCompensation?.annual !== '' &&
+            this.contract.salary.annualCompensation?.annual < 5
+          "
+        >
+          Must be more than 5
+        </span>
+        <input
           [disabled]="isViewOperation"
           class="text-area"
           type="text"
@@ -202,7 +238,15 @@
     </div>
     <div class="inputs-row">
       <div>
-        <label>Gross</label
+        <label>Gross</label>
+        <span
+          style="color: red"
+          *ngIf="
+            this.contract.salary.annualCompensation?.gross !== '' &&
+            this.contract.salary.annualCompensation?.gross < 5
+          "
+        >
+          Must be more than 5 </span
         ><input
           [disabled]="isViewOperation"
           class="text-area"
@@ -212,7 +256,15 @@
         />
       </div>
       <div>
-        <label>Effective</label
+        <label>Effective</label>
+        <span
+          style="color: red"
+          *ngIf="
+            this.contract.salary.annualCompensation?.effective !== '' &&
+            this.contract.salary.annualCompensation?.effective < 5
+          "
+        >
+          Must be more than 5 </span
         ><input
           [disabled]="isViewOperation"
           class="text-area"
@@ -227,6 +279,14 @@
 
 <mat-dialog-actions align="end">
   <button
+    [disabled]="
+      !contract?.userId ||
+      !contract.status ||
+      !contract?.contractType ||
+      !contract?.startDate ||
+      !contract?.endDate ||
+      !contract.timesheetType
+    "
     mat-button
     *ngIf="data['dialogOperation'] === 'edit'"
     (click)="updateContractWithSalary(contract)"
@@ -237,6 +297,14 @@
     mat-button
     *ngIf="data['dialogOperation'] === 'add'"
     (click)="addContract(contract)"
+    [disabled]="
+      !contract?.userId ||
+      !contract.status ||
+      !contract?.contractType ||
+      !contract?.startDate ||
+      !contract?.endDate ||
+      !contract.timesheetType
+    "
   >
     Add
   </button>

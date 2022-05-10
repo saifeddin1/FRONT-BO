@@ -9,7 +9,19 @@
 </div>
 
 <div class="dialog-actions" id="dialog-actions">
-  <button (click)="createWorkfrom()" *ngIf="!isEditOperation">Add</button>
-  <button *ngIf="isEditOperation" (click)="editWorkFrom()">Edit</button>
+  <button
+    [disabled]="!workfrom?.title"
+    (click)="createWorkfrom()"
+    *ngIf="!isEditOperation"
+  >
+    Add
+  </button>
+  <button
+    [disabled]="!workfrom?.title"
+    *ngIf="isEditOperation"
+    (click)="editWorkFrom()"
+  >
+    Edit
+  </button>
   <button [mat-dialog-close]="'close'">Close</button>
 </div>

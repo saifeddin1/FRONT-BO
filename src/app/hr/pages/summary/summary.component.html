@@ -4,53 +4,104 @@
     <mat-icon>error</mat-icon>
   </div>
   <div class="summary-wrapper">
-    <div class="hr-card profile">
-      <div class="headshot">
-        <img
-          src="../../../../assets/img/{{
-            userFile?.profile.image || 'user-placeholder.png'
-          }}"
-          alt=""
-        />
-      </div>
-      <div class="info-column">
-        <h4>{{ userFile?.userRef || "John Doe" }}</h4>
-
-        <div class="position">
-          <mat-icon>business_center</mat-icon> &nbsp;
-          {{ userFile?.profile.position || "Super Employee" }}
+    <div class="profile-wrapper">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'compass'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; Overview</span
+      >
+      <div _ngcontent-isw-c373="" class="hr-card profile">
+        <div _ngcontent-isw-c373="" class="headshot">
+          <img
+            src="{{
+              userFile?.profile.image ||
+                '../../../../assets/img/user-placeholder.png'
+            }}"
+            alt=""
+          />
         </div>
-        <div class="address bold-text">
-          <mat-icon>location_on</mat-icon> &nbsp;
-          {{ userFile?.profile.address || "Mars" }}
+        <div _ngcontent-isw-c373="" class="info-column">
+          <h4>{{ userFile?.userRef || "John Doe" }}</h4>
+          <div _ngcontent-isw-c373="" class="position">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >business_center</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.position || "Super Employee" }}
+          </div>
+          <div _ngcontent-isw-c373="" class="address bold-text">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >location_on</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.address || "Mars" }}
+          </div>
+          <p _ngcontent-isw-c373="">
+            {{ userFile?.profile.description || "I'm a mysterious individual" }}
+          </p>
         </div>
-        <p>
-          {{ userFile?.profile.description || "I'm a mysterious individual" }}
-        </p>
-      </div>
-      <div class="info-column">
-        <div class="birth line-height-lg">
-          <mat-icon>face</mat-icon> &nbsp;
-          {{ userFile?.profile?.birthdate || "June, 20th" }}
-        </div>
-
-        <div class="email line-height-lg">
-          <mat-icon> email</mat-icon> &nbsp;
-          {{ userFile?.profile.proEmail || "John@doe.com" }}
+        <div _ngcontent-isw-c373="" class="info-column">
+          <div _ngcontent-isw-c373="" class="birth line-height-lg">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >face</mat-icon
+            >
+            &nbsp; June, 20th
+          </div>
+          <div _ngcontent-isw-c373="" class="email line-height-lg">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+            >
+              email</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.proEmail || "John@doe.com" }}
+          </div>
         </div>
       </div>
     </div>
     <div class="timeoff-balance">
-      <span class="title"> TimeOff Balance</span>
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'on-holiday'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; TimeOff Balance</span
+      >
       <div class="hr-card">
-        <span>{{ userFile?.timeOffBalance || 0 }}</span>
+        <!-- <span>{{ userFile?.timeOffBalance || 0 }}</span> <br /> -->
+        <span> {{ 24 - userFile?.timeOffBalance || 0 }} Taken</span>
+        <span> {{ userFile?.timeOffBalance || 0 }} Remaining</span>
       </div>
     </div>
   </div>
 
   <div class="summary-wrapper">
     <div class="contract">
-      <h4 class="heading">Active Contract</h4>
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'copy'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; {{ isAdmin ? "All Active Contracts" : "Active Contract" }}
+      </span>
       <div *ngIf="contract" class="hr-card">
         <div class="row">
           <div class="col">
@@ -84,15 +135,24 @@
             {{ contract?.endDate | date }}
           </div>
         </div>
+        <a routerLink="./manage-contracts" *ngIf="contract" class="visit-all"
+          >All Contracts</a
+        >
       </div>
       <div class="hr-card" *ngIf="!contract">
         <span>No Active Contracts.</span>
       </div>
     </div>
     <div class="interviews">
-      <h4 class="heading">Upcoming Interviews</h4>
-      <div *ngIf="interviews && interviews.length">
-        <div *ngFor="let interview of interviews" class="hr-card">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'form'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; {{ isAdmin ? "All Upcoming Interviews" : "Upcoming Interviews" }}
+      </span>
+      <div *ngIf="interviews && interviews.length" class="hr-card">
+        <div *ngFor="let interview of interviews">
           <div class="row lh-lg">
             <div class="col-5">
               <span class="bold-text">Interview Date :</span>
@@ -108,9 +168,69 @@
             </div>
           </div>
         </div>
+        <a routerLink="./interviews" class="visit-all">All Interviews</a>
       </div>
       <div *ngIf="!interviews || !interviews.length" class="hr-card">
         No upcoming interviews
+      </div>
+    </div>
+
+    <div class="extrahours" *ngIf="!isAdmin">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'calendar'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; Monthly Hours
+      </span>
+      <div
+        *ngIf="isHr"
+        class="hr-card"
+        style="
+          display: flex;
+          align-items: center;
+          width: 97%;
+          justify-content: space-between;
+          margin-block: 5px;
+        "
+      >
+        <div>
+          <clr-icon
+            [attr.shape]="'clock'"
+            style="height: 30px; width: 30px"
+            role="none"
+          >
+          </clr-icon>
+          Extra Hours
+        </div>
+        <div class="hours-value">
+          <span>{{ extraHours }} hrs</span>
+          <span>Hours this Month</span>
+        </div>
+      </div>
+      <div
+        class="hr-card"
+        style="
+          display: flex;
+          align-items: center;
+          width: 97%;
+          justify-content: space-between;
+          margin-block: 5px;
+        "
+      >
+        <div>
+          <clr-icon
+            [attr.shape]="'clock'"
+            style="height: 30px; width: 30px"
+            role="none"
+          >
+          </clr-icon>
+          Worked Hours
+        </div>
+        <div class="hours-value">
+          <span>{{ WorkedHours }} hrs</span>
+          <span>Hours this Month</span>
+        </div>
       </div>
     </div>
   </div>

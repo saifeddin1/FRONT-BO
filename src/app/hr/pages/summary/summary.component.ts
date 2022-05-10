@@ -10,6 +10,8 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UsersService } from 'src/app/eidentity/services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
+import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-emplyee-profile',
@@ -18,19 +20,28 @@ import { UserService } from 'src/app/lms/services/user.service';
 })
 export class SummaryComponent implements OnInit {
   public currUser;
-
+  isAdmin: boolean;
+  extraHours: number;
+  WorkedHours: number;
   public files: File[];
   public userFile: File;
   public contract: Contract;
   public interviews: Interview[];
   contractEnded: boolean;
+  isHr: boolean;
   constructor(
     private summaryService: EmployeeSummaryService,
     private userService: UserService
   ) {
     this.currUser = this.userService.user;
     this.contractEnded = false;
+    this.isAdmin = this.currUser.type === ADMIN;
+    this.isHr = this.currUser.type === HR;
     console.log(this.currUser);
+    this.extraHours = 0;
+    this.WorkedHours = 0;
+    this.getMonthlyHours();
+    this.isHr && this.getExtraHours();
   }
   ngOnInit(): void {
     // this.getFiles();
@@ -45,17 +56,43 @@ export class SummaryComponent implements OnInit {
     let newDate = moment.utc(date)?.format('MMMM Do YYYY');
     return newDate;
   }
+  getMonthlyHours() {
+    this.summaryService
+      .getHoursMonthly(new Date().toISOString(), 'workingHours')
+      .subscribe((result) => {
+        this.WorkedHours = result['response'][0]['sum'] || 0;
+      });
+  }
 
+  getExtraHours() {
+    this.summaryService
+      .getHoursMonthly(new Date().toISOString(), 'extraHours')
+      .subscribe((result) => {
+        this.WorkedHours = result['response'][0]['sum'] || 0;
+      });
+  }
   getFiles() {
     this.summaryService.getFiles('').subscribe((result) => {
-      this.files = result['response'][0]?.totalData;
+      let res = result['response'][0]['totalData'];
+      res.forEach((element) => {
+        if (element.profile.image) {
+          element.profile.image = `${environment.HRApi}/files/documents/${element.profile.image}`;
+        }
+      });
+      this.files = res;
       console.log('✅ this.summaryService.getFiles ~ ', this.files);
     });
   }
 
   getEmployeeFileDetails() {
     this.summaryService.getFileDetails().subscribe((result) => {
-      this.userFile = result['response'][0];
+      let res = result['response'][0];
+
+      if (res.profile.image) {
+        res.profile.image = `${environment.HRApi}/files/documents/${res.profile.image}`;
+      }
+
+      this.userFile = res;
       console.log(
         '✅ this.summaryService.getEmployeeFileDetails ~ ',
         this.userFile
@@ -69,11 +106,12 @@ export class SummaryComponent implements OnInit {
         '⚡   this.summaryService.getActiveContract ~ result',
         result
       );
-
-      this.contract = result['response'];
-      new Date(this.contract?.endDate) <= new Date()
-        ? (this.contractEnded = true)
-        : (this.contractEnded = false);
+      if (result['response']) {
+        this.contract = result['response'];
+        new Date(this.contract?.endDate) <= new Date()
+          ? (this.contractEnded = true)
+          : (this.contractEnded = false);
+      }
     });
   }
 

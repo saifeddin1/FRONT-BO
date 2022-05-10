@@ -1,16 +1,15 @@
 <h2 mat-dialog-title>{{ isAdmin?'Edit Interview': interview?.title }}</h2>
 <div class="inputs-row">
-  <div>
+  <div *ngIf="isAdmin">
     <label for="">Title</label>
     <input
       type="text"
       class="text-area"
-      *ngIf="isAdmin"
       [(ngModel)]="interview.title"
       placeholder="title"
     />
   </div>
-  <div>
+  <div *ngIf="isAdmin">
     <label for="">Stauts</label>
     <select
       [(ngModel)]="interview.status"
@@ -24,24 +23,31 @@
   </div>
 </div>
 <div class="inputs-row">
-  <div>
+  <!-- <div>
     <label>Files</label>
 
-    <input
-      type="file"
-      class="text-area"
-      [(ngModel)]="interview.files"
-      *ngIf="isAdmin"
-    />
-  </div>
-  <div>
+    <input type="file" class="text-area" [(ngModel)]="interview.files" />
+  </div> -->
+  <div *ngIf="isAdmin">
     <label for="">User</label>
     <input
       type="text"
-      *ngIf="isAdmin"
       class="text-area"
       disabled
       value="{{interview.user.userRef}}"
+    />
+  </div>
+  <div>
+    <label>Date</label>
+    <div *ngIf="!isAdmin" style="margin-block: 1rem">
+      <strong>{{ interview?.date |date }}</strong>
+    </div>
+    <input
+      class="text-area"
+      *ngIf="isAdmin"
+      [(ngModel)]="interview.date"
+      value="{{ interview?.date }}"
+      type="datetime-local"
     />
   </div>
 </div>
@@ -85,10 +91,10 @@
 </ng-container>
 
 <mat-dialog-actions align="end">
-  <div mat-div [mat-dialog-close]="true">
+  <div [mat-dialog-close]="'close'">
     <button>Close</button>
   </div>
-  <div [mat-dialog-close]="'close'">
+  <div>
     <button *ngIf="isAdmin" (click)="updateRecord(interview)">Edit</button>
   </div>
 </mat-dialog-actions>

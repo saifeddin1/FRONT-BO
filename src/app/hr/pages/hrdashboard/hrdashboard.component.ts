@@ -145,6 +145,7 @@ export class HrdashboardComponent implements OnInit {
   ngOnInit(): void {
     this.getEmployeeContract();
     if (this.isAdmin) this.isLoading = false;
+    console.log(this.isEmployeeAdministrative);
   }
 
   getEmployeeContract() {
@@ -152,7 +153,9 @@ export class HrdashboardComponent implements OnInit {
     this.employeeService.getActiveContract().subscribe(
       (result) => {
         this.employeeContract = result['response'];
-        this.doesEmployeeHaveContract = true;
+        if (result['response']) {
+          this.doesEmployeeHaveContract = true;
+        }
         this.employeeContract.timesheetType === 'ADMINISTRATIVE'
           ? (this.isEmployeeAdministrative = true)
           : (this.isEmployeeAdministrative = false);

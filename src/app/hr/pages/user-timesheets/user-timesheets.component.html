@@ -4,17 +4,27 @@
       <mat-icon (click)="goBack()" style="cursor: pointer; font-size: 3rem"
         >chevron_left</mat-icon
       >
-      <select
-        class="text-area"
-        [(ngModel)]="yearMonth"
-        (change)="getAllTimesheets()"
-      >
-        <option value="">Pick a Month</option>
+      <div>
+        <button
+          matTooltip="Add Timesheet"
+          id="add-button"
+          class="btn button"
+          (click)="addTimesheetDialog()"
+        >
+          Add Timesheet
+        </button>
+        <select
+          class="text-area"
+          [(ngModel)]="yearMonth"
+          (change)="getAllTimesheets()"
+        >
+          <option value="">Pick a Month</option>
 
-        <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
-          {{ item?.title }}
-        </option>
-      </select>
+          <option value="{{ item?.title }}" *ngFor="let item of yearMonthItems">
+            {{ item?.title }}
+          </option>
+        </select>
+      </div>
     </div>
   </div>
 
@@ -76,7 +86,7 @@
             matTooltip="Update Timesheet Record"
             mat-icon-button
             class="btn btn-info"
-            (click)="updateRecord(element)"
+            (click)="editTimesheetDialog(element)"
           >
             <clr-icon shape="pencil"></clr-icon>
           </button>

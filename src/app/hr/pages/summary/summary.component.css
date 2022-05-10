@@ -4,10 +4,41 @@ th {
   padding: 1rem !important;
 }
 
+span.title{
+  font-weight: 500; margin-bottom: 15px; font-size: 20px;
+  background-color: #fff;
+  height: 35px;
+  font-size: 17px; 
+  display: flex;
+  width: 100%;
+  padding-block: 1.5rem;
+  justify-content: flex-start;
+  align-items: center; 
+}
+
+span.title::before{
+  content: "";
+  width: 10px;
+  height: 42px; 
+  background-color: #b5b5b5;
+  margin-right: 5px;
+}
+ .profile-wrapper span.title {
+  width: 99%;
+ }
+a.visit-all {
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  font-weight: 500;
+}
+a.visit-all:hover {
+  filter: drop-shadow(2px 4px 6px #ccc);
+}
 .contract-alert {
   height: 65px;
   background-color: red;
-  margin-inline: 1rem;
+  /* margin-inline: 1rem; */
   margin-bottom: 1rem;
   padding: 1.5rem;
   color: #fff;
@@ -25,12 +56,14 @@ th {
 .summary-wrapper {
   display: flex;
   align-content: center;
-  justify-content: space-around;
+  justify-content: space-between;
   margin-bottom: 1rem;
 }
-
+.profile-wrapper{
+  width: 75%;
+}
 .hr-card {
-  margin-inline: 5px;
+  /* margin-inline: 5px; */
   background-color: #fff;
   /* width: 50%; */
   border-radius: 5px;
@@ -42,10 +75,11 @@ th {
   display: flex;
   justify-content: space-around;
   align-items: center;
-  width: 75%;
+  /* width: 97%; */
+  margin-right: 1rem;
 }
 .summary-wrapper .hr-card.profile .info-column {
-  width: 43%;
+  /* width: 43%; */
 }
 
 .summary-wrapper .hr-card.profile .address,
@@ -69,31 +103,44 @@ th {
   line-height: 35px;
 }
 .summary-wrapper .timeoff-balance {
+  width: 25%;
   text-align: center;
 }
 
 .summary-wrapper .timeoff-balance span.title {
-  font-weight: 500;
+ 
   margin-bottom: 15px;
-  font-size: 20px;
+   
 }
 .summary-wrapper .timeoff-balance .hr-card span {
-  font-size: 45px;
+  font-size: 15px;
   font-weight: normal;
-  line-height: 7.5rem;
-  width: 200px;
+  line-height: 3.5rem;
+  width: 200px;  font-weight: 500;
 }
 
 .summary-wrapper .interviews {
-  width: 45%;
+  width: 35%;
 }
 .summary-wrapper .contract {
-  width: 44%;
+  width: 35%;
 }
-.summary-wrapper .interviews .heading,
-.summary-wrapper .contract .heading {
-  padding-left: 1rem;
-  line-height: 40px;
+.summary-wrapper .extrahours {
+  width:25%;
+}
+.hours-value{
+  display: flex;
+  flex-direction: column;
+
+}
+ 
+.hours-value span:last-child{
+  color: #b7b7b7;
   font-weight: 500;
-  font-size: 20px;
+}
+
+ 
+.hours-value span:first-child{
+  font-weight: 500;
+  font-size: 17px;
 }

@@ -65,7 +65,7 @@
 }     */
 
 .main-container .content-area {
-  margin-top: 1rem;
+  /* margin-top: 1rem; */
   padding: 0;
   display: flex;
 }

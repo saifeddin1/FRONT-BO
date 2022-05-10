@@ -9,7 +9,19 @@
 </div>
 
 <div class="dialog-actions" id="dialog-actions">
-  <button (click)="createLevel()" *ngIf="!isEditOperation">Add</button>
-  <button *ngIf="isEditOperation" (click)="editLevel()">Edit</button>
+  <button
+    [disabled]="!level?.title"
+    (click)="createLevel()"
+    *ngIf="!isEditOperation"
+  >
+    Add
+  </button>
+  <button
+    [disabled]="!level?.title"
+    *ngIf="isEditOperation"
+    (click)="editLevel()"
+  >
+    Edit
+  </button>
   <button [mat-dialog-close]="'close'">Close</button>
 </div>

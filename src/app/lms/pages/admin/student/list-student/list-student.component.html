@@ -133,21 +133,21 @@
           <!-- column Niveau -->
           <div class="modalRow">
             <strong class="modalcol3">Niveau *</strong>
-            <mat-select class="text-area modalcol" placeholder="Niveau" formControlName="studentNiveauId" required>
-              <mat-option *ngFor="let niv of niveauxList" [value]="niv._id">
+            <select class="text-area modalcol" placeholder="Niveau" formControlName="studentNiveauId" required>
+              <option *ngFor="let niv of niveauxList" [value]="niv._id">
                 {{niv?.name}}, {{niv?.tag}}
-              </mat-option>
-            </mat-select>
+              </option>
+            </select>
           </div>
 
           <!-- column Offre -->
           <div class="modalRow">
             <strong class="modalcol3">Offre</strong>
-            <mat-select class="text-area modalcol" placeholder="Offre" formControlName="studentOffreId">
-              <mat-option *ngFor="let offre of offresList" [value]="offre._id">
+            <select class="text-area modalcol" placeholder="Offre" formControlName="studentOffreId">
+              <option *ngFor="let offre of offresList" [value]="offre._id">
                 {{offre?.name}}
-              </mat-option>
-            </mat-select>
+              </option>
+            </select>
           </div>
 
         </div>

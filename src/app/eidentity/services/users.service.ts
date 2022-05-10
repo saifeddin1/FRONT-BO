@@ -76,6 +76,7 @@ export class UsersService {
   }
 
   updateUser(userId: string, item: any): Observable<any> {
+    
     return this.http.put<any>(`${this.BASE_URL}/api/v1/users/${userId}`, item);
   }
   restore(userId: string): Observable<any> {

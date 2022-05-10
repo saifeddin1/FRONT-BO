@@ -108,6 +108,7 @@ export class GroupstudentComponent implements OnInit{
  
   dataSource1: MatTableDataSource<any> = new MatTableDataSource<any>();
   getStudentsGroup(){
+    this.dataSource1 = new MatTableDataSource([]);
     this.groupstudentService.getGroupStudentsbyname().subscribe(
       (res)=>{
        console.log(" get all student group", res.response)
@@ -143,6 +144,7 @@ export class GroupstudentComponent implements OnInit{
   }
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getStudents(){
+    this.dataSource = new MatTableDataSource([]);
     this.usersService.getUsers().subscribe(
       
       (res)=>{
@@ -317,7 +319,7 @@ export class GroupstudentComponent implements OnInit{
   editById(body: Partial<Student>) {
     console.log("edit by id element",body)
     this.fillFormModel(body);
-    this.getallacademicterms();
+    this.getallacademicterms('form2');
     this.clrModalOpenEdit = true
     
   }
@@ -441,7 +443,7 @@ saveStudentGroup(){
      (res)=> {
        this.toasterService.success("deleted successfully")
        this.getStudentsGroup();
-      this.getDisabledStudentsGroup();
+       this.getDisabledStudentsGroup();
      },
      (error)=>{
        this.toasterService.error('something wrong')

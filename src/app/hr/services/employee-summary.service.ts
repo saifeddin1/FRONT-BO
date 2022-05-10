@@ -34,7 +34,7 @@ export class EmployeeSummaryService {
 
   getAllUsers(extractedRrole): Observable<any> {
     return this.http.get<any>(
-      `${environment.IdentityApi}/api/v1/users?extract=${extractedRrole}`
+      `${environment.IdentityApi}/api/v1/users/exceptType?extract=${extractedRrole}`
     );
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
@@ -104,7 +104,7 @@ export class EmployeeSummaryService {
   }
   getInterviewsByUserId(userId: string, term: string): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}&filter=${term}`
+      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}?filter=${term}`
     );
   }
   getEmployeeUpcomingInterviews() {
@@ -139,7 +139,21 @@ export class EmployeeSummaryService {
   createEmployeeFile(body: File): Observable<File> {
     return this.http.post<File>(`${this.BASE_URL}/files`, body);
   }
+  // downLoadFile(data: any, type: string) {
+  //   let blob = new Blob([data], { type: type });
+  //   let url = window.URL.createObjectURL(blob);
+  //   console.log(url);
 
+  //   return url;
+  // }
+  getProfileImg(imgId: string): any {
+    return this.http.get(`${this.BASE_URL}/files/documents/${imgId}`, {
+      responseType: 'blob' as 'json',
+    });
+  }
+  uploadProfilePic(image) {
+    return this.http.post(`${this.BASE_URL}/files/upload`, image);
+  }
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
@@ -152,9 +166,9 @@ export class EmployeeSummaryService {
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
-  updateProfile(body: any): Observable<File> {
+  updateProfile(body: any, id: string): Observable<File> {
     return this.http.put<File>(
-      `${this.BASE_URL}/files/employeeFileDetails`,
+      `${this.BASE_URL}/files/employeeFileDetails/${id}`,
       JSON.stringify(body),
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
@@ -338,12 +352,16 @@ export class EmployeeSummaryService {
   }
 
   getYearMonthItem(id: string): Observable<YearMonth> {
-    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
   }
 
-  createYearMonthItem(body: YearMonth, userId: string): Observable<YearMonth> {
-    return this.http.post<YearMonth>(
-      `${this.BASE_URL}/yearMonths/${userId}`,
+  createYearMonthItem(body: YearMonth): Observable<YearMonth> {
+    return this.http.post<YearMonth>(`${this.BASE_URL}/yearMonths`, body);
+  }
+
+  generateTimesheets(userId: string, body: any): Observable<Timesheet> {
+    return this.http.post<Timesheet>(
+      `${this.BASE_URL}/yearMonths/${userId} `,
       body
     );
   }

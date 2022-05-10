@@ -1,11 +1,22 @@
 <div class="profile-wrapper">
   <div class="profile-header">
-    <img
-      class="profile-headshot"
-      width="150px"
-      src="../../../../assets/img/{{
-        userFile?.profile?.image || 'user-placeholder.png'
-      }}"
+    <!-- <h1>{{ userFile?.profile?.image }}</h1> -->
+    <label for="profile-pic">
+      <img
+        class="profile-headshot"
+        width="150px"
+        [src]="
+          userFile?.profile?.image ||
+          '../../../../assets/img/user-placeholder.png'
+        "
+      />
+    </label>
+    <input
+      type="file"
+      id="profile-pic"
+      (change)="uploadImage($event)"
+      accept="image/*"
+      hidden
     />
     <div class=" ">
       <button (click)="updateEmployee(userFile)" matTooltip="Save Changes">
