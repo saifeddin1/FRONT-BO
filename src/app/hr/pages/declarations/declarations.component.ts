@@ -42,12 +42,15 @@ export class DeclarationsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   searchNotifier = new Subject();
+  incomingDetailsVisible: boolean;
+  incomingItem: any;
   constructor(
     private employeeService: EmployeeSummaryService,
     private dialog: MatDialog,
     private toaster: ToasterService
   ) {
     this.filterVal = '';
+    this.incomingDetailsVisible = false;
   }
 
   ngOnInit(): void {
@@ -109,6 +112,13 @@ export class DeclarationsComponent implements OnInit {
       },
       (e) => this.toaster.error(e.error.message)
     );
+  }
+
+  toggleViewIncoming(element) {
+    this.incomingItem = element;
+    console.log('⚡ this.incomingItem', this.incomingItem);
+    this.incomingDetailsVisible = !this.incomingDetailsVisible;
+    console.log('⚡ this.incomingDetailsVisible', this.incomingDetailsVisible);
   }
 
   updateStatus(element, status) {

@@ -114,18 +114,10 @@
             mat-icon-button
             class="btn btn-info"
             (click)="editTimesheetDialog(element)"
+            [disabled]="isDeclared || isApproved"
           >
             <clr-icon shape="pencil"></clr-icon>
           </button>
-
-          <!-- <button
-            matTooltip="Delete Timesheet Record"
-            mat-icon-button
-            class="btn btn-outline-danger"
-            (click)="deleteRecord(element)"
-          >
-            <clr-icon shape="trash" style="color: red !important"></clr-icon>
-          </button> -->
         </td>
       </ng-container>
 
@@ -146,8 +138,3 @@
     </mat-paginator>
   </div>
 </div>
-<!-- <pagination-controls
-  (pageChange)="changePage($event)"
-  previousLabel="Prev."
-  nextLabel="Next"
-></pagination-controls> -->

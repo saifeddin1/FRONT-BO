@@ -1,25 +1,9 @@
 <!-- ---------------------------------Year month ------------------------------------------- -->
 <div class="wrapper">
   <div class="btn-add-employee">
-    <h1>Incoming Declarations</h1>
-    <!-- <button
-        (click)="contractTypeDialog($event, 'add', undefined)"
-        matTooltip="Add Contract Type"
-      >
-        <span> Add Contract Type</span>
-      </button> -->
+    <h2>Incoming Declarations</h2>
   </div>
-  <div class="incoming-list">
-    <!-- <mat-form-field appearance="standard">
-      <mat-label>Filter</mat-label>
-      <input
-        matInput
-        [(ngModel)]="filterVal"
-        (ngModelChange)="searchNotifier.next()"
-        placeholder="Ex. ium"
-        #input
-      />
-    </mat-form-field> -->
+  <div class="incoming-list" style="margin-top: 3rem">
     <table mat-table [dataSource]="incomingDeclarations">
       <ng-container matColumnDef="user">
         <th mat-header-cell *matHeaderCellDef>User</th>
@@ -63,6 +47,18 @@
           >
             Decline
           </button>
+          <button
+            mat-icon-button
+            class="btn btn-outline-primary"
+            (click)="toggleViewIncoming(element)"
+            matTooltip="View Declaration Details"
+          >
+            <clr-icon *ngIf="!incomingDetailsVisible" shape="eye"></clr-icon>
+            <clr-icon
+              *ngIf="incomingDetailsVisible"
+              shape="eye-hide"
+            ></clr-icon>
+          </button>
         </td>
       </ng-container>
 
@@ -87,9 +83,9 @@
     >
     </mat-paginator>
   </div>
-  <div class="row-wrapper" style="margin-top: 1rem">
+  <div class="row-wrapper" style="margin-top: 3rem">
     <div class="declarations-list">
-      <h1>Timesheet Declarations History</h1>
+      <h2>Timesheet Declarations History</h2>
       <mat-form-field appearance="standard">
         <mat-label>Filter</mat-label>
         <input
@@ -159,37 +155,38 @@
       >
       </mat-paginator>
     </div>
-    <!-- <div class="incoming">
-      <h1>Incoming Decclarations for this Month</h1>
-      <div class="declaration-item" *ngFor="let item of incomingDeclarations">
-        <span class="owner">{{ item.user.userRef }}</span>
-        <div>
-          Month : <span>{{ item.month }}</span> <br />
-          Worked Hours :
-          <span>{{ item.hours?.workinghours || 66 }}</span>
-          <br />
-          Extra Hours :
-          <span>{{ item.hours?.extraHours || 66 }}</span>
-        </div>
-        <div>
-          <button
-            mat-icon-button
-            class="hr-button btn-approve"
-            (click)="updateStatus(item, 'approved')"
-            [disabled]="item.status === 'approved'"
-          >
-            Approve
-           </button>
-          <button
-            mat-icon-button
-            class="hr-button btn-decline"
-            (click)="updateStatus(item, 'rejected')"
-            [disabled]="item.status === 'rejected'"
-          >
-            Decline
-           </button>
-        </div>
+    <div class="incoming-item" *ngIf="incomingDetailsVisible">
+      <span class="owner"
+        >{{ incomingItem.user.profile.fullname }} ({{
+          incomingItem.user.userRef
+        }})</span
+      >
+      <div>
+        Month : <span>{{ incomingItem.month }}</span> <br />
+        Worked Hours :
+        <span>{{ incomingItem.declaredHours || 0 }}</span>
+        <br />
+        Extra Hours :
+        <span>{{ incomingItem.extraHours || 0 }}</span>
       </div>
-    </div> -->
+      <div>
+        <button
+          mat-icon-button
+          class="hr-button btn-approve"
+          (click)="updateStatus(incomingItem, 'approved')"
+          [disabled]="incomingItem.status === 'approved'"
+        >
+          Approve
+        </button>
+        <button
+          mat-icon-button
+          class="hr-button btn-decline"
+          (click)="updateStatus(incomingItem, 'rejected')"
+          [disabled]="incomingItem.status === 'rejected'"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
   </div>
 </div>

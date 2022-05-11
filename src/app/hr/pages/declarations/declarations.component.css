@@ -25,8 +25,8 @@
     margin-inline: 15px;
   } 
   
-  h2 {
-    line-height: initial;
+  h2, h1 {
+margin-bottom: 0 !important;
     font-size: 2rem;
   }
   
@@ -77,20 +77,20 @@
     cursor:not-allowed
   }
   
-  .incoming{
-    margin-top: 2rem;
-    width: 35%;
-    background-color: #FFF;
-    box-shadow: 0px -1px 10px rgb(146 124 212 / 16%);
-    padding: 1.5rem;
-    border-radius: 9px;
-    min-height: 145px;
+  .incoming-item{
+    background-color: #fff;
+    padding: 3rem;
+    margin-right: 2rem;
     display: flex;
-    /* height: 300px; */
-    align-items: center;
     flex-direction: column;
-    /* overflow-y: scroll; */
-  }
+    width: 415px;
+    margin-top: 2rem;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 15px;
+    height: 260px;
+    filter: drop-shadow(2px 4px 6px #f1f1f1);
+}
   .incoming .declaration-item{
     
     display: flex;

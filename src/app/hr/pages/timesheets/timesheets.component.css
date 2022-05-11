@@ -206,3 +206,6 @@ button {
   display: flex;
   justify-content: end;
 }
+button:disabled{
+  cursor: not-allowed;
+}

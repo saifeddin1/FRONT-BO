@@ -190,6 +190,8 @@ export class TimesheetsComponent implements OnInit {
       .createTimesheetDeclaration({
         userId: this.currUser['_id'],
         month: this.yearMonth.split('-')[1],
+        declaredHours: this.monthlyWorkingHours,
+        extraHours: this.monthlyExtraHours,
       })
       .subscribe(
         (result) => {
