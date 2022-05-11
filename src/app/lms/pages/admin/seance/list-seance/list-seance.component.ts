@@ -263,10 +263,15 @@ export class ListSeanceComponent implements OnInit {
   }
 
   goToSeanceNiveau(seanceId: string): void {
-    this.router.navigate(['seances/edit/niv', seanceId]);
+    this.router.navigateByUrl(`${this.router.url}/edit/niv/${seanceId}`);
+    // this.router.navigate(['seances/edit/niv', seanceId]);
   }
 
   goToSeanceExercices(seanceId: string): void {
-    this.router.navigate(['seances/edit/mediaAssign/list/', seanceId]);
+    this.router.navigateByUrl(
+      `${this.router.url}/edit/mediaAssign/list/${seanceId}`
+    );
+
+    // this.router.navigate(['seances/edit/mediaAssign/list/', seanceId]);
   }
 }

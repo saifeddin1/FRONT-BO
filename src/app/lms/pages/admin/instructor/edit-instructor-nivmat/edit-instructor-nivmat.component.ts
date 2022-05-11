@@ -140,7 +140,10 @@ export class EditInstructorNivmatComponent {
   }
 
   goToInsTructornivmats(niveauId: string): void {
-    this.router.navigate(['instructors/edit/nivmat', this.userId, niveauId]);
+    this.router.navigateByUrl(
+      `lms/instructors/edit/nivmat/${this.userId}/${niveauId}`
+    );
+    // this.router.navigate(['instructors/edit/nivmat', this.userId, niveauId]);
   }
 
   deleteById(id, index) {

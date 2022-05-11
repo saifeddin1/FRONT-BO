@@ -107,7 +107,9 @@ export class ListNiveauComponent implements OnInit {
     }
   }
   goToNiveauMatiere(id: string) {
-    this.router.navigate(['niveau/matieres/list/', id]);
+    // this.router.navigate(['./niveau/matieres/list/', id]);
+
+    this.router.navigateByUrl(`${this.router.url}/matieres/list/${id}`);
   }
   closeModal() {
     this.createForm();

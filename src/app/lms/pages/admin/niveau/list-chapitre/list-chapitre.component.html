@@ -1,20 +1,39 @@
-<div class="dashboard ">
+<div class="dashboard">
   <div class="events-container">
-    <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
       <div>
         <p *ngIf="data">
-          <a routerLink="/niveau/list">Niveau</a> / <a
-            [routerLink]="'/niveau/matieres/list/'+data?.nivMat?.niveau?._id">{{data?.nivMat?.niveau?.name}}</a> /
-          {{data?.nivMat?.matiere?.name}}
+          <a routerLink="/lms/niveau">Niveau</a> /
+          <a
+            [routerLink]="
+              '/lms/niveau/matieres/list/' + data?.nivMat?.niveau?._id
+            "
+            >{{ data?.nivMat?.niveau?.name }}</a
+          >
+          /
+          {{ data?.nivMat?.matiere?.name }}
         </p>
         <h6>Tableau des Chapitres :</h6>
       </div>
       <div class="profile-card">
         <div class="edit-button">
-          <button id="add-button" class="btn button" (click)="openListModal()" *ngIf="canManage">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openListModal()"
+            *ngIf="canManage"
+          >
             Chercher Un Chapitre
           </button>
-          <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openModal()"
+            *ngIf="canManage"
+          >
             Créer Un Chapitre
           </button>
         </div>
@@ -23,63 +42,112 @@
   </div>
 
   <!----------------------------------------------Table ------------------------------------------------ -->
-  <div class="row d-flex ">
-    <table mat-table [dataSource]="nivMatChapitres" cdkDropList [cdkDropListData]="nivMatChapitres"
-      (cdkDropListDropped)="drop($event)">
-
+  <div class="row d-flex">
+    <table
+      mat-table
+      [dataSource]="nivMatChapitres"
+      cdkDropList
+      [cdkDropListData]="nivMatChapitres"
+      (cdkDropListDropped)="drop($event)"
+    >
       <!-- Name Column -->
       <ng-container matColumnDef="name">
-        <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
-        <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+        <th id="name" mat-header-cell *matHeaderCellDef>Titre</th>
+        <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="locked">
-        <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Internautes </th>
-        <td mat-cell *matCellDef="let element"> {{element?.locked ? 'Oui' : 'Non'}} </td>
+        <th id="name" mat-header-cell *matHeaderCellDef>
+          Visible Pour Les Internautes
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.locked ? "Oui" : "Non" }}
+        </td>
       </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="enabled">
-        <th id="name" mat-header-cell *matHeaderCellDef> Visible Pour Les Apprenants(avec offre) </th>
-        <td mat-cell *matCellDef="let element"> {{element?.enabled ? 'Oui' : 'Non'}} </td>
+        <th id="name" mat-header-cell *matHeaderCellDef>
+          Visible Pour Les Apprenants(avec offre)
+        </th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.enabled ? "Oui" : "Non" }}
+        </td>
       </ng-container>
 
       <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-          <button mat-icon-button class="btn btn-info" (click)="openMediaModal(element.chapitreId)">
+        <th id="action" class="px-3" mat-header-cell *matHeaderCellDef>
+          Actions
+        </th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="openMediaModal(element.chapitreId)"
+          >
             <span>Détails</span>
           </button>
-          <button mat-icon-button class="btn btn-info" (click)="editChapitre(element)" *ngIf="canManage">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="editChapitre(element)"
+            *ngIf="canManage"
+          >
             <clr-icon shape="pencil"></clr-icon>
           </button>
-          <button mat-icon-button class="btn btn-info" (click)="deleteNivMatChapitreId(element._id,i)"
-            *ngIf="canManage">
-            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="deleteNivMatChapitreId(element._id, i)"
+            *ngIf="canManage"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" cdkDrag [cdkDragData]=row></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        cdkDrag
+        [cdkDragData]="row"
+      ></tr>
     </table>
   </div>
-   <mat-paginator [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
-    </mat-paginator>
+  <mat-paginator
+    [length]="paginatorOptions.length"
+    [pageSize]="paginatorOptions.pageSize"
+  >
+  </mat-paginator>
   <!----------------------------------------------Table ------------------------------------------------ -->
 
   <!-- ADD Chapitre-->
   <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
-    <h3 class="modal-title" *ngIf="chapitreMode === 'add'">Ajouter Un Chapitre</h3>
-    <h3 class="modal-title" *ngIf="chapitreMode === 'edit'">Modifier Un Chapitre</h3>
+    <h3 class="modal-title" *ngIf="chapitreMode === 'add'">
+      Ajouter Un Chapitre
+    </h3>
+    <h3 class="modal-title" *ngIf="chapitreMode === 'edit'">
+      Modifier Un Chapitre
+    </h3>
     <div class="modal-body">
       <div class="add-overlay">
-        <form *ngIf="form" [formGroup]="form" #myForm="ngForm" (ngSubmit)="onSubmit()">
+        <form
+          *ngIf="form"
+          [formGroup]="form"
+          #myForm="ngForm"
+          (ngSubmit)="onSubmit()"
+        >
           <div class="position-top">
             <strong class="modalcol3">Titre</strong>
-            <input matInput class="text-area modalcol" formControlName="name" placeholder="Titre du Chapitre">
+            <input
+              matInput
+              class="text-area modalcol"
+              formControlName="name"
+              placeholder="Titre du Chapitre"
+            />
           </div>
           <div class="position-top">
             <strong class="modalcol3">Visible Pour Les Internautes</strong>
@@ -89,7 +157,9 @@
             </select>
           </div>
           <div class="position-top">
-            <strong class="modalcol3">Visible Pour Les Apprenants(avec offre)</strong>
+            <strong class="modalcol3"
+              >Visible Pour Les Apprenants(avec offre)</strong
+            >
             <select class="text-area modalcol" formControlName="enabled">
               <option [value]="true">Oui</option>
               <option [value]="false">Non</option>
@@ -99,16 +169,28 @@
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      <button
+        type="button"
+        class="btn btn-ok btn-outline btn-cancel"
+        (click)="closeModal()"
+      >
         Fermer
       </button>
-      <ng-container *ngIf="chapitreMode === 'add';else editChapitreBloc">
-        <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">
+      <ng-container *ngIf="chapitreMode === 'add'; else editChapitreBloc">
+        <button
+          class="btn btn-ok btn-outline"
+          type="submit"
+          (click)="onSubmit()"
+        >
           Ajouter
         </button>
       </ng-container>
       <ng-template #editChapitreBloc>
-        <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">
+        <button
+          class="btn btn-ok btn-outline"
+          type="submit"
+          (click)="onSubmit()"
+        >
           Modifier
         </button>
       </ng-template>
@@ -121,41 +203,74 @@
     <div class="modal-body">
       <div class="add-overlay">
         <div id="search-bloc">
-          <input id="search-input" placeholder="Entrez le nom du média ..." matInput class="text-area"
-            (keyup)="applyFilter($event.target.value)">
+          <input
+            id="search-input"
+            placeholder="Entrez le nom du média ..."
+            matInput
+            class="text-area"
+            (keyup)="applyFilter($event.target.value)"
+          />
         </div>
         <div>
           <table mat-table [dataSource]="chapitreDataSource">
             <!-- Name Column -->
             <ng-container matColumnDef="name">
-              <th mat-header-cell *matHeaderCellDef> Titre </th>
-              <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
+              <th mat-header-cell *matHeaderCellDef>Titre</th>
+              <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
             </ng-container>
 
             <!-- action Column -->
             <ng-container matColumnDef="action">
-              <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-              <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-                <button mat-icon-button class="btn btn-info" (click)="assignChapire(element)">
+              <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+              <td
+                class="px-3"
+                mat-cell
+                *matCellDef="let element; let i = index"
+              >
+                <button
+                  mat-icon-button
+                  class="btn btn-info"
+                  (click)="assignChapire(element)"
+                >
                   <clr-icon shape="add"></clr-icon>
                 </button>
-                <button mat-icon-button class="btn btn-info" (click)="deleteChapitreById(element._id,i)">
-                  <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+                <button
+                  mat-icon-button
+                  class="btn btn-info"
+                  (click)="deleteChapitreById(element._id, i)"
+                >
+                  <clr-icon
+                    shape="trash"
+                    style="color: red !important"
+                  ></clr-icon>
                 </button>
               </td>
             </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedSearchChapitreColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedSearchChapitreColumns;"></tr>
+            <tr
+              mat-header-row
+              *matHeaderRowDef="displayedSearchChapitreColumns"
+            ></tr>
+            <tr
+              mat-row
+              *matRowDef="let row; columns: displayedSearchChapitreColumns"
+            ></tr>
           </table>
-          <mat-paginator [length]="paginatorOptions.length" (page)="getNext($event)"
-            [pageSize]="paginatorOptions.pageSize">
+          <mat-paginator
+            [length]="paginatorOptions.length"
+            (page)="getNext($event)"
+            [pageSize]="paginatorOptions.pageSize"
+          >
           </mat-paginator>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeListModal()">
+      <button
+        type="button"
+        class="btn btn-ok btn-outline btn-cancel"
+        (click)="closeListModal()"
+      >
         Fermer
       </button>
     </div>
@@ -167,21 +282,35 @@
 
     <div class="modal-body">
       <div class="add-overlay">
-        <div style="text-align: center;">
+        <div style="text-align: center">
           <div class="position-top">
             <strong class="modalcol3">Type</strong>
-            <select class="text-area" placeholder="Type De Media" [(ngModel)]="mediaTypeId">
-              <option *ngFor="let type of mediaTypes" [value]="type._id">{{type.name}}</option>
+            <select
+              class="text-area"
+              placeholder="Type De Media"
+              [(ngModel)]="mediaTypeId"
+            >
+              <option *ngFor="let type of mediaTypes" [value]="type._id">
+                {{ type.name }}
+              </option>
             </select>
           </div>
         </div>
       </div>
     </div>
     <div class="modal-footer">
-      <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeMediaModal()">
+      <button
+        type="button"
+        class="btn btn-ok btn-outline btn-cancel"
+        (click)="closeMediaModal()"
+      >
         Fermer
       </button>
-      <button class="btn btn-ok btn-outline" type="submit" (click)="goToAssignMedia()">
+      <button
+        class="btn btn-ok btn-outline"
+        type="submit"
+        (click)="goToAssignMedia()"
+      >
         Naviguer
       </button>
     </div>

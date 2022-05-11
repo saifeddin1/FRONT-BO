@@ -299,13 +299,17 @@ export class ListAssignMediaComponent implements OnInit {
   }
 
   goToFiles(mediaId) {
-    this.router.navigate([
-      'niveau/matiere/chapitre/mediaAssignFile/list/',
-      this.nivId,
-      this.nivMatId,
-      this.mediaTypeId,
-      this.chapId,
-      mediaId,
-    ]);
+    this.router.navigateByUrl(
+      `lms/niveau/matiere/chapitre/mediaAssignFile/list/${this.nivId}/${this.nivMatId}/${this.mediaTypeId}/${this.chapId}/${mediaId}`
+    );
+
+    // this.router.navigate([
+    //   'niveau/matiere/chapitre/mediaAssignFile/list/',
+    //   this.nivId,
+    //   this.nivMatId,
+    //   this.mediaTypeId,
+    //   this.chapId,
+    //   mediaId,
+    // ]);
   }
 }

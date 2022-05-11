@@ -124,7 +124,10 @@ export class EditSeanceNiveauComponent {
   }
 
   goToSeanceNiveauMatieres(niveauId: string): void {
-    this.router.navigate(['seances/edit/nivmat', this.seanceId, niveauId]);
+    this.router.navigateByUrl(
+      `lms/seances/edit/nivmat/${this.seanceId}/${niveauId}`
+    );
+    // this.router.navigate(['seances/edit/nivmat', this.seanceId, niveauId]);
   }
 
   deleteById(id, index) {

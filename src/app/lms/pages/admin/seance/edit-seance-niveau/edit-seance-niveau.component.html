@@ -1,98 +1,131 @@
-<div class="dashboard ">
-    <div>
-        <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
-            <div>
-                <p>
-                    <a routerLink="/seances">Séances</a> / {{seance?.name}}
-                </p>
-                <h6>Tableau des Niveaux</h6>
-            </div>
-            <div class="profile-card">
-                <div class="edit-button">
-                    <button id="add-button" class="btn button" (click)="openModal()" *ngIf="canManage">
-                        Affecter Un Niveau
-                    </button>
-                </div>
-
-            </div>
+<div class="dashboard">
+  <div>
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
+      <div>
+        <p><a routerLink="/lms/seances">Séances</a> / {{ seance?.name }}</p>
+        <h6>Tableau des Niveaux</h6>
+      </div>
+      <div class="profile-card">
+        <div class="edit-button">
+          <button
+            id="add-button"
+            class="btn button"
+            (click)="openModal()"
+            *ngIf="canManage"
+          >
+            Affecter Un Niveau
+          </button>
         </div>
+      </div>
     </div>
+  </div>
 
-    <!-------------------------------TAble----------------------------------------------------------------------------------->
+  <!-------------------------------TAble----------------------------------------------------------------------------------->
 
-    <div class="row d-flex dates">
-        <table mat-table [dataSource]="dataSource">
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="dataSource">
+      <!-- Name Column -->
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Niveau</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.niveauId?.name }}
+        </td>
+      </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
-                <th mat-header-cell *matHeaderCellDef> Niveau </th>
-                <td mat-cell *matCellDef="let element"> {{element?.niveauId?.name}} </td>
-            </ng-container>
+      <!-- action Column -->
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            id="niv-button"
+            mat-icon-button
+            class="btn btn-info"
+            (click)="goToSeanceNiveauMatieres(element?.niveauId?._id)"
+          >
+            Matieres
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteById(element._id, i)"
+            *ngIf="canManage && canManageHomework"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
+          </button>
+        </td>
+      </ng-container>
 
-            <!-- action Column -->
-            <ng-container matColumnDef="action">
-                <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-                <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-                    <button id="niv-button" mat-icon-button class="btn btn-info"
-                        (click)="goToSeanceNiveauMatieres(element?.niveauId?._id)">
-                        Matieres
-                    </button>
-                    <button mat-icon-button class="btn btn-outline-danger" (click)="deleteById(element._id,i)"
-                        *ngIf="canManage && canManageHomework">
-                        <clr-icon shape="trash" style="color:red!important;"></clr-icon>
-                    </button>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-    </div>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
 </div>
-
-
 
 <!-- ADD Seance -->
 
 <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
-    <h3 class="modal-title">Affecter un Niveau</h3>
-    <div class="modal-body">
-        <div class="add-overlay">
-            <!-- search input -->
-            <div id="search-bloc">
-                <input id="search-input" placeholder="Entrez le titre du niveau ..." matInput class="text-area"
-                    (keyup)="applyFilter($event)">
-            </div>
-            <!-- niveay table -->
-            <div>
-                <table mat-table [dataSource]="niveauDataSource">
-                    <!-- Name Column -->
-                    <ng-container matColumnDef="name">
-                        <th mat-header-cell *matHeaderCellDef> Titre </th>
-                        <td mat-cell *matCellDef="let element"> {{element?.name +', '+ element?.tag}} </td>
-                    </ng-container>
+  <h3 class="modal-title">Affecter un Niveau</h3>
+  <div class="modal-body">
+    <div class="add-overlay">
+      <!-- search input -->
+      <div id="search-bloc">
+        <input
+          id="search-input"
+          placeholder="Entrez le titre du niveau ..."
+          matInput
+          class="text-area"
+          (keyup)="applyFilter($event)"
+        />
+      </div>
+      <!-- niveay table -->
+      <div>
+        <table mat-table [dataSource]="niveauDataSource">
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Titre</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element?.name + ", " + element?.tag }}
+            </td>
+          </ng-container>
 
-                    <!-- action Column -->
-                    <ng-container matColumnDef="action">
-                        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-                        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-                            <button mat-icon-button class="btn btn-info" (click)="assignNiveau(element)">
-                                <clr-icon shape="add"></clr-icon>
-                            </button>
-                        </td>
-                    </ng-container>
+          <!-- action Column -->
+          <ng-container matColumnDef="action">
+            <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+              <button
+                mat-icon-button
+                class="btn btn-info"
+                (click)="assignNiveau(element)"
+              >
+                <clr-icon shape="add"></clr-icon>
+              </button>
+            </td>
+          </ng-container>
 
-                    <tr mat-header-row *matHeaderRowDef="displayedNiveauColumns"></tr>
-                    <tr mat-row *matRowDef="let row; columns: displayedNiveauColumns;"></tr>
-                </table>
-                <mat-paginator [length]="paginatorOptions.length" [pageSize]="paginatorOptions.pageSize">
-                </mat-paginator>
-            </div>
-        </div>
+          <tr mat-header-row *matHeaderRowDef="displayedNiveauColumns"></tr>
+          <tr
+            mat-row
+            *matRowDef="let row; columns: displayedNiveauColumns"
+          ></tr>
+        </table>
+        <mat-paginator
+          [length]="paginatorOptions.length"
+          [pageSize]="paginatorOptions.pageSize"
+        >
+        </mat-paginator>
+      </div>
     </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
-            Fermer
-        </button>
-    </div>
+  </div>
+  <div class="modal-footer">
+    <button
+      type="button"
+      class="btn btn-ok btn-outline btn-cancel"
+      (click)="closeModal()"
+    >
+      Fermer
+    </button>
+  </div>
 </clr-modal>

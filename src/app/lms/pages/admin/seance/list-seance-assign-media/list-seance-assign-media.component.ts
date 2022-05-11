@@ -241,10 +241,13 @@ export class ListSeanceAssignMediaComponent implements OnInit {
   }
 
   goToFiles(mediaId) {
-    this.router.navigate([
-      'seances/edit/mediaAssignFile/list/',
-      this.seanceId,
-      mediaId,
-    ]);
+    this.router.navigateByUrl(
+      `lms/seances/edit/mediaAssignFile/list/${this.seanceId}/${mediaId}`
+    );
+    // this.router.navigate([
+    //   'seances/edit/mediaAssignFile/list/',
+    //   this.seanceId,
+    //   mediaId,
+    // ]);
   }
 }
