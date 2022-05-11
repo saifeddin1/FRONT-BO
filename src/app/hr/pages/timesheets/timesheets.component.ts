@@ -12,6 +12,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddTimesheetDialogComponent } from '../../components/add-timesheet-dialog/add-timesheet-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { UserService } from 'src/app/lms/services/user.service';
 
 @Component({
   selector: 'app-timesheets',
@@ -37,11 +38,12 @@ export class TimesheetsComponent implements OnInit {
   timesheet: Timesheet;
   isDeclared: boolean;
   isApproved: boolean;
-
+  isRejected: boolean;
   yearMonth: string;
   contract: any;
   yearMonthItems: YearMonth[];
   monthlyExtraHours: any;
+  currUser: any;
   formatedDate(date) {
     return formatDate(date);
   }
@@ -49,16 +51,17 @@ export class TimesheetsComponent implements OnInit {
   declaration: TimesheetDeclaration;
   constructor(
     private employeeService: EmployeeSummaryService,
+    private userService: UserService,
     private toastr: ToastrService,
     public dialog: MatDialog
   ) {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
+    this.currUser = this.userService.user;
 
     this.totalHours = 0;
     this.dataSource = new MatTableDataSource();
   }
 
-  currUser = this.employeeService.getUser();
   ngOnInit(): void {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
 
@@ -150,17 +153,18 @@ export class TimesheetsComponent implements OnInit {
           this.total = result['response'][0]['totalCount'][0]['count'] || 0;
           this.isApproved = false;
           this.isDeclared = false;
+          this.isRejected = false;
           this.employeeService
             .getCurrentDeclaration(parseInt(this.yearMonth.split('-')[1]))
             .subscribe((result) => {
               this.declaration = result['response'];
               this.isDeclared =
                 this.declaration && this.declaration?.status === 'declared';
-              console.log('✅ declaration', this.declaration);
-              console.log('✅ this.declared', this.isDeclared);
-
+              this.isRejected =
+                this.declaration && this.declaration.status === 'rejected';
               this.isApproved =
                 this.declaration && this.declaration?.status === 'approved';
+              console.log(this.isDeclared, this.isApproved, this.isRejected);
             });
         });
     }
@@ -181,46 +185,23 @@ export class TimesheetsComponent implements OnInit {
     this.toastr.error(msg);
   }
 
-  // updateRecord(timesheet) {
-  //   console.log(timesheet);
-
-  //   return this.employeeService
-  //     .updateEmployeeTimeSheet(timesheet._id, {
-  //       note: timesheet.note,
-  //       workingHours: timesheet.workingHours,
-  //       date: new Date(timesheet.date),
-  //       extraHours: timesheet.extraHours,
-  //     })
-  //     .pipe(
-  //       catchError((err) => {
-  //         return throwError(err['error']);
-  //       })
-  //     )
-  //     .subscribe(
-  //       (result) => {
-  //         this.showSuccessToaster(result['message']);
-  //         console.log(result);
-  //         this.getMonthlyWorkingHours();
-  //         this.getExtraHours();
-  //       },
-  //       (err) => {
-  //         this.showErrorToaster(err?.message);
-  //         console.log(err);
-  //       }
-  //     );
-  // }
-
   createDeclaration() {
     return this.employeeService
       .createTimesheetDeclaration({
         userId: this.currUser['_id'],
         month: this.yearMonth.split('-')[1],
       })
-      .subscribe((result) => {
-        console.log('✅ CREATED', result);
-        this.declaration = result['response'];
-        this.isDeclared = true;
-      });
+      .subscribe(
+        (result) => {
+          console.log('✅ CREATED', result);
+          this.declaration = result['response'];
+          this.toastr.success(result['message']);
+          this.isDeclared = true;
+          this.isApproved = false;
+          this.isRejected = false;
+        },
+        (e) => this.toastr.error(e.error.message)
+      );
   }
 
   cancelDeclaration() {

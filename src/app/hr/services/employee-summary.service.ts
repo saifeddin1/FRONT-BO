@@ -260,7 +260,12 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/timesheetDeclarations/${id}`
     );
   }
-
+  updateDeclarationStatus(id: string, status: Object) {
+    return this.http.put(
+      `${this.BASE_URL}/timesheetdeclarations/updateStatus/${id} `,
+      status
+    );
+  }
   deleteTimesheet(id: string): Observable<Timesheet> {
     return this.http.delete<Timesheet>(`${this.BASE_URL}/timesheets/${id}`);
   }
@@ -271,11 +276,26 @@ export class EmployeeSummaryService {
     );
   }
 
-  getAllDeclarations(): Observable<TimesheetDeclaration> {
+  getIncomingDeclarations(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<TimesheetDeclaration> {
     return this.http.get<TimesheetDeclaration>(
-      `${this.BASE_URL}/timesheetdeclarations`
+      `${this.BASE_URL}/timesheetdeclarations?page=${p}&limit=${limit}&filter=${term}`
     );
   }
+
+  getApprovedRejected(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<TimesheetDeclaration> {
+    return this.http.get<TimesheetDeclaration>(
+      `${this.BASE_URL}/timesheetdeclarations/getApprovedRejected?page=${p}&limit=${limit}&filter=${term}`
+    );
+  }
+
   getHoursMonthly(date: string, field: string): Observable<Number> {
     return this.http.get<Number>(
       `${this.BASE_URL}/timesheets/getMonthlyHours/${date}?field=${field}`

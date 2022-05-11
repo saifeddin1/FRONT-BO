@@ -26,17 +26,21 @@
     <div class="declaration-btn">
       <button
         class="approved"
-        *ngIf="isApproved"
-        [disabled]="isApproved || isDeclared || ts.isDayOff"
+        *ngIf="isApproved && !isRejected && !isDeclared"
+        disabled
       >
         Approved
       </button>
       <button
         matTooltip="Declare Timesheet"
-        *ngIf="!isDeclared && !isApproved"
+        *ngIf="!isDeclared && !isApproved && !isRejected"
         (click)="createDeclaration()"
       >
         Declare
+      </button>
+      <button class="rejected" *ngIf="isRejected" disabled>Rejected</button>
+      <button *ngIf="isRejected" (click)="createDeclaration()">
+        <clr-icon matTooltip="Declare Again" shape="circle-arrow"></clr-icon>
       </button>
       <button
         matTooltip="Cancel Declaration"
@@ -48,58 +52,6 @@
       </button>
     </div>
   </div>
-  <!-- <table class="table table-striped">
-    <thead>
-      <th>date</th>
-      <th>Note</th>
-      <th>working hours</th>
-    </thead>
-    <tbody>
-      <ng-container *ngIf="!timesheets || !timesheets.length">
-        No timesheets.
-      </ng-container>
-      <tr *ngFor="let ts of timesheets">
-        <td>
-          <label for="{{ ts?._id }}"> {{ formatedDate(ts?.date) }}</label>
-        </td>
-        <td>
-          <input
-            [disabled]="isApproved || isDeclared || ts.isDayOff"
-            type="text"
-            class="form-control timesheet-input"
-            value="{{ ts.note }}"
-            [(ngModel)]="ts.note"
-          />
-        </td>
-        <td style="display: flex; align-items: center">
-          <input
-            [disabled]="isApproved || isDeclared || ts.isDayOff"
-            class="form-control timesheet-input"
-            type="number"
-            value="{{ ts.workingHours }}"
-            [(ngModel)]="ts.workingHours"
-            (change)="checkHours(ts)"
-          />
-          &nbsp; &nbsp;
-          <div class="extra-hours-count">+ {{ ts.extraHours || 0 }}</div>
-          <input
-            type="text"
-            value="{{ ts.extraHours }}"
-            [(ngModel)]="ts.extraHours"
-            hidden
-          />
-
-         </td>
-        <td>
-          <mat-icon
-            (click)="updateRecord(ts)"
-            *ngIf="!isApproved && !isDeclared && !ts.isDayOff"
-            >edit
-          </mat-icon>
-        </td>
-      </tr>
-    </tbody>
-  </table> -->
 
   <div class="row d-flex dates" style="position: relative">
     <mat-form-field appearance="standard">
