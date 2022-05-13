@@ -10,7 +10,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { UsersService } from 'src/app/eidentity/services/users.service';
 import { UserService } from 'src/app/lms/services/user.service';
-import { ADMIN, HR } from 'src/app/lms/constants/roles.constant';
+import { ADMIN, EMPLOYEE, HR } from 'src/app/lms/constants/roles.constant';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -29,6 +29,7 @@ export class SummaryComponent implements OnInit {
   public interviews: Interview[];
   contractEnded: boolean;
   isHr: boolean;
+  isEmployee: boolean;
   constructor(
     private summaryService: EmployeeSummaryService,
     private userService: UserService
@@ -37,11 +38,12 @@ export class SummaryComponent implements OnInit {
     this.contractEnded = false;
     this.isAdmin = this.currUser.type === ADMIN;
     this.isHr = this.currUser.type === HR;
+    this.isEmployee = this.currUser.type === EMPLOYEE;
     console.log(this.currUser);
     this.extraHours = 0;
     this.WorkedHours = 0;
     this.getMonthlyHours();
-    this.isHr && this.getExtraHours();
+    (this.isHr || this.isEmployee) && this.getExtraHours();
   }
   ngOnInit(): void {
     // this.getFiles();
@@ -61,6 +63,10 @@ export class SummaryComponent implements OnInit {
       .getHoursMonthly(new Date().toISOString(), 'workingHours')
       .subscribe((result) => {
         this.WorkedHours = result['response'][0]['sum'] || 0;
+        console.log(
+          '⚡ ~ file: summary.component.ts ~ line 66 ~ SummaryComponent ~ .subscribe ~ WorkedHours',
+          this.WorkedHours
+        );
       });
   }
 

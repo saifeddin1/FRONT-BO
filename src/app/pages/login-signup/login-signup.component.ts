@@ -12,6 +12,7 @@ import {
 } from '../../lms/services/toaster.service';
 import {
   ADMIN,
+  EMPLOYEE,
   HR,
   INSTRUCTOR,
   STUDENT,
@@ -185,6 +186,7 @@ export class LoginSignupComponent implements OnInit {
             this.router.navigate(['lms']);
           } else if (
             this.userService.user.type === HR ||
+            this.userService.user.type === EMPLOYEE ||
             this.userService.user.type === INSTRUCTOR
           ) {
             this.router.navigate(['hr-administration']);
