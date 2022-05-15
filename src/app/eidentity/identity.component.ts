@@ -14,8 +14,34 @@ const ROUTES : Array<Route>=[
   {
     link:'./users',
     icon:'layers',
-    label:'users',
+    label:'Students',
   },
+  {
+    link:'./companies',
+    icon:'organization',
+    label:'Company',
+  },
+  {
+    link:'./departements',
+    icon:'bank',
+    label:'Departements',
+  },
+  {
+    link:'./hrusers',
+    icon:'layers',
+    label:'Hr users',
+  },
+  {
+    link:'./eoousers',
+    icon:'administrator',
+    label:'Oranization owners',
+  },
+  {
+    link:'./hrinstructor',
+    icon:'layers',
+    label:'Instructor users',
+  },
+
 ]
 @Component({
   selector: 'app-identity',

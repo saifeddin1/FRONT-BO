@@ -1,0 +1,290 @@
+<!-- ADD COMPANY -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+    <h3 class="modal-title">Add User</h3>
+  </ng-container>
+  <ng-template #editModalBloc>
+    <h3 class="modal-title">Edit User</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form" >
+        <div class="add-overlay">
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Company name</strong>
+            <input matInput class="text-area modalcol" placeholder="firstname" formControlName="name" min="3">
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Address</strong>
+            <input matInput class="text-area modalcol" placeholder="Adress" formControlName="address" min="3" >
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Phone</strong>
+            <input matInput class="text-area modalcol" type="number" placeholder="Phone" formControlName="phone" min="5">
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Type</strong>
+            <input matInput class="text-area modalcol" placeholder="type" formControlName="type" >
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Email</strong>
+            <input matInput class="text-area modalcol" placeholder="Email" formControlName="email">
+          </div>
+
+          
+          
+        
+          <div class="position-top modalRow" >
+            <strong class="modalcol3">Legal status</strong>
+            <select class="text-area modalcol" formControlName="legalStatus" >
+              <option  value="" >Select status</option>
+              <option  *ngFor="let status of legalstatus" value="{{ status.value }}" >{{status.value}}</option>
+            </select>
+          </div>  
+          <div class="position-top">
+            <strong class="modalcol3">TVAIC </strong>
+            <input matInput class="text-area modalcol" placeholder="TVAIC" formControlName="tvaic">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">SIRET</strong>
+            <input matInput class="text-area modalcol" placeholder="SIRET" formControlName="siret">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">RCS</strong>
+            <input matInput class="text-area modalcol" placeholder="RCS" formControlName="rcs">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Code APE</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="Code APE" formControlName="codeApe">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Web site</strong>
+            <input matInput class="text-area modalcol" placeholder="Web site" formControlName="website">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Image</strong>
+            <input matInput  class="text-area modalcol" placeholder="image" formControlName="imageUrl">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Employees number</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="Employees number" formControlName="employeesCount">
+          </div>
+          <div class="position-top modalRow" >
+            <strong class="modalcol3">Enabled </strong>
+            <select class="text-area modalcol" formControlName="enabled" >
+              <option  value="" >Select status</option>
+              <option  *ngFor="let enabled of enabled" value="{{ enabled.boolean }}" >{{enabled.value}}</option>
+            </select>
+          </div> 
+
+          
+        </div>
+      </form>
+   
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Fermer
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" >
+      Valider
+    </button>
+  </div>
+</clr-modal>
+
+
+<!-- <ng-template #deleteTemp> 
+    <img src="../../../../assets/img/danger.png" class="danger"alt="">
+      <h3>
+        are you sure you want to delete ?
+      </h3>
+      <div class="edit-button">   
+        <button id="add-button" class="btn button" style="background-color: #28a745" (click)="closeModal()">
+          no
+        </button>
+        <button [mat-dialog-close]="true"id="add-button" class="btn button" style="background-color: #ffc107;" (click)="deleteCompany()">
+          yes
+        </button>
+     
+      </div>
+  </ng-template>
+  <ng-template #addCompany>
+            <h2 class="mat-dialog-title">Add new company</h2>
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.name"
+                            placeholder="Name"
+                             />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.address"
+                            placeholder="Adress"
+                            />
+                            <input
+                            class="text-area"
+                            type="number"
+                            [(ngModel)]="company.phone"
+                            placeholder="Phone"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.type"
+                            placeholder="Type"
+                            />
+                            <input
+                            class="text-area"
+                            type="email"
+                            [(ngModel)]="company.email"
+                            placeholder="Email"
+                            />
+                            <select name="" id="" class="text-area" [(ngModel)]="company.legalStatus">
+                                <option value="">Select legal status</option>
+                                <option value="verfied">Verfied</option>
+                                <option value="not verified">Not verified</option>
+                              </select>
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.tvaic"
+                            placeholder="tvaic"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.siret"
+                            placeholder="siret"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.rcs"
+                            placeholder="rcs"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.codeApe"
+                            placeholder="codeApe"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.website"
+                            placeholder="web site"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.imageUrl"
+                            placeholder="imageUrl"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.employeesCount"
+                            placeholder="employees Count"
+                            />
+                            <input
+                            class="text-area"
+                            type="text"
+                            [(ngModel)]="company.enabled"
+                            placeholder="enabled"
+                            />
+                          
+                       
+            
+  <div class="btn-update-file">
+    <button (click)="addNewCompany()">
+      Send
+    </button >
+    <button (click)="closeModal()">
+      cancel
+    </button >
+  </div>
+  
+  </ng-template>
+
+  <ng-template #addDep>
+    <h2 class="mat-dialog-title">Add new departement</h2>
+                    <input
+                    class="text-area"
+                    type="text"
+                    [(ngModel)]="departement.name"
+                    placeholder="Name"
+                     />   
+<div class="btn-update-file">
+<button (click)="addDepartement()">
+Send
+</button >
+<button (click)="closeModal()">
+cancel
+</button >
+</div>
+
+</ng-template>-->
+  
+  <div class="dashboard ">
+    <div class="events-container">
+      <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+        <h6>Companies</h6>
+        <div class="profile-card">
+          <div class="edit-button">
+            <button id="add-button" class="btn button" (click)="openModal('add')">
+              Add new company
+            </button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <table mat-table [dataSource]="companies" >
+  
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Name</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.name}}
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="adress">
+            <th mat-header-cell *matHeaderCellDef>adress</th>
+            <td mat-cell *matCellDef="let element">
+              {{element.address}}
+            </td>
+          </ng-container>
+          
+          <ng-container matColumnDef="action">
+            <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+              <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+                <clr-icon shape="pencil"></clr-icon>
+              </button>    
+              <button
+                mat-icon-button (click)="openModal(deleteTemp,element._id)"
+                class="btn btn-outline-danger">
+                <clr-icon shape="trash" style="color: red !important"></clr-icon>
+              </button>
+              <button mat-icon-button class="btn btn-info" [routerLink]="['/identity/departements',element._id]">
+                <clr-icon shape="bank" style="color: rgb(91, 101, 247) !important" size="20"></clr-icon>
+              </button>
+              </td>
+          </ng-container>
+  
+  
+  
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  </div>

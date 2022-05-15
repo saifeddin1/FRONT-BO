@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
@@ -16,6 +17,10 @@ export class AcademicyearComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns : string[]=[
  
     'name',
@@ -35,11 +40,27 @@ export class AcademicyearComponent implements OnInit {
     this.createForm();
   }
 
+  changePage(event) {
+    console.log(event);
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
+    this.getallAcademicyear()
+
+  }
+
   dataSource: MatTableDataSource<Academicyear> = new MatTableDataSource<Academicyear>();
   getallAcademicyear(){
     this.academicyearService.getAcademicyears().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
+        this.dataSource.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length =
+            res.response.length || 0;
+        });
+      
+        this.total = res.response.length || 0;
       },
       (error)=>{
         console.error(error)

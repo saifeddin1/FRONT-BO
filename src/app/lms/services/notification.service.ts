@@ -3,7 +3,7 @@ import { AngularFireMessaging } from '@angular/fire/messaging';
 import { BehaviorSubject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import * as firebase from 'firebase'
-import { env } from "../../vc/constants/env";
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class NotificationService{
@@ -34,17 +34,17 @@ export class NotificationService{
     //   }
 
     notifier(data:any){
-        return  this.http.post(env.VCURL + "/VC/sendNotification", data);
+        return  this.http.post(environment.LmsApiUrl + "/api/notifications/sendNotification", data);
     }
     saveNotification(data:any){
-        return  this.http.post(env.VCURL + "/VC/addNotification", data);
+        return  this.http.post(environment.LmsApiUrl + "/api/notifications/addNotification", data);
     }
     
     getSavedNotifications(){
-        return this.http.get(env.VCURL + "/VC/getNotifications")
+        return this.http.get(environment.LmsApiUrl + "/api/notifications/getNotifications")
     }
 
     deleteNotification(id:any){
-        return this.http.delete(env.VCURL + "/VC/deleteNotification/" + id)
+        return this.http.delete(environment.LmsApiUrl + "/api/notifications/deleteNotification/" + id)
     }
-}
+} 

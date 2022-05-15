@@ -18,6 +18,7 @@ import {
 } from '../../lms/constants/roles.constant';
 import { ResetpwdService } from 'src/app/eidentity/services/resetpwd.service';
 import { UsersService } from 'src/app/eidentity/services/users.service';
+import { ProgramService } from 'src/app/accounting/services/program.service';
 
 @Component({
   selector: 'app-login-signup',
@@ -31,6 +32,7 @@ export class LoginSignupComponent implements OnInit {
   newpwd: string = '';
   isRightPanelActive: boolean;
   constructor(
+    private programService: ProgramService,
     private resetpwdrService: ResetpwdService,
     private userService: UserService,
     private niveauService: NiveauService,
@@ -39,6 +41,7 @@ export class LoginSignupComponent implements OnInit {
     private activatedRouter: ActivatedRoute // private identityUserService: UsersService
   ) {
     this.getNiveaux();
+   
     this.pagetype = this.activatedRouter.snapshot.params['type'];
     if (this.pagetype == 'login') {
       this.form = this.login;
@@ -49,14 +52,16 @@ export class LoginSignupComponent implements OnInit {
     }
     this.activeClass = true;
   }
-
+ 
   activeClass = false;
-  niveauxList;
-  getNiveaux() {
-    this.niveauService.getAllForUsers().subscribe(
-      (res: [Niveau]) => {
-        console.log('Niveaux : ', res);
-        this.niveauxList = res;
+  niveauxList:any []=[];
+  getNiveaux()
+  
+  {
+    this.programService.getPrograms().subscribe(
+      (res) => {
+        console.log('Niveaux :**** ', res.response);
+        this.niveauxList = res.response;
       },
       (error) => {
         console.error('error :', error);

@@ -12,20 +12,20 @@ import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  templateUrl: './eoousers.component.html',
+  styleUrls: ['./eoousers.component.css']
 })
-export class UsersComponent implements OnInit {
-
+export class EoousersComponent implements OnInit {
+  eooname:any
   checkboxtest:any;
   newpass: string;
+  checked=false
   emailchange:string;
-  displayniv = false;
-  displayOrganisationOwner = false;
   studentnivs : object[] = [];
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   clrModalOpen2: boolean = false;
+  clrModalOpen3: boolean = false;
   p: number = 1;
   limit: number = 7;
   total: number = 7;
@@ -39,23 +39,30 @@ export class UsersComponent implements OnInit {
 
   maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
 
-//   EOOACCESSRIGHTS=[
-//   { id:1, select:"false", name:"HR" },
-//   { id:2, select:"false", name:"LMS" },
-//   { id:3, select:"false", name:"IDENTITY" },
-//   { id:4, select:"false", name:"ACCOUNTING" }
-// ]
-
   displayedColumns : string[]=[
     
     'username',
     'email',
-    'type',
+    // 'type',
     'phone',
     'action' 
   ];
+  displayedColumnscompanyowner:string[]=[
+    'name',
+    'address',
+    'action'
+
+  ]
 
   companies:any;
+  accessModules:any=[
+                     {id:0,module:"HR",isChecked:false},
+                     {id:1,module:"AC",isChecked:false},
+                     {id:2,module:"LMS",isChecked:false},
+                     {id:3,module:"ID",isChecked:true}
+                    ]
+
+  checkedAccessModules:any=[];
 
   displayedOptionColumns: string[] = ['name', 'action'];
 
@@ -63,7 +70,7 @@ export class UsersComponent implements OnInit {
               private usersService:UsersService,private userServicelms:UserService,
               private companyService:CompanyService ) 
   {
-    this.getallUsers();
+    this.getallEOO();
     this.getstudentniv();
    }
    test(){
@@ -78,7 +85,7 @@ export class UsersComponent implements OnInit {
     console.log(event);
     this.p = event.pageIndex;
     this.limit = event.pageSize;
-    this.getallUsers();
+    this.getallEOO();
 
   }
 
@@ -99,8 +106,8 @@ export class UsersComponent implements OnInit {
     
 
   }
-  getallUsers(){
-    this.usersService.getUsers().subscribe(
+  getallEOO(){
+    this.usersService.getallorganisatiowners().subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;
@@ -140,14 +147,20 @@ export class UsersComponent implements OnInit {
       email: ['', [Validators.required]],
       type: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
-      studentNiveauId: ['', [Validators.required]],
       company: ['', [Validators.required]],
+      eooaccessmodules:'',
       
      
     }) as FormGroup & User; 
   }
 
   fillFormModel(body) {
+    
+    // for(let i=0;i<this.accessModules.length;i++){
+    //   if(this.accessModules[i].isChecked===true){
+    //     this.checkedAccessModules.push(this.accessModules[i].module)
+    //   }
+    // }
     this.form.patchValue({
       _id: body._id,
       username: body.username,
@@ -157,9 +170,8 @@ export class UsersComponent implements OnInit {
       email: body.email,
       type: body.type,
       birthday:moment(body.birthday).format('YYYY-MM-DD'),
-      studentNiveauId: body.studentNiveauId,
       company:body.company,
-      eooaccessrights:body.eooaccessrights
+      eooaccessmodules:body.eooaccessmodules
     });
   }
 
@@ -169,9 +181,11 @@ export class UsersComponent implements OnInit {
     if (type == 'add') {
       this.modalType = 'add';
       this.createForm();
+      this.form.controls['type'].setValue('EOO')
     } else {
       this.modalType = 'edit';
     }
+    this.getCompanies()
   }
 
   closeModal() {
@@ -195,6 +209,11 @@ export class UsersComponent implements OnInit {
     
   }
 
+  closeModal3() {
+    this.clrModalOpen3 = false;
+    
+  }
+
   onSubmit(){
     if(this.form.value){
       console.log('this.formModel.value : ', this.form.value);
@@ -214,21 +233,21 @@ export class UsersComponent implements OnInit {
         this.toasterService.error("lastname doit contenir au moins 3 caractères");
         return;
       }
-      if( this.form.value.type =='ESTUDENT'){
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
-          lastname: this.form.value.lastname,
-          type: this.form.value.type,
-        
-          email: this.form.value.email,
-          studentNiveauId:this.form.value.studentNiveauId,
-          birthday:this.form.value.birthday
+      // if( this.form.value.type =='ESTUDENT'){
+      //   user={
+      //     username : this.form.value.username,
+      //     firstname : this.form.value.firstname,
+      //     lastname: this.form.value.lastname,
+      //     type: this.form.value.type,        
+      //     email: this.form.value.email,
+      //     studentNiveauId:this.form.value.studentNiveauId,
+      //     birthday:this.form.value.birthday
   
-        }
+      //   }
 
-      }
-      else if( this.form.value.type =='EOO'){
+      // }
+      // else if( this.form.value.type =='EOO'){
+
         user={
           username : this.form.value.username,
           firstname : this.form.value.firstname,
@@ -237,22 +256,23 @@ export class UsersComponent implements OnInit {
           email: this.form.value.email,         
           birthday:this.form.value.birthday,
           company:this.form.value.company,
-          eooaccessrights:this.form.value.eooaccessrights
+          eooaccessmodules:this.form.value.eooaccessmodules
         }
   
-        }else{
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
-          lastname: this.form.value.lastname,
-          type: this.form.value.type,
+        // }
+      //   else{
+      //   user={
+      //     username : this.form.value.username,
+      //     firstname : this.form.value.firstname,
+      //     lastname: this.form.value.lastname,
+      //     type: this.form.value.type,
         
-          email: this.form.value.email,
+      //     email: this.form.value.email,
          
-          birthday:this.form.value.birthday
+      //     birthday:this.form.value.birthday
   
-        }
-      }
+      //   }
+      // }
       
      
       
@@ -265,7 +285,7 @@ export class UsersComponent implements OnInit {
             
             console.log(result)
             this.toasterService.success("Created successfully")
-            this.getallUsers();
+            this.getallEOO();
 
           },
           (err)=>{
@@ -277,7 +297,7 @@ export class UsersComponent implements OnInit {
           (result)=>{
             console.log('edited successfully:',result);
             this.toasterService.success('Edited Successfully');
-            this.getallUsers();
+            this.getallEOO();
 
           },(err)=>{
             console.log(err)
@@ -296,7 +316,7 @@ export class UsersComponent implements OnInit {
       (result)=>{
         console.log('Activated successfully:',result);
         this.toasterService.success('Activated Successfully');
-        this.getallUsers();
+        this.getallEOO();
 
       },(err)=>{
         console.log(err)
@@ -315,7 +335,7 @@ export class UsersComponent implements OnInit {
     this.usersService.deleteUser(id).subscribe(
       (res)=>{
         this.toasterService.success("Deleted successfully")
-        this.getallUsers();
+        this.getallEOO();
         this.getallDisableStudents();
 
       },
@@ -325,14 +345,19 @@ export class UsersComponent implements OnInit {
     )
   }
 
-  activatestudentniv(checked:any){
-    checked ? this.displayniv = true : this.displayniv = false
-  }
 
-  activateOrganisationOwner(checked:any){
-    checked ? this.displayOrganisationOwner = true : this.displayOrganisationOwner = false 
-    this.getCompanies()
-   
+  selectEooModules(checked:any,index,module){
+    checked ? (this.accessModules[index].isChecked = true,
+               this.checkedAccessModules.push(module),              
+               console.log(this.checkedAccessModules), 
+               this.form.controls['eooaccessmodules'].setValue(this.checkedAccessModules.toString())
+              )
+              :
+              (
+                this.checkedAccessModules.splice(this.checkedAccessModules.indexOf(module),1),
+                this.form.controls['eooaccessmodules'].setValue(this.checkedAccessModules.toString()),
+                console.log(this.checkedAccessModules)
+              );                   
   }
 
   openchangepwdmodal(email:string){
@@ -370,7 +395,7 @@ export class UsersComponent implements OnInit {
       (res)=>{
       this.toasterService.success("restored successfully")
       this.getallDisableStudents()
-      this.getallUsers();
+      this.getallEOO();
       },
       (err)=>{
         console.log("restore errror", err)
@@ -379,4 +404,19 @@ export class UsersComponent implements OnInit {
     )
   }
 
+  getCompaniesByOwner(id){
+        this.companyService.geByowner(id).subscribe(res=>{
+          this.companies=res['response'];
+        })
+  }
+
+  openownercompaniesmodal(id:any,firstname:any,lastname){
+    this.eooname=firstname + ' ' + ' ' + lastname
+    this.clrModalOpen3 = true;
+    this.getCompaniesByOwner(id);
+    console.log(this.eooname);
+    
+  }
+
 }
+

@@ -1,8 +1,9 @@
 <div class="dashboard ">
     <div class="events-container">
       <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
-        <h6>Users Table</h6>
+        <h6>Instructors Users Table</h6>
         <div class="profile-card behindbtn">
+          
           <div class="edit-button">
             <button id="add-button" class="btn button" (click)="openModal('add')" >
               Add User
@@ -13,6 +14,8 @@
            </button>
   
         </div>
+          
+        
       </div>
   
     </div>
@@ -22,7 +25,7 @@
   <div class="row d-flex dates">
     <table mat-table [dataSource]="dataSource">
 
-  
+      
 
       <!-- UserName Column -->
       <ng-container matColumnDef="username">
@@ -57,15 +60,13 @@
             <clr-icon shape="pencil"></clr-icon>
           </button>
 
-          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteProgram(element._id)">
+          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteUser(element._id)">
             <clr-icon shape="trash" style="color:red!important;"></clr-icon>
           </button>
           <button mat-icon-button class="btn btn-outline-danger" (click)="activateUser(element._id)">
             <clr-icon shape="unlock" style="color:rgb(1, 145, 66)!important;"></clr-icon>
           </button>
-          <button mat-icon-button class="btn btn-outline-danger" (click)="openchangepwdmodal(element.email)">
-            <clr-icon  shape="key" badge="danger" style="color:rgb(54, 27, 207)!important;"></clr-icon>
-          </button>
+        
         </td>
       </ng-container>
 
@@ -90,7 +91,7 @@
 </div>    
 
 
-<!-- ADD Program -->
+<!-- ADD -->
 
 <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
 
@@ -130,7 +131,7 @@
           
           <div class="position-top">
             <strong class="modalcol3">Birthday </strong>
-            <input matInput type="date" class="text-area modalcol" placeholder="birthday"
+            <input matInput type="date" class="text-area modalcol" placeholder="birthday" max="maxDate" min="minDate"
               formControlName="birthday">
           </div>
 
@@ -141,44 +142,11 @@
               <option value="EINSTRUCTOR">INSCTRUCTOR</option>
               <option value="EADMIN">ADMIN</option>
               <option value="ESTUDENT">STUDENT</option>
-              <option value="EOO">Organisation owner</option>
             </select>
           </div>
         
-          <div class="position-top">
-            <strong class="modalcol3"> </strong>
-            <mat-checkbox class="example-margin" #checkbox (change)='activatestudentniv(checkbox.checked)' >Check student level</mat-checkbox>
-          </div>
-
-          <div class="position-top modalRow" *ngIf="displayniv">
-            <strong class="modalcol3">studentNiv</strong>
-            <select class="text-area modalcol" formControlName="studentNiveauId" >
-              <option  *ngFor="let studentniv of studentnivs" value="{{ studentniv._id }}">{{studentniv.name}}</option>
-             
-            </select>
           
-          </div>
-          <div class="position-top">
-            <strong class="modalcol3"> </strong>
-            <mat-checkbox class="example-margin" #checkboxCompany (change)='activateOrganisationOwner(checkboxCompany.checked)'>Check organisation owner</mat-checkbox>
-          </div>
-          
-          <div class="position-top modalRow" *ngIf="displayOrganisationOwner">
-            <strong class="modalcol3">Company</strong>
-            <select class="text-area modalcol" formControlName="company" >
-              <option  *ngFor="let company of companies" value="{{ company._id }}" >{{company.name}}</option>
-            </select>
-                      
-              <!-- <mat-checkbox class="example-margin" value="hr" *ngFor="let right of EOOACCESSRIGHTS" >{{right.name}}</mat-checkbox><hr> -->
-              <!-- <mat-checkbox class="example-margin" value="hr" [(ngModel)]="checkboxtest">Select All</mat-checkbox>
-              <hr> -->
-              <mat-checkbox class="example-margin" >HR</mat-checkbox>
-              <mat-checkbox class="example-margin" >LMS</mat-checkbox><br>
-              <mat-checkbox class="example-margin" >Accounting</mat-checkbox><br>
-              <mat-checkbox class="example-margin" >Identity</mat-checkbox>
-            
-          </div>
-
+       
          
 
         </div>
@@ -194,39 +162,6 @@
     </button>
   </div>
 </clr-modal>
-
-<!-- change password pop up -->
-<clr-modal [(clrModalOpen)]="clrModalOpen2" [clrModalSize]="'xl'">
-  <div class="modal-body">
-    <div>
-      
-        <div class="add-overlay">
-
-          <div class="position-top modalRow">
-            <strong class="modalcol3">set password:</strong>
-            <input matInput class="text-area modalcol" placeholder="password.." [(ngModel)] ="newpass">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal2()">
-              Fermer
-            </button>
-            <button class="btn btn-ok btn-outline" type="submit" (click)="changepwd()" >
-              Valider
-            </button>
-          </div>
-
-         
-
-
-         
-
-        </div>
-      
-    </div>
-  </div>
-
-</clr-modal>
-
 
 
 <!-- Trash-->

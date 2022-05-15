@@ -38,6 +38,25 @@ export class UsersService {
   getUsers(): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/api/v1/users/`);
   }
+  getDisableStudents(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/disablestudent`);
+  }
+  getallHr(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allhr`);
+  }
+  getalldisabledHr(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/alldisabledhr`);
+  }
+  getallInstructor(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allinstructor`);
+  }
+  getalldisabledInstructor(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/alldisabledinstructor`);
+  }
+  getallorganisatiowners(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allorganisationowners`);
+  }
+
 
   getOneUser(userId: String): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/api/v1/users/${userId}`);
@@ -59,6 +78,11 @@ export class UsersService {
   updateUser(userId: string, item: any): Observable<any> {
     return this.http.put<any>(`${this.BASE_URL}/api/v1/users/${userId}`, item);
   }
+  restore(userId: string): Observable<any> {
+    console.log('userId ', userId)
+    return this.http.put<any>(`${this.BASE_URL}/api/v1/users/restore/${userId}`, {});
+  }
+
 
   activateUser(userId: string): Observable<any> {
     console.log(userId);

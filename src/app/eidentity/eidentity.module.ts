@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { EidentityRoutingModule } from './eidentity-routing.module';
 import { IdentityComponent } from './identity.component';
 import { ClarityModule, ClrIconModule } from '@clr/angular';
@@ -12,8 +11,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { UsersComponent } from './pages/users/users.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatButtonModule} from '@angular/material/button';
+import { CompanyComponent } from './pages/company/company.component';
+import { DepartementComponent } from './pages/departement/departement.component'; 
+import { HrusersComponent } from './pages/hrusers/hrusers.component';
+import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { EoousersComponent } from './pages/eoousers/eoousers.component';
 @NgModule({
-  declarations: [IdentityComponent, UsersComponent],
+  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent, CompanyComponent, DepartementComponent, EoousersComponent],
   imports: [
     CommonModule,
     EidentityRoutingModule,
@@ -26,10 +31,11 @@ import {MatButtonModule} from '@angular/material/button';
     MatSortModule,
     MatIconModule,
     MatCheckboxModule,
-    MatButtonModule
+    MatButtonModule,
+    MatPaginatorModule,
   ],
   exports:[
-    IdentityComponent,UsersComponent
+    IdentityComponent,UsersComponent,HrusersComponent, InstructorusersComponent
   ]
 })
 export class EidentityModule { }

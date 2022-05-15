@@ -1,0 +1,124 @@
+<ng-template #deleteTemp> 
+    <img src="../../../../assets/img/danger.png" class="danger"alt="">
+      <h3>
+        are you sure you want to delete ?
+      </h3>
+      <div class="edit-button">   
+        <button id="add-button" class="btn button" style="background-color: #28a745" (click)="closeModal()">
+          no
+        </button>
+        <button [mat-dialog-close]="true"id="add-button" class="btn button" style="background-color: #ffc107;" (click)="deleteDepartement()">
+          yes
+        </button>
+     
+      </div>
+  </ng-template>
+  <ng-template #addDep>
+            <h2 class="mat-dialog-title">Add departement </h2>
+            <input
+            class="text-area"
+            type="text"
+            [(ngModel)]="AddDep.name"
+            placeholder="Departement name"
+          />
+          <select *ngIf="pageName=='Departements'" name="" id="" class="text-area" [(ngModel)]="AddDep.company">
+            <option value="">Select company</option>
+            <option *ngFor="let company of company" value="{{company._id}}">{{company.name}}</option>
+          </select>
+      
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+              Fermer
+            </button>
+            <button class="btn btn-ok btn-outline" type="submit" (click)="addDepartement()" >
+              Valider
+            </button>
+          </div>
+  
+  </ng-template>
+
+
+  
+  <div class="dashboard">
+    <div class="events-container">
+      <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
+     <div>
+      <button mat-icon-button *ngIf="pageName!='Departements'" [routerLink]="['/identity/companies']" class="btn btn-outline-danger" style="float: left;"><clr-icon shape="undo" style="color: hsl(236, 100%, 65%) !important"></clr-icon></button>
+        <h6>&nbsp;&nbsp;{{pageName}}</h6>
+     </div>
+
+     
+       
+        
+        <div class="profile-card">
+          <div class="edit-button">
+            <button id="add-button" class="btn button" (click)="openModal(addDep,'')">
+              Add new departement
+            </button>
+          </div>
+  
+        </div>
+      </div>
+    </div>
+    <div class="card-container">
+      <div class="card-info">
+       <div class="card-icon">
+        <clr-icon shape="employee-group" size="50" style="color: rgb(88, 97, 233) !important;size: 50;"></clr-icon>
+       </div>
+       <div class="card-type">
+         <h3>Employees</h3><br>
+         <h2>5456</h2>
+       </div>
+      </div>
+      <div class="card-info">
+        <div class="card-icon">
+         <clr-icon shape="bank" size="50" style="color: rgb(16, 100, 68) !important;size: 50;"></clr-icon>
+        </div>
+        <div class="card-type">
+          <h3>Departements</h3><br>
+          <h2>{{depsNumber}}</h2>
+        </div>
+       </div>
+       <div class="card-info">
+        <div class="card-icon">
+         <clr-icon shape="dollar" size="50" style="color: rgb(94, 100, 16) !important;size: 50;"></clr-icon>
+        </div>
+        <div class="card-type">
+          <h3>Salaries</h3><br>
+          <h2>{{depsNumber}}</h2>
+        </div>
+       </div>
+    </div>
+    <table mat-table [dataSource]="departements" >
+  
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef><h1> Name</h1></th>
+            <td mat-cell *matCellDef="let element">
+              {{element.name}}
+            </td>
+          </ng-container> 
+          <ng-container  matColumnDef="company" >
+            <th mat-header-cell *matHeaderCellDef ><h1>Company</h1></th>
+            <td mat-cell *matCellDef="let element">
+              {{element._id}}
+            </td>
+          </ng-container>              
+          <ng-container matColumnDef="action">
+            <th class="px-3" mat-header-cell *matHeaderCellDef><h1>Actions</h1></th>
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">    
+              <button
+                mat-icon-button (click)="openModal(deleteTemp,element._id)"
+                class="btn btn-outline-danger">
+                <clr-icon shape="trash" style="color: red !important"></clr-icon>
+              </button>
+            </td>
+          </ng-container>
+  
+  
+  
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+  </div>

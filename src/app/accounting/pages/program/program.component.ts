@@ -1,9 +1,10 @@
 import { Program } from './../../models/program.model';
 import { ProgramService } from './../../services/program.service';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-program',
@@ -13,6 +14,10 @@ import { MatTableDataSource } from '@angular/material/table';
 export class ProgramComponent implements OnInit {
   
   clrModalOpen: boolean = false;
+  p: number = 1;
+  limit: number = 7;
+  total: number = 7;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   form: FormGroup;
   displayedColumns : string[]=[
    
@@ -32,12 +37,29 @@ export class ProgramComponent implements OnInit {
     console.log(this.dataSource)
   }
 
+  changePage(event) {
+    console.log(event);
+    this.p = event.pageIndex;
+    this.limit = event.pageSize;
+    this.getallprograms()
+
+  }
+
   dataSource: MatTableDataSource<Program> = new MatTableDataSource<Program>();
   getallprograms(){
     this.programService.getPrograms().subscribe(
       (res)=>{
+
         console.log("get all programs", res.response)
         this.dataSource = new MatTableDataSource(res.response);
+        this.dataSource.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length =
+            res.response.length || 0;
+        });
+      
+        this.total = res.response.length || 0;
       },
       (error)=>{
         console.error(error)

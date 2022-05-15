@@ -34,6 +34,9 @@ export class FeestructureService {
   deleteFeestructure(id:string):Observable<any>{
     return this.http.delete(`${this.BASE_URL}/api/feeStructure/${id}`)
   }
+  getOneFeestructure(id:string):Observable<any>{
+    return this.http.get(`${this.BASE_URL}/api/feeStructure/${id}`)
+  }
 
   editById(id:string, element:any):Observable<any>{
    return this.http.put<any>(`${this.BASE_URL}/api/feeStructure/${id}`,element);
