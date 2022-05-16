@@ -34,8 +34,8 @@ export class GroupstudentService {
   getStudents():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/student/`);
   }
-  getGroupStudentsbyname():Observable<any>{
-    return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/byname`);
+  getGroupStudentsbyname(term ?: string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/byname?filtre=${term}`);
   }
   getDisabledGroupStudents():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/studentGroup/disablestudentgroup`);

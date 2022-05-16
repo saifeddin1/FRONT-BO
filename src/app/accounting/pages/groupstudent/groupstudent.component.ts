@@ -17,6 +17,8 @@ import { UsersService } from 'src/app/eidentity/services/users.service';
 import pdfMake from "pdfmake/build/pdfmake";  
 import pdfFonts from "pdfmake/build/vfs_fonts"; 
 import moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 pdfMake.vfs = pdfFonts.pdfMake.vfs; 
 
 @Component({
@@ -26,6 +28,8 @@ pdfMake.vfs = pdfFonts.pdfMake.vfs;
 })
 export class GroupstudentComponent implements OnInit{
   feeStructures: [] = [];
+  filterVal: string = '';
+  searchNotifier = new Subject();
   feestructidforfacture:string;
   onefeestructure: any;
   ismatch:boolean= false;
@@ -96,6 +100,12 @@ export class GroupstudentComponent implements OnInit{
     this.createForm();
     this.createForm1();
     this.createForm2();
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+      this.getStudentsGroup()
+        
+    );
   }
 
   changePage(event) {
@@ -109,7 +119,7 @@ export class GroupstudentComponent implements OnInit{
   dataSource1: MatTableDataSource<any> = new MatTableDataSource<any>();
   getStudentsGroup(){
     this.dataSource1 = new MatTableDataSource([]);
-    this.groupstudentService.getGroupStudentsbyname().subscribe(
+    this.groupstudentService.getGroupStudentsbyname(this.filterVal).subscribe(
       (res)=>{
        console.log(" get all student group", res.response)
       this.dataSource1 = new MatTableDataSource(res.response);

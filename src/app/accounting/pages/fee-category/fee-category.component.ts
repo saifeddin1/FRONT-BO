@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-fee-category',
@@ -12,7 +14,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./fee-category.component.css']
 })
 export class FeeCategoryComponent implements OnInit {
-
+  filterVal: string = '';
+  searchNotifier = new Subject();
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
@@ -36,6 +39,13 @@ export class FeeCategoryComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+      this.getallFeeCategory()
+        
+    );
   }
 
   changePage(event) {
@@ -48,7 +58,7 @@ export class FeeCategoryComponent implements OnInit {
 
   dataSource: MatTableDataSource<FeeCategory> = new MatTableDataSource<FeeCategory>();
   getallFeeCategory(){
-    this.feeCategoryService.getFeeCatgories().subscribe(
+    this.feeCategoryService.getFeeCatgories(this.filterVal).subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;

@@ -19,8 +19,8 @@ export class AcademicyearService {
   }
 
 
-  getAcademicyears():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/academicyear/`); 
+  getAcademicyears(term ?: string):Observable<any>{
+   return this.http.get<any>(`${this.BASE_URL}/api/academicyear?filtre=${term}`); 
   }
   getDisabledAcademicyears():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/academicyear/disabledacademicyear`); 

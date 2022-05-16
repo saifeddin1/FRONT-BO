@@ -27,8 +27,8 @@ export class FeestructureService {
    }
   
 
-  getFeestructureswithname():Observable<any>{
-    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/byname`); 
+  getFeestructureswithname(term ?: string):Observable<any>{
+    return this.http.get<any>(`${this.BASE_URL}/api/feeStructure/byname?filtre=${term}`); 
    }
 
   deleteFeestructure(id:string):Observable<any>{

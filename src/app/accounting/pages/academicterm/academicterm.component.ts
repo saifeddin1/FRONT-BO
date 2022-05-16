@@ -7,6 +7,8 @@ import { AcademictermService } from '../../services/academicterm.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { AcademicyearService } from '../../services/academicyear.service';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-academicterm',
@@ -16,6 +18,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class AcademictermComponent implements OnInit {
   academicterm:  object[] = [];
   p: number = 1;
+  filterVal: string = '';
+  searchNotifier = new Subject();
   limit: number = 7;
   total: number = 7;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -51,6 +55,13 @@ export class AcademictermComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+      this.getallAcademicterm()
+        
+    );
   }
 
   changePage(event) {
@@ -64,7 +75,7 @@ export class AcademictermComponent implements OnInit {
   dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
 
   getallAcademicterm(){
-    this.academictermService.getAcademicterms().subscribe(
+    this.academictermService.getAcademicterms(this.filterVal).subscribe(
       (res)=>{
        
        console.log("academic term response", res.response)
@@ -91,7 +102,7 @@ export class AcademictermComponent implements OnInit {
     this.academictermService.getDisabledAcademicterms().subscribe(
       (res)=>{
        
-       console.log("academic term response", res.response)
+       console.log("academic term response delted", res.response)
        this.dataSource1 = new MatTableDataSource(res.response);
 
 
