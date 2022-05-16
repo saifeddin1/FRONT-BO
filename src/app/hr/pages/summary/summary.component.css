@@ -1,8 +1,4 @@
-td,
-th {
-  font-size: 17px;
-  padding: 1rem !important;
-}
+
 
 span.title{
   font-weight: 500; margin-bottom: 15px; font-size: 20px;
@@ -14,6 +10,18 @@ span.title{
   padding-block: 1.5rem;
   justify-content: flex-start;
   align-items: center; 
+}
+button {
+  /* Shadow Dark · 16dp */
+  box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
+  border-radius: 7px;
+  border: 0;
+  font-size: 1rem;
+  /* width: 5rem; */
+  height: 2.5rem;
+  /* White Base */
+  background-color: #000;
+  color: #ffffff;
 }
 
 span.title::before{
@@ -125,6 +133,23 @@ a.visit-all:hover {
 .summary-wrapper .contract {
   width: 35%;
 }
+
+.summary-wrapper .contracts {
+  width: 60%;
+}
+table {
+  width:100%;
+}
+
+.all-active .hr-card{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+  font-size: 1.2 rem;
+  width: 30%;
+  border-radius: 10px;
+ }
 .summary-wrapper .extrahours {
   width:25%;
 }
@@ -133,7 +158,26 @@ a.visit-all:hover {
   flex-direction: column;
 
 }
- 
+
+.employees-list-card {
+  width: 35%;
+}
+.employees-list-card .hr-card{
+  padding: 1rem;
+
+}
+ .employees-list-card .hr-card div.card-top{
+  display: flex;
+  justify-content: space-between;
+ }
+
+ .employees-list-card .hr-card div.card-bot{
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+  height: 80px;
+  justify-content: space-around;
+}
 .hours-value span:last-child{
   color: #b7b7b7;
   font-weight: 500;

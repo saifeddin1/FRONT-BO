@@ -1,106 +1,221 @@
-<div class="dashboard ">
-    <div class="events-container">
-      <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
-        <h6>Hr users Table</h6>
-       
-        <div class="profile-card behindbtn">
-          
-          <div class="edit-button">
-            <button id="add-button" class="btn button" (click)="openModal('add')" >
-              Add User
-            </button>
-          </div>
-          <button mat-icon-button class="btn btn-trash" style="width: 100px;" (click)="openModal1()">
-            restore
-           </button>
-  
-        </div>
-          
-        
-      </div>
-  
-    </div>
+<div class="dashboard">
+  <div class="events-container">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
+      <h6>Hr users Table</h6>
 
-    <!-------------------------------TAble----------------------------------------------------------------------------------->
+      <div class="profile-card behindbtn">
+        <div class="edit-button">
+          <button id="add-button" class="btn button" (click)="openModal('add')">
+            Add User
+          </button>
+        </div>
+        <button
+          mat-icon-button
+          class="btn btn-trash"
+          style="width: 100px"
+          (click)="openModal1()"
+        >
+          restore
+        </button>
+      </div>
+    </div>
+  </div>
 
   <div class="row d-flex dates">
     <table mat-table [dataSource]="dataSource">
-
-      
-
-      <!-- UserName Column -->
       <ng-container matColumnDef="username">
-        <th mat-header-cell *matHeaderCellDef> userName </th>
-        <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+        <th mat-header-cell *matHeaderCellDef>userName</th>
+        <td mat-cell *matCellDef="let element">{{ element.username }}</td>
       </ng-container>
 
-      <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th mat-header-cell *matHeaderCellDef> Email </th>
-        <td mat-cell *matCellDef="let element"> {{element.email}} </td>
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
       </ng-container>
-      <!-- Type Column -->
       <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let element"> {{element.type}} </td>
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
       </ng-container>
-      <!-- Phone Column -->
       <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef> Phone </th>
-        <td mat-cell *matCellDef="let element"> {{element.phone }} </td>
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
       </ng-container>
 
-    
-
-      
-      <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-          <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="editById(element)"
+          >
             <clr-icon shape="pencil"></clr-icon>
           </button>
 
-          <button mat-icon-button class="btn btn-outline-danger" (click)="deleteUser(element._id)">
-            <clr-icon shape="trash" style="color:red!important;"></clr-icon>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteUser(element._id)"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
           </button>
-          <button mat-icon-button class="btn btn-outline-danger" (click)="activateUser(element._id)">
-            <clr-icon shape="unlock" style="color:rgb(1, 145, 66)!important;"></clr-icon>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="activateUser(element._id)"
+          >
+            <clr-icon
+              shape="unlock"
+              style="color: rgb(1, 145, 66) !important"
+            ></clr-icon>
           </button>
-          <button mat-icon-button class="btn btn-outline-danger" (click)="openchangepwdmodal(element.email)">
-            <clr-icon  shape="key" badge="danger" style="color:rgb(54, 27, 207)!important;"></clr-icon>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="openchangepwdmodal(element.email)"
+          >
+            <clr-icon
+              shape="key"
+              badge="danger"
+              style="color: rgb(54, 27, 207) !important"
+            ></clr-icon>
           </button>
-        
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
 
   <mat-paginator
-  
-  #paginator
-  [length]="total"
-  [pageIndex]="p"
-  [pageSize]="limit"
-  [pageSizeOptions]="[3, 14, 21, 28, 42]"
-  showFirstLastButtons
-  (page)="changePage($event)"
-  aria-label="Select page of periodic elements"
->
-</mat-paginator>
+    #paginator1
+    [length]="total"
+    [pageIndex]="p"
+    [pageSize]="limit"
+    [pageSizeOptions]="[3, 14, 21, 28, 42]"
+    showFirstLastButtons
+    (page)="changePage($event)"
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
 
-    
-</div>    
+  <!-- --------- -->
 
+  <div class="events-container">
+    <div
+      class="row d-flex dates"
+      style="justify-content: space-between; align-items: center"
+    >
+      <h6>Normal Employees Table</h6>
+
+      <div class="profile-card behindbtn">
+        <div class="edit-button">
+          <button id="add-button" class="btn button" (click)="openModal('add')">
+            Add Employee
+          </button>
+        </div>
+        <button
+          mat-icon-button
+          class="btn btn-trash"
+          style="width: 100px"
+          (click)="openModal1()"
+        >
+          restore
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-------------------------------TAble----------------------------------------------------------------------------------->
+
+  <div class="row d-flex dates">
+    <table mat-table [dataSource]="employees">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>userName</th>
+        <td mat-cell *matCellDef="let element">{{ element.username }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="action">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-info"
+            (click)="editById(element)"
+          >
+            <clr-icon shape="pencil"></clr-icon>
+          </button>
+
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="deleteUser(element._id)"
+          >
+            <clr-icon shape="trash" style="color: red !important"></clr-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="activateUser(element._id)"
+          >
+            <clr-icon
+              shape="unlock"
+              style="color: rgb(1, 145, 66) !important"
+            ></clr-icon>
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="openchangepwdmodal(element.email)"
+          >
+            <clr-icon
+              shape="key"
+              badge="danger"
+              style="color: rgb(54, 27, 207) !important"
+            ></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="emplDisplayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: emplDisplayedColumns"></tr>
+    </table>
+  </div>
+
+  <mat-paginator
+    #paginator
+    [length]="total"
+    [pageIndex]="p"
+    [pageSize]="limit"
+    [pageSizeOptions]="[3, 14, 21, 28, 42]"
+    showFirstLastButtons
+    (page)="changePage($event)"
+    aria-label="Select page of periodic elements"
+  >
+  </mat-paginator>
+</div>
 
 <!-- ADD -->
 
 <clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
-
-  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+  <ng-container *ngIf="modalType == 'add'; else editModalBloc">
     <h3 class="modal-title">Add User</h3>
   </ng-container>
   <ng-template #editModalBloc>
@@ -109,127 +224,148 @@
 
   <div class="modal-body">
     <div>
-      <form [formGroup]="form" >
+      <form [formGroup]="form">
         <div class="add-overlay">
-
           <div class="position-top modalRow">
             <strong class="modalcol3">Firstname</strong>
-            <input matInput class="text-area modalcol" placeholder="firstname" formControlName="firstname" min="3">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="firstname"
+              formControlName="firstname"
+              min="3"
+            />
           </div>
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Lastname</strong>
-            <input matInput class="text-area modalcol" placeholder="lastname" formControlName="lastname" min="3" >
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="lastname"
+              formControlName="lastname"
+              min="3"
+            />
           </div>
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Username</strong>
-            <input matInput class="text-area modalcol" placeholder="username" formControlName="username" min="5">
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="username"
+              formControlName="username"
+              min="5"
+            />
           </div>
 
           <div class="position-top modalRow">
             <strong class="modalcol3">Email</strong>
-            <input matInput class="text-area modalcol" placeholder="email" formControlName="email" >
+            <input
+              matInput
+              class="text-area modalcol"
+              placeholder="email"
+              formControlName="email"
+            />
           </div>
 
-          
-          
           <div class="position-top">
             <strong class="modalcol3">Birthday </strong>
-            <input matInput type="date" class="text-area modalcol" placeholder="birthday" max="maxDate" min="minDate"
-              formControlName="birthday">
+            <input
+              matInput
+              type="date"
+              class="text-area modalcol"
+              placeholder="birthday"
+              max="maxDate"
+              min="minDate"
+              formControlName="birthday"
+            />
           </div>
 
           <div class="position-top">
             <strong class="modalcol3">Type</strong>
-            <select class="text-area modalcol" formControlName="type" >
+            <select class="text-area modalcol" formControlName="type">
               <option value="EHR">HR</option>
+              <option value="EEMPLOYEE">EMPLOYEE</option>
               <option value="EINSTRUCTOR">INSCTRUCTOR</option>
               <option value="EADMIN">ADMIN</option>
               <option value="ESTUDENT">STUDENT</option>
             </select>
           </div>
-        
-          
-       
-         
-
         </div>
       </form>
     </div>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+    <button
+      type="button"
+      class="btn btn-ok btn-outline btn-cancel"
+      (click)="closeModal()"
+    >
       Fermer
     </button>
-    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" >
+    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()">
       Valider
     </button>
   </div>
 </clr-modal>
 
-
-
-
 <!-- Trash-->
 
 <clr-modal [(clrModalOpen)]="clrModalOpen1" [clrModalSize]="'xl'">
-
- 
-  <ng-template >
+  <ng-template>
     <h3 class="modal-title">Trash</h3>
   </ng-template>
 
   <div class="modal-body">
     <table mat-table [dataSource]="dataSource1">
+      <ng-container matColumnDef="username">
+        <th mat-header-cell *matHeaderCellDef>userName</th>
+        <td mat-cell *matCellDef="let element">{{ element.username }}</td>
+      </ng-container>
 
-     
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef>Email</th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+      <ng-container matColumnDef="type">
+        <th mat-header-cell *matHeaderCellDef>Type</th>
+        <td mat-cell *matCellDef="let element">{{ element.type }}</td>
+      </ng-container>
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef>Phone</th>
+        <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+      </ng-container>
 
-        <!-- UserName Column -->
-        <ng-container matColumnDef="username">
-          <th mat-header-cell *matHeaderCellDef> userName </th>
-          <td mat-cell *matCellDef="let element"> {{element.username}} </td>
-        </ng-container>
-  
-        <!-- Email Column -->
-        <ng-container matColumnDef="email">
-          <th mat-header-cell *matHeaderCellDef> Email </th>
-          <td mat-cell *matCellDef="let element"> {{element.email}} </td>
-        </ng-container>
-        <!-- Type Column -->
-        <ng-container matColumnDef="type">
-          <th mat-header-cell *matHeaderCellDef> Type </th>
-          <td mat-cell *matCellDef="let element"> {{element.type}} </td>
-        </ng-container>
-        <!-- Phone Column -->
-        <ng-container matColumnDef="phone">
-          <th mat-header-cell *matHeaderCellDef> Phone </th>
-          <td mat-cell *matCellDef="let element"> {{element.phone }} </td>
-        </ng-container>
-     
-    
-
-      
-      <!-- action Column -->
       <ng-container matColumnDef="action">
-        <th class="px-3" mat-header-cell *matHeaderCellDef> Actions </th>
-        <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-
-          <button mat-icon-button class="btn btn-outline-danger" (click)="restore(element._id)">
-            <clr-icon shape="backup-restore" badge="info" style="color:rgb(0, 85, 255)!important;"></clr-icon>
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="btn btn-outline-danger"
+            (click)="restore(element._id)"
+          >
+            <clr-icon
+              shape="backup-restore"
+              badge="info"
+              style="color: rgb(0, 85, 255) !important"
+            ></clr-icon>
           </button>
         </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
   </div>
   <div class="modal-footer">
-    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal1()">
+    <button
+      type="button"
+      class="btn btn-ok btn-outline btn-cancel"
+      (click)="closeModal1()"
+    >
       Fermer
     </button>
- 
   </div>
 </clr-modal>
 
@@ -237,24 +373,33 @@
 <clr-modal [(clrModalOpen)]="clrModalOpen2" [clrModalSize]="'xl'">
   <div class="modal-body">
     <div>
-      
-        <div class="add-overlay">
-
-          <div class="position-top modalRow">
-            <strong class="modalcol3">set password:</strong>
-            <input matInput class="text-area modalcol" placeholder="password.." [(ngModel)] ="newpass">
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal2()">
-              Fermer
-            </button>
-            <button class="btn btn-ok btn-outline" type="submit" (click)="changepwd()" >
-              Valider
-            </button>
-          </div>
+      <div class="add-overlay">
+        <div class="position-top modalRow">
+          <strong class="modalcol3">set password:</strong>
+          <input
+            matInput
+            class="text-area modalcol"
+            placeholder="password.."
+            [(ngModel)]="newpass"
+          />
         </div>
-      
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-ok btn-outline btn-cancel"
+            (click)="closeModal2()"
+          >
+            Fermer
+          </button>
+          <button
+            class="btn btn-ok btn-outline"
+            type="submit"
+            (click)="changepwd()"
+          >
+            Valider
+          </button>
+        </div>
+      </div>
     </div>
   </div>
-
 </clr-modal>

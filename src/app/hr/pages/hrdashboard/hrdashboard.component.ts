@@ -1,7 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemePalette } from '@angular/material/core';
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner';
-import { ADMIN, HR, INSTRUCTOR } from 'src/app/lms/constants/roles.constant';
+import {
+  ADMIN,
+  EMPLOYEE,
+  HR,
+  INSTRUCTOR,
+} from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { UserService } from 'src/app/lms/services/user.service';
 import { Contract } from '../../models/contract.model';
@@ -32,7 +37,7 @@ const ROUTES: Array<Route> = [
   //   hidden: false,
   // },
   {
-    roles: [INSTRUCTOR, HR],
+    roles: [INSTRUCTOR, EMPLOYEE, HR],
     link: './collaborators',
     icon: 'users',
     status: 'active',
@@ -49,7 +54,7 @@ const ROUTES: Array<Route> = [
   },
 
   {
-    roles: [ADMIN, INSTRUCTOR, HR],
+    roles: [ADMIN, INSTRUCTOR, EMPLOYEE, HR],
     link: './manage-contracts',
     icon: 'copy',
     status: 'active',
@@ -58,7 +63,7 @@ const ROUTES: Array<Route> = [
   },
 
   {
-    roles: [INSTRUCTOR, HR, ADMIN],
+    roles: [INSTRUCTOR, EMPLOYEE, HR, ADMIN],
     link: './interviews',
     icon: 'form',
     status: 'active',
@@ -67,7 +72,7 @@ const ROUTES: Array<Route> = [
   },
 
   {
-    roles: [INSTRUCTOR, HR],
+    roles: [INSTRUCTOR, EMPLOYEE, HR],
     link: './timetable',
     icon: 'clock',
     status: 'active',
@@ -75,7 +80,7 @@ const ROUTES: Array<Route> = [
     hidden: false,
   },
   {
-    roles: [INSTRUCTOR, HR],
+    roles: [INSTRUCTOR, EMPLOYEE, HR],
     link: './timesheets',
     icon: 'calendar',
     status: 'active',
@@ -99,7 +104,7 @@ const ROUTES: Array<Route> = [
     hidden: false,
   },
   {
-    roles: [INSTRUCTOR, HR, ADMIN],
+    roles: [INSTRUCTOR, EMPLOYEE, HR, ADMIN],
     link: './timeoffs',
     icon: 'on-holiday',
     status: 'active',
@@ -138,11 +143,12 @@ export class HrdashboardComponent implements OnInit {
   employeeContract: Contract;
   doesEmployeeHaveContract: boolean = false;
   isInstructor: boolean;
-  isLoading: boolean = true;
+  isLoading: boolean = false;
   // color: ThemePalette = 'primary';
   // mode: ProgressSpinnerMode = 'indeterminate';
   // value = 50;
   isEmployeeAdministrative: boolean;
+  isEmployee: boolean;
   constructor(
     public userService: UserService,
     private employeeService: EmployeeSummaryService
@@ -173,8 +179,8 @@ export class HrdashboardComponent implements OnInit {
         this.isLoading = false;
       },
       (error) => {
+        this.isLoading = false;
         this.doesEmployeeHaveContract = false;
-
         console.log(error);
         this.toggleRoutes();
       }
@@ -212,6 +218,7 @@ export class HrdashboardComponent implements OnInit {
   logout() {
     this.userService.logOut();
   }
+
   ngDoCheck() {
     this.user = this.userService.getCurrentUser();
     // this.toggleRoutes();
@@ -221,6 +228,7 @@ export class HrdashboardComponent implements OnInit {
       );
     }
   }
+
   checkRoles() {
     switch (this.userService.getCurrentUser()?.type) {
       case 'EADMIN':
@@ -234,6 +242,9 @@ export class HrdashboardComponent implements OnInit {
         break;
       case 'EINSTRUCTOR':
         this.isInstructor = true;
+        break;
+      case 'EEMPLOYEE':
+        this.isEmployee = true;
         break;
       default:
         this.isStudent = true;

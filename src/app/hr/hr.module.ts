@@ -57,6 +57,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { GenerateTimesheetsPopupComponent } from './components/generate-timesheets-popup/generate-timesheets-popup.component';
 import { AddTimesheetDialogComponent } from './components/add-timesheet-dialog/add-timesheet-dialog.component';
 import { DeclarationsComponent } from './pages/declarations/declarations.component';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [
@@ -122,6 +123,7 @@ import { DeclarationsComponent } from './pages/declarations/declarations.compone
     MatTableModule,
     MatPaginatorModule,
     MatDatepickerModule,
+    MatProgressBarModule,
   ],
   exports: [
     SummaryComponent,

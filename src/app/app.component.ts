@@ -8,6 +8,7 @@ import {
   INSTRUCTOR,
   STUDENT,
   ORGANISATION8_OWNER,
+  EMPLOYEE,
 } from './lms/constants/roles.constant';
 import { User } from './lms/models/user.model';
 import { UserService } from './lms/services/user.service';
@@ -30,7 +31,7 @@ const ROUTES: Array<Route> = [
     hidden: false,
   },
   {
-    roles: [INSTRUCTOR, HR, ADMIN, ORGANISATION8_OWNER],
+    roles: [INSTRUCTOR, EMPLOYEE, HR, ADMIN, ORGANISATION8_OWNER],
     link: 'hr-administration',
     label: 'HR Management',
     icon: 'hr',
@@ -52,13 +53,13 @@ const ROUTES: Array<Route> = [
     hidden: false,
   },
 
-  {
-    roles: [ADMIN, INSTRUCTOR, HR, STUDENT, ORGANISATION8_OWNER],
-    link: 'VCDASHBOARD',
-    label: 'Video Conference',
-    icon: 'vc',
-    hidden: false,
-  },
+  // {
+  //   roles: [ADMIN, INSTRUCTOR, HR, STUDENT, ORGANISATION8_OWNER],
+  //   link: 'VCDASHBOARD',
+  //   label: 'Video Conference',
+  //   icon: 'vc',
+  //   hidden: false,
+  // },
 ];
 
 @Component({
