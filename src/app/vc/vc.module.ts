@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
@@ -29,8 +29,9 @@ import { VcEventsComponent } from './pages/vc-events/vc-events.component';
 import { AngularFireMessagingModule } from '@angular/fire/messaging';
 import { AngularFireModule } from '@angular/fire';
 import { firebaseConfig } from './constants/notifEnv';
-import { CantineComponent } from './pages/cantine/cantine.component'
 import { ChatClassComponent } from './pages/chat-class/chat-class.component';
+import { ScreenShareComponent } from './pages/screen-share/screen-share.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
 
@@ -43,7 +44,7 @@ import { ChatClassComponent } from './pages/chat-class/chat-class.component';
       VcDevoirsComponent,
       VcRecordsComponent,
       VcEventsComponent,
-      CantineComponent,
+      ScreenShareComponent,
       
   ],
   imports: [
@@ -64,6 +65,7 @@ import { ChatClassComponent } from './pages/chat-class/chat-class.component';
     CommonModule,
     VcRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     MatTableModule,
     FlatpickrModule.forRoot(),
@@ -75,6 +77,9 @@ import { ChatClassComponent } from './pages/chat-class/chat-class.component';
     NgxMatNativeDateModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
+    HttpClientModule,
+     
+
 
   ],
 

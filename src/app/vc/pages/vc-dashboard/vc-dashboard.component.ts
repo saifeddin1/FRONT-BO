@@ -33,14 +33,14 @@ const ROUTES: Array<Route> = [
     label: 'Events',
   },
   {
-    link: './cantine',
-    icon: 'fish',
-    label: 'Cantine',
-  },
-  {
     link: './settings',
     icon: 'form',
     label: 'settings',
+  },
+  {
+    link: './videoclass',
+    icon: 'video',
+    label: 'Live class',
   },
 
 ];

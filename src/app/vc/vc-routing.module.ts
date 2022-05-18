@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { CantineComponent } from './pages/cantine/cantine.component';
 import { VcCalendarComponent } from './pages/vc-calendar/vc-calendar.component';
 import { VcDashboardComponent } from './pages/vc-dashboard/vc-dashboard.component';
 import { VcDevoirsComponent } from './pages/vc-devoirs/vc-devoirs.component';
@@ -10,6 +9,7 @@ import { VcRecordsComponent } from './pages/vc-records/vc-records.component';
 import { VcSettingsComponent } from './pages/vc-settings/vc-settings.component';
 import { AuthGuard } from '../lms/core/guards/auth.guard';
 import { ChatClassComponent } from './pages/chat-class/chat-class.component';
+import { ScreenShareComponent } from './pages/screen-share/screen-share.component';
 
 const routes: Routes = [
   {path:'VCDASHBOARD',component:VcDashboardComponent,
@@ -23,7 +23,7 @@ const routes: Routes = [
     { path:'chatClass',component:ChatClassComponent },
     { path:'devoirs',component:VcDevoirsComponent },
     { path:'events',component:VcEventsComponent },
-    {path:'cantine',component:CantineComponent}
+    {path:'videoclass',component:ScreenShareComponent}
 ]}
 ];
 
