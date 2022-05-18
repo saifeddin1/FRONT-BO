@@ -25,9 +25,11 @@
 .global-nav button {
   border: 1px solid #f1f1f1;
   padding: 0.5rem;
-  box-shadow: 0px 8px 24px #c9cfda;
+  /* box-shadow: 0px 8px 24px #c9cfda; */
   margin-inline: 10px;
   cursor: pointer;
+  border-radius: 8px;
+  background-color: #dbe0f1;
 }
 .menu-item-icon {
   width: 25px;

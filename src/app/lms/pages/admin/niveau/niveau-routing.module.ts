@@ -9,18 +9,33 @@ import { ListNiveauMatiereComponent } from './list-niveau-matiere/list-niveau-ma
 import { ListNiveauComponent } from './list-niveau/list-niveau.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'list' },
-  { path: 'list', component: ListNiveauComponent },
+  { path: '', component: ListNiveauComponent, pathMatch: 'full' },
+  // { path: 'list', redirectTo: '' },
   { path: 'matieres/list/:id', component: ListNiveauMatiereComponent },
-  { path: 'matiere/chapitres/list/:nivId/:nivMatId', component: ListChapitreComponent },
-  { path: 'matiere/enregistrements/list/:nivId/:nivMatId', component: ListEnregistrementComponent },
-  { path: 'matiere/chapitre/cours/list/:nivId/:nivMatId/:chapId', component: ListCoursComponent },
-  { path: 'matiere/chapitre/mediaAssign/list/:nivId/:nivMatId/:mediaTypeId/:chapId', component: ListAssignMediaComponent },
-  { path: 'matiere/chapitre/mediaAssignFile/list/:nivId/:nivMatId/:mediaTypeId/:chapId/:mediaAssignId', component: ListAssignFileMediaComponent },
+  {
+    path: 'matiere/chapitres/list/:nivId/:nivMatId',
+    component: ListChapitreComponent,
+  },
+  {
+    path: 'matiere/enregistrements/list/:nivId/:nivMatId',
+    component: ListEnregistrementComponent,
+  },
+  {
+    path: 'matiere/chapitre/cours/list/:nivId/:nivMatId/:chapId',
+    component: ListCoursComponent,
+  },
+  {
+    path: 'matiere/chapitre/mediaAssign/list/:nivId/:nivMatId/:mediaTypeId/:chapId',
+    component: ListAssignMediaComponent,
+  },
+  {
+    path: 'matiere/chapitre/mediaAssignFile/list/:nivId/:nivMatId/:mediaTypeId/:chapId/:mediaAssignId',
+    component: ListAssignFileMediaComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class NiveauRoutingModule { }
+export class NiveauRoutingModule {}

@@ -1,0 +1,192 @@
+<!-- ---------------------------------Year month ------------------------------------------- -->
+<div class="wrapper">
+  <div class="btn-add-employee">
+    <h2>Incoming Declarations</h2>
+  </div>
+  <div class="incoming-list" style="margin-top: 3rem">
+    <table mat-table [dataSource]="incomingDeclarations">
+      <ng-container matColumnDef="user">
+        <th mat-header-cell *matHeaderCellDef>User</th>
+        <td mat-cell *matCellDef="let element">{{ element.user.userRef }}</td>
+      </ng-container>
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef>Name</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.user.profile.fullname }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="month">
+        <th mat-header-cell *matHeaderCellDef>Month</th>
+        <td mat-cell *matCellDef="let element">{{ element.month }}</td>
+      </ng-container>
+      !--
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef>Status</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.status }}
+        </td>
+      </ng-container>
+      -->
+      <ng-container matColumnDef="ACTION">
+        <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+        <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+          <button
+            mat-icon-button
+            class="hr-button btn-approve"
+            (click)="updateStatus(element, 'approved')"
+            [disabled]="element.status === 'approved'"
+          >
+            Approve
+          </button>
+          <button
+            mat-icon-button
+            class="hr-button btn-decline"
+            (click)="updateStatus(element, 'rejected')"
+            [disabled]="element.status === 'rejected'"
+          >
+            Decline
+          </button>
+          <button
+            mat-icon-button
+            class="btn btn-outline-primary"
+            (click)="toggleViewIncoming(element)"
+            matTooltip="View Declaration Details"
+          >
+            <clr-icon *ngIf="!incomingDetailsVisible" shape="eye"></clr-icon>
+            <clr-icon
+              *ngIf="incomingDetailsVisible"
+              shape="eye-hide"
+            ></clr-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr
+        mat-header-row
+        *matHeaderRowDef="timesheetDeclarationsdisplayedColumns"
+      ></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: timesheetDeclarationsdisplayedColumns"
+      ></tr>
+    </table>
+    <mat-paginator
+      #paginator
+      [length]="total"
+      [pageIndex]="p"
+      [pageSize]="limit"
+      [pageSizeOptions]="[7, 14, 21, 28, 42]"
+      showFirstLastButtons
+      (page)="changePage($event)"
+      aria-label="Select page of periodic elements"
+    >
+    </mat-paginator>
+  </div>
+  <div class="row-wrapper" style="margin-top: 3rem">
+    <div class="declarations-list">
+      <h2>Timesheet Declarations History</h2>
+      <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filterVal"
+          (ngModelChange)="searchNotifier.next()"
+          placeholder="Ex. ium"
+          #input
+        />
+      </mat-form-field>
+      <table mat-table [dataSource]="timesheetDeclarations">
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef>User</th>
+          <td mat-cell *matCellDef="let element">{{ element.user.userRef }}</td>
+        </ng-container>
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Name</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.user.profile.fullname }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="month">
+          <th mat-header-cell *matHeaderCellDef>Month</th>
+          <td mat-cell *matCellDef="let element">{{ element.month }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.status }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="ACTION">
+          <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+          <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+            <button
+              mat-icon-button
+              class="btn btn-outline-danger"
+              (click)="deleteDeclaration(element)"
+              matTooltip="Delete Declaration"
+            >
+              <clr-icon shape="trash" style="color: red !important"></clr-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr
+          mat-header-row
+          *matHeaderRowDef="timesheetDeclarationsdisplayedColumns"
+        ></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: timesheetDeclarationsdisplayedColumns"
+        ></tr>
+      </table>
+      <mat-paginator
+        #paginator
+        [length]="total"
+        [pageIndex]="p"
+        [pageSize]="limit"
+        [pageSizeOptions]="[7, 14, 21, 28, 42]"
+        showFirstLastButtons
+        (page)="changePage($event)"
+        aria-label="Select page of periodic elements"
+      >
+      </mat-paginator>
+    </div>
+    <div class="incoming-item" *ngIf="incomingDetailsVisible">
+      <span class="owner"
+        >{{ incomingItem.user.profile.fullname }} ({{
+          incomingItem.user.userRef
+        }})</span
+      >
+      <div>
+        Month : <span>{{ incomingItem.month }}</span> <br />
+        Worked Hours :
+        <span>{{ incomingItem.declaredHours || 0 }}</span>
+        <br />
+        Extra Hours :
+        <span>{{ incomingItem.extraHours || 0 }}</span>
+      </div>
+      <div>
+        <button
+          mat-icon-button
+          class="hr-button btn-approve"
+          (click)="updateStatus(incomingItem, 'approved')"
+          [disabled]="incomingItem.status === 'approved'"
+        >
+          Approve
+        </button>
+        <button
+          mat-icon-button
+          class="hr-button btn-decline"
+          (click)="updateStatus(incomingItem, 'rejected')"
+          [disabled]="incomingItem.status === 'rejected'"
+        >
+          Decline
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

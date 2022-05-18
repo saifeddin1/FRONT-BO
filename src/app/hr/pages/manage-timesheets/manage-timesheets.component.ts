@@ -52,6 +52,7 @@ export class ManageTimesheetsComponent implements OnInit, AfterViewInit {
       date: null,
       note: '',
       workingHours: 0,
+      extraHours: 0,
     };
   }
   @ViewChild(MatPaginator) paginator: MatPaginator;

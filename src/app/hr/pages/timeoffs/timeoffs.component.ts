@@ -232,8 +232,8 @@ export class TimeoffsComponent implements OnInit {
   openDialog(event, operation, toff_id) {
     this.isOpen = true;
     const dialogRef = this.dialog.open(TimeoffAddDialogComponent, {
-      height: 'auto',
-      width: 'auto',
+      height: '400px',
+      width: '400px',
       data: {
         timeoffRequest:
           operation === 'add'

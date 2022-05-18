@@ -26,6 +26,26 @@
         >
           <mat-spinner> </mat-spinner>
         </div>
+        <a
+          class="navitem"
+          clrVerticalNavLink
+          clrVerticalNavLink
+          routerLink="./"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <clr-icon shape="book"></clr-icon> <span>Summary</span>
+        </a>
+        <a
+          class="navitem"
+          clrVerticalNavLink
+          clrVerticalNavLink
+          routerLink="./profile"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
+          <clr-icon shape="user"></clr-icon> <span>Profile</span>
+        </a>
         <ng-container *ngFor="let route of routes">
           <div *ngIf="(employeeContract && !isLoading) || isAdmin">
             <a

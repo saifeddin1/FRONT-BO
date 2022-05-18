@@ -49,16 +49,9 @@ export class EditSeanceNiveauComponent {
   canManageHomework: boolean = false;
   ngOnInit(): void {
     var user: User = this.userService.getCurrentUser();
-    if (user.type === ADMIN) {
+    if (user.type === ADMIN || INSTRUCTOR) {
       this.canManage = true;
       this.canManageHomework = true;
-    } else {
-      if (user && user.type === INSTRUCTOR && user.permissions.seance) {
-        this.canManage = true;
-        if (user.permissions.homework) {
-          this.canManageHomework = true;
-        }
-      }
     }
   }
 
@@ -131,7 +124,10 @@ export class EditSeanceNiveauComponent {
   }
 
   goToSeanceNiveauMatieres(niveauId: string): void {
-    this.router.navigate(['seances/edit/nivmat', this.seanceId, niveauId]);
+    this.router.navigateByUrl(
+      `lms/seances/edit/nivmat/${this.seanceId}/${niveauId}`
+    );
+    // this.router.navigate(['seances/edit/nivmat', this.seanceId, niveauId]);
   }
 
   deleteById(id, index) {

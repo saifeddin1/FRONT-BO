@@ -5,17 +5,21 @@ import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { User } from '../../models/user.model';
+import { ResetpwdService } from '../../services/resetpwd.service';
 import { UsersService } from '../../services/users.service';
 
 @Component({
   selector: 'app-hrusers',
   templateUrl: './hrusers.component.html',
-  styleUrls: ['./hrusers.component.css']
+  styleUrls: ['./hrusers.component.css'],
 })
 export class HrusersComponent implements OnInit {
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
+  clrModalOpen2: boolean = false;
   form: FormGroup;
+  newpass: string;
+  emailchange: string;
   p: number = 1;
   limit: number = 7;
   total: number = 7;
@@ -24,101 +28,127 @@ export class HrusersComponent implements OnInit {
   year = this.now.getFullYear();
   month = this.now.getMonth();
   day = this.now.getDay();
-  minDate = moment({year: this.year - 100, month: this.month, day: this.day}).format('YYYY-MM-DD');
+  minDate = moment({
+    year: this.year - 100,
+    month: this.month,
+    day: this.day,
+  }).format('YYYY-MM-DD');
 
-  maxDate = moment({year: this.year - 18, month: this.month, day: this.day}).format('YYYY-MM-DD');
-  displayedColumns : string[]=[
-    
+  maxDate = moment({
+    year: this.year - 18,
+    month: this.month,
+    day: this.day,
+  }).format('YYYY-MM-DD');
+  displayedColumns: string[] = ['username', 'email', 'type', 'phone', 'action'];
+
+  displayedOptionColumns: string[] = ['name', 'action'];
+  employees: MatTableDataSource<User> = new MatTableDataSource<User>();
+  emplDisplayedColumns: string[] = [
     'username',
     'email',
     'type',
     'phone',
-    'action' 
+    'action',
   ];
 
-  displayedOptionColumns: string[] = ['name', 'action'];
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
-    this.getallHrUsers()
-    this.getallDisabledHrUsers()
+  constructor(
+    private pwdService: ResetpwdService,
+    private formBuilder: FormBuilder,
+    private toasterService: ToasterService,
+    private usersService: UsersService
+  ) {
+    this.getallHrUsers();
+    this.getallDisabledHrUsers();
+    this.getallEmployees();
   }
-// 
+  //
   ngOnInit(): void {
-    this.createForm()
+    this.createForm();
   }
 
   changePage(event) {
     console.log(event);
     this.p = event.pageIndex;
     this.limit = event.pageSize;
-    this.getallHrUsers()
-
+    this.getallHrUsers();
   }
 
-  
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
-  getallHrUsers(){
+  getallHrUsers() {
     this.usersService.getallHr().subscribe(
-      (res)=>{
+      (res) => {
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;
         setTimeout(() => {
           this.paginator.pageIndex = this.p;
-          this.paginator.length =
-            res.response.length || 0;
+          this.paginator.length = res.response.length || 0;
         });
-      
+
         this.total = res.response.length || 0;
       },
-      (error)=>{
-        console.error(error)
+      (error) => {
+        console.error(error);
       }
-    )
+    );
+  }
+
+  getallEmployees() {
+    this.usersService.getAllEmployees().subscribe(
+      (res) => {
+        this.employees = new MatTableDataSource(res.response);
+        this.employees.paginator = this.paginator;
+        setTimeout(() => {
+          this.paginator.pageIndex = this.p;
+          this.paginator.length = res.response.length || 0;
+        });
+
+        this.total = res.response.length || 0;
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
   }
   dataSource1: MatTableDataSource<User> = new MatTableDataSource<User>();
 
-  getallDisabledHrUsers(){
+  getallDisabledHrUsers() {
     this.usersService.getalldisabledHr().subscribe(
-      (res)=>{
+      (res) => {
         this.dataSource1 = new MatTableDataSource(res.response);
       },
-      (error)=>{
-        console.error(error)
+      (error) => {
+        console.error(error);
       }
-    )
+    );
   }
 
-  activateUser(id:string){
-
+  activateUser(id: string) {
     this.usersService.activateUser(id).subscribe(
-      (result)=>{
-        console.log('Activated successfully:',result);
+      (result) => {
+        console.log('Activated successfully:', result);
         this.toasterService.success('Activated Successfully');
         this.getallHrUsers();
-
-      },(err)=>{
-        console.log(err)
-        this.toasterService.error('Something wrong')
+      },
+      (err) => {
+        console.log(err);
+        this.toasterService.error('Something wrong');
       }
-
-    )
+    );
   }
 
-  deleteUser(id:string){
+  deleteUser(id: string) {
     this.usersService.deleteUser(id).subscribe(
-      (res)=>{
-        this.toasterService.success("Deleted successfully")
+      (res) => {
+        this.toasterService.success('Deleted successfully');
         this.getallHrUsers();
         this.getallDisabledHrUsers();
-
       },
-      (err)=>{
-        this.toasterService.error('Something wrong ')
+      (err) => {
+        this.toasterService.error('Something wrong ');
       }
-    )
+    );
   }
-
- 
 
   createForm() {
     this.form = this.formBuilder.group({
@@ -131,9 +161,7 @@ export class HrusersComponent implements OnInit {
       type: ['', [Validators.required]],
       birthday: ['', [Validators.required]],
       studentNiveauId: ['', [Validators.required]],
-      
-     
-    }) as FormGroup & User; 
+    }) as FormGroup & User;
   }
 
   fillFormModel(body) {
@@ -145,13 +173,13 @@ export class HrusersComponent implements OnInit {
       password: body.password,
       email: body.email,
       type: body.type,
-      birthday:moment(body.birthday).format('YYYY-MM-DD'),
+      birthday: moment(body.birthday).format('YYYY-MM-DD'),
       studentNiveauId: body.studentNiveauId,
     });
   }
 
   modalType: string = 'add';
-  openModal(type ='add') {
+  openModal(type = 'add') {
     this.clrModalOpen = true;
     if (type == 'add') {
       this.modalType = 'add';
@@ -164,98 +192,90 @@ export class HrusersComponent implements OnInit {
   closeModal() {
     this.createForm();
     this.clrModalOpen = false;
-    
   }
   closeModal1() {
-    
     this.clrModalOpen1 = false;
-    
   }
   openModal1() {
-    
     this.clrModalOpen1 = true;
-    
   }
 
-  onSubmit(){
-    if(this.form.value){
+  closeModal2() {
+    this.clrModalOpen2 = false;
+  }
+  onSubmit() {
+    if (this.form.value) {
       console.log('this.formModel.value : ', this.form.value);
-      
-      let user ;
-     
+
+      let user;
+
       if (this.form.value.username.length < 5) {
-    
-        this.toasterService.error("username doit contenir au moins 5 caractères");
+        this.toasterService.error(
+          'username doit contenir au moins 5 caractères'
+        );
         return;
       }
       if (this.form.value.firstname.length < 3) {
-        this.toasterService.error("firstname doit contenir au moins 3 caractères");
+        this.toasterService.error(
+          'firstname doit contenir au moins 3 caractères'
+        );
         return;
       }
       if (this.form.value.lastname.length < 3) {
-        this.toasterService.error("lastname doit contenir au moins 3 caractères");
+        this.toasterService.error(
+          'lastname doit contenir au moins 3 caractères'
+        );
         return;
       }
-      if( this.form.value.type =='ESTUDENT'){
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
+      if (this.form.value.type == 'ESTUDENT') {
+        user = {
+          username: this.form.value.username,
+          firstname: this.form.value.firstname,
           lastname: this.form.value.lastname,
           type: this.form.value.type,
-        
-          email: this.form.value.email,
-          studentNiveauId:this.form.value.studentNiveauId,
-          birthday:this.form.value.birthday
-  
-        }
 
-      }else{
-        user={
-          username : this.form.value.username,
-          firstname : this.form.value.firstname,
+          email: this.form.value.email,
+          studentNiveauId: this.form.value.studentNiveauId,
+          birthday: this.form.value.birthday,
+        };
+      } else {
+        user = {
+          username: this.form.value.username,
+          firstname: this.form.value.firstname,
           lastname: this.form.value.lastname,
           type: this.form.value.type,
-        
+
           email: this.form.value.email,
-         
-          birthday:this.form.value.birthday
-  
-        }
+
+          birthday: this.form.value.birthday,
+        };
       }
-      
-     
-      
-      if(this.modalType === 'add'){
-        
 
-        
+      if (this.modalType === 'add') {
         this.usersService.createUser(user).subscribe(
-          (result)=>{
-            
-            console.log(result)
-            this.toasterService.success("Created successfully")
+          (result) => {
+            console.log(result);
+            this.toasterService.success('Created successfully');
             this.getallHrUsers();
-
           },
-          (err)=>{
-            console.log(err)
-            this.toasterService.error('Something wrong ')
-          })
-      }else if(this.modalType === 'edit'){
-        this.usersService.updateUser(this.form.value._id,user).subscribe(
-          (result)=>{
-            console.log('edited successfully:',result);
+          (err) => {
+            console.log(err);
+            this.toasterService.error('Something wrong ');
+          }
+        );
+      } else if (this.modalType === 'edit') {
+        this.usersService.updateUser(this.form.value._id, user).subscribe(
+          (result) => {
+            console.log('edited successfully:', result);
             this.toasterService.success('Edited Successfully');
             this.getallHrUsers();
-
-          },(err)=>{
-            console.log(err)
-            this.toasterService.error('Something wrong')
+          },
+          (err) => {
+            console.log(err);
+            this.toasterService.error('Something wrong');
           }
-        )
+        );
       }
-
-      
     }
   }
 
@@ -264,18 +284,34 @@ export class HrusersComponent implements OnInit {
     this.openModal('edit');
   }
 
-  restore(id:string){
+  restore(id: string) {
     this.usersService.restore(id).subscribe(
-      (res)=>{
-      this.toasterService.success("restored successfully")
-      this.getallHrUsers();
-      this.getallDisabledHrUsers();
+      (res) => {
+        this.toasterService.success('restored successfully');
+        this.getallHrUsers();
+        this.getallDisabledHrUsers();
       },
-      (err)=>{
-        console.log("restore errror", err)
+      (err) => {
+        console.log('restore errror', err);
         this.toasterService.error('restore error');
       }
-    )
+    );
   }
 
+  openchangepwdmodal(email: string) {
+    this.emailchange = email;
+    this.clrModalOpen2 = true;
+  }
+  changepwd() {
+    this.pwdService
+      .changepwdbyadmin(this.emailchange, { newpassword: this.newpass })
+      .subscribe(
+        (res) => {
+          this.toasterService.success('Changed successfully');
+        },
+        (err) => {
+          this.toasterService.error('Something wrong');
+        }
+      );
+  }
 }

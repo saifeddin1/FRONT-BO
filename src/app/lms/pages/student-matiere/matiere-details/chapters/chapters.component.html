@@ -1,181 +1,277 @@
 <p>
-    <mat-button-toggle-group name="fontStyle" aria-label="Font Style" (ngModelChange)="selectedTabChanged($event)"
-        [(ngModel)]="selectedTab">
-        <mat-button-toggle value="course">
-            Chapitres
-        </mat-button-toggle>
-        <mat-button-toggle value="record">
-            Enregistrements
-        </mat-button-toggle>
-    </mat-button-toggle-group>
+  <mat-button-toggle-group
+    name="fontStyle"
+    aria-label="Font Style"
+    (ngModelChange)="selectedTabChanged($event)"
+    [(ngModel)]="selectedTab"
+  >
+    <mat-button-toggle value="course"> Chapitres </mat-button-toggle>
+    <mat-button-toggle value="record"> Enregistrements </mat-button-toggle>
+  </mat-button-toggle-group>
 </p>
 
 <ng-container *ngIf="selectedTab == 'course'">
-    <p *ngIf="selectedChapitre">
-        <a (click)="selectedChapitre=null;selectedMediaType=null;selectedAssignMedia=null">Chapitres</a> /
-        <ng-container *ngIf="selectedMediaType;else nullChoice;">
-            <a (click)="selectedMediaType=null;selectedAssignMedia=null">
-                {{selectedChapitre?.name}}
-            </a>
+  <p *ngIf="selectedChapitre">
+    <a
+      (click)="
+        selectedChapitre = null;
+        selectedMediaType = null;
+        selectedAssignMedia = null
+      "
+      >Chapitres</a
+    >
+    /
+    <ng-container *ngIf="selectedMediaType; else nullChoice">
+      <a (click)="selectedMediaType = null; selectedAssignMedia = null">
+        {{ selectedChapitre?.name }}
+      </a>
+    </ng-container>
+    <ng-template #nullChoice>
+      {{ selectedChapitre?.name }}
+    </ng-template>
+    <ng-container *ngIf="selectedAssignMedia; else nullCourse">
+      /
+      <a (click)="selectedAssignMedia = null"> {{ selectedMediaType?.name }}</a>
+    </ng-container>
+    <ng-template #nullCourse> / {{ selectedMediaType?.name }} </ng-template>
+  </p>
+  <div class="matieres">
+    <!-- Start Chapitre List -->
+    <ng-container *ngIf="!selectedChapitre && !selectedMediaType">
+      <ng-container *ngIf="nivMat?.chapitres?.length; else emptyChapitre">
+        <div
+          *ngFor="let chapitre of nivMat.chapitres"
+          class="matiere-card"
+          (click)="selectChapitre(chapitre)"
+        >
+          <div class="matiere-image plus number">
+            .{{ chapitre?.order < 10 ? "0" : null }}{{ chapitre?.order + 1 }}
+          </div>
+          <div>
+            Chapitre {{ chapitre?.order + 1 }}.
+            {{
+              chapitre?.name?.length < 60
+                ? chapitre.name
+                : (chapitre.name | slice: 0:60) + "..."
+            }}
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #emptyChapitre>
+        <div class="matiere-card">
+          <h6>Cette matière n'a pas de chapitres...</h6>
+        </div>
+      </ng-template>
+    </ng-container>
+    <!-- End Chapitre List -->
+
+    <!-- Start Media Type List -->
+    <ng-container *ngIf="!selectedMediaType && selectedChapitre">
+      <div
+        *ngFor="let mediaType of mediaTypes"
+        class="matiere-card"
+        (click)="selectMediaType(mediaType)"
+      >
+        <div class="matiere-image plus number">{{ mediaType?.name }}</div>
+      </div>
+    </ng-container>
+    <!-- End Media Type List -->
+
+    <!-- Start Course List -->
+    <ng-container
+      *ngIf="selectedChapitre && selectedMediaType && !selectedAssignMedia"
+    >
+      <ng-container *ngIf="assignMedias?.length; else emptyCourse">
+        <div
+          *ngFor="let assignMedia of assignMedias; let i = index"
+          class="matiere-card"
+          (click)="selectAssignMedia(assignMedia)"
+        >
+          <div class="matiere-image plus number">
+            .{{ i < 10 ? "0" : null }}{{ i + 1 }}
+          </div>
+          <div>
+            {{ selectedMediaType?.nameSingulier }} {{ i + 1 }}.
+            {{
+              assignMedia?.name?.length < 60
+                ? assignMedia?.name
+                : (assignMedia?.name | slice: 0:60) + "..."
+            }}
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #emptyCourse>
+        <div class="matiere-card">
+          <h6>{{ getEmptyAssignedMedia(selectedMediaType?.name) }}</h6>
+        </div>
+      </ng-template>
+    </ng-container>
+    <!-- End Course List -->
+
+    <ng-container
+      *ngIf="selectedChapitre && selectedMediaType && selectedAssignMedia"
+    >
+      <!-- Start Course List -->
+      <div
+        class="matiere-card"
+        style="height: auto !important; padding: 10px 0"
+      >
+        <div
+          class="matiere-image plus number"
+          style="width: auto; margin-top: 2rem; overflow-wrap: anywhere"
+        >
+          {{ selectedAssignMedia?.name }}
+        </div>
+        <ng-container
+          *ngIf="
+            selectedAssignMedia?.videoUrl &&
+            selectedAssignMedia?.videoEnabled &&
+            selectedAssignMedia?.videoSources
+          "
+        >
+          <div
+            plyr
+            class="plyr"
+            plyrTitle="Video 1"
+            [plyrPlaysInline]="true"
+            [plyrSources]="selectedAssignMedia?.videoSources"
+            (plyrInit)="player = $event"
+            (plyrPlay)="played($event)"
+          ></div>
+          <div class="rating-stars">
+            <ngx-star-rating
+              (ngModelChange)="onChangeRating($event, 'course')"
+              [(ngModel)]="rating.rate"
+              [id]="rating.id"
+              [disabled]="rating.disabled"
+            ></ngx-star-rating>
+          </div>
         </ng-container>
-        <ng-template #nullChoice>
-            {{selectedChapitre?.name}}
-        </ng-template>
-        <ng-container *ngIf="selectedAssignMedia;else nullCourse;">
-            / <a (click)="selectedAssignMedia=null"> {{ selectedMediaType?.name }}</a>
-        </ng-container>
-        <ng-template #nullCourse>
-            / {{ selectedMediaType?.name }}
-        </ng-template>
-    </p>
-    <div class="matieres">
-        <!-- Start Chapitre List -->
-        <ng-container *ngIf="!selectedChapitre && !selectedMediaType">
-            <ng-container *ngIf="nivMat?.chapitres?.length;else emptyChapitre;">
-                <div *ngFor="let chapitre of nivMat.chapitres" class="matiere-card" (click)="selectChapitre(chapitre)">
-                    <div class="matiere-image plus number">
-                        .{{chapitre?.order < 10 ? '0' : null}}{{chapitre?.order + 1}} </div>
-                            <div>
-                                Chapitre {{chapitre?.order +1}}. {{
-                                chapitre?.name?.length < 60 ? chapitre.name : (chapitre.name | slice: 0:60) + "..." }}
-                                    </div>
-                            </div>
-            </ng-container>
-            <ng-template #emptyChapitre>
-                <div class="matiere-card">
-                    <h6> Cette matière n'a pas de chapitres...</h6>
-                </div>
-            </ng-template>
-        </ng-container>
-        <!-- End Chapitre List -->
+      </div>
+      <ng-container *ngIf="assignMediaFiles?.data?.length">
+        <div class="matiere-card" style="height: auto !important">
+          <div class="matiere-image plus number" style="width: auto">
+            Fichers
+          </div>
+          <ng-container *ngIf="assignMediaFiles?.data?.length">
+            <table mat-table [dataSource]="assignMediaFiles">
+              <!-- Name Column -->
+              <ng-container matColumnDef="name">
+                <th id="name" mat-header-cell *matHeaderCellDef>Titre</th>
+                <td mat-cell *matCellDef="let element">{{ element?.name }}</td>
+              </ng-container>
 
-        <!-- Start Media Type List -->
-        <ng-container *ngIf="!selectedMediaType && selectedChapitre">
-            <div *ngFor="let mediaType of mediaTypes" class="matiere-card" (click)="selectMediaType(mediaType)">
-                <div class="matiere-image plus number"> {{mediaType?.name}} </div>
-            </div>
-        </ng-container>
-        <!-- End Media Type List -->
+              <!-- action Column -->
+              <ng-container matColumnDef="action">
+                <th id="action" class="px-3" mat-header-cell *matHeaderCellDef>
+                  Télécharger
+                </th>
+                <td
+                  class="px-3"
+                  mat-cell
+                  *matCellDef="let element; let i = index"
+                >
+                  <button
+                    mat-icon-button
+                    class="btn btn-download"
+                    (click)="openFile(element?.img)"
+                  >
+                    <clr-icon shape="link"></clr-icon>
+                  </button>
+                </td>
+              </ng-container>
 
-        <!-- Start Course List -->
-        <ng-container *ngIf="selectedChapitre && selectedMediaType && !selectedAssignMedia ">
-            <ng-container *ngIf="assignMedias?.length;else emptyCourse;">
-                <div *ngFor="let assignMedia of assignMedias;let i = index" class="matiere-card"
-                    (click)="selectAssignMedia(assignMedia)">
-                    <div class="matiere-image plus number">
-                        .{{i< 10 ? '0' : null}}{{i+ 1}} </div>
-                            <div>
-                                {{selectedMediaType?.nameSingulier}} {{i +1}}. {{
-                                assignMedia?.name?.length < 60 ? assignMedia?.name : (assignMedia?.name | slice: 0:60)
-                                    + "..." }} </div>
-                            </div>
-            </ng-container>
-            <ng-template #emptyCourse>
-                <div class="matiere-card">
-                    <h6> {{getEmptyAssignedMedia(selectedMediaType?.name)}}</h6>
-                </div>
-            </ng-template>
-        </ng-container>
-        <!-- End Course List -->
+              <tr mat-header-row *matHeaderRowDef="displayedFileColumns"></tr>
+              <tr
+                mat-row
+                *matRowDef="let row; columns: displayedFileColumns"
+              ></tr>
+            </table>
+          </ng-container>
+        </div>
+      </ng-container>
 
-        <ng-container *ngIf="selectedChapitre && selectedMediaType && selectedAssignMedia">
-            <!-- Start Course List -->
-            <div class="matiere-card" style="height: auto!important;padding: 10px 0;">
-                <div class="matiere-image plus number" style="width: auto;margin-top: 2rem;overflow-wrap: anywhere;">
-                    {{ selectedAssignMedia?.name }}
-                </div>
-                <ng-container
-                    *ngIf="selectedAssignMedia?.videoUrl && selectedAssignMedia?.videoEnabled && selectedAssignMedia?.videoSources">
-                    <div plyr class="plyr" plyrTitle="Video 1" [plyrPlaysInline]="true"
-                        [plyrSources]="selectedAssignMedia?.videoSources" (plyrInit)="player = $event"
-                        (plyrPlay)="played($event)"></div>
-                    <div class="rating-stars">
-                        <ngx-star-rating (ngModelChange)="onChangeRating($event,'course')" [(ngModel)]="rating.rate"
-                            [id]="rating.id" [disabled]="rating.disabled"></ngx-star-rating>
-                    </div>
-                </ng-container>
-
-            </div>
-            <ng-container *ngIf="assignMediaFiles?.data?.length">
-                <div class="matiere-card" style="height: auto!important;">
-                    <div class="matiere-image plus number" style="width: auto;">
-                        Fichers
-                    </div>
-                    <ng-container *ngIf="assignMediaFiles?.data?.length">
-                        <table mat-table [dataSource]="assignMediaFiles">
-                            <!-- Name Column -->
-                            <ng-container matColumnDef="name">
-                                <th id="name" mat-header-cell *matHeaderCellDef> Titre </th>
-                                <td mat-cell *matCellDef="let element"> {{element?.name}} </td>
-                            </ng-container>
-
-                            <!-- action Column -->
-                            <ng-container matColumnDef="action">
-                                <th id="action" class="px-3" mat-header-cell *matHeaderCellDef> Télécharger </th>
-                                <td class="px-3" mat-cell *matCellDef="let element;let i= index;">
-                                    <button mat-icon-button class="btn btn-download" (click)="openFile(element?.img)">
-                                        <clr-icon shape="link"></clr-icon>
-                                    </button>
-                                </td>
-                            </ng-container>
-
-                            <tr mat-header-row *matHeaderRowDef="displayedFileColumns"></tr>
-                            <tr mat-row *matRowDef="let row; columns: displayedFileColumns;"></tr>
-                        </table>
-                    </ng-container>
-                </div>
-            </ng-container>
-
-            <!-- End Course List -->
-        </ng-container>
-    </div>
+      <!-- End Course List -->
+    </ng-container>
+  </div>
 </ng-container>
 <ng-container *ngIf="selectedTab == 'record'">
-    <p *ngIf="selectedRecordAssignMedia">
-        <a (click)="selectedRecordAssignMedia=null;">Enregistrements</a> /{{selectedRecordAssignMedia.name}}
-    </p>
-    <div class="matieres">
-        <!-- Start Course List -->
-        <ng-container *ngIf="!selectedRecordAssignMedia">
-            <ng-container *ngIf="assignRecordMedias?.length;else emptyCourse;">
-                <div *ngFor="let assignMedia of assignRecordMedias;let i = index" class="matiere-card"
-                    (click)="selectRecordAssignMedia(assignMedia)">
-                    <div class="matiere-image plus number">
-                        .{{i< 10 ? '0' : null}}{{i+ 1}} </div>
-                            <div>
-                                Enregistrement {{i +1}}. {{
-                                assignMedia?.name?.length < 60 ? assignMedia?.name : (assignMedia?.name | slice: 0:60)
-                                    + "..." }} </div>
-                            </div>
-            </ng-container>
-            <ng-template #emptyCourse>
-                <div class="matiere-card">
-                    <h6> Cette matière n'a pas d'enregistrement.</h6>
-                </div>
-            </ng-template>
-        </ng-container>
-        <!-- End Course List -->
+  <p *ngIf="selectedRecordAssignMedia">
+    <a (click)="selectedRecordAssignMedia = null">Enregistrements</a> /{{
+      selectedRecordAssignMedia.name
+    }}
+  </p>
+  <div class="matieres">
+    <!-- Start Course List -->
+    <ng-container *ngIf="!selectedRecordAssignMedia">
+      <ng-container *ngIf="assignRecordMedias?.length; else emptyCourse">
+        <div
+          *ngFor="let assignMedia of assignRecordMedias; let i = index"
+          class="matiere-card"
+          (click)="selectRecordAssignMedia(assignMedia)"
+        >
+          <div class="matiere-image plus number">
+            .{{ i < 10 ? "0" : null }}{{ i + 1 }}
+          </div>
+          <div>
+            Enregistrement {{ i + 1 }}.
+            {{
+              assignMedia?.name?.length < 60
+                ? assignMedia?.name
+                : (assignMedia?.name | slice: 0:60) + "..."
+            }}
+          </div>
+        </div>
+      </ng-container>
+      <ng-template #emptyCourse>
+        <div class="matiere-card">
+          <h6>Cette matière n'a pas d'enregistrement.</h6>
+        </div>
+      </ng-template>
+    </ng-container>
+    <!-- End Course List -->
 
-        <!-- list pour parcourir les enregistrement && waiting for api endpoint -->
-        <!-- if item is  clicked selectedAssignMediaEnregistrement -->
+    <!-- list pour parcourir les enregistrement && waiting for api endpoint -->
+    <!-- if item is  clicked selectedAssignMediaEnregistrement -->
 
-        <ng-container *ngIf="selectedRecordAssignMedia">
-            <!-- Start Course List -->
-            <div class="matiere-card" style="height: auto!important;padding: 10px 0;">
-                <div class="matiere-image plus number" style="width: auto;margin-top: 2rem;overflow-wrap: anywhere;">
-                    {{ selectedRecordAssignMedia?.name }}
-                </div>
-                <ng-container *ngIf="selectedRecordAssignMedia?.videoUrl && selectedRecordAssignMedia?.videoSources">
-                    <div plyr class="plyr" plyrTitle="Video 1" [plyrPlaysInline]="true"
-                        [plyrSources]="selectedRecordAssignMedia?.videoSources" (plyrInit)="player = $event"
-                        (plyrPlay)="played($event)"></div>
-                    <div class="rating-stars">
-                        <ngx-star-rating (ngModelChange)="onChangeRating($event,'record')" [(ngModel)]="rating.rate"
-                            [id]="rating.id" [disabled]="rating.disabled"></ngx-star-rating>
-                    </div>
-                </ng-container>
-            </div>
-            <!-- End Course List -->
+    <ng-container *ngIf="selectedRecordAssignMedia">
+      <!-- Start Course List -->
+      <div
+        class="matiere-card"
+        style="height: auto !important; padding: 10px 0"
+      >
+        <div
+          class="matiere-image plus number"
+          style="width: auto; margin-top: 2rem; overflow-wrap: anywhere"
+        >
+          {{ selectedRecordAssignMedia?.name }}
+        </div>
+        <ng-container
+          *ngIf="
+            selectedRecordAssignMedia?.videoUrl &&
+            selectedRecordAssignMedia?.videoSources
+          "
+        >
+          <div
+            plyr
+            class="plyr"
+            plyrTitle="Video 1"
+            [plyrPlaysInline]="true"
+            [plyrSources]="selectedRecordAssignMedia?.videoSources"
+            (plyrInit)="player = $event"
+            (plyrPlay)="played($event)"
+          ></div>
+          <div class="rating-stars">
+            <ngx-star-rating
+              (ngModelChange)="onChangeRating($event, 'record')"
+              [(ngModel)]="rating.rate"
+              [id]="rating.id"
+              [disabled]="rating.disabled"
+            ></ngx-star-rating>
+          </div>
         </ng-container>
-    </div>
+      </div>
+      <!-- End Course List -->
+    </ng-container>
+  </div>
 </ng-container>

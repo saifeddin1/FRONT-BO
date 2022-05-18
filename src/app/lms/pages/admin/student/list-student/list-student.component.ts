@@ -12,6 +12,7 @@ import {
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { STUDENT } from '../../../../constants/roles.constant';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 
 @Component({
   selector: 'app-list-student',
@@ -26,8 +27,8 @@ export class ListStudentComponent implements OnInit {
     'name',
     'phone',
     'email',
-    'niveau',
-    'offre',
+    // 'niveau',
+    // 'offre',
     'action',
   ];
 
@@ -35,6 +36,7 @@ export class ListStudentComponent implements OnInit {
     private userService: UserService,
     private offreService: OffreService,
     private niveauService: NiveauService,
+    private identity: UsersService,
     private toasterService: ToasterService,
     private formBuilder: FormBuilder
   ) {
@@ -48,10 +50,11 @@ export class ListStudentComponent implements OnInit {
   }
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
   getStudents() {
-    this.userService.getAllStudents().subscribe(
+    // this.userService.getAllStudents().subscribe(
+    this.identity.getUsers().subscribe(
       (res: [User]) => {
         console.log('res : ', res);
-        this.dataSource = new MatTableDataSource(res);
+        this.dataSource = new MatTableDataSource(res['response']);
         this.dataSource.paginator = this.paginator;
       },
       (error) => {
@@ -207,7 +210,7 @@ export class ListStudentComponent implements OnInit {
   }
 
   deleteById(_id, index): void {
-    this.userService.deleteUser(_id).subscribe(
+    this.identity.deleteUser(_id).subscribe(
       (res) => {
         this.dataSource.data.splice(index, 1);
         this.dataSource = new MatTableDataSource(this.dataSource.data);

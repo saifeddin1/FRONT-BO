@@ -1,0 +1,105 @@
+<h2>{{ isAddOperation ? "Add" : "Edit" }} Timesheet</h2>
+<div>
+  <div class="inputs-row">
+    <div *ngIf="isEditOperation">
+      <label for="">User</label>
+      <input
+        type="text"
+        matInput
+        class="text-area"
+        value="{{ timesheet?.user.userRef }}"
+        [disabled]="timesheet?.user.userRef !== ''"
+      />
+    </div>
+    <div>
+      <label for="">Working Hours</label>
+      <div
+        style="
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          width: 27rem;
+        "
+      >
+        <input
+          type="number"
+          class="text-area"
+          placeholder="Hours..."
+          (change)="checkHours(timesheet)"
+          [(ngModel)]="timesheet.workingHours"
+        />
+        <div
+          *ngIf="timesheet.workingHours > 8"
+          style="
+            display: flex;
+            align-items: center;
+            width: 85px;
+            justify-content: space-between;
+          "
+        >
+          <span class="extra-hours-count">
+            + {{ timesheet.extraHours || 0 }}
+          </span>
+          hrs
+        </div>
+        <div
+          *ngIf="timesheet.workingHours < 8"
+          style="
+            display: flex;
+            align-items: center;
+            width: 85px;
+            justify-content: space-between;
+          "
+        >
+          <span class="extra-hours-count-reversed">
+            {{ timesheet.extraHours || 0 }}
+          </span>
+          hrs
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    class="inputs-row"
+    [style.flexDirection]="isAddOperation ? 'column' : 'row'"
+  >
+    <div>
+      <label for="">Notes</label>
+      <textarea
+        class="text-area"
+        [(ngModel)]="timesheet.note"
+        rows="7"
+        cols="5"
+      >
+      </textarea>
+    </div>
+    <div *ngIf="!isUserEditOperation">
+      <label for="">Timing</label>
+      <input
+        type="datetime-local"
+        class="text-area"
+        [(ngModel)]="timesheet.date"
+      />
+    </div>
+  </div>
+</div>
+<div class="dialog-actions" id="dialog-actions">
+  <button
+    [disabled]="
+      !timesheet?.note || !timesheet?.workingHours || !timesheet?.date
+    "
+    (click)="createTimesheet()"
+    *ngIf="isAddOperation"
+  >
+    Add
+  </button>
+  <button *ngIf="isEditOperation" (click)="updateRecord()">Edit</button>
+  <button
+    *ngIf="isUserEditOperation"
+    [disabled]="!timesheet?.note || !timesheet?.workingHours"
+    (click)="employeeEditTimesheet(timesheet)"
+  >
+    Edit
+  </button>
+  <button [mat-dialog-close]="'close'">Close</button>
+</div>

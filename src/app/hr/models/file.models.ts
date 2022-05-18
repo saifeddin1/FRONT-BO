@@ -14,6 +14,7 @@ interface Profile {
 }
 
 export interface File {
+  createdAt?: any;
   _id?: string;
   userRef: string;
   userId: string;

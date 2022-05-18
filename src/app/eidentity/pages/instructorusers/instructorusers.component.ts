@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { User } from '../../models/user.model';
+import { ResetpwdService } from '../../services/resetpwd.service';
 import { UsersService } from '../../services/users.service';
 
 @Component({
@@ -13,7 +14,9 @@ import { UsersService } from '../../services/users.service';
   styleUrls: ['./instructorusers.component.css']
 })
 export class InstructorusersComponent implements OnInit {
-
+  newpass: string;
+  emailchange:string;
+  clrModalOpen2: boolean = false;
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
@@ -38,7 +41,9 @@ export class InstructorusersComponent implements OnInit {
   ];
 
   displayedOptionColumns: string[] = ['name', 'action'];
-  constructor(private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
+  constructor(
+    private pwdService: ResetpwdService,
+    private formBuilder: FormBuilder,private toasterService: ToasterService, private usersService:UsersService) { 
     this.getallInstructorUsers()
     this.getallDisabledInstructorUsers()
   }
@@ -177,6 +182,11 @@ export class InstructorusersComponent implements OnInit {
     this.clrModalOpen1 = true;
     
   }
+  closeModal2() {
+    this.createForm();
+    this.clrModalOpen2 = false;
+    
+  }
 
   onSubmit(){
     if(this.form.value){
@@ -280,5 +290,24 @@ export class InstructorusersComponent implements OnInit {
     )
   }
 
+
+  openchangepwdmodal(email:string){
+    this.emailchange=email;
+    this.clrModalOpen2 = true;
+    
+  }
+  changepwd(){
+    
+    this.pwdService.changepwdbyadmin(this.emailchange,{newpassword:this.newpass}).subscribe(
+      (res)=>{
+        this.toasterService.success("Changed successfully")
+        
+      },
+      (err)=>{
+        this.toasterService.error('Something wrong')
+        
+      }
+    )
+  }
 
 }

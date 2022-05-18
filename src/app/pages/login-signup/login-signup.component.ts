@@ -12,6 +12,7 @@ import {
 } from '../../lms/services/toaster.service';
 import {
   ADMIN,
+  EMPLOYEE,
   HR,
   INSTRUCTOR,
   STUDENT,
@@ -41,7 +42,7 @@ export class LoginSignupComponent implements OnInit {
     private activatedRouter: ActivatedRoute // private identityUserService: UsersService
   ) {
     this.getNiveaux();
-   
+
     this.pagetype = this.activatedRouter.snapshot.params['type'];
     if (this.pagetype == 'login') {
       this.form = this.login;
@@ -52,12 +53,10 @@ export class LoginSignupComponent implements OnInit {
     }
     this.activeClass = true;
   }
- 
+
   activeClass = false;
-  niveauxList:any []=[];
-  getNiveaux()
-  
-  {
+  niveauxList: any[] = [];
+  getNiveaux() {
     this.programService.getPrograms().subscribe(
       (res) => {
         console.log('Niveaux :**** ', res.response);
@@ -160,6 +159,8 @@ export class LoginSignupComponent implements OnInit {
   loginHandler(user: any) {
     this.userService.loginUser(user.email, user.password).subscribe(
       (res: boolean | { token: string } | any) => {
+        console.log(res);
+
         if (res === false) {
           this.toasterService.error(
             DEFAULT_MESSAGES.confirmation.password.invalid
@@ -179,12 +180,13 @@ export class LoginSignupComponent implements OnInit {
           console.log(this.userService.user);
 
           if (
-            this.userService.user.type === STUDENT ||
-            this.userService.user.type === INSTRUCTOR
+            this.userService.user.type === STUDENT
+            //  || this.userService.user.type === INSTRUCTOR
           ) {
             this.router.navigate(['lms']);
           } else if (
             this.userService.user.type === HR ||
+            this.userService.user.type === EMPLOYEE ||
             this.userService.user.type === INSTRUCTOR
           ) {
             this.router.navigate(['hr-administration']);
@@ -194,7 +196,7 @@ export class LoginSignupComponent implements OnInit {
         }
       },
       (err) => {
-        console.log(err.error);
+        this.toasterService.error(err.error.message);
         this.error = err.error;
       }
     );
@@ -327,7 +329,7 @@ export class LoginSignupComponent implements OnInit {
 
   ngOnInit(): void {
     if (!!this.userService.getCurrentUser()) {
-      this.router.navigate(['lms/dashboard']);
+      this.router.navigate(['lms/calendar']);
     }
   }
 }

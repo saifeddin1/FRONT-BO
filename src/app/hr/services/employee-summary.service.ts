@@ -18,6 +18,7 @@ import { TimesheetDeclaration } from '../models/timesheetDeclaration.model';
 import { Timeslot } from '../models/timeslot.model';
 import { WorkFrom } from '../models/WorkFrom.model';
 import { YearMonth } from '../models/yearMonth.model';
+import { DeclarationsComponent } from '../pages/declarations/declarations.component';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,7 @@ export class EmployeeSummaryService {
 
   getAllUsers(extractedRrole): Observable<any> {
     return this.http.get<any>(
-      `${environment.IdentityApi}/api/v1/users?extract=${extractedRrole}`
+      `${environment.IdentityApi}/api/v1/users/exceptType?extract=${extractedRrole}`
     );
   }
   // ---------------------------- CONTRACTS 📜  ----------------------------------
@@ -85,6 +86,12 @@ export class EmployeeSummaryService {
     );
   }
 
+  getAllActiveContracts(): Observable<Contract> {
+    return this.http.get<Contract>(
+      `${this.BASE_URL}/contracts/getAllActiveContracts`
+    );
+  }
+
   updateContractWithSalary(id: string, body): Observable<Contract> {
     return this.http.put<Contract>(
       `${this.BASE_URL}/contracts/updateContractWithSalaries/${id}`,
@@ -104,7 +111,7 @@ export class EmployeeSummaryService {
   }
   getInterviewsByUserId(userId: string, term: string): Observable<Interview[]> {
     return this.http.get<Interview[]>(
-      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}&filter=${term}`
+      `${this.BASE_URL}/interviews/getInterviewsByUserId/${userId}?filter=${term}`
     );
   }
   getEmployeeUpcomingInterviews() {
@@ -139,7 +146,21 @@ export class EmployeeSummaryService {
   createEmployeeFile(body: File): Observable<File> {
     return this.http.post<File>(`${this.BASE_URL}/files`, body);
   }
+  // downLoadFile(data: any, type: string) {
+  //   let blob = new Blob([data], { type: type });
+  //   let url = window.URL.createObjectURL(blob);
+  //   console.log(url);
 
+  //   return url;
+  // }
+  getProfileImg(imgId: string): any {
+    return this.http.get(`${this.BASE_URL}/files/documents/${imgId}`, {
+      responseType: 'blob' as 'json',
+    });
+  }
+  uploadProfilePic(image) {
+    return this.http.post(`${this.BASE_URL}/files/upload`, image);
+  }
   getCollaborators(): Observable<File[]> {
     return this.http.get<File[]>(`${this.BASE_URL}/files/getCollaborators`);
   }
@@ -152,9 +173,9 @@ export class EmployeeSummaryService {
     return this.http.get<File>(`${this.BASE_URL}/files/employeeFileDetails`);
   }
 
-  updateProfile(body: any): Observable<File> {
+  updateProfile(body: any, id: string): Observable<File> {
     return this.http.put<File>(
-      `${this.BASE_URL}/files/employeeFileDetails`,
+      `${this.BASE_URL}/files/employeeFileDetails/${id}`,
       JSON.stringify(body),
       { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }
     );
@@ -203,11 +224,7 @@ export class EmployeeSummaryService {
     yearMonth: string
   ): Observable<Timesheet[]> {
     return this.http.get<Timesheet[]>(
-      `${
-        this.BASE_URL
-      }/timesheets/getMonthlyEmployeeTimesheets/${yearMonth}?page=${
-        p - 1
-      }&limit=${limit}`
+      `${this.BASE_URL}/timesheets/getMonthlyEmployeeTimesheets/${yearMonth}?page=${p}&limit=${limit}`
     );
   }
 
@@ -249,7 +266,12 @@ export class EmployeeSummaryService {
       `${this.BASE_URL}/timesheetDeclarations/${id}`
     );
   }
-
+  updateDeclarationStatus(id: string, status: Object) {
+    return this.http.put(
+      `${this.BASE_URL}/timesheetdeclarations/updateStatus/${id} `,
+      status
+    );
+  }
   deleteTimesheet(id: string): Observable<Timesheet> {
     return this.http.delete<Timesheet>(`${this.BASE_URL}/timesheets/${id}`);
   }
@@ -257,6 +279,26 @@ export class EmployeeSummaryService {
   getCurrentDeclaration(month: number): Observable<TimesheetDeclaration> {
     return this.http.get<TimesheetDeclaration>(
       `${this.BASE_URL}/timesheetDeclarations/getCurrentDeclaration/${month}`
+    );
+  }
+
+  getIncomingDeclarations(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<TimesheetDeclaration> {
+    return this.http.get<TimesheetDeclaration>(
+      `${this.BASE_URL}/timesheetdeclarations?page=${p}&limit=${limit}&filter=${term}`
+    );
+  }
+
+  getApprovedRejected(
+    p: number,
+    limit: number,
+    term: string
+  ): Observable<TimesheetDeclaration> {
+    return this.http.get<TimesheetDeclaration>(
+      `${this.BASE_URL}/timesheetdeclarations/getApprovedRejected?page=${p}&limit=${limit}&filter=${term}`
     );
   }
 
@@ -338,12 +380,16 @@ export class EmployeeSummaryService {
   }
 
   getYearMonthItem(id: string): Observable<YearMonth> {
-    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths${id}`);
+    return this.http.get<YearMonth>(`${this.BASE_URL}/yearMonths/${id}`);
   }
 
-  createYearMonthItem(body: YearMonth, userId: string): Observable<YearMonth> {
-    return this.http.post<YearMonth>(
-      `${this.BASE_URL}/yearMonths/${userId}`,
+  createYearMonthItem(body: YearMonth): Observable<YearMonth> {
+    return this.http.post<YearMonth>(`${this.BASE_URL}/yearMonths`, body);
+  }
+
+  generateTimesheets(userId: string, body: any): Observable<Timesheet> {
+    return this.http.post<Timesheet>(
+      `${this.BASE_URL}/yearMonths/${userId} `,
       body
     );
   }

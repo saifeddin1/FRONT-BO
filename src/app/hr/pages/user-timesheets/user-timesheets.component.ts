@@ -6,6 +6,10 @@ import { Location } from '@angular/common';
 import { YearMonth } from '../../models/yearMonth.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { AddTimesheetDialogComponent } from '../../components/add-timesheet-dialog/add-timesheet-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { STUDENT } from 'src/app/lms/constants/roles.constant';
+import { UserService } from 'src/app/lms/services/user.service';
 @Component({
   selector: 'app-user-timesheets',
   templateUrl: './user-timesheets.component.html',
@@ -25,10 +29,14 @@ export class UserTimesheetsComponent implements OnInit {
 
   displayedOptionColumns: string[] = ['name', 'action'];
   allTimesheets: Timesheet[];
+  users: any;
   constructor(
     private employeeService: EmployeeSummaryService,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog,
+    private userService: UserService,
+
     private location: Location
   ) {
     this.yearMonth = new Date().toISOString().split('T')[0].substring(0, 7);
@@ -41,11 +49,18 @@ export class UserTimesheetsComponent implements OnInit {
     });
     this.getAllTimesheets();
     this.getAllYearMonthItems();
+    this.getUsers();
   }
   getAllYearMonthItems() {
     this.employeeService.getAllYearMonthItems().subscribe((result) => {
       console.log('📆📆  getAllYearMonthItems ~ result', result);
       this.yearMonthItems = result['response'][0]['totalData'];
+    });
+  }
+  getUsers() {
+    this.employeeService.getAllUsers(STUDENT).subscribe((result) => {
+      this.users = result['response'];
+      console.log('result', this.users);
     });
   }
   goBack() {
@@ -104,20 +119,48 @@ export class UserTimesheetsComponent implements OnInit {
         }
       );
   }
-  updateRecord(timesheet) {
-    console.log(timesheet);
 
-    this.employeeService
-      .updateTimeSheet(timesheet._id, {
-        userId: timesheet.userId,
-        note: timesheet.note,
-        workingHours: timesheet.workingHours,
-        date: new Date(timesheet.date),
-      })
+  addTimesheetDialog() {
+    const dialogRef = this.dialog.open(AddTimesheetDialogComponent, {
+      height: 'auto',
+      width: 'auto',
+      data: {
+        timesheet: {
+          date: '',
+          workingHours: 0,
+          note: '',
+          userId: this.userId,
+        },
+        operation: 'add',
+        user: this.userService.getUserById(this.userId),
+        // id: employee_id,
+      },
+    });
 
-      .subscribe((result) => {
-        console.log(result);
-      });
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getAllTimesheets();
+    });
+  }
+
+  editTimesheetDialog(element) {
+    console.log(element);
+
+    const dialogRef = this.dialog.open(AddTimesheetDialogComponent, {
+      height: 'auto',
+      width: 'auto',
+      data: {
+        timesheet: element,
+        operation: 'edit',
+        userId: element?.userId,
+        // id: employee_id,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      console.log(`Dialog result: ${result}`);
+      this.getAllTimesheets();
+    });
   }
 
   changePage(event) {

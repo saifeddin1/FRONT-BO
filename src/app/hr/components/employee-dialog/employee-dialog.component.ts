@@ -37,16 +37,22 @@ export class EmployeeDialogComponent implements OnInit {
     console.log(employee);
     this.employeeService
       .updateEmployeeFileAsAdmin(employee._id, employee)
-      .subscribe((result) => {
-        console.log('✅ updateEmployee ~ result', result);
-        this.toaster.success('Successfuly Updated');
-      });
+      .subscribe(
+        (result) => {
+          console.log('✅ updateEmployee ~ result', result);
+          this.toaster.success('Successfuly Updated');
+        },
+        (e) => this.toaster.error(e.error.message)
+      );
   }
   getAllWorkFromItems() {
-    this.employeeService.getAllWorkFroms().subscribe((result) => {
-      console.log('⚡ ~ getAllWorkFromItems ~ result', result);
-      this.workFromItems = result['response'][0]['totalData'];
-    });
+    this.employeeService.getAllWorkFroms().subscribe(
+      (result) => {
+        console.log('⚡ ~ getAllWorkFromItems ~ result', result);
+        this.workFromItems = result['response'][0]['totalData'];
+      },
+      (e) => this.toaster.error(e.error.message)
+    );
   }
   // getAllContractTypeItems() {
   //   this.employeeService.getAllContractTypes().subscribe((result) => {
@@ -55,9 +61,12 @@ export class EmployeeDialogComponent implements OnInit {
   //   });
   // }
   getAllLevels() {
-    this.employeeService.getAllLevels().subscribe((result) => {
-      console.log('⚡ ~ getAllWorkFromItems ~ result', result);
-      this.levels = result['response'][0]['totalData'];
-    });
+    this.employeeService.getAllLevels().subscribe(
+      (result) => {
+        console.log('⚡ ~ getAllWorkFromItems ~ result', result);
+        this.levels = result['response'][0]['totalData'];
+      },
+      (e) => this.toaster.error(e.error.message)
+    );
   }
 }

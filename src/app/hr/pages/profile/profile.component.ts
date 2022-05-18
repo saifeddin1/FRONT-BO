@@ -12,6 +12,8 @@ import { WorkFrom } from '../../models/WorkFrom.model';
 import { Level } from '../../models/Level.models';
 import { UserService } from 'src/app/lms/services/user.service';
 import { UsersService } from 'src/app/eidentity/services/users.service';
+import { environment } from 'src/environments/environment';
+import { HttpHeaders } from '@angular/common/http';
 @Component({
   selector: 'app-profile',
   templateUrl: './profile.component.html',
@@ -72,13 +74,33 @@ export class ProfileComponent implements OnInit {
     this.getAllLevels();
   }
   getEmployeeFileDetails() {
-    this.summaryService.getFileDetails().subscribe((result) => {
-      this.userFile = result['response'][0];
-      console.log(
-        '✅ this.summaryService.getEmployeeFileDetails ~ ',
-        this.userFile
-      );
-    });
+    this.summaryService.getFileDetails().subscribe(
+      (result) => {
+        let res = result['response'][0];
+        console.log('✅   getEmployeeFileDetails ~ ', res);
+
+        if (res.profile.image) {
+          res.profile.image = `${environment.HRApi}/files/documents/${res.profile.image}`;
+        }
+        this.userFile = res;
+      },
+      (e) => console.log(e)
+    );
+  }
+
+  uploadImage(e) {
+    console.log(e);
+    const formData = new FormData();
+    formData.append('file', e.target.files[0]);
+    this.toastr.info('Uploading Photo, Please Be patient');
+    this.summaryService.uploadProfilePic(formData).subscribe(
+      (result) => {
+        console.log(result);
+        this.getEmployeeFileDetails();
+        this.toastr.success('Uploaded Successfuly!');
+      },
+      (e) => this.toastr.error(e.error.message)
+    );
   }
   getAllWorkFromItems() {
     this.summaryService.getAllWorkFroms().subscribe((result) => {
@@ -101,7 +123,7 @@ export class ProfileComponent implements OnInit {
   }
   updateEmployee(file) {
     this.summaryService
-      .updateProfile(file)
+      .updateProfile(file, file._id)
       .pipe(
         catchError((err) => {
           console.log('Handling error locally and rethrowing it...', err);

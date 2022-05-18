@@ -339,13 +339,17 @@ export class ListChapitreComponent implements OnInit {
   }
 
   goToAssignMedia() {
-    this.router.navigate([
-      'niveau/matiere/chapitre/mediaAssign/list/',
-      this.nivId,
-      this.nivMatId,
-      this.mediaTypeId,
-      this.chapitreId,
-    ]);
+    this.router.navigateByUrl(
+      `lms/niveau/matiere/chapitre/mediaAssign/list/${this.nivId}/${this.nivMatId}/${this.mediaTypeId}/${this.chapitreId}`
+    );
+
+    // this.router.navigate([
+    //   'niveau/matiere/chapitre/mediaAssign/list/',
+    //   this.nivId,
+    //   this.nivMatId,
+    //   this.mediaTypeId,
+    //   this.chapitreId,
+    // ]);
   }
 
   assignChapire(element) {

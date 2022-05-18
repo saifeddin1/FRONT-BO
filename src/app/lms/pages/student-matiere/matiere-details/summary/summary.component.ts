@@ -72,11 +72,14 @@ export class SummaryComponent implements OnInit {
   }
 
   goToMatieresList() {
-    this.router.navigate([`matieres/`]);
+    this.router.navigateByUrl(`lms/matieres`);
+    // this.router.navigate([`matieres/`]);
   }
 
   goToMatiere(matiereId) {
-    this.router.navigate([`matiere/details/${matiereId}`]);
+    this.router.navigateByUrl(`lms/matiere/details/${matiereId}`);
+
+    // this.router.navigate([`matiere/details/${matiereId}`]);
   }
 
   getImage(nivMat) {

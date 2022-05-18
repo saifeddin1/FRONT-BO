@@ -56,7 +56,14 @@ export class ChaptersComponent implements OnInit {
   selectedTabChanged(event: string) {
     console.log('event : ', event);
   }
+  makeSource(el) {
+    // console.log(el.src.split('vimeo.com/')[1].substr(0, 11));
 
+    // return {
+    //   provider: 'youtube',
+    //   src: el.src.split('vimeo.com/')[1].substr(0, 11),
+    // };
+  }
   rating = {
     _id: '',
     disabled: false,

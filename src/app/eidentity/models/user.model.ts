@@ -9,6 +9,8 @@ export interface User {
   firstname: string;
   lastname: string;
   studentNiveauId: string;
+  studentOffreId: string;
   company: string;
-  eooaccessmodules:string;
+  eooaccessrights: string;
+  eooaccessmodules: string;
 }

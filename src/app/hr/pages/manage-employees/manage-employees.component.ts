@@ -10,6 +10,7 @@ import { debounceTime } from 'rxjs/operators';
 import { STUDENT } from 'src/app/lms/constants/roles.constant';
 import { User } from 'src/app/lms/models/user.model';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
+import { environment } from 'src/environments/environment';
 import { AddEmployeeDialogComponent } from '../../components/add-employee-dialog/add-employee-dialog.component';
 import { AddInterviewDialogComponent } from '../../components/add-interview-dialog/add-interview-dialog.component';
 import { ContractsDialogComponent } from '../../components/contracts-dialog/contracts-dialog.component';
@@ -102,9 +103,13 @@ export class ManageEmployeesComponent implements OnInit {
         result['response'][0]['totalData'] &&
         result['response'][0]['totalData'].length
       ) {
-        this.employees = new MatTableDataSource(
-          result['response'][0]['totalData']
-        );
+        let res = result['response'][0]['totalData'];
+        res.forEach((element) => {
+          if (element.profile.image) {
+            element.profile.image = `${environment.HRApi}/files/documents/${element.profile.image}`;
+          }
+        });
+        this.employees = new MatTableDataSource(res);
         this.employees.filterPredicate = (data: any, filter) => {
           const accumulator = (currentTerm, key) => {
             return this.nestedFilterCheck(currentTerm, data, key);
@@ -124,7 +129,7 @@ export class ManageEmployeesComponent implements OnInit {
             result['response'][0]['totalCount'][0]['count'] || 0;
         });
         this.total = result['response'][0]['totalCount'][0]['count'] || 0;
-        this.allEmployees = result['response'][0]['totalData'];
+        this.allEmployees = res;
         this.isLoading = false;
       } else {
         this.isLoading = false;

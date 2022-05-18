@@ -11,6 +11,7 @@ import {
   ToasterService,
 } from '../../../../services/toaster.service';
 import { INSTRUCTOR } from '../../../../constants/roles.constant';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 
 @Component({
   selector: 'app-list-instructor',
@@ -21,12 +22,13 @@ export class ListInstructorComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
   clrModalOpen: boolean = false;
-  displayedColumns: string[] = ['name', 'phone', 'email', 'action'];
+  displayedColumns: string[] = ['name', 'email', 'action'];
 
   constructor(
     private toasterService: ToasterService,
     private userService: UserService,
     private router: Router,
+    private identityService: UsersService,
     private formBuilder: FormBuilder
   ) {
     this.getInstructors();
@@ -42,10 +44,11 @@ export class ListInstructorComponent implements OnInit {
   dataSource: MatTableDataSource<User> = new MatTableDataSource<User>();
 
   getInstructors() {
-    this.userService.getAllInstructors().subscribe(
+    // this.userService.getAllInstructors().subscribe(
+    this.identityService.getallInstructor().subscribe(
       (res: [User]) => {
         console.log('res : ', res);
-        this.dataSource = new MatTableDataSource(res);
+        this.dataSource = new MatTableDataSource(res['response']);
         this.dataSource.paginator = this.paginator;
       },
       (error) => {
@@ -62,7 +65,7 @@ export class ListInstructorComponent implements OnInit {
       password: ['', [Validators.required]],
       email: ['', [Validators.required]],
       phone: ['', [Validators.required]],
-      fullName: ['', [Validators.required]],
+      // fullName: ['', [Validators.required]],
       chapitre: [false, [Validators.required]],
       media: [false, [Validators.required]],
       seance: [false, [Validators.required]],
@@ -79,7 +82,7 @@ export class ListInstructorComponent implements OnInit {
         password: this.form.value.password,
         email: this.form.value.email.toLowerCase(),
         profile: {
-          fullName: this.form.value.fullName,
+          // fullName: this.form.value.fullName,
           phone: this.form.value.phone,
         },
         permissions: {
@@ -118,7 +121,7 @@ export class ListInstructorComponent implements OnInit {
               array[foundIndex]._id = data._id;
               array[foundIndex].email = data.email;
               array[foundIndex].username = data.username;
-              array[foundIndex].profile.fullName = data.profile.fullName;
+              // array[foundIndex].profile.fullName = data.profile.fullName;
               array[foundIndex].profile.phone =
                 data.profile && data.profile.phone ? data.profile.phone : '';
               array[foundIndex].permissions.chapitre =
@@ -173,7 +176,7 @@ export class ListInstructorComponent implements OnInit {
       email: body.email || '',
       username: body.username || '',
       password: body.password || 'editMode',
-      fullName: body.profile.fullName || '',
+      // fullName: body.profile.fullName || '',
       phone: body.profile && body.profile.phone ? body.profile.phone : '',
       chapitre: body.permissions.chapitre || false,
       media: body.permissions.media || false,
@@ -203,6 +206,7 @@ export class ListInstructorComponent implements OnInit {
   }
 
   goToInsTructorNiveau(userId: string): void {
-    this.router.navigate(['instructors/edit/niv', userId]);
+    this.router.navigateByUrl(`${this.router.url}/edit/niv/${userId}`);
+    // this.router.navigate(['instructors/edit/niv', userId]);
   }
 }

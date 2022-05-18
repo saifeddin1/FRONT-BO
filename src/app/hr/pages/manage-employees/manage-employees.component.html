@@ -31,7 +31,7 @@
           <div>
             <img
               src="../../../../assets/img/{{
-                employee.profile.image || 'user-placeholder.png'
+                employee. || 'user-placeholder.png'
               }}"
               alt=""
             />
@@ -99,8 +99,9 @@
               <div class="employee-basic-table">
                 <div>
                   <img
-                    src="../../../../assets/img/{{
-                      element?.profile?.image || 'user-placeholder.png'
+                    src="{{
+                      element?.profile?.image ||
+                        '../../../../assets/img/user-placeholder.png'
                     }}"
                     alt=""
                   />

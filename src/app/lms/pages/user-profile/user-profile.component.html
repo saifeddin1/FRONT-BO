@@ -1,18 +1,89 @@
-<div class="loading" *ngIf="loading">
-  <span class="spinner"></span>
-</div>
-<div *ngIf="!loading">
-  <div class="err" *ngIf="!!err; else profile">
-    <!-- 404 -->
-    <div class="inner">
-      <h1>404</h1>
-      <p>User Not Found.</p>
+<div class="profile-wrapper">
+  <div class="profile-header">
+    <img
+      class="profile-headshot"
+      width="150px"
+      src="../../../../assets/img/{{ image || 'user-placeholder.png' }}"
+    />
+    <div class=" ">
+      <button (click)="updateuser()" matTooltip="Save Changes">Save</button>
     </div>
   </div>
-  <ng-template #profile>
-    <app-ic-il-profile
-      [user]="user"
-      [sameUser]="sameUser"
-    ></app-ic-il-profile>
-  </ng-template>
+  <div class=" ">
+    <div class=" ">
+      <div class=" ">
+        <div class="">
+          <div class=" ">
+            <div class="input-row">
+              <label class=" ">Full Name</label
+              ><input
+                matInput
+                class="text-area"
+                type="text"
+                placeholder="full name"
+                value="{{ updateduser.username }}"
+                [(ngModel)]="updateduser.username"
+              />
+            </div>
+          </div>
+          <div class="">
+            <div class="input-row">
+              <label class="">Mobile Number</label
+              ><input
+                matInput
+                class="text-area"
+                type="text"
+                placeholder="enter phone number"
+                value="{{ updateduser.phone }}"
+                [(ngModel)]="updateduser.phone"
+              />
+            </div>
+            <div class="input-row">
+              <label class="">Address</label
+              ><input
+                matInput
+                class="text-area"
+                type="text"
+                placeholder="enter address line 1"
+                value="{{ updateduser?.address }}"
+                [(ngModel)]="updateduser.address"
+              />
+            </div>
+
+            <div class="input-row">
+              <label class=""> Email</label
+              ><input
+                matInput
+                class="text-area"
+                type="text"
+                placeholder="enter email"
+                value="{{ updateduser.email }}"
+                [(ngModel)]="updateduser.email"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="">
+        <div class="">
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              margin-top: 1rem;
+            "
+          >
+            <label style="margin-bottom: 1rem">Description</label>
+            <textarea
+              class="text-area"
+              [(ngModel)]="updateduser.description"
+              value="{{ updateduser?.description }}"
+              cols="30"
+              rows="10"
+            ></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

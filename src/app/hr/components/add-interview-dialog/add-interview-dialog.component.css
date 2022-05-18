@@ -52,3 +52,6 @@ button {
   justify-content: center;
   padding: 1.25rem;
 }
+button:disabled {
+  cursor: not-allowed;
+}

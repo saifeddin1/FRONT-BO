@@ -4,53 +4,104 @@
     <mat-icon>error</mat-icon>
   </div>
   <div class="summary-wrapper">
-    <div class="hr-card profile">
-      <div class="headshot">
-        <img
-          src="../../../../assets/img/{{
-            userFile?.profile.image || 'user-placeholder.png'
-          }}"
-          alt=""
-        />
-      </div>
-      <div class="info-column">
-        <h4>{{ userFile?.userRef || "John Doe" }}</h4>
-
-        <div class="position">
-          <mat-icon>business_center</mat-icon> &nbsp;
-          {{ userFile?.profile.position || "Super Employee" }}
+    <div class="profile-wrapper">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'compass'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; Overview</span
+      >
+      <div _ngcontent-isw-c373="" class="hr-card profile">
+        <div _ngcontent-isw-c373="" class="headshot">
+          <img
+            src="{{
+              userFile?.profile.image ||
+                '../../../../assets/img/user-placeholder.png'
+            }}"
+            alt=""
+          />
         </div>
-        <div class="address bold-text">
-          <mat-icon>location_on</mat-icon> &nbsp;
-          {{ userFile?.profile.address || "Mars" }}
+        <div _ngcontent-isw-c373="" class="info-column">
+          <h4>{{ userFile?.profile.fullname || "John Doe" }}</h4>
+          <div _ngcontent-isw-c373="" class="position">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >work_outline</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.position || "Super Employee" }}
+          </div>
+          <div _ngcontent-isw-c373="" class="address bold-text">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >my_location</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.address || "Mars" }}
+          </div>
+          <p _ngcontent-isw-c373="">
+            {{ userFile?.profile.description || "I'm a mysterious individual" }}
+          </p>
         </div>
-        <p>
-          {{ userFile?.profile.description || "I'm a mysterious individual" }}
-        </p>
-      </div>
-      <div class="info-column">
-        <div class="birth line-height-lg">
-          <mat-icon>face</mat-icon> &nbsp;
-          {{ userFile?.profile?.birthdate || "June, 20th" }}
-        </div>
-
-        <div class="email line-height-lg">
-          <mat-icon> email</mat-icon> &nbsp;
-          {{ userFile?.profile.proEmail || "John@doe.com" }}
+        <div _ngcontent-isw-c373="" class="info-column">
+          <div _ngcontent-isw-c373="" class="birth line-height-lg">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+              >video_label</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.workFrom || "Outer Space" }}
+          </div>
+          <div _ngcontent-isw-c373="" class="email line-height-lg">
+            <mat-icon
+              _ngcontent-isw-c373=""
+              role="img"
+              class="mat-icon notranslate material-icons mat-icon-no-color"
+              aria-hidden="true"
+              data-mat-icon-type="font"
+            >
+              email</mat-icon
+            >
+            &nbsp; {{ userFile?.profile.proEmail || "John@doe.com" }}
+          </div>
         </div>
       </div>
     </div>
-    <div class="timeoff-balance">
-      <span class="title"> TimeOff Balance</span>
+    <div class="timeoff-balance" *ngIf="contract">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'on-holiday'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; TimeOff Balance</span
+      >
       <div class="hr-card">
-        <span>{{ userFile?.timeOffBalance || 0 }}</span>
+        <!-- <span>{{ userFile?.timeOffBalance || 0 }}</span> <br /> -->
+        <span> {{ 24 - userFile?.timeOffBalance || 0 }} Taken</span>
+        <span> {{ userFile?.timeOffBalance || 0 }} Remaining</span>
       </div>
     </div>
   </div>
 
   <div class="summary-wrapper">
-    <div class="contract">
-      <h4 class="heading">Active Contract</h4>
+    <div [class]="contract ? 'contract' : 'contracts'">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'copy'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; {{ isAdmin ? "All Active Contracts" : "Active Contract" }}
+      </span>
       <div *ngIf="contract" class="hr-card">
         <div class="row">
           <div class="col">
@@ -84,15 +135,187 @@
             {{ contract?.endDate | date }}
           </div>
         </div>
+        <a routerLink="./manage-contracts" *ngIf="contract" class="visit-all"
+          >All Contracts</a
+        >
       </div>
-      <div class="hr-card" *ngIf="!contract">
+      <div *ngIf="allActive" class="all-active">
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+          "
+        >
+          <div class="hr-card">
+            <clr-icon [attr.shape]="'copy'" style="height: 20px; width: 20px">
+            </clr-icon>
+            <span> CIVP {{ civpActive }}</span>
+          </div>
+          <div class="hr-card">
+            <clr-icon [attr.shape]="'copy'" style="height: 20px; width: 20px">
+            </clr-icon>
+            <span>CDD {{ cddActive }}</span>
+          </div>
+          <div class="hr-card">
+            <clr-icon [attr.shape]="'copy'" style="height: 20px; width: 20px">
+            </clr-icon>
+            <span>CDI {{ cdiActive }}</span>
+          </div>
+        </div>
+        <table mat-table [dataSource]="allActive">
+          <!-- user Column -->
+          <ng-container matColumnDef="ref">
+            <th mat-header-cell *matHeaderCellDef>Ref</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.user.userRef }}
+            </td>
+          </ng-container>
+
+          <!-- startdate Column -->
+          <ng-container matColumnDef="startdate">
+            <th mat-header-cell *matHeaderCellDef>Start Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.startDate | date }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="endDate">
+            <th mat-header-cell *matHeaderCellDef>End Date</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.endDate | date }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let element">
+              <span
+                [style.color]="element.status == 'active' ? 'green' : 'red'"
+              >
+                <clr-icon
+                  shape="dot-circle"
+                  [style.color]="element.status === 'active' ? 'green' : 'red'"
+                ></clr-icon>
+                {{ element.status }}</span
+              >
+            </td>
+          </ng-container>
+
+          <!-- type Column -->
+          <ng-container matColumnDef="type">
+            <th mat-header-cell *matHeaderCellDef>type</th>
+            <td mat-cell *matCellDef="let element">
+              {{ element.contractType }}
+            </td>
+          </ng-container>
+
+          <!-- action Column -->
+          <!-- <ng-container matColumnDef="action">
+            <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+              <button
+                *ngIf="isAdmin"
+                mat-icon-button
+                matTooltip="Edit Contract"
+                class="btn btn-info"
+                (click)="openDialog($event, 'edit', element)"
+              >
+                <clr-icon shape="pencil"></clr-icon>
+              </button>
+
+              <button
+                *ngIf="isAdmin"
+                mat-icon-button
+                class="btn btn-outline-danger"
+                (click)="deleteContract(element?._id)"
+                matTooltip="Delete Contract"
+              >
+                <clr-icon
+                  shape="trash"
+                  style="color: red !important"
+                ></clr-icon>
+              </button>
+
+              <button
+                mat-icon-button
+                class="btn btn-outline-primary"
+                (click)="openDialog($event, 'view', element)"
+                matTooltip="View Contract"
+              >
+                <clr-icon shape="eye"></clr-icon>
+              </button>
+            </td>
+          </ng-container> -->
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      <div class="hr-card" *ngIf="!contract && !allActive">
         <span>No Active Contracts.</span>
       </div>
     </div>
-    <div class="interviews">
-      <h4 class="heading">Upcoming Interviews</h4>
-      <div *ngIf="interviews && interviews.length">
-        <div *ngFor="let interview of interviews" class="hr-card">
+    <div *ngIf="isAdmin" style="width: 35%" class="employees-list-card">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'users'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; Employees
+      </span>
+      <div class="hr-card">
+        <div class="card-top">
+          <span>New Employees</span>
+          <span style="color: green; font-weight: 500">+{{ percentNew }}%</span>
+        </div>
+        <div class="card-bot">
+          <!--column-->
+          <span>{{ newEmployeesCount || 0 }}</span>
+          <mat-progress-bar
+            mode="determinate"
+            [value]="employeesCount"
+          ></mat-progress-bar>
+          <span>Overall Employees: {{ employeesCount }}</span>
+        </div>
+      </div>
+      <div *ngIf="newEmployees && newEmployees.length">
+        <div
+          style="
+            display: flex;
+            justify-content: flex-start;
+            align-items: flex-start;
+          "
+          *ngFor="let empl of newEmployees"
+          class="hr-card"
+        >
+          <div>
+            <img
+              width="45"
+              height="45"
+              [src]="
+                empl?.profile.image ||
+                '../../../../assets/img/user-placeholder.png'
+              "
+              alt="employee-pic"
+            />
+          </div>
+          <span style="font-weight: 500; margin-left: 2rem"
+            >{{ empl?.profile.fullname }} ({{ empl?.userRef }})</span
+          >
+        </div>
+      </div>
+    </div>
+    <div *ngIf="interviews && interviews.length" class="interviews">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'form'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; {{ isAdmin ? "All Upcoming Interviews" : "Upcoming Interviews" }}
+      </span>
+      <div *ngIf="interviews && interviews.length" class="hr-card">
+        <div *ngFor="let interview of interviews">
           <div class="row lh-lg">
             <div class="col-5">
               <span class="bold-text">Interview Date :</span>
@@ -108,9 +331,69 @@
             </div>
           </div>
         </div>
+        <a routerLink="./interviews" class="visit-all">All Interviews</a>
       </div>
       <div *ngIf="!interviews || !interviews.length" class="hr-card">
         No upcoming interviews
+      </div>
+    </div>
+
+    <div class="extrahours" *ngIf="!isAdmin && contract">
+      <span class="title">
+        <clr-icon
+          [attr.shape]="'calendar'"
+          style="height: 20px; width: 20px"
+        ></clr-icon>
+        &nbsp; Monthly Hours
+      </span>
+      <div
+        *ngIf="isHr || isEmployee"
+        class="hr-card"
+        style="
+          display: flex;
+          align-items: center;
+          width: 97%;
+          justify-content: space-between;
+          margin-block: 5px;
+        "
+      >
+        <div>
+          <clr-icon
+            [attr.shape]="'clock'"
+            style="height: 30px; width: 30px"
+            role="none"
+          >
+          </clr-icon>
+          Extra Hours
+        </div>
+        <div class="hours-value">
+          <span>{{ extraHours }} hrs</span>
+          <span>Hours this Month</span>
+        </div>
+      </div>
+      <div
+        class="hr-card"
+        style="
+          display: flex;
+          align-items: center;
+          width: 97%;
+          justify-content: space-between;
+          margin-block: 5px;
+        "
+      >
+        <div>
+          <clr-icon
+            [attr.shape]="'clock'"
+            style="height: 30px; width: 30px"
+            role="none"
+          >
+          </clr-icon>
+          Worked Hours
+        </div>
+        <div class="hours-value">
+          <span>{{ WorkedHours }} hrs</span>
+          <span>Hours this Month</span>
+        </div>
       </div>
     </div>
   </div>

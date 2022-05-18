@@ -13,6 +13,7 @@ import { Location } from '@angular/common';
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop';
 import { Matiere, MatiereService } from '../../matiere/matiere.service';
 import { UserService } from '../../../../services/user.service';
+import { UsersService } from 'src/app/eidentity/services/users.service';
 import { User } from '../../../../models/user.model';
 import { ADMIN } from '../../../../constants/roles.constant';
 
@@ -58,6 +59,7 @@ export class ListNiveauMatiereComponent implements OnInit {
     private formBuilder: FormBuilder,
     private activatedRouter: ActivatedRoute,
     private userService: UserService,
+    private identityService: UsersService,
     private _location: Location,
     private router: Router
   ) {
@@ -68,18 +70,24 @@ export class ListNiveauMatiereComponent implements OnInit {
     this.getAllMatiere();
     this.getAllInstructorsNames();
   }
-  instructors: { _id: string; profile: { fullname: string } }[] = [];
-  instructorsNames: string[] = [];
+  instructors: User[];
+  instructorsNames: { username: string; id: string }[] = [];
   getAllInstructorsNames() {
-    this.userService.getAllInstructorsNames().subscribe(
+    this.identityService.getallInstructor().subscribe(
       (res) => {
         console.log('Users : ', res);
-        if (res && res.length) {
-          this.instructors = res;
-          this.instructorsNames = res.reduce(
-            (a, v) => ({ ...a, [v._id]: v.name }),
-            {}
-          );
+        if (res && res['response'].length) {
+          this.instructors = res['response'];
+          console.log('Users : ', this.instructors);
+
+          this.instructors?.forEach((el) => {
+            console.log(el);
+
+            this.instructorsNames?.push({
+              username: el.username,
+              id: el._id,
+            });
+          });
         }
       },
       (error) => {
@@ -88,13 +96,20 @@ export class ListNiveauMatiereComponent implements OnInit {
     );
   }
 
-  getInstuctorName = (instructorId) =>
-    instructorId ? this.instructorsNames[instructorId] : "Pas d'instructeur";
+  getInstuctorName = (instructorId) => {
+    // console.log(this.instructorsNames);
+
+    return this.instructorsNames?.filter(
+      (el) => (el.id === instructorId)[0]?.username
+    );
+  };
 
   canManage: boolean = false;
   ngOnInit(): void {
     var user: User = this.userService.getCurrentUser();
     if (user && user.type == ADMIN) this.canManage = true;
+
+    this.getAllInstructorsNames();
   }
 
   niveau: NiveauWithMatiere;
@@ -242,19 +257,26 @@ export class ListNiveauMatiereComponent implements OnInit {
   }
 
   goToChapitre(nivMatId: string) {
-    this.router.navigate([
-      'niveau/matiere/chapitres/list/',
-      this.nivId,
-      nivMatId,
-    ]);
+    this.router.navigateByUrl(
+      `lms/niveau/matiere/chapitres/list/${this.nivId}/${nivMatId}`
+    );
+    // this.router.navigate([
+    //   'niveau/matiere/chapitres/list/',
+    //   this.nivId,
+    //   nivMatId,
+    // ]);
   }
 
   goToEnregistrement(nivMatId: string) {
-    this.router.navigate([
-      'niveau/matiere/enregistrements/list/',
-      this.nivId,
-      nivMatId,
-    ]);
+    this.router.navigateByUrl(
+      `lms/niveau/matiere/enregistrements/list/${this.nivId}/${nivMatId}`
+    );
+
+    // this.router.navigate([
+    //   'niveau/matiere/enregistrements/list/',
+    //   this.nivId,
+    //   nivMatId,
+    // ]);
   }
 
   editById(body: Partial<NiveauMatiere>) {
