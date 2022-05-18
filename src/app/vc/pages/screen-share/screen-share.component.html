@@ -1,0 +1,45 @@
+
+<body> 
+
+<div>
+    
+    <!-- Video & screen share container -->
+    <h1 style="color: white; text-align:center;">live class link: {{peerId}}</h1>
+    <div style="width: 100%; height: 100%; border: 2px solid;" id="remote-video"></div>
+  
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <div style="margin-top: 20px;">
+      
+      <div class="container">
+        <div class="container__item">          
+            <input type="email" class="form__field" placeholder="Peer Id" [(ngModel)]='peerIdShare'/> 
+        </div>
+        
+      
+      </div>
+     
+
+      <section>
+        <div class="example-button-row">
+          <div class="example-flex-container">
+            <div class="example-button-container">
+              <button mat-fab color="#3c4043" (click)="connectWithPeer()" aria-label="Example icon button with a delete icon">
+                <mat-icon>add_circle</mat-icon>
+              </button>
+            </div>
+            <div class="example-button-container">
+              <button (click)="screenShare()" mat-fab color="#3c4043" aria-label="Example icon button with a bookmark icon">
+                <mat-icon>screen_share</mat-icon>
+              </button>
+            </div>
+            <div class="example-button-container">
+              <button mat-fab background-color="black" aria-label="Example icon button with a home icon">
+                <mat-icon>home</mat-icon>
+              </button>
+            </div>            
+          </div>
+        </div>
+      </section>
+  </div>
+</div>
+</body>

@@ -59,7 +59,8 @@ export class EoousersComponent implements OnInit {
                      {id:0,module:"HR",isChecked:false},
                      {id:1,module:"AC",isChecked:false},
                      {id:2,module:"LMS",isChecked:false},
-                     {id:3,module:"ID",isChecked:true}
+                     {id:3,module:"ID",isChecked:true},
+                     {id:3,module:"VC",isChecked:true}
                     ]
 
   checkedAccessModules:any=[];

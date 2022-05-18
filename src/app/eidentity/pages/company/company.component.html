@@ -250,6 +250,24 @@ cancel
       </div>
     </div>
     <table mat-table [dataSource]="companies" >
+          <ng-container matColumnDef="legalstatus" >
+            <th mat-header-cell *matHeaderCellDef><mat-icon style="color: rgb(86, 97, 247)">verified_user</mat-icon></th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.legalStatus=='verified';else notverified;">
+                <mat-icon style="color: green">
+                  check_circle
+                </mat-icon>
+              </div>
+
+              <ng-template  #notverified>
+             
+                <mat-icon style="color: rgb(201, 18, 18)">
+                  block
+                </mat-icon>
+              </ng-template>
+            </td>
+              
+          </ng-container>
   
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef>Name</th>
@@ -263,6 +281,23 @@ cancel
               {{element.address}}
             </td>
           </ng-container>
+          <ng-container matColumnDef="enabled">
+            <th mat-header-cell *matHeaderCellDef><mat-icon style="color: rgb(86, 97, 247)">work</mat-icon></th>
+            <td mat-cell *matCellDef="let element">
+              <div *ngIf="element.enabled==true;else notenabled;">
+                <mat-icon style="color: green">
+                  check
+                </mat-icon>
+              </div>
+
+              <ng-template  #notenabled>
+             
+                <mat-icon style="color: rgb(201, 18, 18)">
+                  clear
+                </mat-icon>
+              </ng-template>
+            </td>
+          </ng-container>
           
           <ng-container matColumnDef="action">
             <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
@@ -271,7 +306,7 @@ cancel
                 <clr-icon shape="pencil"></clr-icon>
               </button>    
               <button
-                mat-icon-button (click)="openModal(deleteTemp,element._id)"
+                mat-icon-button (click)="deletecompany(element._id)"
                 class="btn btn-outline-danger">
                 <clr-icon shape="trash" style="color: red !important"></clr-icon>
               </button>

@@ -67,6 +67,7 @@
     "ngx-toastr": "^14.1.0",
     "ngx-wow": "^2.0.1",
     "pdfmake": "^0.2.5",
+    "peerjs": "^1.3.1",
     "plyr": "^3.6.8",
     "rxjs": "^6.6.7",
     "seedrandom": "^3.0.5",
@@ -74,6 +75,7 @@
     "socket.io-client": "^3.1.3",
     "sweetalert2": "^11.2.2",
     "tslib": "^2.0.0",
+    "uuid": "^8.3.2",
     "wowjs": "^1.1.3",
     "zone.js": "~0.10.2"
   },

@@ -44,8 +44,9 @@
     <div class="events-container">
       <div class="row d-flex dates" style="justify-content: space-between;align-items: center;">
      <div>
-      <button mat-icon-button *ngIf="pageName!='Departements'" [routerLink]="['/identity/companies']" class="btn btn-outline-danger" style="float: left;"><clr-icon shape="undo" style="color: hsl(236, 100%, 65%) !important"></clr-icon></button>
-        <h6>&nbsp;&nbsp;{{pageName}}</h6>
+      <!-- <button mat-icon-button *ngIf="pageName!='Departements'" [routerLink]="['/identity/companies']" class="btn btn-outline-danger" style="float: left;"><th mat-header-cell *matHeaderCellDef></button> -->
+
+        <h6><mat-icon role="button" [routerLink]="['/identity/companies']" style="float: left; color: rgb(0, 0, 0)">arrow_back_ios</mat-icon>&nbsp;&nbsp;{{pageName}}</h6>
      </div>
 
      

@@ -21,7 +21,7 @@ export class CompanyComponent implements OnInit {
   form: FormGroup;
   id:any;
   user:any
-  legalstatus:any=[{value:"Verified"},{value:"Not verified"}]
+  legalstatus:any=[{value:"verified"},{value:"not verified"}]
   enabled:any=[{value:"Enabled",boolean:"true"},{value:"Not enabled",boolean:"false"}]
   departement={
     nom:"",
@@ -46,7 +46,7 @@ export class CompanyComponent implements OnInit {
 //     owner:""
 // }
   modalType: string = 'add';
-  displayedColumns: string[] = ['name','adress','action'];
+  displayedColumns: string[] = ['legalstatus','name','adress','enabled','action'];
   constructor(private companyService:CompanyService, private depService:DepartementService,private matDialog:MatDialog,private router:Router,
               private formBuilder: FormBuilder, private toasterService:ToastrService
               ) { }
@@ -70,6 +70,7 @@ export class CompanyComponent implements OnInit {
 
   createForm() {
     this.form = this.formBuilder.group({
+      _id:'',
       name: ['', [Validators.required]],
       address:['', [Validators.required]],
       phone: ['', [Validators.required]],
@@ -281,6 +282,17 @@ openModal(type ='add') {
 
       
     }
+  }
+  deletecompany(id:string){
+    this.companyService.deleteCompany(id).subscribe(
+      (res)=>{
+        this.toasterService.success("Deleted successfully")
+        this.getAll();
+      },
+      (err)=>{
+        this.toasterService.error('Something wrong ')
+      }
+    )
   }
 
  
