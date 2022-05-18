@@ -130,17 +130,15 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
-        path:'cantine',
-        component:CantineComponent,
+        path: 'cantine',
+        component: CantineComponent,
         canActivate: [AuthGuard],
       },
       {
-        path:'notification',
-        component:NotificationsComponent,
+        path: 'notification',
+        component: NotificationsComponent,
         canActivate: [AuthGuard],
-      }
-
-
+      },
     ],
   },
   // { path: 'solutions', component: SolutionsComponent },

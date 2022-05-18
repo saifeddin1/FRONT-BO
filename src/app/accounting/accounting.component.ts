@@ -3,76 +3,67 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { User } from '../lms/models/user.model';
 
-
-
-
 interface Route {
   link: string;
   icon: string;
-  label:string;  
+  label: string;
 }
 
-const ROUTES : Array<Route>=[
+const ROUTES: Array<Route> = [
+  // {
+  //   link:'./summary',
+  //   icon:'layers',
+  //   label:'Summary',
+  // },
   {
-    link:'./summary',
-    icon:'layers',
-    label:'Summary',
-  },
-  {
-    link:'./program',
-    icon:'layers',
-    label:'Program',
-  },
-  
-  {
-    link:'./feeCategory',
-    icon:'layers',
-    label:'Fee Category',
-  },
-  {
-    link:'./academicyear',
-    icon:'layers',
-    label:'Academic Year',
-  },
-  {
-    link:'./academicterm',
-    icon:'layers',
-    label:'Academic Term',
+    link: './program',
+    icon: 'layers',
+    label: 'Program',
   },
 
   {
-    link:'./feestructure',
-    icon:'layers',
-    label:'Fee Structure',
+    link: './feeCategory',
+    icon: 'layers',
+    label: 'Fee Category',
   },
   {
-    link:'./groupstudent',
-    icon:'layers',
-    label:'Group Student',
+    link: './academicyear',
+    icon: 'layers',
+    label: 'Academic Year',
   },
   {
-    link:'./feeSchedule',
-    icon:'layers',
-    label:'Fee schedule',
-  }
- 
- 
- 
-]
+    link: './academicterm',
+    icon: 'layers',
+    label: 'Academic Term',
+  },
+
+  {
+    link: './feestructure',
+    icon: 'layers',
+    label: 'Fee Structure',
+  },
+  {
+    link: './groupstudent',
+    icon: 'layers',
+    label: 'Group Student',
+  },
+  {
+    link: './feeSchedule',
+    icon: 'layers',
+    label: 'Fee schedule',
+  },
+];
 
 @Component({
   selector: 'app-accounting',
   templateUrl: './accounting.component.html',
-  styleUrls: ['./accounting.component.css']
+  styleUrls: ['./accounting.component.css'],
 })
-export class AccountingComponent  {
- user:User;
- routes: Array<Route> = ROUTES;
+export class AccountingComponent {
+  user: User;
+  routes: Array<Route> = ROUTES;
 
-  constructor(private router :Router, public userService: UserService) { }
-
- 
-  
+  constructor(private router: Router, public userService: UserService) {}
 
   shouldNavShow = (): Boolean => {
     if (this.isHomePages()) return false;
@@ -96,6 +87,4 @@ export class AccountingComponent  {
   logout() {
     this.userService.logOut();
   }
- 
-
 }
