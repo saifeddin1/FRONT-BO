@@ -5,13 +5,7 @@
       style="justify-content: space-between; align-items: center"
     >
       <h6>Tableau des Apprenants</h6>
-      <div class="profile-card">
-        <div class="edit-button">
-          <button id="add-button" class="btn button" (click)="openModal()">
-            Ajouter Un Apprenant
-          </button>
-        </div>
-      </div>
+      <div class="profile-card"></div>
     </div>
   </div>
 
@@ -73,13 +67,13 @@
             <clr-icon shape="pencil"></clr-icon>
           </button> -->
 
-          <button
+          <!-- <button
             mat-icon-button
             class="btn btn-outline-danger"
             (click)="deleteById(element._id, i)"
           >
             <clr-icon shape="trash" style="color: red !important"></clr-icon>
-          </button>
+          </button> -->
         </td>
       </ng-container>
 

@@ -24,15 +24,20 @@ export class DepartementComponent implements OnInit {
   departements:any
   company:any;
   user: any;
+  depsNumber:number=0;
+  depsnumberCountStop:any
+
+
   constructor(private DepartementService:DepartementService,private MatDialog:MatDialog,private route: ActivatedRoute,private companyService:CompanyService,private ToasterService:ToasterService) { }
   id:any=this.route.snapshot.paramMap.get("id");    
 
   ngOnInit(): void {
+  
     this.user=jwt_decode(getToken())
     console.log(this.id);
     if(this.id===null){
-      this.getAlldeps()
-    }
+      this.getAlldeps()     
+     }
     else{
       this.getDepByCompanyId() 
       this.getCompanyName()
@@ -46,6 +51,19 @@ export class DepartementComponent implements OnInit {
     this.DepartementService.getAlldeps().subscribe(res=>{
       this.departements=res['response']
       console.log(this.departements);
+      // this.depsNumber=res['response'].length
+      console.log(this.depsNumber);
+      this.depsnumberCountStop=setInterval(()=>{
+        if(res['response'].length!=0){
+          this.depsNumber++
+             if(this.depsNumber==res['response'].length || res['response'].length==null){
+            clearInterval(this.depsnumberCountStop)
+          }      
+          
+        }
+          
+       
+        },100);      
     })
   }
 
@@ -79,7 +97,20 @@ closeModal(){
     this.DepartementService.getByCompanyId(this.id).subscribe(res=>{
       this.departements=res['response']
       console.log(this.departements)
+      this.depsnumberCountStop=setInterval(()=>{
+        if(res['response'].length!=0){
+          this.depsNumber++
+             if(this.depsNumber==res['response'].length || res['response'].length==null){
+            clearInterval(this.depsnumberCountStop)
+          }      
+          
+        }
+          
+       
+        },100);  
+      
     })
+
   }
 
   getCompanyName(){
@@ -93,6 +124,7 @@ closeModal(){
     this.companyService.getCompanies().subscribe(res=>{
       this.company=res['response']
       console.log(this.company);
+
     })
   }
 }
