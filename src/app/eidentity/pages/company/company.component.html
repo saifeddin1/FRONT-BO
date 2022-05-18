@@ -1,5 +1,108 @@
-<link rel="manifest" href="../../../../manifest.json">
-<ng-template #deleteTemp> 
+<!-- ADD COMPANY -->
+
+<clr-modal [(clrModalOpen)]="clrModalOpen" [clrModalSize]="'xl'">
+
+  <ng-container *ngIf="modalType == 'add';else editModalBloc;">
+    <h3 class="modal-title">Add User</h3>
+  </ng-container>
+  <ng-template #editModalBloc>
+    <h3 class="modal-title">Edit User</h3>
+  </ng-template>
+
+  <div class="modal-body">
+    <div>
+      <form [formGroup]="form" >
+        <div class="add-overlay">
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Company name</strong>
+            <input matInput class="text-area modalcol" placeholder="firstname" formControlName="name" min="3">
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Address</strong>
+            <input matInput class="text-area modalcol" placeholder="Adress" formControlName="address" min="3" >
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Phone</strong>
+            <input matInput class="text-area modalcol" type="number" placeholder="Phone" formControlName="phone" min="5">
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Type</strong>
+            <input matInput class="text-area modalcol" placeholder="type" formControlName="type" >
+          </div>
+
+          <div class="position-top modalRow">
+            <strong class="modalcol3">Email</strong>
+            <input matInput class="text-area modalcol" placeholder="Email" formControlName="email">
+          </div>
+
+          
+          
+        
+          <div class="position-top modalRow" >
+            <strong class="modalcol3">Legal status</strong>
+            <select class="text-area modalcol" formControlName="legalStatus" >
+              <option  value="" >Select status</option>
+              <option  *ngFor="let status of legalstatus" value="{{ status.value }}" >{{status.value}}</option>
+            </select>
+          </div>  
+          <div class="position-top">
+            <strong class="modalcol3">TVAIC </strong>
+            <input matInput class="text-area modalcol" placeholder="TVAIC" formControlName="tvaic">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">SIRET</strong>
+            <input matInput class="text-area modalcol" placeholder="SIRET" formControlName="siret">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">RCS</strong>
+            <input matInput class="text-area modalcol" placeholder="RCS" formControlName="rcs">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Code APE</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="Code APE" formControlName="codeApe">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Web site</strong>
+            <input matInput class="text-area modalcol" placeholder="Web site" formControlName="website">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Image</strong>
+            <input matInput  class="text-area modalcol" placeholder="image" formControlName="imageUrl">
+          </div>
+          <div class="position-top">
+            <strong class="modalcol3">Employees number</strong>
+            <input matInput type="number" class="text-area modalcol" placeholder="Employees number" formControlName="employeesCount">
+          </div>
+          <div class="position-top modalRow" >
+            <strong class="modalcol3">Enabled </strong>
+            <select class="text-area modalcol" formControlName="enabled" >
+              <option  value="" >Select status</option>
+              <option  *ngFor="let enabled of enabled" value="{{ enabled.boolean }}" >{{enabled.value}}</option>
+            </select>
+          </div> 
+
+          
+        </div>
+      </form>
+   
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-ok btn-outline btn-cancel" (click)="closeModal()">
+      Fermer
+    </button>
+    <button class="btn btn-ok btn-outline" type="submit" (click)="onSubmit()" >
+      Valider
+    </button>
+  </div>
+</clr-modal>
+
+
+<!-- <ng-template #deleteTemp> 
     <img src="../../../../assets/img/danger.png" class="danger"alt="">
       <h3>
         are you sure you want to delete ?
@@ -130,7 +233,7 @@ cancel
 </button >
 </div>
 
-</ng-template>
+</ng-template>-->
   
   <div class="dashboard ">
     <div class="events-container">
@@ -138,7 +241,7 @@ cancel
         <h6>Companies</h6>
         <div class="profile-card">
           <div class="edit-button">
-            <button id="add-button" class="btn button" (click)="openModal(addCompany,'')">
+            <button id="add-button" class="btn button" (click)="openModal('add')">
               Add new company
             </button>
           </div>
@@ -163,19 +266,17 @@ cancel
           
           <ng-container matColumnDef="action">
             <th class="px-3" mat-header-cell *matHeaderCellDef>Actions</th>
-            <td class="px-3" mat-cell *matCellDef="let element; let i = index">    
+            <td class="px-3" mat-cell *matCellDef="let element; let i = index">
+              <button mat-icon-button class="btn btn-info" (click)="editById(element)" >
+                <clr-icon shape="pencil"></clr-icon>
+              </button>    
               <button
                 mat-icon-button (click)="openModal(deleteTemp,element._id)"
                 class="btn btn-outline-danger">
                 <clr-icon shape="trash" style="color: red !important"></clr-icon>
               </button>
-              <!-- <button
-                mat-icon-button (click)="openModal(addDep,element._id)"
-                class="btn btn-outline-danger">
-                <clr-icon shape="organization" style="color: rgb(72, 131, 240) !important"></clr-icon>
-              </button> -->
               <button mat-icon-button class="btn btn-info" [routerLink]="['/identity/departements',element._id]">
-                <span>departements</span>
+                <clr-icon shape="bank" style="color: rgb(91, 101, 247) !important" size="20"></clr-icon>
               </button>
               </td>
           </ng-container>

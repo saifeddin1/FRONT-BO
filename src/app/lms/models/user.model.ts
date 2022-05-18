@@ -11,6 +11,7 @@ export interface User {
   type: string;
   studentNiveauId: string;
   studentOffreId: string;
+  eooaccessmodules:string;
   profile: {
     fullName: string;
     phone: string;

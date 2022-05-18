@@ -21,13 +21,15 @@ interface Route {
   label: string;
   icon: string;
   hidden: boolean;
+  modulename;
 }
 const ROUTES: Array<Route> = [
   {
-    roles: [ADMIN],
+    roles: [ADMIN, ORGANISATION8_OWNER],
     link: 'accounting',
     label: 'Accounting System',
     icon: 'accounting',
+    modulename: 'AC',
     hidden: false,
   },
   {
@@ -35,6 +37,7 @@ const ROUTES: Array<Route> = [
     link: 'hr-administration',
     label: 'HR Management',
     icon: 'hr',
+    modulename: 'HR',
     hidden: false,
   },
   {
@@ -42,6 +45,7 @@ const ROUTES: Array<Route> = [
     link: 'lms',
     label: 'LMS',
     icon: 'lms',
+    modulename: 'LMS',
     hidden: false,
   },
 
@@ -50,6 +54,7 @@ const ROUTES: Array<Route> = [
     link: 'identity',
     label: 'Identity',
     icon: 'identity',
+    modulename: 'ID',
     hidden: false,
   },
 
@@ -60,6 +65,14 @@ const ROUTES: Array<Route> = [
   //   icon: 'vc',
   //   hidden: false,
   // },
+  {
+    roles: [ADMIN, INSTRUCTOR, HR, STUDENT, ORGANISATION8_OWNER],
+    link: 'VCDASHBOARD',
+    label: 'Video Conference',
+    icon: 'vc',
+    modulename: 'VC',
+    hidden: false,
+  },
 ];
 
 @Component({
@@ -121,11 +134,20 @@ export class AppComponent implements OnInit {
   ngDoCheck() {
     this.user = this.userService.getCurrentUser();
     if (this.user && this.user.type) {
-      this.routes = ROUTES.filter(
-        (route) => route.roles.includes(this.user.type) && !route.hidden
-      );
+      if (this.user.type === ORGANISATION8_OWNER) {
+        this.routes = ROUTES.filter(
+          (route) =>
+            this.user.eooaccessmodules.includes(route.modulename) &&
+            !route.hidden
+        );
+      } else {
+        this.routes = ROUTES.filter(
+          (route) => route.roles.includes(this.user.type) && !route.hidden
+        );
+      }
     }
   }
+
   navigateTo(here: string, name: string, icon: string) {
     this.solutions = name;
     this.solutionIcon = icon;

@@ -12,4 +12,5 @@ export interface User {
   studentOffreId: string;
   company: string;
   eooaccessrights: string;
+  eooaccessmodules: string;
 }

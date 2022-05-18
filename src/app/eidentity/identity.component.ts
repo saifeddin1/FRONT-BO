@@ -15,6 +15,16 @@ const ROUTES: Array<Route> = [
     icon: 'layers',
     label: 'Students',
   },
+  {
+    link: './companies',
+    icon: 'organization',
+    label: 'Company',
+  },
+  {
+    link: './departements',
+    icon: 'bank',
+    label: 'Departements',
+  },
   // {
   //   link: './companies',
   //   icon: 'layers',
@@ -36,6 +46,16 @@ const ROUTES: Array<Route> = [
   //   icon: 'layers',
   //   label: 'Employee',
   // },
+  {
+    link: './hrinstructor',
+    icon: 'layers',
+    label: 'Instructor users',
+  },
+  {
+    link: './eoousers',
+    icon: 'administrator',
+    label: 'Oranization owners',
+  },
   {
     link: './hrinstructor',
     icon: 'layers',
