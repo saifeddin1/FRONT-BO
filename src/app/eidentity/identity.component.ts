@@ -16,6 +16,11 @@ const ROUTES: Array<Route> = [
     label: 'Students',
   },
   {
+    link: './admins',
+    icon: 'layers',
+    label: 'Admins',
+  },
+  {
     link: './companies',
     icon: 'organization',
     label: 'Company',
@@ -56,11 +61,11 @@ const ROUTES: Array<Route> = [
     icon: 'administrator',
     label: 'Oranization owners',
   },
-  {
-    link: './hrinstructor',
-    icon: 'layers',
-    label: 'Instructor users',
-  },
+  // {
+  //   link: './hrinstructor',
+  //   icon: 'layers',
+  //   label: 'Instructor users',
+  // },
 ];
 @Component({
   selector: 'app-identity',

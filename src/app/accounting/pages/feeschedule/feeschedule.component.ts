@@ -208,9 +208,13 @@ export class FeescheduleComponent implements OnInit {
    
   }
   openModal2() {
+    this.createForm();
     this.clrModalOpen2 = true;
   }
   closeModal2() {
+    this.createForm();
+    this.createForm1();
+    this.dataSource = new MatTableDataSource([]);
     this.clrModalOpen2 = false;
   }
   dataSource4: MatTableDataSource<any> = new MatTableDataSource<any>();
@@ -230,7 +234,7 @@ export class FeescheduleComponent implements OnInit {
 
       studentgroup: this.studentgrouptable,
     };
-    
+    console.log("ffffffffffffffff",feeschedule.feeStructureId)
     this.feescheduleService.createFeeschedule(feeschedule).subscribe(
       (result) => {
         console.log(result);

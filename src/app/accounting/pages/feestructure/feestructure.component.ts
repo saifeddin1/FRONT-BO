@@ -193,6 +193,8 @@ export class FeestructureComponent implements OnInit {
 
   closeModal() {
     this.createForm();
+    this.createForm1();
+    this.dataSource1 = new MatTableDataSource([]);
     this.clrModalOpen = false;
   }
   closeModal1() {
