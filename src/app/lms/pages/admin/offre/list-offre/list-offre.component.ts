@@ -67,6 +67,7 @@ export class ListOffreComponent implements OnInit {
             }
           });
         }
+        console.log("LLLLLLLL",res)
         this.dataSource = new MatTableDataSource(res);
       },
       (error) => {

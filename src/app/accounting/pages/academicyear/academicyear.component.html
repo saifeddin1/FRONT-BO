@@ -19,7 +19,17 @@
 
     <!-------------------------------TAble----------------------------------------------------------------------------------->
 
-  <div class="row d-flex dates">
+    <div class="column d-flex dates">
+      <mat-form-field appearance="standard">
+        <mat-label>Filter</mat-label>
+        <input
+          matInput
+          [(ngModel)]="filterVal"
+          (ngModelChange)="searchNotifier.next()"
+          placeholder="Ex. ium"
+          #input
+        />
+      </mat-form-field>
     <table mat-table [dataSource]="dataSource"  >
 
      

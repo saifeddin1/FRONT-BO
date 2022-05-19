@@ -18,8 +18,8 @@ export class ProgramService {
     return this.http.post<any>(`${this.BASE_URL}/api/program/`,program)
   }
 
-  getPrograms():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/program/`); 
+  getPrograms(term ?: string):Observable<any>{
+   return this.http.get<any>(`${this.BASE_URL}/api/program?filtre=${term}`); 
   }
 
   getOneProgram(id:string):Observable<any>{

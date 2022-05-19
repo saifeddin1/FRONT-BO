@@ -48,6 +48,12 @@ export class UsersService {
   getAllEmployees(): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allEmployees`);
   }
+  getAllAdmins(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allAdmins`);
+  }
+  getAllDisabledAdmins(): Observable<any> {
+    return this.http.get<any>(`${this.BASE_URL}/api/v1/users/allDisabledAdmins`);
+  }
 
   getalldisabledHr(): Observable<any> {
     return this.http.get<any>(`${this.BASE_URL}/api/v1/users/alldisabledhr`);

@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import moment from 'moment';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { Academicyear } from '../../models/acadmicyear.model';
 import { AcademicyearService } from '../../services/academicyear.service';
@@ -13,7 +15,8 @@ import { AcademicyearService } from '../../services/academicyear.service';
   styleUrls: ['./academicyear.component.css']
 })
 export class AcademicyearComponent implements OnInit {
-
+  filterVal: string = '';
+  searchNotifier = new Subject();
   clrModalOpen: boolean = false;
   clrModalOpen1: boolean = false;
   form: FormGroup;
@@ -38,6 +41,12 @@ export class AcademicyearComponent implements OnInit {
 
   ngOnInit(): void {
     this.createForm();
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+      this.getallAcademicyear()
+        
+    );
   }
 
   changePage(event) {
@@ -50,7 +59,7 @@ export class AcademicyearComponent implements OnInit {
 
   dataSource: MatTableDataSource<Academicyear> = new MatTableDataSource<Academicyear>();
   getallAcademicyear(){
-    this.academicyearService.getAcademicyears().subscribe(
+    this.academicyearService.getAcademicyears(this.filterVal).subscribe(
       (res)=>{
         this.dataSource = new MatTableDataSource(res.response);
         this.dataSource.paginator = this.paginator;

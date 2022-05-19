@@ -18,8 +18,8 @@ export class AcademictermService {
     return this.http.post<any>(`${this.BASE_URL}/api/academicterm/${id}`,academicterm)
   }
 
-  getAcademicterms():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/academicterm/`); 
+  getAcademicterms(term ?: string):Observable<any>{
+   return this.http.get<any>(`${this.BASE_URL}/api/academicterm?filtre=${term}`); 
   }
   getDisabledAcademicterms():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/academicterm/disabledacademicterm`); 

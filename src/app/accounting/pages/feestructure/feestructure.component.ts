@@ -14,6 +14,8 @@ import { FeeCategory } from '../../models/feeCatgory.model';
 import { AcademictermService } from '../../services/academicterm.service';
 import { validateVerticalPosition } from '@angular/cdk/overlay';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-feestructure',
@@ -23,6 +25,8 @@ import { MatPaginator } from '@angular/material/paginator';
 export class FeestructureComponent implements OnInit {
 
   academicterms:Academicterm []=[];
+  filterVal: string = '';
+  searchNotifier = new Subject();
   academicyears:Academicyear []=[];
   feecategorytotable:any []=[];
   programs:Program []=[];
@@ -83,6 +87,12 @@ export class FeestructureComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     this.createForm1();
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+      this.getallfeestructures()
+        
+    );
   }
 
   changePage(event) {
@@ -95,7 +105,7 @@ export class FeestructureComponent implements OnInit {
  
   dataSource: MatTableDataSource<FeeStructure> = new MatTableDataSource<FeeStructure>();
   getallfeestructures(){
-    this.feeStructureService.getFeestructureswithname().subscribe(
+    this.feeStructureService.getFeestructureswithname(this.filterVal).subscribe(
       (res)=>{
         
         console.log("get fee structures", res.response)
@@ -183,6 +193,8 @@ export class FeestructureComponent implements OnInit {
 
   closeModal() {
     this.createForm();
+    this.createForm1();
+    this.dataSource1 = new MatTableDataSource([]);
     this.clrModalOpen = false;
   }
   closeModal1() {

@@ -5,6 +5,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ToasterService } from 'src/app/lms/services/toaster.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-program',
@@ -12,7 +14,8 @@ import { MatPaginator } from '@angular/material/paginator';
   styleUrls: ['./program.component.css']
 })
 export class ProgramComponent implements OnInit {
-  
+  filterVal: string = '';
+  searchNotifier = new Subject();
   clrModalOpen: boolean = false;
   p: number = 1;
   limit: number = 7;
@@ -35,6 +38,12 @@ export class ProgramComponent implements OnInit {
   ngOnInit(): void {
     this.createForm();
     console.log(this.dataSource)
+    this.searchNotifier
+    .pipe(debounceTime(500))
+    .subscribe((data) =>
+    this.getallprograms()
+        
+    );
   }
 
   changePage(event) {
@@ -47,7 +56,7 @@ export class ProgramComponent implements OnInit {
 
   dataSource: MatTableDataSource<Program> = new MatTableDataSource<Program>();
   getallprograms(){
-    this.programService.getPrograms().subscribe(
+    this.programService.getPrograms(this.filterVal).subscribe(
       (res)=>{
 
         console.log("get all programs", res.response)

@@ -10,6 +10,7 @@ import { DepartementComponent } from './pages/departement/departement.component'
 import { HrusersComponent } from './pages/hrusers/hrusers.component';
 import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
 import { EoousersComponent } from './pages/eoousers/eoousers.component';
+import { AdminComponent } from './pages/admin/admin.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'about', pathMatch: 'full' },
@@ -25,6 +26,7 @@ const routes: Routes = [
       { path: 'departements', component:DepartementComponent, pathMatch: 'full' },
       { path: '', redirectTo: 'users', pathMatch: 'full' },
       { path: 'users', component: UsersComponent, pathMatch: 'full' },
+      { path: 'admins', component: AdminComponent, pathMatch: 'full' },
       { path: 'hrusers', component: HrusersComponent, pathMatch: 'full' },
       { path: 'hrinstructor', component: InstructorusersComponent, pathMatch: 'full' },
       { path: 'eoousers', component: EoousersComponent, pathMatch: 'full' },

@@ -17,8 +17,8 @@ export class FeeCategoryService {
     return this.http.post<any>(`${this.BASE_URL}/api/feeCategory/`,feeCategory)
   }
 
-  getFeeCatgories():Observable<any>{
-   return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/`); 
+  getFeeCatgories(term ?:string):Observable<any>{
+   return this.http.get<any>(`${this.BASE_URL}/api/feeCategory?filtre=${term}`); 
   }
   getDisabledFeeCatgories():Observable<any>{
     return this.http.get<any>(`${this.BASE_URL}/api/feeCategory/disabledfeecat`); 

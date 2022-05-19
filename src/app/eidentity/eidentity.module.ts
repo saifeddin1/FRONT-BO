@@ -17,8 +17,9 @@ import { HrusersComponent } from './pages/hrusers/hrusers.component';
 import { InstructorusersComponent } from './pages/instructorusers/instructorusers.component';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { EoousersComponent } from './pages/eoousers/eoousers.component';
+import { AdminComponent } from './pages/admin/admin.component';
 @NgModule({
-  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent, CompanyComponent, DepartementComponent, EoousersComponent],
+  declarations: [IdentityComponent, UsersComponent, HrusersComponent, InstructorusersComponent, CompanyComponent, DepartementComponent, EoousersComponent, AdminComponent],
   imports: [
     CommonModule,
     EidentityRoutingModule,
