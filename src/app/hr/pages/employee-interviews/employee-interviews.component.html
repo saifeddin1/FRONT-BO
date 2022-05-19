@@ -36,9 +36,7 @@
       <mat-progress-spinner [color]="color" [mode]="mode" [value]="value">
       </mat-progress-spinner>
     </div>
-    <ng-container *ngIf="!isLoading && !interviews.length"
-      >No Interviews</ng-container
-    >
+
     <table
       mat-table
       [dataSource]="dataSource"

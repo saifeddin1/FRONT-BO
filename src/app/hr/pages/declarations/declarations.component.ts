@@ -130,6 +130,7 @@ export class DeclarationsComponent implements OnInit {
           console.log(result['response']);
           this.getApprovedRejected();
           this.getIncomingDeclarations();
+          this.incomingDetailsVisible = false;
         },
         (e) => this.toaster.error(e.error.message)
       );
