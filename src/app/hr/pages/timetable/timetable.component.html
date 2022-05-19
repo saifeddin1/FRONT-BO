@@ -1,10 +1,8 @@
 <div class="calendar">
-  <!-- <div class="card" id="delete-account"> -->
   <div
     class="row d-flex"
     style="justify-content: space-between; align-items: center"
   >
-    <!-- Next/Previous Week Control Buttons -->
     <div class="col-md-4">
       <div class="btn-group">
         <button
@@ -14,7 +12,7 @@
           [view]="view"
           [(viewDate)]="viewDate"
         >
-          Préc
+          Prev
         </button>
         <button
           id="white-calendar-button"
@@ -22,7 +20,7 @@
           mwlCalendarToday
           [(viewDate)]="viewDate"
         >
-          Auj
+          Today
         </button>
         <button
           id="control-calendar-button"
@@ -31,15 +29,13 @@
           [view]="view"
           [(viewDate)]="viewDate"
         >
-          Suiv
+          Next
         </button>
       </div>
     </div>
-    <!-- Today date -->
     <div class="col-md-4">
       <h2>{{ viewDate | date: "mediumDate" }}</h2>
     </div>
-    <!-- Month/Week/Day Control Buttons  -->
     <div class="col-md-4">
       <div class="btn-group" *ngIf="!mobileMode">
         <button
@@ -58,7 +54,7 @@
           [class.active]="view === CalendarView.Week"
           [ngClass]="{ 'selected-btn': view === CalendarView.Week }"
         >
-          Semaine
+          Week
         </button>
         <button
           id="white-calendar-button"
@@ -73,6 +69,7 @@
     </div>
   </div>
   <br />
+  <!--
   <div [ngSwitch]="view">
     <mwl-calendar-month-view
       *ngSwitchCase="CalendarView.Month"
@@ -106,5 +103,33 @@
     >
     </mwl-calendar-day-view>
   </div>
-  <!-- </div> -->
+</div> 
+-->
+
+  <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+  </mwl-demo-utils-calendar-header>
+
+  <div [ngSwitch]="view">
+    <mwl-calendar-month-view
+      *ngSwitchCase="'month'"
+      [viewDate]="viewDate"
+      [events]="calendarEvents"
+      (beforeViewRender)="updateCalendarEvents($event)"
+    >
+    </mwl-calendar-month-view>
+    <mwl-calendar-week-view
+      *ngSwitchCase="'week'"
+      [viewDate]="viewDate"
+      [events]="calendarEvents"
+      (beforeViewRender)="updateCalendarEvents($event)"
+    >
+    </mwl-calendar-week-view>
+    <mwl-calendar-day-view
+      *ngSwitchCase="'day'"
+      [viewDate]="viewDate"
+      [events]="calendarEvents"
+      (beforeViewRender)="updateCalendarEvents($event)"
+    >
+    </mwl-calendar-day-view>
+  </div>
 </div>
