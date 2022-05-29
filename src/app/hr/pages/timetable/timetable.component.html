@@ -37,7 +37,7 @@
       <h2>{{ viewDate | date: "mediumDate" }}</h2>
     </div>
     <div class="col-md-4">
-      <div class="btn-group" *ngIf="!mobileMode">
+      <div class="btn-group">
         <button
           id="white-calendar-button"
           class="btn button"
@@ -106,8 +106,8 @@
 </div> 
 -->
 
-  <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
-  </mwl-demo-utils-calendar-header>
+  <!-- <mwl-demo-utils-calendar-header [(view)]="view" [(viewDate)]="viewDate">
+  </mwl-demo-utils-calendar-header> -->
 
   <div [ngSwitch]="view">
     <mwl-calendar-month-view

@@ -13,7 +13,7 @@
       <a routerLink="/about" style="cursor: pointer">
         <img
           src="../../../../assets/eunoia-logo.png"
-          alt="eunoia academy logo"
+          alt="MoveUp Education logo"
           width="60px"
           height="60px"
         />
@@ -61,16 +61,14 @@
             placeholder="email / username"
           />
         </div>
-        
       </form>
-      
+
       <form action="#" class="sign-up-form" *ngIf="form?.id == 'resetpwd'">
         <h2 class="title">Bienvenue</h2>
         <div class="input-field">
           <i class="fas fa-user"></i>
           <input
             type="text"
-           
             (keyup.enter)="onSubmit()"
             [(ngModel)]="newpwd"
             name="newpwd"
@@ -78,7 +76,6 @@
             placeholder="new password"
           />
         </div>
-        
       </form>
       <form action="#" class="sign-up-form" *ngIf="form?.id == 'verifycode'">
         <h2 class="title">Bienvenue</h2>
@@ -86,7 +83,6 @@
           <i class="fas fa-user"></i>
           <input
             type="text"
-           
             (keyup.enter)="onSubmit()"
             [(ngModel)]="code"
             name="code"
@@ -94,7 +90,6 @@
             placeholder="code..."
           />
         </div>
-        
       </form>
       <form action="#" class="sign-up-form" *ngIf="form?.id == 'register'">
         <h2 class="title">Bienvenue</h2>
@@ -164,7 +159,10 @@
           [value]="form.submit"
           class="filled-btn btn-bordered"
         />
-        <p class="social-text" [style.display]="form.id == 'forgetpass' ? 'none' : 'block'" >
+        <p
+          class="social-text"
+          [style.display]="form.id == 'forgetpass' ? 'none' : 'block'"
+        >
           {{ form.slogan }}
           <a
             (click)="navigateToLink()"
@@ -173,17 +171,16 @@
             {{ form.link }}
           </a>
           &nbsp;
-         
+
           <a
-          (click)="navigateToLink('c','FORGET YOUR PASSWORD ?')" [style.display]="form.forgetpass == 'no' ? 'none' : 'block'"
-          style="color: rgb(223, 57, 57)!important; font-weight: bold"
-        >
-          {{ form.forgetpass }}
-        </a>
-          
-        
+            (click)="navigateToLink('c', 'FORGET YOUR PASSWORD ?')"
+            [style.display]="form.forgetpass == 'no' ? 'none' : 'block'"
+            style="color: rgb(223, 57, 57) !important; font-weight: bold"
+          >
+            {{ form.forgetpass }}
+          </a>
         </p>
-        <br/>
+        <br />
         <div class="social-media">
           <a
             href="https://www.facebook.com/EunoiaAcademyCJG"

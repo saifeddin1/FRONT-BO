@@ -17,7 +17,7 @@ html {
   z-index: 99999 !important;
 }
 
-/*        CSS FROM Eunoia Academy FIGMA         */
+/*        CSS FROM MoveUp Education FIGMA         */
 
 :root {
   /* Gray · 20% */
@@ -380,7 +380,7 @@ html {
   z-index: 99999 !important;
 }
 
-/*        CSS FROM Eunoia Academy FIGMA         */
+/*        CSS FROM MoveUp Education FIGMA         */
 
 :root {
   /* Gray · 20% */
@@ -801,7 +801,11 @@ body {
 .blog-post-item.blog-post-item-v3.post-type-featured-absolute .post-excerpt {
   display: none;
 }
-.posts-sidebar .widget.latest-post-widget .popular-posts-item .popular-posts-thumbnail img {
+.posts-sidebar
+  .widget.latest-post-widget
+  .popular-posts-item
+  .popular-posts-thumbnail
+  img {
   width: 75px;
   height: 70px;
   object-fit: cover;
@@ -816,7 +820,11 @@ body {
   height: 160px;
   object-fit: cover;
 }
-.blog-post-item.blog-post-item-v2 .blog-post-entry-content .post-author .post-author-thumb img {
+.blog-post-item.blog-post-item-v2
+  .blog-post-entry-content
+  .post-author
+  .post-author-thumb
+  img {
   width: 40px;
   height: 40px;
   object-fit: cover;
@@ -914,10 +922,17 @@ pagination-template .ngx-pagination li.pagination-previous span {
   .ngx-pagination.responsive .small-screen {
     display: none !important;
   }
-  .ngx-pagination.responsive li:not(.small-screen):not(.pagination-previous):not(.pagination-next) {
+  .ngx-pagination.responsive
+    li:not(.small-screen):not(.pagination-previous):not(.pagination-next) {
     display: flex !important;
   }
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
