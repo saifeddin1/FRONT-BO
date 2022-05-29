@@ -59,12 +59,12 @@ const ROUTES: Array<Route> = [
     icon: 'users',
     label: 'Instructeurs',
   },
-  {
-    roles: [ADMIN, STUDENT],
-    link: './notification',
-    icon: 'notification',
-    label: 'Notifications',
-  },
+  // {
+  //   roles: [ADMIN, STUDENT],
+  //   link: './notification',
+  //   icon: 'notification',
+  //   label: 'Notifications',
+  // },
   {
     roles: [ADMIN, STUDENT],
     link: './cantine',

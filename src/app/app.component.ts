@@ -65,14 +65,14 @@ const ROUTES: Array<Route> = [
   //   icon: 'vc',
   //   hidden: false,
   // },
-  {
-    roles: [ADMIN, INSTRUCTOR, HR, STUDENT, ORGANISATION8_OWNER],
-    link: 'VCDASHBOARD',
-    label: 'Video Conference',
-    icon: 'vc',
-    modulename: 'VC',
-    hidden: false,
-  },
+  // {
+  //   roles: [ADMIN, INSTRUCTOR, HR, STUDENT, ORGANISATION8_OWNER],
+  //   link: 'VCDASHBOARD',
+  //   label: 'Video Conference',
+  //   icon: 'vc',
+  //   modulename: 'VC',
+  //   hidden: false,
+  // },
 ];
 
 @Component({

@@ -20,16 +20,16 @@ const ROUTES: Array<Route> = [
     icon: 'layers',
     label: 'Admins',
   },
-  {
-    link: './companies',
-    icon: 'organization',
-    label: 'Company',
-  },
-  {
-    link: './departements',
-    icon: 'bank',
-    label: 'Departements',
-  },
+  // {
+  //   link: './companies',
+  //   icon: 'organization',
+  //   label: 'Company',
+  // },
+  // {
+  //   link: './departements',
+  //   icon: 'bank',
+  //   label: 'Departements',
+  // },
   // {
   //   link: './companies',
   //   icon: 'layers',
@@ -43,7 +43,7 @@ const ROUTES: Array<Route> = [
   {
     link: './hrusers',
     icon: 'layers',
-    label: 'Hr users',
+    label: 'Employees',
   },
 
   // {
@@ -56,11 +56,11 @@ const ROUTES: Array<Route> = [
     icon: 'layers',
     label: 'Instructor users',
   },
-  {
-    link: './eoousers',
-    icon: 'administrator',
-    label: 'Oranization owners',
-  },
+  // {
+  //   link: './eoousers',
+  //   icon: 'administrator',
+  //   label: 'Oranization owners',
+  // },
   // {
   //   link: './hrinstructor',
   //   icon: 'layers',
