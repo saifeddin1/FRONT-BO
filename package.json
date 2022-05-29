@@ -69,6 +69,7 @@
     "pdfmake": "^0.2.5",
     "peerjs": "^1.3.1",
     "plyr": "^3.6.8",
+    "rrule": "^2.6.9",
     "rxjs": "^6.6.7",
     "seedrandom": "^3.0.5",
     "slick-carousel": "^1.8.1",
