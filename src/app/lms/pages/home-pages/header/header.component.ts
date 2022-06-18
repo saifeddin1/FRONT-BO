@@ -77,13 +77,13 @@ export class HeaderComponent implements OnInit {
       id: 1,
       link: '/signup/register',
       code: 'register',
-      linkText: 'Inscription',
+      linkText: 'Register',
     },
     {
       id: 2,
       link: '/signup/login',
       code: 'login',
-      linkText: 'Connexion',
+      linkText: 'Login',
     },
   ];
 

@@ -24,6 +24,7 @@ import { MediaAssign } from '../admin/niveau/list-assign-media/mediaAssign.servi
 import { ImageService } from '../../services/image.service';
 import { User } from '../../models/user.model';
 import { STUDENT } from '../../constants/roles.constant';
+import { PaginationArgs } from '../../services/pagination.service';
 // the second parameter 'fr' is optional
 registerLocaleData(localeFr, 'fr');
 const colors: any = {
@@ -72,24 +73,22 @@ export class StudentCalendarComponent implements OnChanges, OnInit {
   }
   isStudent: boolean = false;
   ngOnInit(): void {
-    this.events=[
+    this.events = [
       {
         title: 'No event end date',
-        start: new Date(2022, 2,21,9,10),
-        end: new Date(2022, 2,21,10,10),
-
-
-
-    }]
+        start: new Date(2022, 2, 21, 9, 10),
+        end: new Date(2022, 2, 21, 10, 10),
+      },
+    ];
     console.log(this.events);
   }
-  getAll() {
+  getAll(query: PaginationArgs = new PaginationArgs()) {
     const viewDateStr = this.viewDate.toISOString().split('T')[0];
-    this.seanceService.getAllByNivMat(viewDateStr, this.view).subscribe(
+    this.seanceService.getAll(query).subscribe(
       (res) => {
         console.log('res :', res);
-        if (res && res.length) {
-          this.events = res.map((body: any) => ({
+        if (res && res['totalData'].length) {
+          this.events = res['totalData'].map((body: any) => ({
             title: body.name,
             start: new Date(body.startDate),
             end: new Date(body.endDate),
