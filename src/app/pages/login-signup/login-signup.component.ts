@@ -92,24 +92,24 @@ export class LoginSignupComponent implements OnInit {
 
   signup: FormDisplay = {
     id: 'register',
-    greeting: 'Créer un compte',
-    linkPrompt: 'Vous avez déjà un compte?',
-    link: 'SE CONNECTER',
-    submit: "S'INSCRIRE",
+    greeting: 'Create Account',
+    linkPrompt: 'Already Have an account?',
+    link: 'LOGIN',
+    submit: 'REGISTER',
     forgetpass: 'no',
     img: '../../../assets/eunoia-logo.png',
-    slogan: 'Vous avez déjà un compte?',
+    slogan: 'Already Have an account?',
   };
 
   forgetpass: FormDisplay = {
     id: 'forgetpass',
     greeting: 'Forget your password',
-    linkPrompt: "Vous n'avez pas de compte ?",
-    link: "S'INSCRIRE",
+    linkPrompt: 'Dont you have an account ?',
+    link: 'REGISTER',
     submit: 'Send email',
     forgetpass: 'FORGET YOUR PASSWORD',
     img: '../../../assets/eunoia-logo.png',
-    slogan: 'Vous avez déjà un compte?',
+    slogan: 'Already Have an account?',
   };
 
   verifycode: FormDisplay = {
@@ -137,12 +137,12 @@ export class LoginSignupComponent implements OnInit {
   login: FormDisplay = {
     id: 'login',
     greeting: 'Content de vous revoir',
-    linkPrompt: "Vous n'avez pas de compte ?",
-    link: "S'INSCRIRE",
-    submit: 'SE CONNECTER',
+    linkPrompt: 'Dont you have an account ?',
+    link: 'REGISTER',
+    submit: 'LOGIN',
     forgetpass: 'FORGET YOUR PASSWORD ?',
     img: '../../assets/login-signup/signup.svg',
-    slogan: "Vous n'avez pas de compte ?",
+    slogan: 'Dont you have an account ?',
   };
 
   form: FormDisplay;
