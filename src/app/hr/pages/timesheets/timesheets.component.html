@@ -21,6 +21,7 @@
       </select>
       &nbsp;
       <button
+        *ngIf="isCurrentMonth(yearMonth)"
         mat-icon-button
         class="btn btn-secondary"
         (click)="generateTimesheets()"
@@ -44,7 +45,9 @@
       </button>
       <button
         matTooltip="Declare Timesheet"
-        *ngIf="!isDeclared && !isApproved && !isRejected"
+        *ngIf="
+          !isDeclared && !isApproved && !isRejected && isCurrentMonth(yearMonth)
+        "
         (click)="createDeclaration()"
       >
         Declare
@@ -93,7 +96,12 @@
       <!-- startdate Column -->
       <ng-container matColumnDef="start">
         <th mat-header-cell *matHeaderCellDef>Start</th>
-        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+        <td mat-cell *matCellDef="let element">
+          {{ formatedDate(element.date) }}
+        </td>
+        <!-- <td mat-cell *matCellDef="let element">
+          {{ element.date  }}
+        </td> -->
       </ng-container>
 
       <!-- type Column -->
@@ -129,9 +137,16 @@
             mat-icon-button
             class="btn btn-info"
             (click)="editTimesheetDialog(element)"
-            [disabled]="isDeclared || isApproved"
+            [disabled]="isDeclared || isApproved || isWeekendDate(element.date)"
           >
-            <clr-icon shape="pencil"></clr-icon>
+            <clr-icon
+              shape="pencil"
+              *ngIf="!isWeekendDate(element.date)"
+            ></clr-icon>
+            <clr-icon
+              shape="ban"
+              *ngIf="isWeekendDate(element.date)"
+            ></clr-icon>
           </button>
         </td>
       </ng-container>

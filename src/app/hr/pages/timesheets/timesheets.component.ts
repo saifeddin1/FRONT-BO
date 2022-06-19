@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Timesheet } from '../../models/timesheet.model';
 import { EmployeeSummaryService } from '../../services/employee-summary.service';
 import { formatDate } from '../../helpers/formatDate';
+import { isWeekend } from '../../helpers/isWeekend';
 
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -14,6 +15,7 @@ import { AddTimesheetDialogComponent } from '../../components/add-timesheet-dial
 import { MatDialog } from '@angular/material/dialog';
 import { UserService } from 'src/app/lms/services/user.service';
 import { GenerateTimesheetsPopupComponent } from '../../components/generate-timesheets-popup/generate-timesheets-popup.component';
+import { monthCheck } from '../../helpers/monthCheck';
 
 @Component({
   selector: 'app-timesheets',
@@ -41,12 +43,18 @@ export class TimesheetsComponent implements OnInit {
   isApproved: boolean;
   isRejected: boolean;
   yearMonth: string;
+  isCurrentMonth(ym) {
+    return monthCheck(ym);
+  }
   contract: any;
   yearMonthItems: YearMonth[];
   monthlyExtraHours: any = 0;
   currUser: any;
   formatedDate(date) {
     return formatDate(date);
+  }
+  isWeekendDate(date) {
+    return isWeekend(date);
   }
   workignHoursInput: number;
   declaration: TimesheetDeclaration;

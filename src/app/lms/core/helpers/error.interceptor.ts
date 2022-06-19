@@ -51,7 +51,7 @@ export class ErrorInterceptor implements HttpInterceptor {
                 } else if (user.type == INSTRUCTOR) {
                   this.router.navigate(['lms/dashboard']);
                 } else if (user.type == STUDENT) {
-                  this.router.navigate(['lms/offres']);
+                  this.router.navigate(['lms/calendar']);
                 }
               } else {
                 this.userService.logOut();

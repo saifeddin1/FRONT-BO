@@ -1,16 +1,17 @@
-
-
-span.title{
-  font-weight: 500; margin-bottom: 15px; font-size: 20px;
+span.title {
+  font-weight: 500;
+  margin-bottom: 15px;
+  font-size: 20px;
   background-color: #fff;
   height: 35px;
-  font-size: 17px; 
+  font-size: 17px;
   display: flex;
   width: 100%;
   padding-block: 1.5rem;
   justify-content: flex-start;
-  align-items: center; 
+  align-items: center;
 }
+
 button {
   /* Shadow Dark · 16dp */
   box-shadow: 0px 4px 4px rgba(120, 98, 188, 0.16);
@@ -24,25 +25,29 @@ button {
   color: #ffffff;
 }
 
-span.title::before{
+span.title::before {
   content: "";
   width: 10px;
-  height: 42px; 
+  height: 42px;
   background-color: #b5b5b5;
   margin-right: 5px;
 }
- .profile-wrapper span.title {
+
+.profile-wrapper span.title {
   width: 99%;
- }
+}
+
 a.visit-all {
   display: flex;
   justify-content: center;
   padding: 1rem;
   font-weight: 500;
 }
+
 a.visit-all:hover {
   filter: drop-shadow(2px 4px 6px #ccc);
 }
+
 .contract-alert {
   height: 65px;
   background-color: red;
@@ -67,9 +72,11 @@ a.visit-all:hover {
   justify-content: space-between;
   margin-bottom: 1rem;
 }
-.profile-wrapper{
+
+.profile-wrapper {
   width: 75%;
 }
+
 .hr-card {
   /* margin-inline: 5px; */
   background-color: #fff;
@@ -86,8 +93,10 @@ a.visit-all:hover {
   /* width: 97%; */
   margin-right: 1rem;
 }
+
 .summary-wrapper .hr-card.profile .info-column {
   /* width: 43%; */
+  max-width: 420px;
 }
 
 .summary-wrapper .hr-card.profile .address,
@@ -101,35 +110,41 @@ a.visit-all:hover {
   font-weight: 500;
   font-size: 13px;
 }
+
 .summary-wrapper .hr-card.profile img {
   width: 150px;
   height: 150px;
   border-radius: 50%;
 }
+
 .summary-wrapper .hr-card .bold-text {
   font-weight: 600;
   line-height: 35px;
 }
+
 .summary-wrapper .timeoff-balance {
   width: 25%;
   text-align: center;
 }
 
 .summary-wrapper .timeoff-balance span.title {
- 
+
   margin-bottom: 15px;
-   
+
 }
+
 .summary-wrapper .timeoff-balance .hr-card span {
   font-size: 15px;
   font-weight: normal;
   line-height: 3.5rem;
-  width: 200px;  font-weight: 500;
+  width: 200px;
+  font-weight: 500;
 }
 
 .summary-wrapper .interviews {
   width: 35%;
 }
+
 .summary-wrapper .contract {
   width: 35%;
 }
@@ -137,11 +152,12 @@ a.visit-all:hover {
 .summary-wrapper .contracts {
   width: 60%;
 }
+
 table {
-  width:100%;
+  width: 100%;
 }
 
-.all-active .hr-card{
+.all-active .hr-card {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -149,11 +165,13 @@ table {
   font-size: 1.2 rem;
   width: 30%;
   border-radius: 10px;
- }
-.summary-wrapper .extrahours {
-  width:25%;
 }
-.hours-value{
+
+.summary-wrapper .extrahours {
+  width: 25%;
+}
+
+.hours-value {
   display: flex;
   flex-direction: column;
 
@@ -162,29 +180,32 @@ table {
 .employees-list-card {
   width: 35%;
 }
-.employees-list-card .hr-card{
+
+.employees-list-card .hr-card {
   padding: 1rem;
 
 }
- .employees-list-card .hr-card div.card-top{
+
+.employees-list-card .hr-card div.card-top {
   display: flex;
   justify-content: space-between;
- }
+}
 
- .employees-list-card .hr-card div.card-bot{
+.employees-list-card .hr-card div.card-bot {
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
   height: 80px;
   justify-content: space-around;
 }
-.hours-value span:last-child{
+
+.hours-value span:last-child {
   color: #b7b7b7;
   font-weight: 500;
 }
 
- 
-.hours-value span:first-child{
+
+.hours-value span:first-child {
   font-weight: 500;
   font-size: 17px;
 }
